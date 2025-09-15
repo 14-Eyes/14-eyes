@@ -1,0 +1,128 @@
+import React from "react";
+import { StyleSheet, View, Image} from "react-native";
+
+import AppText from "../../components/AppText";
+import Screen from "../../components/Screen";
+import colors from "../../config/colors";
+import routes from "../../navigation/routes";
+import ChildBackButton from "../../components/ChildBackButton";
+
+function BadgeScreen({navigation, route}) {
+    const badgeType = route.params.health
+    if(badgeType == 1){
+        return (
+            <Screen style={styles.screen}>
+              <View style={styles.container}>
+                <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
+                    <Image source={require('../../assets/badge200.png')} style={styles.badge}/>
+                  <View style={styles.space}>
+                  <ChildBackButton
+                  title="<<   GO BACK"
+                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                </View>
+              </View>
+            </Screen>
+          );
+    }
+    else if(badgeType == 2){
+        return (
+            <Screen style={styles.screen}>
+              <View style={styles.container}>
+                <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
+                    <Image source={require('../../assets/badge150.png')} style={styles.badge}/>
+                  <View style={styles.space}>
+                  <ChildBackButton
+                  title="<<   GO BACK"
+                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                </View>
+              </View>
+            </Screen>
+          );
+    }
+    else if(badgeType == 3){
+        return (
+            <Screen style={styles.screen}>
+              <View style={styles.container}>
+                <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
+                    <Image source={require('../../assets/badge100.png')} style={styles.badge}/>
+                  <View style={styles.space}>
+                  <ChildBackButton
+                  title="<<   GO BACK"
+                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                </View>
+              </View>
+            </Screen>
+          );
+    }
+    else if(badgeType == 4){
+        return (
+            <Screen style={styles.screen}>
+              <View style={styles.container}>
+                <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
+                    <Image source={require('../../assets/badge50.png')} style={styles.badge}/>
+                  <View style={styles.space}>
+                  <ChildBackButton
+                  title="<<   GO BACK"
+                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                </View>
+              </View>
+            </Screen>
+          );
+    }
+    else if(badgeType == 5){
+      return (
+          <Screen style={styles.screen}>
+            <View style={styles.container}>
+              <AppText style={styles.title}>Awwwww!! That wasn't a good choice. Try Again!</AppText>
+              <View style={styles.pics}>
+                <Image source={require('../../assets/sadadamapple.png')} style={styles.apple}/>
+                <Image source={require('../../assets/thumbs-down.png')} style={styles.thumb}/>
+              </View>
+                <View style={styles.space}>
+                <ChildBackButton
+                title="<<   GO BACK"
+                onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+              </View>
+            </View>
+          </Screen>
+        );
+  }
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: colors.eltrlightblue,
+  },
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 15,
+    marginVertical: 100,
+  },
+  pics: {
+    flexDirection: "row",
+  },
+  apple:  {
+    resizeMode: "contain",
+    height: 200,
+    width: 200
+  },
+  thumb: {
+    height: 150,
+    width: 150,
+    resizeMode: "cover",
+    
+  },
+  title: {
+    color: colors.medium,
+    alignItems: "center", 
+    justifyContent: "center",
+    fontWeight: "bold",
+    fontSize: 40
+  },
+  space: {
+    marginVertical: 50
+  },
+
+});
+export default BadgeScreen;

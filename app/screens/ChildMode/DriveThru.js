@@ -1,0 +1,206 @@
+import React, { Component, useState, useEffect } from "react";
+import { FlatList, StyleSheet, View, Image, Alert, ScrollView, TouchableOpacity, Text, Dimensions } from "react-native";
+
+import AppText from "../../components/AppText";
+import Screen from "../../components/Screen";
+import colors from "../../config/colors";
+import AppButton from "../../components/AppButton";
+import restaurantChoices from "../../config/DriveThruOptions";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const restaurants = restaurantChoices.restaurantChoices;
+/*
+
+*/  
+
+export class DriveThru extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            chars: [
+                {id: 'Adam Apple', uri: require('../../assets/adamapple.png')},
+                {id: 'Lila Lemon', uri: require('../../assets/lemon.png')}, 
+                {id: 'Garman Grape', uri: require('../../assets/grape.png')}
+            ],
+            transports: [
+              {id: 'Bike', uri: require('../../assets/bike.png')},
+              {id: 'Scooter', uri: require('../../assets/scooter.png')},
+              {id: 'Skateboard', uri: require('../../assets/skateboard.png')}
+            ],
+            char: {},
+            transport: {},
+            restaurant: {}
+        };
+    }
+    componentDidUpdate(prevProps, prevState) {
+      if (prevState.restaurant !== this.state.restaurant) {
+         this.props.navigation.navigate('DriveThruDecision', 
+         {restaurant: this.state.restaurant, Char: this.state.char, Transport: this.state.transport})
+      }
+   }
+    
+FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 200,
+          width: 1,
+          backgroundColor: "#000",
+        }}
+      />
+    );
+  }
+
+    render(){
+      if(this.state.char.id == undefined){
+      return(
+        <Screen style={styles.screen}>      
+        <View style={styles.container}>
+          <AppText style={styles.title}>Choose your character!</AppText>
+                
+          <FlatList
+            horizontal
+            data={this.state.chars}
+            ItemSeparatorComponent={this.FlatListItemSeparator}
+            renderItem={({item}) => {
+              return(
+                <View style={styles.char}>
+                  <TouchableOpacity onPress={() => this.setState({char: {id: item.id, uri: item.uri}})}>
+                    <Image source={item.uri} style={{ width: windowWidth/3, height: 150 }}/>
+                    
+                  </TouchableOpacity>
+                  <AppText style={styles.text}>{item.id}</AppText>
+                </View>
+              );
+            }}
+            keyExtractor={(item, index) => index.toString()}
+          />          
+        </View>
+        </Screen> 
+        );
+        }
+      else if(this.state.transport.id == undefined){
+        return(       
+          <Screen style={styles.screen}>
+          <View style={styles.container}>
+            <AppText style={styles.title}>You chose {this.state.char.id}!</AppText>
+            <Image source={this.state.char.uri} style={{ width: windowWidth/3, height: 150}}/>
+      
+            <AppText style={styles.title}>What are they riding?</AppText>
+            <FlatList
+              horizontal
+              data={this.state.transports}
+              ItemSeparatorComponent={this.FlatListItemSeparator}
+              renderItem={({item}) => {
+                return(
+                  <View style={styles.transport}>
+                    <TouchableOpacity onPress={() => this.setState({transport: {id: item.id, uri: item.uri}})}>
+                      <Image source={item.uri} style={{ width: windowWidth/3, height: 150, resizeMode: 'contain' }}/>
+                      
+                    </TouchableOpacity>
+                    <AppText style={styles.text}>{item.id}</AppText>
+                  </View>
+                );
+              }}
+              keyExtractor={(item, index) => index.toString()}
+            />         
+           
+          </View>
+          </Screen>
+        );
+           
+      }
+      else{
+        return(      
+          <Screen style={styles.screen}>
+          <View style={styles.container}>   
+              <AppText style={styles.title}>Where are they going?</AppText> 
+              
+              <FlatList
+                  data={restaurants}
+                  renderItem={({item}) => {
+                  return(
+                      <View style={styles.food}>
+                      <View style={styles.buttonContainer}>
+                      <AppButton style={styles.startButton}
+                        title={item.name}
+                        onPress={() => this.setState({restaurant: item})}
+                        />
+                      </View>
+                      </View>
+                  );
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
+              />       
+              <View style={styles.char}>
+                
+                  <Image source={this.state.char.uri} style={styles.pic}/>
+                  <Image source={this.state.transport.uri} style={styles.mot}/>
+              </View>   
+          </View>
+          </Screen>
+      );
+      }
+     
+    }
+}
+
+
+    const styles = StyleSheet.create({
+      screen: {
+        backgroundColor: colors.eltrlightblue,
+      },
+        container: {
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          top: 30,
+        },
+        transport: {
+          alignItems: "center",
+        },
+        char: {
+        },
+        food: {
+          marginBottom: 5
+        },
+        pic: {
+          position: "absolute",
+          height: windowHeight/4,
+          width: windowWidth/4,
+          left: windowWidth/4,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          resizeMode: "contain"
+        },
+        mot: {
+          position: "absolute",
+          height: windowHeight/4,
+          width: windowWidth/4,
+          left: windowWidth/4,
+          right: 0,
+          top: windowHeight/20,
+          bottom: 0,
+          resizeMode: "contain"
+        },
+        title: {
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 30,
+            padding: 10,
+            fontWeight: "bold",
+            color: colors.medium
+        },
+        foodText: {
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 25
+        },
+        text: {
+          alignItems: "center",
+          justifyContent: "center",
+        }
+      });
+export default DriveThru;

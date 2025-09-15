@@ -1,0 +1,89 @@
+import React, { Component } from "react";
+import { FlatList, StyleSheet, View, Image, Alert, ScrollView, TouchableOpacity, Text, Dimensions } from "react-native";
+
+import AppText from "../../components/AppText";
+import Screen from "../../components/Screen";
+import colors from "../../config/colors";
+import AppButton from "../../components/AppButton";
+import restaurantChoices from "../../config/DriveThruOptions";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const restaurants = restaurantChoices.restaurantChoices;
+
+
+export const DriveThruDecision = ({navigation, route}) => {
+    const char = route.params.Char
+    const transport = route.params.Transport
+    const restaurant = route.params.restaurant
+        return(  
+            <Screen style={styles.screen}>
+            <View style={styles.container}>   
+                <AppText style={styles.title}>Which meal from {restaurant.name} Is the Healthiest?</AppText> 
+                {restaurant.menu.map((option, index) => (
+                    <AppButton style={styles.startButton}
+                    title={option.food} key={index}
+                    onPress={() => navigation.navigate('BadgeScreen', {health: option.healthyType})}
+                    />
+                ))}    
+
+                <View style={styles.char}>
+                    <Image source={char.uri} style={styles.pic}/>
+                    <Image source={transport.uri} style={styles.mot}/>
+                </View>   
+            </View>
+            </Screen>
+        );
+    }
+const styles = StyleSheet.create({
+    screen: {
+        backgroundColor: colors.eltrlightblue,
+      },
+    container: {
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 10,
+    },
+    food: {
+        alignItems: "center",
+    },
+    char: {
+        bottom: -10,
+        justifyContent: "flex-end",
+        flexDirection: "column",
+        flex: 1
+    },
+    pic: {
+        position: "absolute",
+        flex: 1,
+        height: windowHeight/4,
+        width: windowWidth/4,
+        left: windowWidth/4,
+        right: 0,
+        top: windowHeight/-20,
+        bottom: 0,
+        resizeMode: "contain"
+      },
+      mot: {
+        position: "absolute",
+        height: windowHeight/4,
+        width: windowWidth/4,
+        left: windowWidth/4,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        resizeMode: "contain"
+      },
+    title: {
+        color: colors.medium,
+        fontSize: 40,
+        marginBottom: 0,
+        marginTop: 0,
+        textAlign: "center",
+    },
+    text: {
+        fontSize: 25,
+    }
+
+});
+export default DriveThruDecision;

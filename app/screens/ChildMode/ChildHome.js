@@ -1,0 +1,119 @@
+import React, { useEffect } from "react";
+import { StyleSheet, View, Image, BackHandler, Dimensions, ScrollView } from "react-native";
+
+import Screen from "../../components/Screen";
+import ChildButtonLarge from "../../components/ChildButtonLarge";
+import ChildButtonSmall from "../../components/ChildButtonSmall";
+import AppText from "../../components/AppText";
+import colors from "../../config/colors";
+import routes from "../../navigation/routes";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+function ChildHome({ navigation }) {
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => true);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", () => true);
+  }, []);
+  return (
+    <Screen style={styles.screen}>
+      <View style={styles.container}>
+        <Image
+          source={require("../../assets/eltr-png.png")}
+          style={styles.kidrainbow}
+        />
+
+        <View style={styles.space}>
+          <ChildButtonLarge
+            title="Scan"
+            onPress={() => navigation.navigate(routes.CHILD_SCAN)}
+          />
+
+          <ChildButtonLarge
+            title="Game"
+            onPress={() => navigation.navigate("DriveThru")}
+          />
+
+        </View>
+
+        <View style={styles.otherButtons}>
+          <ChildButtonSmall
+            title="Badges"
+            onPress={() => navigation.navigate(routes.CHILD_BADGES)}
+          />
+
+            <ChildButtonSmall
+              title="Change Mode"
+              onPress={() => navigation.navigate(routes.CHILD_CHANGE)}
+            />
+
+        </View>
+
+        <Image
+          source={require("../../assets/adamapplewave.png")}
+          style={styles.adam}
+        />
+        <AppText style={styles.bottomText}>CHILD MODE</AppText>
+      </View>
+    </Screen>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: colors.eltrlightblue,
+  },
+
+  container: {
+    alignItems: "center",
+  },
+
+  space: {
+    flexDirection: "column",
+    marginHorizontal: 0,
+    top: 60
+  },
+
+  otherButtons: {
+    flexDirection: "row",
+    marginHorizontal: 5, 
+    bottom: -55
+  },
+
+  kidrainbow: {
+    marginTop: 0,
+    marginRight: 0,
+    marginBottom: -50,
+    paddingTop: 0,
+    top: 60,
+    width: 350,
+    height: 220,
+    shadowColor: colors.white,
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 4,
+  },
+
+  adam: {
+    width: "35%",
+    height: "20%",
+    bottom: -30,
+    alignSelf: "center",
+  },
+
+  bottomText: {
+    color: colors.white,
+    opacity: 0.3,
+    fontSize: 55,
+    fontStyle: "normal",
+    textAlign: "center",
+    bottom: 20,
+  },
+});
+
+export default ChildHome;
