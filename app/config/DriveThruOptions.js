@@ -1,0 +1,60 @@
+export default{
+    restaurantChoices: [
+        {
+            id: 1,
+            name: "McDonald's",
+            menu: [
+                {food: 'Hamburger', healthyType: 2}, 
+                {food: 'Chicken Nuggets', healthyType: 4},
+                {food: 'Apple Slices', healthyType: 1},
+                {food: 'Milkshake', healthyType: 3},
+                {food: 'French Fries', healthyType: 5}
+            ]
+        },
+        {
+            id: 2,
+            name: "Taco Bueno",
+            menu: 
+            [
+                {food: 'Black beans', healthyType: 1},
+                {food: 'Guacamole', healthyType: 2},
+                {food: 'Beef taco with veggies', healthyType: 3},
+                {food: 'Diet Dr.Pepper', healthyType: 5},
+                {food: 'Unsweet Tea', healthyType: 4}
+            ]  
+        },
+        {
+            id: 3,
+            name: "Arby's",
+            menu: [
+                {food: 'Roast Turkey Slider', healthyType: 3}, 
+                {food: 'Roast Beef Slider', healthyType: 4},
+                {food: 'Chicken Nuggets', healthyType: 2},
+                {food: 'Shamrock Low Fat Chocolate Milk', healthyType: 5},
+                {food: 'Organic Applejuice', healthyType: 1} 
+            ]
+        },
+        {
+            id: 4,
+            name: "Little Ceasers Pizza",
+            menu: [
+                {food: 'Small thin crust veggie pizza', healthyType: 2}, 
+                {food: 'Small thin crust hamburger and cheese pizza', healthyType: 3},
+                {food: 'Hand tossed pepperoni', healthyType: 4},
+                {food: 'Water', healthyType: 1},
+                {food: 'Coke-a-Cola', healthyType: 5} 
+            ]
+        },
+        {
+            id: 5,
+            name: "Chick-Fil-A",
+            menu: [
+                {food: 'Grilled Chicken Nuggets', healthyType: 3}, 
+                {food: 'Waffle Fries', healthyType: 5},
+                {food: 'Chicken Strips', healthyType: 4},
+                {food: 'Apple Juice', healthyType: 2},
+                {food: 'Fruit Cup', healthyType: 1} 
+            ]
+        },
+    ]
+};

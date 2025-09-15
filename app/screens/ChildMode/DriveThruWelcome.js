@@ -1,0 +1,74 @@
+import React, { Component } from "react";
+import { FlatList, StyleSheet, View, Image, Alert, ScrollView, TouchableOpacity, Text, Dimensions } from "react-native";
+
+import AppText from "../../components/AppText";
+import Screen from "../../components/Screen";
+import colors from "../../config/colors";
+import AppButton from "../../components/AppButton";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+export class DriveThruWelcome extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+
+    render(){
+        return(
+            <Screen style={styles.container}>
+                <View style={styles.pictureContainer}>
+                    <Image source={require("../../assets/newrainbow.png")} style={styles.rainbow}/>
+                </View>
+                <AppText style={styles.title}>Welcome to the Drive-Thru Game!</AppText>
+                <AppText style={styles.italic}>Press the button below to start</AppText>
+                <View style={styles.buttonContainer}>
+                    <AppButton style={styles.startButton}
+                        title="Start"
+                        onPress={() => this.props.navigation.navigate('DriveThru')}
+                        />
+                </View>
+            </Screen>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 10,
+        backgroundColor: colors.eltrlightblue,
+    },
+    pictureContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 0,
+    },
+    rainbow: {
+        height: windowHeight/4,
+        width: windowWidth/2,
+        resizeMode: "contain",
+    },
+    title: {
+        color: colors.eltrdarkblue,
+        fontSize: 40,
+        marginBottom: 0,
+        marginTop: 0,
+        textAlign: "center",
+    },
+    italic: {
+        fontStyle: 'italic',
+        textAlign: "center",
+        marginBottom: 20,
+        fontSize: 15,
+    },
+    buttonContainer: {
+        flex: 1,
+    },
+
+});
+export default DriveThruWelcome;

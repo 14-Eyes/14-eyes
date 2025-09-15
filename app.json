@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Eat Like The Rainbow",
+    "slug": "ELTRFront",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./app/assets/eltrLogo-IOS.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.eatliketherainbow.eatliketherainbow",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes of grocery items to pull their ingredients list."
+      },
+    },
+    "android": {
+      
+        "package":"com.eatliketherainbow.eatliketherainbow",
+        "versionCode": 1
+      
+    },
+    "web": {
+      "favicon": "./app/assets/eltrLogo.png"
+    },
+  }
+}

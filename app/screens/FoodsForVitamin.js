@@ -1,0 +1,56 @@
+import React from "react";
+import { FlatList, StyleSheet, View, ScrollView } from "react-native";
+
+import AppText from "../components/AppText";
+import Screen from "../components/Screen";
+import colors from "../config/colors";
+
+//Takes the vitamin parameter set when navigating to display its name and list of good food
+export const FoodsForVitamin = ({route}) => {
+    const goodFoods = route.params.vitamin.good
+    return (
+        <Screen style={styles.container}>
+            <AppText style={styles.title}>Good sources of {route.params.vitamin.label}</AppText>
+            <AppText style={styles.use}>{route.params.vitamin.use}</AppText>
+            {goodFoods.map(Food => (
+          <AppText style={styles.text} key={Food.toString()}>{Food}</AppText>
+          ))}
+          
+        </Screen>
+    );
+}
+
+const styles = StyleSheet.create({
+    screen: {
+      flex: 1,
+      backgroundColor: colors.light,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    container: {
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 10,
+      backgroundColor: colors.light,
+    },
+    title: {
+      color: colors.buttongreen,
+      fontSize: 40,
+      marginBottom: 20,
+      marginTop: 0,
+      textAlign: "center",
+    },
+    text: {
+      fontSize: 25,
+      textAlign: "center",
+    },
+    use: {
+      fontStyle: 'italic',
+      textAlign: "center",
+      marginBottom: 20,
+      fontSize: 15,
+    },
+    
+  });
+
+  export default FoodsForVitamin;
