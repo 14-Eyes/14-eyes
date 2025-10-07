@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Nicolas Gallagher.
- * Copyright (c) Facebook, Inc. and its affiliates.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -13,8 +13,12 @@ import type { ComponentType, Node } from 'react';
 import AppContainer from './AppContainer';
 import invariant from 'fbjs/lib/invariant';
 import render, { hydrate } from '../render';
-import styleResolver from '../StyleSheet/styleResolver';
+import StyleSheet from '../StyleSheet';
 import React from 'react';
+
+export type Application = {
+  unmount: () => void
+};
 
 export default function renderApplication<Props: Object>(
   RootComponent: ComponentType<Props>,
@@ -25,18 +29,21 @@ export default function renderApplication<Props: Object>(
     initialProps: Props,
     rootTag: any
   }
-) {
+): Application {
   const { hydrate: shouldHydrate, initialProps, rootTag } = options;
   const renderFn = shouldHydrate ? hydrate : render;
 
   invariant(rootTag, 'Expect to have a valid rootTag, instead got ', rootTag);
 
-  renderFn(
-    <AppContainer WrapperComponent={WrapperComponent} rootTag={rootTag}>
+  return renderFn(
+    <AppContainer
+      WrapperComponent={WrapperComponent}
+      ref={callback}
+      rootTag={rootTag}
+    >
       <RootComponent {...initialProps} />
     </AppContainer>,
-    rootTag,
-    callback
+    rootTag
   );
 }
 
@@ -52,9 +59,13 @@ export function getApplication(
   );
   // Don't escape CSS text
   const getStyleElement = (props) => {
-    const sheet = styleResolver.getStyleSheet();
+    const sheet = StyleSheet.getSheet();
     return (
-      <style {...props} dangerouslySetInnerHTML={{ __html: sheet.textContent }} id={sheet.id} />
+      <style
+        {...props}
+        dangerouslySetInnerHTML={{ __html: sheet.textContent }}
+        id={sheet.id}
+      />
     );
   };
   return { element, getStyleElement };
