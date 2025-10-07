@@ -9,7 +9,6 @@ import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
 import choices from "../config/funfact";
-import { number, string } from "yup/lib/locale";
 const windowWidth = Dimensions.get('window').width;
 
 {/* Change the bannerSponsor.png to change the image ad for the banner (size needs to be 1200px by 250px) */}
