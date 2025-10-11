@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import Carousel from "react-native-snap-carousel";
-import { SliderBox } from "react-native-image-slider-box";
+import { StyleSheet, View, Dimensions, Text, SafeAreaView, TouchableOpacity, Image, Platform } from "react-native";
+// import Carousel from "react-native-snap-carousel";
+import Carousel from "react-native-reanimated-carousel";
+// import { SliderBox } from "react-native-image-slider-box";
 
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
@@ -64,7 +65,7 @@ export class Home extends Component {
         return (
 
             <><Screen style={styles.container}>
-                    <SliderBox
+                    {/* <SliderBox
                         images={this.state.images}
                         sliderBoxHeight={85}
                         dotStyle={{
@@ -73,21 +74,36 @@ export class Home extends Component {
                         }}
                         autoplay
                         circleLoop />
-             
+              */}
             <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center',}}>
+                
                 <Carousel
-                  layout={"default"}
-                  ref={ref => this.carousel = ref}
-                  initialNumToRender={5}
-                  //maxToRenderPerBatch={5}
-                  data={this.state.carouselItems}
-                  sliderWidth={300}
-                  itemWidth={400}
-                  height={150}
-                  renderItem={this._renderItem}
-                  autoplay
-                  autoplayInterval={6500}
-                  />
+                    loop
+                    autoPlay
+                    autoPlayInterval={6500}
+                    width={windowWidth * 0.9}
+                    height={200}
+                    data={this.state.carouselItems}
+                    scrollAnimationDuration={1000}
+                    renderItem={({ item, index }) => (
+                        <View
+                        key={index}
+                        style={{
+                            backgroundColor: 'floralwhite',
+                            borderRadius: 20,
+                            height: 200,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginHorizontal: 10,
+                            padding: 10,
+                        }}
+                        >
+                        <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                            {item.text}
+                        </Text>
+                        </View>
+                    )}
+                />
             </View>
 
                 <View style={styles.buttonGood}>
