@@ -5,7 +5,12 @@ import * as Yup from "yup";
 import Screen from "../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
-import Firebase from "../config/firebase";
+
+// import Firebase from "../config/firebase";
+import { auth, db } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
 import AuthContext from "../auth/context";
 import ErrorMessage from "../components/forms/ErrorMessage";
 import AppButton from "../components/AppButton";
@@ -20,33 +25,55 @@ function LoginScreen( { navigation} ) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
 
-  const handleSubmit = ({ email, password }) => {
-    Firebase.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        authContext.setUser(userCredential.user);
-        Firebase.firestore()
-          .collection("users")
-          .doc(userCredential.user.uid)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              authContext.setUsername(doc.data().name);
-            } else {
-              // doc.data() will be undefined in this case
-              console.log("No such document!");
-            }
-          })
-          .catch((error) => {
-            console.log("Error getting document:", error);
-          });
-      })
-      .catch((error) => {
-        setLoginFailed(true);
-        console.log(error);
-      });
+
+  const handleSubmit = async ({ email, password }) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      authContext.setUser(user);
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+
+      if (userDoc.exists()) {
+        authContext.setUsername(userDoc.data().name);
+      } else {
+        console.log("No such document!");
+      }
+
+      setLoginFailed(false);
+    } catch (error) {
+      setLoginFailed(true);
+      console.log("Login error:", error);
+    }
   };
+  // const handleSubmit = ({ email, password }) => {
+  //   Firebase.auth()
+  //     .signInWithEmailAndPassword(email, password)
+  //     .then((userCredential) => {
+  //       // Signed in
+  //       authContext.setUser(userCredential.user);
+  //       Firebase.firestore()
+  //         .collection("users")
+  //         .doc(userCredential.user.uid)
+  //         .get()
+  //         .then((doc) => {
+  //           if (doc.exists) {
+  //             authContext.setUsername(doc.data().name);
+  //           } else {
+  //             // doc.data() will be undefined in this case
+  //             console.log("No such document!");
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.log("Error getting document:", error);
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       setLoginFailed(true);
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <Screen style={styles.container}>
