@@ -2,15 +2,11 @@
 
 # dependencies
 node_modules/
-node_modules
 
 # Expo
 .expo/
-.expo
 .expo-shared/
-.expo-shared
 .expo-dev/
-.expo-dev
 dist/
 web-build/
 expo-env.d.ts
@@ -50,7 +46,12 @@ Thumbs.db
 # generated native folders
 /ios/
 /android/
-/.gradle/
+.gradle/
+
+# Gradle wrapper (keep these files/folders)
+!gradle/wrapper/
+!gradlew
+!gradlew.bat
 
 # misc
 Personal\ Notes.txt
