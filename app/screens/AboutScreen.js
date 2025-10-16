@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, ScrollView, Text, Image, Linking } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable } from "react-native-gesture-handler";
 import { block } from "react-native-reanimated";
 
 import AppText from "../components/AppText";

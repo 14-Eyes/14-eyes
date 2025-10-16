@@ -1,7 +1,15 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
-import firebase from "firebase";
+
+// new code
+import { auth } from "../../config/firebase";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from "firebase/auth";
+// import firebase from "firebase/compat";
+// import "firebase/compat/auth"; // Added to fix the error when routing from child mode back to adult mode
 
 import Screen from "../../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
@@ -10,7 +18,7 @@ import colors from "../../config/colors";
 import routes from "../../navigation/routes";
 import ChildBackButton from "../../components/ChildBackButton";
 import AuthContext from "../../auth/context";
-import Firebase from "../../config/firebase";
+// import Firebase from "../../config/firebase";
 import ErrorMessage from "../../components/forms/ErrorMessage";
 
 const validationSchema = Yup.object().shape({
@@ -22,26 +30,41 @@ function ChildChangeMode({ navigation }) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
 
-  const handleSubmit = ({ email, password }) => {
-    let user = Firebase.auth().currentUser;
-    let credentials = firebase.auth.EmailAuthProvider.credential(
-      email,
-      password
-    );
-    // Prompt the user to re-provide their sign-in credentials
-
-    user
-      .reauthenticateWithCredential(credentials)
-      .then(function () {
-        // User re-authenticated.
-        navigation.navigate("AppNavigator");
-      })
-      .catch(function (error) {
-        // An error happened.
-        console.log(error);
-        setLoginFailed(true);
-      });
+  const handleSubmit = async ({ email, password }) => {
+    try {
+      const user = auth.currentUser;
+      const credential = EmailAuthProvider.credential(email, password);
+      await reauthenticateWithCredential(user, credential);
+      navigation.navigate("AppNavigator");
+    } catch (error) {
+      console.log("Reauth error:", error);
+      setLoginFailed(true);
+    }
   };
+  // const handleSubmit = ({ email, password }) => {
+  //   let user = Firebase.auth().currentUser;
+  //   // debugging
+  //   console.log("firebase.auth:", Firebase.auth);
+  //   console.log("EmailAuthProvider:", Firebase.auth.EmailAuthProvider);
+
+  //   let credentials = Firebase.auth.EmailAuthProvider.credential(
+  //     email,
+  //     password
+  //   );
+  //   // Prompt the user to re-provide their sign-in credentials
+
+  //   user
+  //     .reauthenticateWithCredential(credentials)
+  //     .then(function () {
+  //       // User re-authenticated.
+  //       navigation.navigate("AppNavigator");
+  //     })
+  //     .catch(function (error) {
+  //       // An error happened.
+  //       console.log(error);
+  //       setLoginFailed(true);
+  //     });
+  // };
 
   return (
     <Screen style={styles.screen}>

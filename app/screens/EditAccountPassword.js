@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
-import firebase from "firebase";
+import firebase from "firebase/compat";
 
 import Screen from "../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
