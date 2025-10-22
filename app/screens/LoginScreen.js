@@ -77,7 +77,7 @@ function LoginScreen( { navigation} ) {
               autoCorrect={false}
               keyboardType="email-address"
               icon="email"
-              placeholder="Email                                                                                                                                                  "
+              placeholder="Email"
               textContentType="emailAddress"
             />
             <AppFormField
@@ -85,7 +85,7 @@ function LoginScreen( { navigation} ) {
               autoCaptilize="none"
               autoCorrect={false}
               icon="lock"
-              placeholder="Password                                                                                                                                        "
+              placeholder="Password"
               secureTextEntry
               textContentType="password"
             />

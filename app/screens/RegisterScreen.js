@@ -82,33 +82,33 @@ function RegisterScreen({ navigation }) {
           autoCapitalize="words"
           autoCorrect={false}
           icon="account"
-          placeholder="Name                                                                                                                                                  "
+          placeholder="Name"
           textContentType="name"
         />
         <AppFormField
           name="email"
-          autoCaptilize="none"
+          autoCapitalize="none"
           autoCorrect={false}
           keyboardType="email-address"
           icon="email"
-          placeholder="Email                                                                                                                                                  "
+          placeholder="Email"
           textContentType="emailAddress"
         />
         <AppFormField
           name="password"
-          autoCaptilize="none"
+          autoCapitalize="none"
           autoCorrect={false}
           icon="lock"
-          placeholder="Password                                                                                                                                                  "
+          placeholder="Password"
           secureTextEntry
           textContentType="password"
         />
         <AppFormField
           name="confirmPassword"
-          autoCaptilize="none"
+          autoCapitalize="none"
           autoCorrect={false}
           icon="lock-question"
-          placeholder="Confirm Password                                                                                                                                                  "
+          placeholder="Confirm Password"
           secureTextEntry
           textContentType="password"
         />
