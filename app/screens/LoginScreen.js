@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20,
     width: "100%",
-    position: "fixed",
+    //position: "fixed",
+    flexShrink: 0,
   },
   background: {
     flex: 1,

@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "100%",
     position: "fixed",
+    flexShrink: 0,
   },
   text: {
     color: colors.medium,
