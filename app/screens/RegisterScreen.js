@@ -61,7 +61,7 @@ function RegisterScreen({ navigation }) {
     <View style={styles.logoContainer}>
       <Image
         style={styles.logo}
-        source={require("../assets/appsponsorcopy.png")}
+        source={require("../assets/appsponsor_2.png")}
       ></Image>
     </View>
 
@@ -144,11 +144,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     overflow: "hidden",
   },
-  logo: {
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 20,
-  },
   background: {
     flex: 1,
     justifyContent: "flex-end",
@@ -156,6 +151,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
+    marginTop: 10,
     marginBottom: 20,
     borderRadius: 25,
     backgroundColor: 'white',
@@ -170,8 +166,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20,
     width: "100%",
-    position: "fixed",
-    flexShrink: 0,
   },
   text: {
     color: colors.medium,

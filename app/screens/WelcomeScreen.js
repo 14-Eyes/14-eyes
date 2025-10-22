@@ -3,7 +3,6 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
-  //Text,
   View,
   Platform,
 } from "react-native";
