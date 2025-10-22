@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 20,
     width: "100%",
+    position: "fixed",
   },
   text: {
     color: colors.medium,
