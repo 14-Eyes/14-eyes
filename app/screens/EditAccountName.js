@@ -35,7 +35,8 @@ function EditAccountName({ navigation }) {
 
   return (
     <Screen style={styles.container}>
-      <AppText style={styles.tooltip}>Enter new name</AppText>
+      <AppText style={styles.tooltip}>Your current name is blah</AppText> {/*{authContext.username}*/} {/*i don't think the user name is set properly? hopefully fixed w new database*/}
+      <AppText style={styles.tooltip}>What would you like to change it to?</AppText>
       <AppForm
         initialValues={{
           name: "",
@@ -51,7 +52,7 @@ function EditAccountName({ navigation }) {
           placeholder="Name"
           textContentType="name"
         />
-        <SubmitButton title="Save" />
+        <SubmitButton title="Save"/>
       </AppForm>
     </Screen>
   );
@@ -63,8 +64,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   tooltip: {
+    fontSize: 15,
     alignSelf: "center",
-    textTransform: "capitalize",
   },
 });
 

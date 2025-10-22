@@ -16,6 +16,8 @@ function ListItem({
   iconName = "chevron-right",
   iconLeftColor = colors.medium,
   style,
+  titleStyle,
+  showChevron = true,
 }) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
@@ -23,22 +25,29 @@ function ListItem({
         <View style={[styles.container, style]}>
           {IconComponent}
           {image && <Image style={styles.image} source={image} />}
+          
+          {/* NEW inline layout for subtitles */}
           <View style={styles.detailsContainer}>
-            <AppText style={styles.title} numberOfLines={1}>
-              {title}
-            </AppText>
-            {subTitle && (
-              <AppText style={styles.subTitle} numberOfLines={2}>
-                {subTitle}
+            <View style={styles.inlineRow}>
+              <AppText style={[styles.title, titleStyle]} numberOfLines={1}>
+                {title}
               </AppText>
-            )}
+              {subTitle && (
+                <AppText style={styles.inlineSubTitle} numberOfLines={1}>
+                  {subTitle}
+                </AppText>
+              )}
+            </View>
           </View>
-          <MaterialCommunityIcons
-            color={iconLeftColor}
-            name={iconName}
-            size={25}
-          />
-        </View>
+
+          {showChevron && (
+            <MaterialCommunityIcons
+              color={iconLeftColor}
+              name={iconName}
+              size={25}
+            />
+          )}
+          </View>
       </TouchableHighlight>
     </Swipeable>
   );
@@ -61,8 +70,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
+  inlineRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   title: {
     fontWeight: "500",
+  },
+  inlineSubTitle: {
+    color: colors.medium,
+    fontSize: 14,
+    marginLeft: 15,
   },
   subTitle: {
     color: colors.medium,
