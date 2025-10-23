@@ -58,6 +58,7 @@ function EditAccount({ navigation }) {
               )}
             />
           )}
+          scrollEnabled={false} // needed to prevent list of options from scrolling
         />
       </View>
 

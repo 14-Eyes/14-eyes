@@ -71,21 +71,24 @@ function SettingsScreen( { navigation } ) {
           keyExtractor={(item) => item.title}
           ItemSeparatorComponent={ListItemSeparator}
           renderItem={({ item }) => (
-            <ListItem
-              title={item.title}
-              onPress={
-                item.isLogout
-                  ? handleLogOut
-                  : () => navigation.navigate(item.target)
-              }
-              IconComponent={
-                <Icon
-                  name={item.icon.name}
-                  backgroundColor={item.icon.backgroundColor}
-                />
-              }
-            />
-          )}
+                <View style={item.isLogout ? styles.logoutContainer : null}>
+					<ListItem
+						title={item.title}
+						onPress={
+						item.isLogout
+							? handleLogOut
+							: () => navigation.navigate(item.target)
+						}
+						IconComponent={
+						<Icon
+							name={item.icon.name}
+							backgroundColor={item.icon.backgroundColor}
+						/>
+						}
+					/>
+				</View>
+          	)}
+			scrollEnabled={false} // needed to prevent list of options from scrolling
         />
       </View>
 		<Text style={styles.test}>
