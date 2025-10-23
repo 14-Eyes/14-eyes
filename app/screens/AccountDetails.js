@@ -79,7 +79,7 @@ function AccountDetails({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 20,
+    marginVertical: 1,
   },
   screen: {
     backgroundColor: colors.light,

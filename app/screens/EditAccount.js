@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   modalButtons: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   modalButton: {
     marginLeft: 10,
@@ -150,11 +150,12 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     color: colors.dark,
-    fontSize: 16,
+    fontSize: 19,
   },
   confirmText: {
     color: colors.white,
-    fontSize: 16,
+    fontWeight: "bold",
+    fontSize: 19,
   },
 });
 

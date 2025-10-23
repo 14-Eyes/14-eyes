@@ -33,12 +33,21 @@ const menuItems = [
 	title: "Help",
 	icon: {
 		name: "question-mark",
-		backgroundColor: colors.danger,
+		backgroundColor: colors.eltrred,
 	},
 	target: "HelpScreen",
   },
+  {
+	title: "Log Out",
+	icon: {
+		name: "logout",
+		backgroundColor: colors.eltryellow,
+	},
+	isLogout: true,
+  },
 ];
 
+// logout function does not work currently
 function SettingsScreen( { navigation } ) {
   const authContext = useContext(AuthContext);
 
@@ -53,32 +62,32 @@ function SettingsScreen( { navigation } ) {
         console.log(error);
       });
   };
-	return (
-	  <Screen style={styles.screen}>
-	    <View style={styles.container}>
-		  <FlatList
-			data={menuItems}
-			keyExtractor={(item) => item.title}
-			ItemSeparatorComponent={ListItemSeparator}
-			renderItem={({ item }) => (
-			  <ListItem
-				title={item.title}
-				onPress={() => navigation.navigate(item.target)}
-				IconComponent={
-				  <Icon
-					name={item.icon.name}
-					backgroundColor={item.icon.backgroundColor}
-				  />
-				}
-			  />
-			)}
-		  />
+
+  return (
+    <Screen style={styles.screen}>
+      <View style={styles.container}>
+        <FlatList
+          data={menuItems}
+          keyExtractor={(item) => item.title}
+          ItemSeparatorComponent={ListItemSeparator}
+          renderItem={({ item }) => (
+            <ListItem
+              title={item.title}
+              onPress={
+                item.isLogout
+                  ? handleLogOut
+                  : () => navigation.navigate(item.target)
+              }
+              IconComponent={
+                <Icon
+                  name={item.icon.name}
+                  backgroundColor={item.icon.backgroundColor}
+                />
+              }
+            />
+          )}
+        />
       </View>
-		<ListItem
-		  title="Log Out"
-          IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
-          onPress={handleLogOut}
-		/>
 		<Text style={styles.test}>
 			Sponsor
 
@@ -98,7 +107,7 @@ function SettingsScreen( { navigation } ) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 5,
+    marginVertical: 1,
   },
   screen: {
 	  backgroundColor: colors.light,
