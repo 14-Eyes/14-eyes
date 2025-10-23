@@ -20,7 +20,7 @@
     "@types/react-native-dotenv": "^0.2.2",
     "apisauce": "^3.2.0",
     "babel-plugin-module-resolver": "^5.0.2",
-    "expo": "^54.0.17",
+    "expo": "^54.0.19",
     "expo-camera": "^17.0.8",
     "expo-constants": "~18.0.10",
     "expo-image-picker": "^17.0.8",
