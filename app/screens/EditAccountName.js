@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 import AuthContext from "../auth/context";
 import AppText from "../components/AppText";
