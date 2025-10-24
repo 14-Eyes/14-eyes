@@ -78,7 +78,7 @@ function AccountAllergies(props) {
             swipeable={true}
           />
         )}
-        scrollEnabled={false}
+        // scrollEnabled={false}
         ItemSeparatorComponent={ListItemSeparator}
       />
     </Screen>
