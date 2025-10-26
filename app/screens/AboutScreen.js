@@ -110,7 +110,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: colors.light,
   },
   title: {
@@ -128,6 +130,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 280,
     height: 190,
+    marginBottom: 10,
   },
   link1: {
     color: colors.eltrdarkblue,

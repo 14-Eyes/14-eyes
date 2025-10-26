@@ -8,12 +8,37 @@ import colors from "../config/colors";
 function HelpScreen(props) {
   return (
    <Screen style={styles.container}>
-      <ScrollView>
-        <AppText style={styles.title}>Need help using the ELTR app?</AppText>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <AppText style={styles.title}>Frequently Asked Questions</AppText>
 
-	<AppText style={styles.text}>
+        <AppText style={styles.subTitle}>Question?</AppText>
+	      <AppText style={styles.text}>
           For more information on how to use the ELTR app, please read the user
-	  manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+        </AppText>
+
+        <AppText style={styles.subTitle}>Question?</AppText>
+	      <AppText style={styles.text}>
+          For more information on how to use the ELTR app, please read the user
+	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+        </AppText>
+
+        <AppText style={styles.subTitle}>Question?</AppText>
+	      <AppText style={styles.text}>
+          For more information on how to use the ELTR app, please read the user
+	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+        </AppText>
+
+        <AppText style={styles.subTitle}>Question?</AppText>
+	      <AppText style={styles.text}>
+          For more information on how to use the ELTR app, please read the user
+	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+        </AppText>
+
+        <AppText style={styles.subTitle}>Question?</AppText>
+	      <AppText style={styles.text}>
+          For more information on how to use the ELTR app, please read the user
+	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
         </AppText>
       </ScrollView>
     </Screen>
@@ -21,19 +46,33 @@ function HelpScreen(props) {
 }
 
 //how info is being displayed
-
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 5,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: colors.light,
   },
   title: {
-    color: colors.primary,
+    color: colors.black,
+    fontWeight: "bold",
     fontSize: 36,
-    marginBottom: 20,
-    marginTop: 0,
+    marginTop: 10,
+    textAlign: "center",
+  },
+  subTitle: {
+    color: colors.primary,
+    fontWeight: "600",
+    fontSize: 25,
+    marginTop: 40,
+    marginBottom: 2,
+    textAlign: "center",
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 18,
   },
   link1: {
     color: colors.eltrdarkblue,
@@ -42,8 +81,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-});
+  scrollContent: {
+    paddingBottom: 50, // make sure you can view the text above the navbar
+  },
+  });
 
 //exporting function
-
 export default HelpScreen;
