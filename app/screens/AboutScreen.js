@@ -18,7 +18,6 @@ function AboutScreen(props) {
           source={require("../assets/eltrRainbow.png")}
         />
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
-
         <AppText style={styles.text}>
           Eat Like The Rainbow™ is a naturally done non-profit, catering to the
           youngest palates. Kindergarten through 4th grade are pivotal years in
@@ -28,7 +27,7 @@ function AboutScreen(props) {
           youngest among us just might be our greatest learners!
         </AppText>
         <AppText style={styles.title}>Meet Chef Cathy Zeis</AppText>
-        <AppText>
+        <AppText style={styles.text}>
           I am an all-natural chef who creates healthy food plans for those who
           are humbled by disease. I also passionately create healthy cuisine for
           those who crave a healthier lifestyle. Based on the foods that were
@@ -41,8 +40,8 @@ function AboutScreen(props) {
           I love educating people on how the simplest ingredients can power our
           bodies. After all, our bodies are the most amazing machines ever
           created! I’ll teach you how to fuel it…naturally! For more information about me
-	  and many recipes, visit my <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>website</Text>!
-	  For more information on certain topics, you can also check out some resources in the library below!
+	        and many recipes, visit my <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>website</Text>!
+	        For more information on certain topics, you can also check out some resources in the library below!
         </AppText>
 
 	<AppText style={styles.title}>Library</AppText>
@@ -82,18 +81,18 @@ function AboutScreen(props) {
 
 	<Text style={styles.header1}>Preservatives</Text>
 	<Text style={styles.text1}>
-	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.webmd.com/special-reports/food-additives/video/what-food-additives')}>What are Food Additives?</Text>{'\n'}</Text>
-	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.britannica.com/topic/preservative')}>Preservative: Food Processing</Text>{'\n'}</Text>
-    	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.livestrong.com/article/325437-harmful-effects-of-preservatives-in-foods/')}>Harmful Effects of Preservatives in Foods</Text>{'\n'}</Text>
-	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://healthfully.com/what-are-the-dangers-of-preservatives-3201078.html')}>What Are the Dangers of Preservatives?</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.webmd.com/special-reports/food-additives/video/what-food-additives')}>What are Food Additives?</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.britannica.com/topic/preservative')}>Preservative: Food Processing</Text>{'\n'}</Text>
+    	<Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.livestrong.com/article/325437-harmful-effects-of-preservatives-in-foods/')}>Harmful Effects of Preservatives in Foods</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://healthfully.com/what-are-the-dangers-of-preservatives-3201078.html')}>What Are the Dangers of Preservatives?</Text>{'\n'}</Text>
 	</Text>
 
 	<Text style={styles.header1}>Rainbow Foods</Text>
 	<Text style={styles.text1}>
-	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.youtube.com/watch?v=onyR8Rnzgrs')}>Follow the rainbow to healthy eating</Text>{'\n'}</Text>
-	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://selecthealth.org/blog/2018/08/eating-the-rainbow')}>The Benefits of Eating the Rainbow</Text>{'\n'}</Text>
-	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.health.harvard.edu/blog/phytonutrients-paint-your-plate-with-the-colors-of-the-rainbow-2019042516501')}>Phytonutrients: Paint your plate with the colors of the rainbow</Text>{'\n'}</Text>
-    	     <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.healthline.com/nutrition/eat-the-rainbow')}>Eating the Rainbow — Is It Useful and Should You Try It?</Text>{'\n'}</Text> 
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.youtube.com/watch?v=onyR8Rnzgrs')}>Follow the rainbow to healthy eating</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://selecthealth.org/blog/2018/08/eating-the-rainbow')}>The Benefits of Eating the Rainbow</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.health.harvard.edu/blog/phytonutrients-paint-your-plate-with-the-colors-of-the-rainbow-2019042516501')}>Phytonutrients: Paint your plate with the colors of the rainbow</Text>{'\n'}</Text>
+    	<Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.healthline.com/nutrition/eat-the-rainbow')}>Eating the Rainbow — Is It Useful and Should You Try It?</Text>{'\n'}</Text> 
 	</Text>
 
         <Image
@@ -111,14 +110,19 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 8,
+    padding: 10,
     backgroundColor: colors.light,
   },
   title: {
     color: colors.primary,
-    fontSize: 20,
+    fontSize: 23,
     marginBottom: 5,
-    marginTop: 15,
+    marginTop: 25,
+    textAlign: "center",
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 18,
   },
   pic: {
     alignSelf: "center",
