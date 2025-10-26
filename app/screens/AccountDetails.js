@@ -27,6 +27,15 @@ const menuItems = [
     },
     target: "AccountAllergies",
   },
+  // new button to route to new screen
+  {
+    title: "Account Center",
+    icon: {
+      name: "account-cog", // can use any icon from MaterialCommunityIcons
+      backgroundColor: colors.eltrpink,
+    },
+    target: "EditAccount", // should match screen’s route name
+  },
 ];
 
 function AccountDetails({ navigation }) {
@@ -62,6 +71,7 @@ function AccountDetails({ navigation }) {
               }
             />
           )}
+			    scrollEnabled={false} // needed to prevent list of options from scrolling
         />
       </View>
     </Screen>
@@ -70,7 +80,7 @@ function AccountDetails({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 20,
+    marginVertical: 1,
   },
   screen: {
     backgroundColor: colors.light,

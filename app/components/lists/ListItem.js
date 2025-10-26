@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, TouchableHighlight, View } from "react-native";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import { SwipeRow } from "react-native-swipe-list-view";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../../config/colors";
@@ -16,31 +16,66 @@ function ListItem({
   iconName = "chevron-right",
   iconLeftColor = colors.medium,
   style,
+  titleStyle,
+  showChevron = true,
+  swipeable = false,
 }) {
-  return (
-    <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight onPress={onPress} underlayColor={colors.light}>
-        <View style={[styles.container, style]}>
-          {IconComponent}
-          {image && <Image style={styles.image} source={image} />}
-          <View style={styles.detailsContainer}>
-            <AppText style={styles.title} numberOfLines={1}>
+  
+  // function for visible content
+  const renderContent = () => (
+    <TouchableHighlight onPress={onPress} underlayColor={colors.light}>
+      <View style={[styles.container, style]}>
+        {IconComponent}
+        {image && <Image style={styles.image} source={image} />}
+
+        <View style={styles.detailsContainer}>
+          <View style={styles.inlineRow}>
+            <AppText style={[styles.title, titleStyle]} numberOfLines={1}>
               {title}
             </AppText>
             {subTitle && (
-              <AppText style={styles.subTitle} numberOfLines={2}>
+              <AppText style={styles.inlineSubTitle} numberOfLines={1}>
                 {subTitle}
               </AppText>
             )}
           </View>
+        </View>
+
+        {showChevron && (
           <MaterialCommunityIcons
             color={iconLeftColor}
             name={iconName}
             size={25}
           />
+        )}
+      </View>
+    </TouchableHighlight>
+  );
+
+  // if no swipe actions wanted, return normal row
+  if (!swipeable) return renderContent();
+
+  // swipeable version for delete option
+  return (
+    <SwipeRow
+      rightOpenValue={-70}
+      disableRightSwipe
+      stopRightSwipe={-120}
+      friction={15}
+      tension={40}
+      previewRowDelay={1000}
+      previewOpenValue={-40}
+    >
+      {/* hidden row */}
+      <View style={styles.hiddenRow}>
+        <View style={styles.rightActionContainer}>
+          {renderRightActions && renderRightActions()}
         </View>
-      </TouchableHighlight>
-    </Swipeable>
+      </View>
+
+      {/* visible Row */}
+      {renderContent()}
+    </SwipeRow>
   );
 }
 
@@ -61,11 +96,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
+  inlineRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   title: {
     fontWeight: "500",
   },
+  inlineSubTitle: {
+    color: colors.medium,
+    fontSize: 14,
+    marginLeft: 15,
+  },
   subTitle: {
     color: colors.medium,
+  },
+  hiddenRow: {
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    backgroundColor: colors.danger,
+  },
+  rightActionContainer: {
+    width: 70,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

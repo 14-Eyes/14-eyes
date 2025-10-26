@@ -1,8 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import AccountDetailsNavigator from "../navigation/AccountDetailsNavigator";
 import AccountDetails from "../screens/AccountDetails";
+import EditAccount from "../screens/EditAccount";
+import EditAccountName from "../screens/EditAccountName";
+import EditAccountEmail from "../screens/EditAccountEmail";
+import EditAccountPassword from "../screens/EditAccountPassword";
+import DeleteAccount from "../screens/DeleteAccount";
 import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
 
@@ -17,8 +21,28 @@ const AccountNavigator = () => (
     />
     <Stack.Screen
       name="EditAccount"
-      component={AccountDetailsNavigator}
-      options={{ title: "Account Details" }}
+      component={EditAccount}
+      options={{ title: "Account Center" }}
+    />
+    <Stack.Screen
+      name="EditAccountName"
+      component={EditAccountName}
+      options={{ title: "Edit Name" }}
+    />
+    <Stack.Screen
+      name="EditAccountEmail"
+      component={EditAccountEmail}
+      options={{ title: "Edit Email" }}
+    />
+    <Stack.Screen
+      name="EditAccountPassword"
+      component={EditAccountPassword}
+      options={{ title: "Change Password" }}
+    />
+    <Stack.Screen
+      name="DeleteAccount"
+      component={DeleteAccount}
+      options={{ title: "Delete Account" }}
     />
     <Stack.Screen
       name="AccountAllergies"

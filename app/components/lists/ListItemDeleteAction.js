@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     width: 70,
     justifyContent: "center",
     alignItems: "center",
+    height: "100%",
   },
 });
 export default ListItemDeleteAction;

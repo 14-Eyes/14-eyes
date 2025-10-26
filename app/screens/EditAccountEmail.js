@@ -29,7 +29,8 @@ function EditAccountEmail({ navigation }) {
 
   return (
     <Screen style={styles.container}>
-      <AppText style={styles.tooltip}>Enter new email</AppText>
+      <AppText style={styles.tooltip}>Your current email address is {authContext.user.email}</AppText>
+      <AppText style={styles.tooltip}>What would you like to change it to?</AppText>
       <AppForm
         initialValues={{
           email: "",
@@ -58,8 +59,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   tooltip: {
+    fontSize: 15,
     alignSelf: "center",
-    textTransform: "capitalize",
   },
 });
 

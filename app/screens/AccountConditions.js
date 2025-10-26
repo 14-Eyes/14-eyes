@@ -74,8 +74,10 @@ function AccountConditions(props) {
             renderRightActions={() => (
               <ListItemDeleteAction onPress={() => handleDelete(item)} />
             )}
+            swipeable={true}
           />
         )}
+        // scrollEnabled={false}
         ItemSeparatorComponent={ListItemSeparator}
       />
     </Screen>
