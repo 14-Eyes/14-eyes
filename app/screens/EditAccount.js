@@ -47,6 +47,7 @@ function EditAccount({ navigation }) {
             <ListItem
               title={item.title}
               subTitle={item.description}
+              titleStyle={{ paddingLeft: 0 }} // removes left padding in this screen only
               onPress={() => navigation.navigate(item.target)}
               IconComponent={null}
               renderRightIcon={() => (
@@ -68,7 +69,7 @@ function EditAccount({ navigation }) {
           onPress={() => setShowDeleteModal(true)}
           IconComponent={null}
           showChevron={false}          
-          titleStyle={{ color: colors.danger, fontWeight: "bold" }}        
+          titleStyle={{ color: colors.danger, fontWeight: "bold", paddingLeft: 0 }}        
         />
       </View>
 

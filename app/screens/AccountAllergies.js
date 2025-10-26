@@ -70,6 +70,7 @@ function AccountAllergies(props) {
           <ListItem
             title={item.label}
             subTitle={item.description}
+            titleStyle={{ paddingLeft: 0 }} // removes left padding in this screen only
             image={item.image}
             onPress={() => console.log("Message Selected", item)}
             renderRightActions={() => (

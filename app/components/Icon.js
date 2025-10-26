@@ -22,7 +22,7 @@ function Icon({
       <MaterialCommunityIcons
         name={name}
         color={iconColor}
-        size={size * 0.5}
+        size={size * 0.6}
       ></MaterialCommunityIcons>
     </View>
   );

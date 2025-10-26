@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SettingsScreen from "../screens/SettingsScreen";
 import AccountNavigator from "../navigation/AccountNavigator";
 import ChildAlert from "../screens/ChildMode/ChildAlert";
+import AboutScreen from "../screens/AboutScreen";
 import HelpScreen from "../screens/HelpScreen";
 
 const Stack = createStackNavigator();
@@ -11,25 +12,30 @@ const Stack = createStackNavigator();
 const SettingsNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen
-	  name="Settings"
+	    name="Settings"
       component={SettingsScreen}
       options={{ title: "Settings" }}
-	/>
+	  />
     <Stack.Screen
       name="AccountDetails"
       component={AccountNavigator}
       options={{ headerShown: false }}	  
-	/>
+	  />
     <Stack.Screen
       name="ChildAlert"
       component={ChildAlert}
-	  options={{ title: "Child Mode" }}
-        />
+	    options={{ title: "Child Mode" }}
+    />
+    <Stack.Screen
+      name="AboutScreen"
+      component={AboutScreen}
+	    options={{ title: "About" }}
+    />
     <Stack.Screen
       name="HelpScreen"
       component={HelpScreen}
-	  options={{ title: "Help" }}
-        />
+	    options={{ title: "FAQ" }}
+    />
   </Stack.Navigator>
 );
 
