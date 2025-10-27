@@ -17,7 +17,7 @@ export default Object.freeze({
   CHILD_ABOUTFOOD: "ChildFoodAbout",
   CHILD_CHANGE: "ChildChangeMode",
   DELETE: "DeleteAccount",
-  WELCOME: "Welcome",
+  RESET_PASSWORD: "ResetPassword",
   SETTINGS: "SettingsScreen",
   DYES: "FoodDye",
   PRESERVATIVES: "Preservatives",

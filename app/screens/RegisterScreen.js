@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet, Image, ImageBackground, View, Platform } from "react-native";
 import * as Yup from "yup";
 import AuthContext from "../auth/context";
 
@@ -9,6 +9,7 @@ import colors from "../config/colors";
 import Firebase from "../config/firebase";
 import routes from "../navigation/routes";
 import AppButton from "../components/AppButton";
+import AppText from "../components/AppText";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -52,11 +53,20 @@ function RegisterScreen({ navigation }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <ImageBackground
+          blurRadius={Platform.OS === "android" ? 1 : 5}
+          style={styles.background}
+          source={require("../assets/welcome_2.png")}
+    >
+    <View style={styles.logoContainer}>
       <Image
         style={styles.logo}
-        source={require("../assets/eltrRainbow.png")}
-      />
+        source={require("../assets/appsponsor_2.png")}
+      ></Image>
+    </View>
+
+    <View style={styles.container}>
+      <View style={styles.buttonContainer}>
       <AppForm
         initialValues={{
           name: "",
@@ -72,58 +82,96 @@ function RegisterScreen({ navigation }) {
           autoCapitalize="words"
           autoCorrect={false}
           icon="account"
-          placeholder="Name                                                                                                                                                  "
+          placeholder="Name"
           textContentType="name"
         />
         <AppFormField
           name="email"
-          autoCaptilize="none"
+          autoCapitalize="none"
           autoCorrect={false}
           keyboardType="email-address"
           icon="email"
-          placeholder="Email                                                                                                                                                  "
+          placeholder="Email"
           textContentType="emailAddress"
         />
         <AppFormField
           name="password"
-          autoCaptilize="none"
+          autoCapitalize="none"
           autoCorrect={false}
           icon="lock"
-          placeholder="Password                                                                                                                                                  "
+          placeholder="Password"
           secureTextEntry
           textContentType="password"
         />
         <AppFormField
           name="confirmPassword"
-          autoCaptilize="none"
+          autoCapitalize="none"
           autoCorrect={false}
           icon="lock-question"
-          placeholder="Confirm Password                                                                                                                                                  "
+          placeholder="Confirm Password"
           secureTextEntry
           textContentType="password"
         />
-        <SubmitButton title="Register" />
-		<View style={styles.buttonContainer}>
-			<AppButton
-			title="back"
-			onPress={() => navigation.navigate(routes.WELCOME)}
-			/>
-		</View>
+
+        <View style={styles.fixContainer}>
+          <SubmitButton title="Register" color='black' />
+
+          <AppText style={styles.text}>
+                —————— OR ——————
+          </AppText>
+          <AppButton
+            title="back"
+            onPress={() => navigation.navigate(routes.LOGIN)}
+          />
+        </View>
       </AppForm>
-    </Screen>
+      </View>
+    </View>
+
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    backgroundColor: colors.secondary,
+    marginBottom: 20,
+    marginHorizontal: 25,
+    justifyContent: 'center', // Center the box vertically
+    alignItems: 'center',     // Center the box horizontally
+    backgroundColor: 'white',
+    borderWidth: 3,
+    borderColor: 'purple',
+    borderRadius: 25,
+    overflow: "hidden",
+  },
+  background: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   logo: {
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 10,
     marginBottom: 20,
+    borderRadius: 25,
+    backgroundColor: 'white',
   },
+  logoContainer: {
+    top: 20,
+    margin: 50,
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: 'center',
+  },
+  buttonContainer: {
+    padding: 20,
+    width: "100%",
+  },
+  text: {
+    color: colors.medium,
+    fontSize: 20,
+    textAlign: "center",
+  }
 });
 
 export default RegisterScreen;

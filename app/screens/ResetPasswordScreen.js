@@ -3,7 +3,6 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
-  Text,
   View,
   Platform,
 } from "react-native";
@@ -13,7 +12,7 @@ import AppText from "../components/AppText";
 import colors from "../config/colors";
 import routes from "../navigation/routes";
 
-function WelcomeScreen({ navigation }) {
+function ResetPasswordScreen({ navigation }) {
   return (
     <ImageBackground
       blurRadius={Platform.OS === "android" ? 1 : 5}
@@ -76,4 +75,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default WelcomeScreen;
+export default ResetPasswordScreen;
