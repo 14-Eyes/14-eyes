@@ -16,15 +16,16 @@ function ChildBackButton({ title, onPress, color = "eltrgreen" }) {
 
 const styles = StyleSheet.create({
   button: {
-    height: 70,
-    width: "100%",
-    borderRadius: 15,
+    height: "40%",
+    width: 180,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    padding: 15,
+    padding: 10,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 20,
+    textAlign: "center",
     color: colors.white,
     textTransform: "uppercase",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
