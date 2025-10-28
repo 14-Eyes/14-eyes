@@ -1,78 +1,139 @@
-import React from "react";
-import {
-  Image,
-  ImageBackground,
-  StyleSheet,
-  View,
-  Platform,
-} from "react-native";
+import React, { useContext, useState } from "react";
+import { Image, ImageBackground, StyleSheet, View, Platform } from "react-native";
+import * as Yup from "yup";
 
-import AppButton from "../components/AppButton";
-import AppText from "../components/AppText";
+import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
+
+import { auth, db } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
+import AppText from "../components/AppText";
+import AuthContext from "../auth/context";
+import ErrorMessage from "../components/forms/ErrorMessage";
+import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
 
-function ResetPasswordScreen({ navigation }) {
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label("Email"),
+});
+
+function ResetPasswordScreen( { navigation} ) {
+  const authContext = useContext(AuthContext);
+  const [loginFailed, setLoginFailed] = useState(false);
+
+
+  const handleSubmit = async ({ email }) => {
+    try {
+      //const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      authContext.setUser(user);
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+
+      if (userDoc.exists()) {
+        authContext.setUsername(userDoc.data().name);
+      } else {
+        console.log("No such document!");
+      }
+
+      setLoginFailed(false);
+    } catch (error) {
+      setLoginFailed(true);
+      console.log("Login error:", error);
+    }
+  };
+
   return (
     <ImageBackground
       blurRadius={Platform.OS === "android" ? 1 : 5}
       style={styles.background}
-      source={require("../assets/welcome.png")}
+      source={require("../assets/welcome_2.png")}
     >
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
-          source={require("../assets/eltrRainbow.png")}
+          source={require("../assets/eltrRainbow_new.png")}
         ></Image>
       </View>
-      <AppText style={styles.text}>
-        To keep your health information private, we require log in with each use.
-      </AppText>
-      <View style={styles.buttonContainer}>
-        <AppButton
-          title="login"
-          onPress={() => navigation.navigate(routes.LOGIN)}
-        />
-        <AppButton
-          title="register"
-          onPress={() => navigation.navigate(routes.REGISTER)}
-          color="secondary"
-        />
+      <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <AppForm
+            initialValues={{ email: "", password: "" }}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+            >
+            <ErrorMessage
+              error="Invalid email and/or password."
+              visible={loginFailed}
+            />
+            <AppFormField
+              name="email"
+              autoCaptilize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              icon="email"
+              placeholder="Email"
+              textContentType="emailAddress"
+            />
+            <View style={styles.fixContainer}>
+              <SubmitButton title="CONTINUE" color='black' />
+              <AppButton
+              title="cancel"
+              onPress={() => navigation.navigate(routes.LOGIN)}
+              />
+            </View>
+          </AppForm>
+        </View>
       </View>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+  container: {
+    marginBottom: 80,
+    justifyContent: 'center', // Center the box vertically
+    alignItems: 'center',     // Center the box horizontally
+    backgroundColor: 'white',
+    borderWidth: 3,
+    borderColor: 'purple',
+    borderRadius: 25,
+    overflow: "hidden",
   },
   buttonContainer: {
     padding: 20,
     width: "100%",
   },
-  logoContainer: {
-    top: 70,
-    position: "absolute",
+  background: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
-    width: 400,
-    height: 250,
+    alignSelf: "center",
+    marginBottom: 20,
+    borderRadius: 25,
   },
-  tagline: {
-    fontSize: 25,
-    color: colors.black,
-    fontWeight: "600",
-    paddingVertical: 20,
-    },
-    text: {
+  logoContainer: {
+    top: 20,
+    margin: 50,
+    position: "absolute",
+    alignItems: "center",
+  },
+  text: {
     color: colors.medium,
-        fontSize: 20,
+    fontSize: 20,
     textAlign: "center",
-    }
+  },
+  forgotText: {
+    color: colors.medium,
+    fontSize: 18,
+    textDecorationLine: 'underline',
+    textAlign: "right",
+  },
 });
 
 export default ResetPasswordScreen;

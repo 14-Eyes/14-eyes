@@ -65,81 +65,27 @@ export class Home extends Component {
         return (
 
             <><Screen style={styles.container}>
-                    {/* <SliderBox
-                        images={this.state.images}
-                        sliderBoxHeight={85}
-                        dotStyle={{
-                            width: 0,
-                            height: 0,
-                        }}
-                        autoplay
-                        circleLoop />
-              */}
-            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center',}}>
-                
-                <Carousel
-                    loop
-                    autoPlay
-                    autoPlayInterval={6500}
-                    width={windowWidth * 0.9}
-                    height={200}
-                    data={this.state.carouselItems}
-                    scrollAnimationDuration={1000}
-                    renderItem={({ item, index }) => (
-                        <View
-                        key={index}
-                        style={{
-                            backgroundColor: 'floralwhite',
-                            borderRadius: 20,
-                            height: 200,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginHorizontal: 10,
-                            padding: 10,
-                        }}
-                        >
-                        <Text style={{ fontSize: 18, textAlign: 'center' }}>
-                            {item.text}
-                        </Text>
-                        </View>
-                    )}
-                />
-            </View>
+                <View style={styles.logoContainer}>
+                    <Image
+                        style={styles.logo}
+                        source={require("../assets/appsponsor_2.png")}
+                    ></Image>
+                </View>
 
                 <View style={styles.buttonGood}>
                     <AppButton
-                        title="Vitamins & Minerals"
+                        title="Essential Nutrients"
                         onPress={() => this.props.navigation.navigate('Vitamins')}
                         color="buttongreen" />
                     <AppButton
-                        title="Healthy Fats"
+                        title="Harmful Ingredients"
                         onPress={() => this.props.navigation.navigate('Fats')} 
                         color="buttongold"/>
                     <AppButton
-                        title="For Athletes"
+                        title="Food Facts"
                         onPress={() => this.props.navigation.navigate('Energy')} 
                         color="buttonorange"/>
                 </View>
-                    <View style={styles.buttonBad}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('FoodDye')}
-                        style={[styles.button, { backgroundColor: colors.buttonblue }]}
-                    >
-                        <Text style={styles.buttonText}>Food Dyes</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('Preservatives')}
-                        style={[styles.button, { backgroundColor: colors.eltrpurple }]}
-                    >
-                        <Text style={styles.buttonText}>Preservatives</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('Sugars')}
-                        style={[styles.button, { backgroundColor: colors.buttonpink }]}
-                    >
-                        <Text style={styles.buttonText}>Sugars</Text>
-                    </TouchableOpacity>
-                    </View>
                 </Screen></>
         );
     }
@@ -152,30 +98,32 @@ export class Home extends Component {
 */
 
 const styles = StyleSheet.create({
-  container: {
+    container: {
         flex: 4,
         backgroundColor: colors.light,
         bottom: 10,
-  },
-  buttonContainer: {
+    },
+    buttonContainer: {
       flex: 4,
-  },
-  buttonGood: {
+    },
+    buttonGood: {
       flexDirection: 'column',
       width: 250,
       alignSelf: 'center',
       top: 120,
-  },
-  buttonBad: {
-      flexDirection: 'row',
-      flex: 4,
-      //alignSelf: 'center',
-      //justifyContent: 'space-between',
-      width: windowWidth / 3,
-      top: 125,
-  },
-  text: {
-	  color: colors.primary,
+    },
+    text: {
+        color: colors.primary,
+    },
+    logo: {
+        alignSelf: "center",
+    },
+    logoContainer: {
+        //top: 20,
+        //margin: 50,
+        position: "absolute",
+        alignItems: "center",
+        justifyContent: 'center',
     },
     button: {
         height: 50,

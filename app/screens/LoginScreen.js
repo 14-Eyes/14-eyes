@@ -101,7 +101,7 @@ function LoginScreen( { navigation} ) {
               onPress={() => navigation.navigate(routes.REGISTER)}
               />
 
-              <AppText style={styles.forgotText} onPress={() => navigation.navigate(routes.REGISTER)}>
+              <AppText style={styles.forgotText} onPress={() => navigation.navigate(routes.RESET_PASSWORD)}>
                 Forgot password?
               </AppText>
             </View>

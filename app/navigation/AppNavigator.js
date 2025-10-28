@@ -15,6 +15,8 @@ import HomeNavigator from "./HomeNavigator";
 
 const Tab = createBottomTabNavigator();
 
+// https://static.enapter.com/rn/icons/material-community.html for MaterialCommunityIcons
+
 const AppNavigator = () => (
   <Tab.Navigator>
     <Tab.Screen

@@ -16,8 +16,8 @@ function Vitamins({navigation}) {
     return (
       <Screen style={styles.container}>
 	    <ScrollView>
-          <AppText style={styles.title}>List of Vitamins & Minerals</AppText>
-          <AppText style={styles.italic}>Tap on any vitamin or mineral to view high content food sources</AppText>
+          <AppText style={styles.title}>Nutrients in Everyday Foods</AppText>
+          <AppText style={styles.italic}>Description of the stuff and what's going on here</AppText>
           {vitamins.map(vitamin => (
           <AppText style={styles.text} key={vitamin.id}
           onPress={() => navigation.navigate('GoodFood',{vitamin: vitamin})}>{vitamin.label}</AppText>
