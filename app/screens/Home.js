@@ -68,7 +68,7 @@ export class Home extends Component {
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
-                        source={require("../assets/appsponsor_2.png")}
+                        source={require("../assets/bannerSponsor.png")}
                     ></Image>
                 </View>
 
@@ -119,8 +119,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     logoContainer: {
-        //top: 20,
-        //margin: 50,
+        top: 40,
         position: "absolute",
         alignItems: "center",
         justifyContent: 'center',
