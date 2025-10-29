@@ -53,7 +53,7 @@ const HomeNavigator = () => (
   <Stack.Screen
 	  name="Vitamins"
       component={VitaminNavigator}
-      options={{ title: "List of Vitamins & Minerals" }, {headerShown: false}}
+      options={{ title: "List of Vitamins & Minerals", headerShown: false}}
 	/>
   <Stack.Screen
     name="Budgets"
