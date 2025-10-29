@@ -2,10 +2,11 @@
 
 // NEW
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import Constants from "expo-constants";
+import { Platform } from 'react-native'; // <--- IMPORT Platform for Android check
 // OLD
 // import firebase from "firebase/compat/app";
 // import "firebase/compat/auth";
@@ -47,6 +48,22 @@ const rtdb = getDatabase(app);
 
 // Export for use in other files
 export { app, auth, db, rtdb };
+
+if (__DEV__) { // __DEV__ is true in development builds
+  const EMULATOR_HOST = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+  
+  console.log(`[Firebase Config] Connecting to Auth Emulator at http://${EMULATOR_HOST}:9099`);
+  connectAuthEmulator(auth, `http://${EMULATOR_HOST}:9099`);
+
+  // If you also want to connect Firestore to its emulator
+  console.log(`[Firebase Config] Connecting to Firestore Emulator at http://${EMULATOR_HOST}:8080`);
+  connectFirestoreEmulator(db, EMULATOR_HOST, 8080);
+
+  // If you also want to connect Realtime Database to its emulator
+  // console.log(`[Firebase Config] Connecting to Realtime Database Emulator at http://${EMULATOR_HOST}:9000`);
+  // connectDatabaseEmulator(rtdb, EMULATOR_HOST, 9000);
+}
+
 export default app;
 
 // OLD
