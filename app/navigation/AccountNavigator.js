@@ -6,9 +6,9 @@ import EditAccount from "../screens/EditAccount";
 import EditAccountName from "../screens/EditAccountName";
 import EditAccountEmail from "../screens/EditAccountEmail";
 import EditAccountPassword from "../screens/EditAccountPassword";
-import DeleteAccount from "../screens/DeleteAccount";
 import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
+// import DeleteAccount from "../screens/DeleteAccount";
 
 const Stack = createStackNavigator();
 
@@ -39,11 +39,12 @@ const AccountNavigator = () => (
       component={EditAccountPassword}
       options={{ title: "Change Password" }}
     />
-    <Stack.Screen
+    {/* NO LONGER USED - reference EditAccount.js for delete account feature */}
+    {/* <Stack.Screen
       name="DeleteAccount"
       component={DeleteAccount}
       options={{ title: "Delete Account" }}
-    />
+    /> */}
     <Stack.Screen
       name="AccountAllergies"
       component={AccountAllergies}

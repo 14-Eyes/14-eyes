@@ -16,7 +16,7 @@ export default Object.freeze({
   CHILD_BADGES: "ChildBadges",
   CHILD_ABOUTFOOD: "ChildFoodAbout",
   CHILD_CHANGE: "ChildChangeMode",
-  DELETE: "DeleteAccount",
+  // DELETE: "DeleteAccount", // NO LONGER USED - reference EditAccount.js
   WELCOME: "Welcome",
   SETTINGS: "SettingsScreen",
   DYES: "FoodDye",
