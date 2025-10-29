@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
 	},
 	screen: {
 		backgroundColor: colors.light,
+		// paddingTop: 0,
 	},
 	sponsor: {
 		fontSize: 23,

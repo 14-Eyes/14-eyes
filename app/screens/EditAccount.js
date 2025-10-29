@@ -38,7 +38,7 @@ function EditAccount({ navigation }) {
 
   return (
     <Screen style={styles.screen}>
-      <View style={styles.container}>
+      {/* <View style={styles.container}> */}
         <FlatList
           data={menuItems}
           keyExtractor={(item) => item.title}
@@ -61,7 +61,7 @@ function EditAccount({ navigation }) {
           )}
           scrollEnabled={false} // needed to prevent list of options from scrolling
         />
-      </View>
+      {/* </View> */}
 
       <View style={styles.container}>
         <ListItem
@@ -106,9 +106,10 @@ function EditAccount({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.light,
+    // paddingTop: 20,
   },
   container: {
-    marginVertical: 30,
+    marginVertical: 60,
   },
   // Modal styles for delete pop-up
   modalOverlay: {
