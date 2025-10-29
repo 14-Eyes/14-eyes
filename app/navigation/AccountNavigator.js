@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getSubScreenHeader } from "./HeaderStyles";
 
 import AccountDetails from "../screens/AccountDetails";
 import EditAccount from "../screens/EditAccount";
@@ -17,27 +18,27 @@ const AccountNavigator = () => (
     <Stack.Screen
       name="Account"
       component={AccountDetails}
-      options={{ title: "My Account" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Account")}	  
     />
     <Stack.Screen
       name="EditAccount"
       component={EditAccount}
-      options={{ title: "Account Center" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Account Center")}	  
     />
     <Stack.Screen
       name="EditAccountName"
       component={EditAccountName}
-      options={{ title: "Edit Name" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Edit Name")}	  
     />
     <Stack.Screen
       name="EditAccountEmail"
       component={EditAccountEmail}
-      options={{ title: "Edit Email" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Edit Email")}	  
     />
     <Stack.Screen
       name="EditAccountPassword"
       component={EditAccountPassword}
-      options={{ title: "Change Password" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Change Password")}	  
     />
     {/* NO LONGER USED - reference EditAccount.js for delete account feature */}
     {/* <Stack.Screen
@@ -48,12 +49,12 @@ const AccountNavigator = () => (
     <Stack.Screen
       name="AccountAllergies"
       component={AccountAllergies}
-      options={{ title: "My Allergies" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Allergies")}	  
     />
     <Stack.Screen
       name="AccountConditions"
       component={AccountConditions}
-      options={{ title: "My Conditions" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Conditions")}	  
     />
   </Stack.Navigator>
 );

@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getMainHeader, getSubScreenHeader } from "./HeaderStyles";
 
 import SettingsScreen from "../screens/SettingsScreen";
 import AccountNavigator from "../navigation/AccountNavigator";
@@ -10,31 +11,39 @@ import HelpScreen from "../screens/HelpScreen";
 const Stack = createStackNavigator();
 
 const SettingsNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerTitleAlign: "center", // center the title
+      headerTitleStyle: { fontSize: 18 },
+      headerStyle: { backgroundColor: "white" },
+    }}
+  >  
     <Stack.Screen
-	    name="Settings"
+	    name="SettingsHome"
       component={SettingsScreen}
-      options={{ title: "Settings" }}
+      options={getMainHeader("Settings")}
 	  />
+
+    {/* SUB SCREENS */}
     <Stack.Screen
       name="AccountDetails"
       component={AccountNavigator}
-      options={{ headerShown: false }}	  
+      options={{ headerShown: false }}
 	  />
     <Stack.Screen
       name="ChildAlert"
       component={ChildAlert}
-	    options={{ title: "Child Mode" }}
+	    options={{ headerShown: false }}
     />
     <Stack.Screen
       name="AboutScreen"
       component={AboutScreen}
-	    options={{ title: "About" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "About")}	  
     />
     <Stack.Screen
       name="HelpScreen"
       component={HelpScreen}
-	    options={{ title: "FAQ" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "FAQ")}	  
     />
   </Stack.Navigator>
 );

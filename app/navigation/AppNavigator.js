@@ -16,7 +16,13 @@ import HomeNavigator from "./HomeNavigator";
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => (
-  <Tab.Navigator>
+  <Tab.Navigator
+    // hides the default header globally so we can add our own header styles
+    // reference HeaderStyles.js to edit headers
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
     <Tab.Screen
       name="Home"
       component={HomeNavigator}
