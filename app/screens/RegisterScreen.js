@@ -144,7 +144,7 @@ function RegisterScreen({ navigation }) {
           </AppText>
           <AppButton
             title="back"
-            onPress={() => navigation.navigate(routes.LOGIN)}
+            onPress={() => navigation.goBack()} // adding goBack() makes screen slide from left to right
           />
         </View>
       </AppForm>
