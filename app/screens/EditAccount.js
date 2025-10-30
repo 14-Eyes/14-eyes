@@ -106,10 +106,10 @@ function EditAccount({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.light,
-    // paddingTop: 20,
+    paddingTop: 30,
   },
   container: {
-    marginVertical: 60,
+    marginVertical: 70,
   },
   // Modal styles for delete pop-up
   modalOverlay: {

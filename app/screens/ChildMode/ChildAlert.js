@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 100,
-    paddingTop: 150,
+    paddingTop: 230,
   },              
   textbox: {
     color: colors.black,
