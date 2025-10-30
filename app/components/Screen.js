@@ -3,10 +3,11 @@ import {Platform} from 'react-native';
 import Constants from "expo-constants";
 import {
   KeyboardAvoidingView,
-  SafeAreaView,
   StyleSheet,
   View,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 function Screen({ children, style }) {
   return (

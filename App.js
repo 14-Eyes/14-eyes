@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import navigationTheme from "./app/navigation/navigationTheme";
 import AdNavigator from "./app/navigation/AdNavigator";
@@ -17,30 +18,32 @@ export default function App() {
   const [username, setUsername] = useState();
 
   return (
-    <AuthContext.Provider value={{ user, setUser, username, setUsername }}>
-      <NavigationContainer theme={navigationTheme}>
-        {user ? (
-          <Stack.Navigator>
-		    <Stack.Screen
-              name="App Sponsor"
-              component={AdNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="AppNavigator"
-              component={AppNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ChildNavigator"
-              component={ChildNavigator}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        ) : (
-          <AuthNavigator />
-        )}
-      </NavigationContainer>
-    </AuthContext.Provider>
+    <SafeAreaProvider>
+      <AuthContext.Provider value={{ user, setUser, username, setUsername }}>
+        <NavigationContainer theme={navigationTheme}>
+          {user ? (
+            <Stack.Navigator>
+          <Stack.Screen
+                name="App Sponsor"
+                component={AdNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="AppNavigator"
+                component={AppNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ChildNavigator"
+                component={ChildNavigator}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          ) : (
+            <AuthNavigator />
+          )}
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </SafeAreaProvider>
   );
 }

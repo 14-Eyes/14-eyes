@@ -101,18 +101,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: 30, // moves top of the list lower on screen
   },
   listWrapper: {
     flex: 1,
     marginBottom: TOOLTIP_HEIGHT, // reserve space for tooltip
   },
   listContent: {
-    paddingBottom: 45,
+    paddingBottom: 45, // adds padding at the end of the list
   },
   toolTipContainer: {
     height: TOOLTIP_HEIGHT,
-    bottom: 100,
+    bottom: "15%", // can also do "bottom: 100" - space between bottom of toolTip and bottom of screen
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.light,
