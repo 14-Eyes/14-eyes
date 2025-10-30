@@ -27,6 +27,14 @@ const menuItems = [
     },
     target: "AccountAllergies",
   },
+  {
+    title: "My Dietary Preferences",
+    icon: {
+      name: "leaf",
+      backgroundColor: colors.eltrgreen,
+    },
+    target: "AccountDietaryPreferences",
+  },
   // new button to route to new screen
   {
     title: "Account Center",

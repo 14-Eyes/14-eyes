@@ -9,6 +9,7 @@ import EditAccountEmail from "../screens/EditAccountEmail";
 import EditAccountPassword from "../screens/EditAccountPassword";
 import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
+import AccountDietaryPreferences from "../screens/AccountDietaryPreferences";
 // import DeleteAccount from "../screens/DeleteAccount";
 
 const Stack = createStackNavigator();
@@ -55,6 +56,11 @@ const AccountNavigator = () => (
       name="AccountConditions"
       component={AccountConditions}
       options={({ navigation }) => getSubScreenHeader(navigation, "My Conditions")}	  
+    />
+    <Stack.Screen
+      name="AccountDietaryPreferences"
+      component={AccountDietaryPreferences}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Dietary Preferences")}	  
     />
   </Stack.Navigator>
 );

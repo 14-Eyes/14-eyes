@@ -85,7 +85,7 @@ function AccountAllergies(props) {
 
         {/* Tooltip BELOW the list (not overlapping) */}
         <View style={styles.toolTipContainer}>
-          <AppText style={styles.toolTipText}>Swipe left to remove conditions</AppText>
+          <AppText style={styles.toolTipText}>Swipe left to remove allergies</AppText>
         </View>
       </View>
     </ScreenFlexible>

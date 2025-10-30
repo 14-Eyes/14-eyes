@@ -6,6 +6,7 @@ export default Object.freeze({
   ACCOUNT_EDIT: "EditAccount",
   ACCOUNT_ALLERGIES: "AccountAllergies",
   ACCOUNT_CONDITIONS: "AccountConditions",
+  ACCOUNT_DIETARY_PREFERENCES: "AccountDietaryPreferences",
   FOOD_ITEM: "FoodDetails",
   LOGIN: "Login",
   REGISTER: "Register",
