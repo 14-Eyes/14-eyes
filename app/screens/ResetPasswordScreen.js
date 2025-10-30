@@ -9,6 +9,7 @@ import { auth, db } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
+import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import ErrorMessage from "../components/forms/ErrorMessage";
@@ -52,13 +53,12 @@ function ResetPasswordScreen( { navigation} ) {
       style={styles.background}
       source={require("../assets/welcome_2.png")}
     >
-      <View style={styles.logoContainer}>
+      <Screen style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/eltrRainbow_new.png")}
         ></Image>
-      </View>
-      <View style={styles.container}>
+      <View style={styles.boxContainer}>
         <View style={styles.buttonContainer}>
           <AppForm
             initialValues={{ email: "", password: "" }}
@@ -88,13 +88,16 @@ function ResetPasswordScreen( { navigation} ) {
           </AppForm>
         </View>
       </View>
+      </Screen>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 80,
+    padding: 10,
+  },
+  boxContainer: {
     justifyContent: 'center', // Center the box vertically
     alignItems: 'center',     // Center the box horizontally
     backgroundColor: 'white',
@@ -116,12 +119,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     borderRadius: 25,
-  },
-  logoContainer: {
-    top: 20,
-    margin: 50,
-    position: "absolute",
-    alignItems: "center",
   },
   text: {
     color: colors.medium,

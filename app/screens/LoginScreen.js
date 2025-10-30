@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, ImageBackground, StyleSheet, View, Platform } from "react-native";
+import { Image, ImageBackground, StyleSheet, View, Platform, KeyboardAvoidingView } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
@@ -54,66 +54,70 @@ function LoginScreen( { navigation} ) {
       style={styles.background}
       source={require("../assets/welcome_2.png")}
     >
-      <View style={styles.logoContainer}>
+      <Screen style={styles.container}>
         <Image
-          style={styles.logo}
-          source={require("../assets/eltrRainbow_new.png")}
-        ></Image>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-          <AppForm
-            initialValues={{ email: "", password: "" }}
-            onSubmit={handleSubmit}
-            validationSchema={validationSchema}
-            >
-            <ErrorMessage
-              error="Invalid email and/or password."
-              visible={loginFailed}
-            />
-            <AppFormField
-              name="email"
-              autoCaptilize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-              icon="email"
-              placeholder="Email"
-              textContentType="emailAddress"
-            />
-            <AppFormField
-              name="password"
-              autoCaptilize="none"
-              autoCorrect={false}
-              icon="lock"
-              placeholder="Password"
-              secureTextEntry
-              textContentType="password"
-            />
-            <View style={styles.fixContainer}>
-              <SubmitButton title="Login" color='black' />
-
-              <AppText style={styles.text}>
-                —————— OR ——————
-              </AppText>
-
-              <AppButton
-              title="register"
-              onPress={() => navigation.navigate(routes.REGISTER)}
+            style={styles.logo}
+            source={require("../assets/eltrRainbow_new.png")}
+          ></Image>
+          <View style={styles.boxContainer}>
+            <View style={styles.buttonContainer}>
+            <AppForm
+              initialValues={{ email: "", password: "" }}
+              onSubmit={handleSubmit}
+              validationSchema={validationSchema}
+              >
+              <ErrorMessage
+                error="Invalid email and/or password."
+                visible={loginFailed}
               />
+              <AppFormField
+                name="email"
+                autoCaptilize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+                icon="email"
+                placeholder="Email"
+                textContentType="emailAddress"
+              />
+              <AppFormField
+                name="password"
+                autoCaptilize="none"
+                autoCorrect={false}
+                icon="lock"
+                placeholder="Password"
+                secureTextEntry
+                textContentType="password"
+              />
+              <View style={styles.fixContainer}>
+                <SubmitButton title="Login" color='black' />
 
-              <AppText style={styles.forgotText} onPress={() => navigation.navigate(routes.RESET_PASSWORD)}>
-                Forgot password?
-              </AppText>
-            </View>
-          </AppForm>
+                <AppText style={styles.text}>
+                  —————— OR ——————
+                </AppText>
+
+                <AppButton
+                title="register"
+                onPress={() => navigation.navigate(routes.REGISTER)}
+                />
+
+                <AppText style={styles.forgotText} onPress={() => navigation.navigate(routes.RESET_PASSWORD)}>
+                  Forgot password?
+                </AppText>
+              </View>
+            </AppForm>
+          </View>
         </View>
-      </View>
+      </Screen>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    top: 15,
+    padding: 2,
+  },
+  boxContainer: {
     marginBottom: 20,
     marginHorizontal: 25,
     justifyContent: 'center', // Center the box vertically
@@ -135,14 +139,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: "center",
-    marginBottom: 20,
     borderRadius: 25,
-  },
-  logoContainer: {
-    top: 20,
-    margin: 50,
-    position: "absolute",
-    alignItems: "center",
+    bottom: 20,
   },
   text: {
     color: colors.medium,

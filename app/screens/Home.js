@@ -42,7 +42,6 @@ export class Home extends Component {
         };
     }
 
-   
     _renderItem({item,index}){
         return (
           <View style={{
@@ -63,30 +62,64 @@ export class Home extends Component {
 
     render() {
         return (
-
-            <><Screen style={styles.container}>
-                <View style={styles.logoContainer}>
-                    <Image
-                        style={styles.logo}
-                        source={require("../assets/bannerSponsor.png")}
-                    ></Image>
+          <><Screen style={styles.container}>
+            <Image
+                    style={styles.logo}
+                    source={require("../assets/bannerSponsor.png")}
+                ></Image>
+                <View style={styles.flexContainer}>
+                    <Carousel
+                        loop
+                        autoPlay
+                        autoPlayInterval={6500}
+                        width={windowWidth * 0.9}
+                        height={100}
+                        data={this.state.carouselItems}
+                        scrollAnimationDuration={1000}
+                        renderItem={({ item, index }) => (
+                            <View
+                            key={index}
+                            style={{
+                                backgroundColor: 'floralwhite',
+                                borderRadius: 20,
+                                height: 100,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginHorizontal: 10,
+                                padding: 10,
+                            }}
+                            >
+                            <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                                {item.text}
+                            </Text>
+                            </View>
+                        )}
+                    />
                 </View>
-
-                <View style={styles.buttonGood}>
-                    <AppButton
-                        title="Essential Nutrients"
-                        onPress={() => this.props.navigation.navigate('Vitamins')}
-                        color="buttongreen" />
-                    <AppButton
-                        title="Harmful Ingredients"
-                        onPress={() => this.props.navigation.navigate('Fats')} 
-                        color="buttongold"/>
-                    <AppButton
-                        title="Food Facts"
-                        onPress={() => this.props.navigation.navigate('Energy')} 
-                        color="buttonorange"/>
-                </View>
-                </Screen></>
+               <View style={styles.buttonGood}>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('EssentialNutrients')}
+                        style={[styles.button]}
+                        >
+                        <Image source={require('../assets/essential_nutrients.png')} style={[styles.image]} />
+                        <Text style={styles.buttonText}>Essential Nutrients</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('HarmfulIngredients')}
+                        style={[styles.button]}
+                        >
+                        <Image source={require('../assets/harmful_ingredients.png')} style={[styles.image]} />
+                        <Text style={styles.buttonText}>Harmful Ingredients</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('FoodFacts')}
+                        style={[styles.button]}
+                        >
+                        <Image source={require('../assets/food_facts.png')} style={[styles.image]} />
+                        <Text style={styles.buttonText}>Other Food Facts</Text>
+                    </TouchableOpacity>
+                   </View>
+               </Screen></>
         );
     }
 }
@@ -103,42 +136,49 @@ const styles = StyleSheet.create({
         backgroundColor: colors.light,
         bottom: 10,
     },
-    buttonContainer: {
-      flex: 4,
+    flexContainer: {
+        //flex: 1,
+        flexDirection:'row',
+        justifyContent: 'center',
+        top: 60,
     },
     buttonGood: {
       flexDirection: 'column',
-      width: 250,
+      width: 300,
       alignSelf: 'center',
-      top: 120,
+      top: 100,
     },
     text: {
         color: colors.primary,
     },
     logo: {
         alignSelf: "center",
-    },
-    logoContainer: {
-        top: 40,
+        top: 0,
         position: "absolute",
-        alignItems: "center",
         justifyContent: 'center',
     },
     button: {
-        height: 50,
+        height: 100,
         width: "100%",
         borderRadius: 25,
         justifyContent: "center",
         alignItems: "center",
-        padding: 15,
-        marginVertical: 10,
+        padding: 3,
+        marginVertical: 5,
     },
     buttonText: {
-        fontSize: 11,
+        fontSize: 18,
         color: colors.white,
         textTransform: "uppercase",
         fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
         fontWeight: "bold",
+        position: 'absolute',
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 25,
+        resizeMode: 'cover', // Or 'contain', 'stretch', etc.
     },
 });
 export default Home;

@@ -1,0 +1,71 @@
+//importing all the necessary items
+
+import React from "react";
+import { FlatList, StyleSheet, View, ScrollView } from "react-native";
+
+import AppText from "../components/AppText";
+import Screen from "../components/Screen";
+import colors from "../config/colors";
+import choices from "../config/badlists";
+
+const sugars = choices.sugars;
+
+//pulling the array/list elements from the appropriate list in the config file
+
+function EssentialNutrients({navi}) {
+    return (
+      <Screen style={styles.container}>
+	    <ScrollView>
+          <AppText style={styles.title}>List of Sugars*</AppText>
+        
+          {sugars.map(sugar => (
+			<AppText style={styles.text} key={sugar.id}>{sugar.label}</AppText>
+          ))}
+
+	  <AppText style={styles.italic}>*Please note: this list contains all the possible sugars that can be present in foods.
+	     The distinction between "good" and "bad" sugars can be found when scanning items using the barcode scanner.</AppText>
+
+	    </ScrollView>
+      </Screen>
+    );
+}
+
+//How the list, title, and background will look on the screen
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: colors.light,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    backgroundColor: colors.light,
+  },
+  title: {
+    color: colors.buttonpink,
+    fontSize: 40,
+    marginBottom: 5,
+    marginTop: 0,
+    textAlign: "center",
+  },
+  text: {
+    color: colors.buttonpink,
+    fontSize: 20,
+
+  },
+  italic: {
+    fontStyle: 'italic',
+    textAlign: "left",
+    marginBottom: 10,
+    fontSize: 14,
+  },
+  
+});
+
+//exporting the function
+
+export default EssentialNutrients;

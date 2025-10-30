@@ -1,4 +1,5 @@
 export default Object.freeze({
+  //Account Pages
   APPNAVIGATOR: "AppNavigator",
   SCAN_ITEM: "ScanningScreen",
   ACCOUNT: "AccountDetails",
@@ -6,20 +7,15 @@ export default Object.freeze({
   ACCOUNT_EDIT: "EditAccount",
   ACCOUNT_ALLERGIES: "AccountAllergies",
   ACCOUNT_CONDITIONS: "AccountConditions",
-  FOOD_ITEM: "FoodDetails",
-  LOGIN: "Login",
-  REGISTER: "Register",
-  CHILD_ALERT: "ChildAlert",
-  CHILD_SCAN: "Scan",
-  CHILD_HOME: "Home",
-  CHILD_FOODITEM: "ChildFood",
-  CHILD_BADGES: "ChildBadges",
-  CHILD_ABOUTFOOD: "ChildFoodAbout",
-  CHILD_CHANGE: "ChildChangeMode",
   DELETE: "DeleteAccount",
-  RESET_PASSWORD: "ResetPassword",
   SETTINGS: "SettingsScreen",
+
+  //Home & Food Pages
+  FOOD_ITEM: "FoodDetails",
   DYES: "FoodDye",
+  NUTRIENTS: "EssentialNutrients",
+  HARMFUL_INGREDIENTS: "HarmfulIngredients",
+  FOOD_FACTS: "FoodFacts",
   PRESERVATIVES: "Preservatives",
   SUGARS: "Sugars",
   VITAMINS: "Vitamins",
@@ -27,4 +23,18 @@ export default Object.freeze({
   FATS: "HealthyFats",
   ENERGY: "AthleteFood",
   HELP: "HelpScreen",
+
+  //Login & Register
+  LOGIN: "Login",
+  REGISTER: "Register",
+  RESET_PASSWORD: "ResetPassword",
+
+  //Child Mode
+  CHILD_ALERT: "ChildAlert",
+  CHILD_SCAN: "Scan",
+  CHILD_HOME: "Home",
+  CHILD_FOODITEM: "ChildFood",
+  CHILD_BADGES: "ChildBadges",
+  CHILD_ABOUTFOOD: "ChildFoodAbout",
+  CHILD_CHANGE: "ChildChangeMode",
 });

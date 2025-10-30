@@ -7,6 +7,9 @@ import FoodDye from "../screens/FoodDye";
 import Preservatives from "../screens/Preservatives";
 import Sugars from "../screens/Sugars";
 import Vitamins from "../screens/Vitamins";
+import EssentialNutrients from "../screens/EssentialNutrients";
+import HarmfulIngredients from "../screens/HarmfulIngredients";
+import FoodFacts from "../screens/FoodFacts";
 import Budgets from "../screens/BudgetPage";
 import Home from "../screens/Home";
 import VitaminNavigator from "./VitaminNavigator";
@@ -16,9 +19,24 @@ const Stack = createStackNavigator();
 const HomeNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen
-	  name="Home"
+	  name="HomeScreen"
       component={Home}
       options={{ title: "Home" }}
+	/>
+    <Stack.Screen
+	  name="EssentialNutrients"
+      component={EssentialNutrients}
+      options={{ title: "Essential Nutrients" }}
+	/>
+    <Stack.Screen
+	  name="HarmfulIngredients"
+      component={HarmfulIngredients}
+      options={{ title: "Harmful Ingredients" }}
+	/>
+    <Stack.Screen
+	  name="FoodFacts"
+      component={FoodFacts}
+      options={{ title: "Food Facts" }}
 	/>
     <Stack.Screen
 	  name="FoodDye"
