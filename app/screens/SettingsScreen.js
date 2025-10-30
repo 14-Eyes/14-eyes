@@ -40,7 +40,7 @@ const menuItems = [
   {
 	title: "FAQ",
 	icon: {
-		name: "question-mark",
+		name: "chat-question",
 		backgroundColor: colors.eltrpink,
 	},
 	target: "HelpScreen",
