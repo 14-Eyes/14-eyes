@@ -42,16 +42,24 @@ const menuItems = [
   {
 	title: "Child Mode",
 	icon: {
-		name: "account-multiple",
+		name: "account-supervisor",
 		backgroundColor: colors.secondary,
 	},
 	target: "ChildAlert",
   },
   {
-	title: "Help",
+	title: "About",
 	icon: {
-		name: "question-mark",
-		backgroundColor: colors.eltrred,
+		name: "information-outline",
+		backgroundColor: colors.eltrgreen,
+	},
+	target: "AboutScreen",
+  },
+  {
+	title: "FAQ",
+	icon: {
+		name: "chat-question",
+		backgroundColor: colors.eltrpink,
 	},
 	target: "HelpScreen",
   },
@@ -109,9 +117,8 @@ function SettingsScreen( { navigation } ) {
 			scrollEnabled={false} // needed to prevent list of options from scrolling
         />
       </View>
-		<Text style={styles.test}>
-			Sponsor
-
+		<Text style={styles.sponsor}>
+			Sponsored by
 		</Text>
 			{/* replace this assets png to change the sponsor image in the settings tab */}
 		<Image
@@ -119,36 +126,41 @@ function SettingsScreen( { navigation } ) {
 			source={require("../assets/appsponsor.png")}
 		/>
 		<Text style={styles.bot}>
-				Eat Like The Rainbow App
-				2022 Version 0.1
+			Eat Like The Rainbow App 2025  |  Version 1.0.6
 		</Text>
 	</Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 1,
-  },
-  screen: {
-	  backgroundColor: colors.light,
+	container: {
+		marginVertical: 1,
 	},
-  test: {
-	fontSize: 15,
-	marginBottom: 10,
-	marginTop: 10,
-	marginLeft: 5,
+	screen: {
+		backgroundColor: colors.light,
+		paddingTop: 8,
 	},
-  bot: {
-	  fontSize: 15,
-	  alignSelf: "center",
-	  bottom: 0,
-    },
-  pic: {
-	  alignSelf: "center",
-	  width: 350,
-	height: 150,
-	resizeMode: 'contain',
+	sponsor: {
+		fontSize: 23,
+		fontWeight: "bold",
+		marginTop: 15,
+		marginBottom: 10,
+		alignSelf: "center",
+	},
+	bot: {
+		fontSize: 15,
+		marginTop: 10,
+		marginbottom: 0,
+		alignSelf: "center",
+	},
+	pic: {
+		alignSelf: "center",
+		width: 350,
+		height: 150,
+		resizeMode: 'contain',
+	},
+	logoutContainer: {
+  		marginTop: 10, // adjust this number to increase/decrease spacing
 	},
 });
 

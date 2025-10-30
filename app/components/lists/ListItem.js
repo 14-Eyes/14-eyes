@@ -29,7 +29,7 @@ function ListItem({
   renderRightActions,
   IconComponent,
   iconName = "chevron-right",
-  iconLeftColor = colors.medium,
+  iconLeftColor = colors.dark,
   style,
   titleStyle,
   showChevron = true,
@@ -60,7 +60,7 @@ function ListItem({
           <MaterialCommunityIcons
             color={iconLeftColor}
             name={iconName}
-            size={25}
+            size={30}
           />
         )}
       </View>
@@ -118,6 +118,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "500",
+    fontSize: 20,
+    paddingLeft: 10,
   },
   inlineSubTitle: {
     color: colors.medium,

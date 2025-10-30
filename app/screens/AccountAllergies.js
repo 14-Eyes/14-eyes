@@ -19,7 +19,7 @@ import {
   ListItemDeleteAction,
   ListItemSeparator,
 } from "../components/lists/index";
-import Screen from "../components/Screen";
+import ScreenFlexible from "../components/ScreenFlexible";
 import colors from "../config/colors";
 import choices from "../config/options";
 import sstore from "../utility/sstore";
@@ -62,51 +62,77 @@ function AccountAllergies(props) {
   };
 
   return (
-    <Screen style={styles.screen}>
-      <View style={styles.toolTip}>
-        <AppText style={styles.toolTipText}>Swipe left to remove!</AppText>
-      </View>
-      <AppPicker
-        placeholder="Add Allergy"
-        items={allergyChoices}
-        onSelectItem={onSelectItem}
-      />
-
-      <FlatList
-        data={allergies}
-        extraData={useState}
-        keyExtractor={(allergy) => allergy.id.toString()}
-        renderItem={({ item }) => (
-          <ListItem
-            title={item.label}
-            subTitle={item.description}
-            image={item.image}
-            onPress={() => console.log("Message Selected", item)}
-            renderRightActions={() => (
-              <ListItemDeleteAction onPress={() => handleDelete(item)} />
-            )}
-            swipeable={true}
+    <ScreenFlexible style={styles.screen}>
+      {/* Layout wrapper to position tooltip outside scroll area */}
+      <View style={styles.container}>
+        <View style={styles.listWrapper}>
+          <AppPicker
+            placeholder="Add Allergy"
+            items={allergyChoices}
+            onSelectItem={onSelectItem}
           />
-        )}
-        // scrollEnabled={false}
-        ItemSeparatorComponent={ListItemSeparator}
-      />
-    </Screen>
+
+          <FlatList
+            data={allergies}
+            keyExtractor={(allergy) => allergy.id.toString()}
+            renderItem={({ item }) => (
+              <ListItem
+                title={item.label}
+                subTitle={item.description}
+                titleStyle={{ paddingLeft: 0 }}
+                image={item.image}
+                renderRightActions={() => (
+                  <ListItemDeleteAction onPress={() => handleDelete(item)} />
+                )}
+                swipeable
+                showChevron={false} 
+              />
+            )}
+            ItemSeparatorComponent={ListItemSeparator}
+            contentContainerStyle={styles.listContent}
+          />
+        </View>
+
+        {/* Tooltip BELOW the list (not overlapping) */}
+        <View style={styles.toolTipContainer}>
+          <AppText style={styles.toolTipText}>Swipe left to remove allergies</AppText>
+        </View>
+      </View>
+    </ScreenFlexible>
   );
 }
 
+const TOOLTIP_HEIGHT = 90;
+
 const styles = StyleSheet.create({
-  container: {
-    marginVertical: 20,
+  screen: {
+    backgroundColor: colors.light,
+    flex: 1,
   },
-  toolTip: {
+  container: {
+    flex: 1,
+    paddingTop: 30, // moves top of the list lower on screen
+  },
+  listWrapper: {
+    flex: 1,
+    marginBottom: TOOLTIP_HEIGHT, // reserve space for tooltip
+  },
+  listContent: {
+    paddingBottom: 45, // adds padding at the end of the list
+  },
+  toolTipContainer: {
+    height: TOOLTIP_HEIGHT,
+    bottom: "15%", // can also do "bottom: 100" - space between bottom of toolTip and bottom of screen
     alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.light,
+    // borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.medium,
   },
   toolTipText: {
     color: colors.primary,
-  },
-  screen: {
-    backgroundColor: colors.light,
+    fontSize: 22,
   },
 });
+
 export default AccountAllergies;

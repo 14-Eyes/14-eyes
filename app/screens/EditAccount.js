@@ -51,7 +51,7 @@ function EditAccount({ navigation }) {
 
   return (
     <Screen style={styles.screen}>
-      <View style={styles.container}>
+      {/* <View style={styles.container}> */}
         <FlatList
           data={menuItems}
           keyExtractor={(item) => item.title}
@@ -60,6 +60,7 @@ function EditAccount({ navigation }) {
             <ListItem
               title={item.title}
               subTitle={item.description}
+              titleStyle={{ paddingLeft: 0 }} // removes left padding in this screen only
               onPress={() => navigation.navigate(item.target)}
               IconComponent={null}
               renderRightIcon={() => (
@@ -73,7 +74,7 @@ function EditAccount({ navigation }) {
           )}
           scrollEnabled={false} // needed to prevent list of options from scrolling
         />
-      </View>
+      {/* </View> */}
 
       <View style={styles.container}>
         <ListItem
@@ -81,7 +82,7 @@ function EditAccount({ navigation }) {
           onPress={() => setShowDeleteModal(true)}
           IconComponent={null}
           showChevron={false}          
-          titleStyle={{ color: colors.danger, fontWeight: "bold" }}        
+          titleStyle={{ color: colors.danger, fontWeight: "bold", paddingLeft: 0 }}        
         />
       </View>
 
@@ -118,9 +119,10 @@ function EditAccount({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.light,
+    paddingTop: 30,
   },
   container: {
-    marginVertical: 30,
+    marginVertical: 70,
   },
   // Modal styles for delete pop-up
   modalOverlay: {
