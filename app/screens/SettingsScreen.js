@@ -2,7 +2,7 @@
  * SettingsScreen Component
  *
  * Displays user settings and navigation options for the ELTR app.
- * Includes account access, child mode, help, and logout functionality.
+ * Includes account access, child mode, about, FAQ, and logout functionality.
  *
  * Key Features:
  * - FlatList of menu items with icons and navigation targets
