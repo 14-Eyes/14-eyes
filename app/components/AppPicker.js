@@ -72,7 +72,7 @@ function AppPicker({
           )}
           <MaterialCommunityIcons
             name="plus-circle"
-            size={20}
+            size={40}
             color={defaultStyles.colors.eltrgreen}
           />
         </View>
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   },
   placeholder: {
     flex: 1,
+    fontSize: 22,
     color: defaultStyles.colors.medium,
   },
 });

@@ -22,6 +22,7 @@ export default Object.freeze({
   ACCOUNT_EDIT: "EditAccount",
   ACCOUNT_ALLERGIES: "AccountAllergies",
   ACCOUNT_CONDITIONS: "AccountConditions",
+  ACCOUNT_DIETARY_PREFERENCES: "AccountDietaryPreferences",
   FOOD_ITEM: "FoodDetails",
   LOGIN: "Login",
   REGISTER: "Register",
@@ -32,8 +33,9 @@ export default Object.freeze({
   CHILD_BADGES: "ChildBadges",
   CHILD_ABOUTFOOD: "ChildFoodAbout",
   CHILD_CHANGE: "ChildChangeMode",
-  DELETE: "DeleteAccount",
+  // DELETE: "DeleteAccount", // NO LONGER USED - reference EditAccount.js
   RESET_PASSWORD: "ResetPassword",
+  WELCOME: "Welcome",
   SETTINGS: "SettingsScreen",
   DYES: "FoodDye",
   PRESERVATIVES: "Preservatives",

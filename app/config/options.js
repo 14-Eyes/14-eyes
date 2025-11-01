@@ -9,6 +9,45 @@
  */
 
 export default {
+  dietChoices: [
+    {
+      id: 1,
+      label: "Vegan",
+    },
+    {
+      id: 2,
+      label: "Vegetarian",
+    },
+    {
+      id: 3,
+      label: "Pescetarian",
+    },
+    {
+      id: 4,
+      label: "Lactose Free",
+    },
+    {
+      id: 5,
+      label: "Gluten Free",
+    },
+    {
+      id: 6,
+      label: "Kosher",
+    },
+    {
+      id: 7,
+      label: "Halal",
+    },
+    {
+      id: 8,
+      label: "Paleo",
+    },
+    {
+      id: 9,
+      label: "Keto",
+    },
+  ],
+  
   allergyChoices: [
     {
       id: 1,
