@@ -21,6 +21,7 @@ export default {
   eltrblue: "#8acff4",
 
   light: "#F8F4F3",
+  lightGray: "#d6d6d6ff",
 
   // OLD ELTR main colors
   // eltrgreen: "#768e6a",

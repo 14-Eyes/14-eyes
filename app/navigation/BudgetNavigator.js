@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { getSubScreenHeader } from "./HeaderStyles";
+import { getSubScreenHeader, getSubScreenHeaderBack } from "./HeaderStyles";
 
 import BudgetScreen from "../screens/BudgetScreen";
 import BudgetingBasicsScreen from "../screens/BudgetingBasicsScreen";
@@ -24,7 +24,7 @@ function BudgetNavigator() {
       <Stack.Screen
         name="SampleBudget"
         component={SampleBudgetScreen}
-        options={({ navigation }) => getSubScreenHeader(navigation, "Sample Budgets")}	  
+        options={({ navigation }) => getSubScreenHeaderBack(navigation)}	  
       />
       <Stack.Screen
         name="StoresSales"
