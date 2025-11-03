@@ -45,6 +45,7 @@ export default Object.freeze({
   BUDGETING_BASICS: "BudgetingBasics",
   SAMPLE_BUDGET: "SampleBudget",
   STORES_SALES: "StoresSales",
+  RECIPES: "Recipes",
   FATS: "HealthyFats",
   ENERGY: "AthleteFood",
   HELP: "HelpScreen",

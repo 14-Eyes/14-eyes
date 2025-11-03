@@ -24,8 +24,7 @@ import ScanButton from "./ScanButton";
 import routes from "./routes";
 import ScanNavigator from "./ScanNavigator";
 import SettingsNavigator from "./SettingsNavigator";
-import AboutScreen from "../screens/AboutScreen";
-import SettingsScreen from "../screens/SettingsScreen";
+import RecipesScreen from "../screens/RecipesScreen";
 import FoodDye from "../screens/FoodDye";
 import HomeNavigator from "./HomeNavigator";
 
@@ -78,8 +77,8 @@ const AppNavigator = () => (
       })}
     />
     <Tab.Screen
-      name="Recepies"
-      component={AboutScreen}
+      name="Recipes"
+      component={RecipesScreen}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="book-open-outline" color={color} size={size} />
