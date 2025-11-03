@@ -78,11 +78,11 @@ const AppNavigator = () => (
       })}
     />
     <Tab.Screen
-      name="About"
+      name="Recepies"
       component={AboutScreen}
       options={{
         tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="information" color={color} size={size} />
+          <MaterialCommunityIcons name="book-open-outline" color={color} size={size} />
         ),
       }}
     />
@@ -93,7 +93,7 @@ const AppNavigator = () => (
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons
-            name="settings-helper"
+            name="cog"
             color={color}
             size={size}
           />
