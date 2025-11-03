@@ -20,6 +20,7 @@ export default {
   eltrorange: "#ea9c60",
   eltrblue: "#8acff4",
 
+  light: "#F8F4F3",
 
   // OLD ELTR main colors
   // eltrgreen: "#768e6a",
@@ -30,13 +31,12 @@ export default {
 
   // OLD ELTR colors
   eltrlightpink: "#FABED2",
-  eltrdarkblue: "#6191ab",
+  eltrdarkblue: "#4AADE2",
   eltrlightblue: "#BCE4F9",
   eltrapricot:"#F9D2BD",
   black: "#000",
   white: "#fff",
   medium: "#6e6969",
-  light: "#ebe7e7ff",
   dark: "#0c0c0c",
   danger: "#ff5252",
   buttonpink: "#FF1493",

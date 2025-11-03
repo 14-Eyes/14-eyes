@@ -19,7 +19,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import SponsoredBy from "../screens/SponsoredBy";
-import Budgets from "../screens/BudgetPage";
+import BudgetNavigator from "./BudgetNavigator";
 import ScanButton from "./ScanButton";
 import routes from "./routes";
 import ScanNavigator from "./ScanNavigator";
@@ -54,7 +54,7 @@ const AppNavigator = () => (
     />
     <Tab.Screen
       name="Budget"
-      component={Budgets}
+      component={BudgetNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="currency-usd" color={color} size={size} />

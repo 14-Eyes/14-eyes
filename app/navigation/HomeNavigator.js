@@ -22,7 +22,6 @@ import FoodDye from "../screens/FoodDye";
 import Preservatives from "../screens/Preservatives";
 import Sugars from "../screens/Sugars";
 import Vitamins from "../screens/Vitamins";
-import Budgets from "../screens/BudgetPage";
 import Home from "../screens/Home";
 import VitaminNavigator from "./VitaminNavigator";
 
@@ -55,11 +54,6 @@ const HomeNavigator = () => (
       component={VitaminNavigator}
       options={{ title: "List of Vitamins & Minerals", headerShown: false}}
 	/>
-  <Stack.Screen
-    name="Budgets"
-      component={Budgets}
-      options={{ title: "Budgeting Plans" }}
-  />
    <Stack.Screen
     name="Fats"
       component={fa} //
