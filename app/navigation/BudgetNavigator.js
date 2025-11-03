@@ -12,7 +12,7 @@ function BudgetNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Budget"
+        name="BudgetHome"
         component={BudgetScreen}
         options={{ headerShown: false }}
       />
