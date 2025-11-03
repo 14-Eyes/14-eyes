@@ -12,17 +12,43 @@
  */
 
 import React from "react";
-import { StyleSheet, Platform, Text, TouchableOpacity } from "react-native";
-
+import { StyleSheet, Platform, Text, TouchableOpacity, View, } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 
-function AppButton({ title, onPress, color = "primary" }) {
+function AppButton({ title, onPress, color = "primary", style, leftAlign = false, showArrow = false, textStyle, }) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, { backgroundColor: colors[color] }]}
+      style={[styles.button, { backgroundColor: colors[color] }, style]}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      {/* NEW: Layout container */}
+      <View
+        style={[
+          styles.content,
+          leftAlign ? styles.leftAlign : styles.centerAlign,
+        ]}
+      >
+        <Text
+          style={[
+            styles.buttonText,
+            leftAlign ? styles.textLeft : styles.textCenter, textStyle,
+          ]}
+          numberOfLines={1}
+        >
+          {title}
+        </Text>
+
+        {/* Optional right-facing arrow on button*/}
+        {showArrow && (
+          <MaterialCommunityIcons
+            name="chevron-right"
+            size={24}
+            color={colors.white}
+            style={styles.icon}
+          />
+        )}
+      </View>
     </TouchableOpacity>
   );
 }
@@ -43,6 +69,31 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     fontWeight: "bold",
+  },
+  // NEW
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+  },
+  centerAlign: {
+    justifyContent: "center",
+  },
+  leftAlign: {
+    justifyContent: "flex-start",
+    paddingLeft: 1,
+  },
+  textCenter: {
+    textAlign: "center",
+    flex: 1,
+  },
+  textLeft: {
+    textAlign: "left",
+    flex: 1,
+    marginLeft: 8,
+  },
+  icon: {
+    marginRight: 4,
   },
 });
 

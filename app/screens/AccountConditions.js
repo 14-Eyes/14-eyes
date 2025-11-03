@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingTop: 30, // moves top of the list lower on screen
+    paddingTop: 0, // moves top of the list lower on screen
   },
   listWrapper: {
     flex: 1,
