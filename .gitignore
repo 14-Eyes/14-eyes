@@ -57,3 +57,8 @@ Thumbs.db
 Personal\ Notes.txt
 Personal Notes.txt
 app-example/
+firestore-debug.log
+
+# android studio
+.idea/
+local.properties

@@ -29,7 +29,11 @@ import AuthContext from "../auth/context";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
-import Firebase from "../config/firebase";
+import { auth, db} from "../config/firebase";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, doc, setDoc } from "firebase/firestore"; 
+
 import routes from "../navigation/routes";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
@@ -49,7 +53,18 @@ function RegisterScreen({ navigation }) {
   let userID = null;
 
   const handleSubmit = ({ name, email, password }) => {
-    Firebase.auth()
+    auth
+      createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        userID = userCredential.user.uid;
+        authContext.setUser(userCredential.user);
+        db
+          setDoc(doc(db, "users", userID), {/*.collection("users")
+          .doc(`${userID}`)
+          .set({*/
+            name: name,
+          })
+    /*Firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Signed in
@@ -61,8 +76,9 @@ function RegisterScreen({ navigation }) {
           .doc(`${userID}`)
           .set({
             name: name,
-          })
+          })*/
           .then(() => {
+            console.log("Firestore document successfully written for UID:", userID);
             authContext.setUsername(name);
           })
           .catch((error) => {
