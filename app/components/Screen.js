@@ -61,22 +61,21 @@ export default Screen;
 
 /*
 import React from "react";
-import { Platform, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { Platform, KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
 import { SafeAreaView } from "react-native-safe-area-context";
+import colors from "../config/colors";
 
 function Screen({ children, style }) {
   return (
-    <SafeAreaView
-      style={[styles.safeArea]}
-      edges={["top", "left", "right"]} // ensures full device coverage (minus bottom)
-    >
+    <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={[styles.screen, style]}
+        style={styles.keyboardContainer}
       >
-        <View style={[styles.view, style]}>{children}</View>
-        <View style={{ flex: 1 }} />
+        <View style={[styles.view, style]}>
+          {children}
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -85,17 +84,16 @@ function Screen({ children, style }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#af2a2aff",
-  },
-  screen: {
-    flex: 1,
+    backgroundColor: colors.light,
     paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
   },
+  keyboardContainer: {
+    flex: 1,
+  },
   view: {
-    // flex: 1,
-    justifyContent: "flex-end",
+    flex: 1, 
   },
 });
 
-export default Screen; 
+export default Screen;
 */
