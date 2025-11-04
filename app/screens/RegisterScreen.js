@@ -33,9 +33,7 @@ function RegisterScreen({ navigation }) {
     auth
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log("Auth successful! User UID:", userCredential.user.uid);
         userID = userCredential.user.uid;
-        console.log("Attempting to write to Firestore for UID:", userID);
         authContext.setUser(userCredential.user);
         db
           setDoc(doc(db, "users", userID), {/*.collection("users")

@@ -17,22 +17,16 @@ import { Platform } from 'react-native'; // <--- IMPORT Platform for Android che
 const {
   API_KEY,
   AUTH_DOMAIN,
-  DATABASE_URL, //: rawDatabaseUrl,
+  //DATABASE_URL, //currently don't have a db URL, since we aren't using realtime database
   PROJECT_ID,
   MESSAGE_SENDER_ID,
   APP_ID,
 } = Constants.expoConfig.extra;
 
-/*const processedDatabaseURL = (rawDatabaseUrl === "null" || rawDatabaseUrl === undefined || rawDatabaseUrl === "")
-  ? undefined
-  : rawDatabaseUrl;
-*/
-
 const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,
-  databaseURL: DATABASE_URL,
-  //...(processedDatabaseURL && { databaseURL: processedDatabaseURL }),
+  //databaseURL: DATABASE_URL,
   projectId: PROJECT_ID,
   messagingSenderId: MESSAGE_SENDER_ID,
   appId: APP_ID,
@@ -58,11 +52,12 @@ export { app, auth, db, rtdb };
 /*
 if (__DEV__) { // __DEV__ is true in development builds
   const EMULATOR_HOST = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
-  
+
+  // connect Firebase Authentication to its emulator
   console.log(`[Firebase Config] Connecting to Auth Emulator at http://${EMULATOR_HOST}:9099`);
   connectAuthEmulator(auth, `http://${EMULATOR_HOST}:9099`);
 
-  // If you also want to connect Firestore to its emulator
+  // connect Firestore to its emulator
   console.log(`[Firebase Config] Connecting to Firestore Emulator at http://${EMULATOR_HOST}:8080`);
   connectFirestoreEmulator(db, EMULATOR_HOST, 8080);
 
