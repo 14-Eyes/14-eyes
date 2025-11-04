@@ -19,14 +19,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import SponsoredBy from "../screens/SponsoredBy";
+import HomeNavigator from "./HomeNavigator";
 import BudgetNavigator from "./BudgetNavigator";
 import ScanButton from "./ScanButton";
-import routes from "./routes";
 import ScanNavigator from "./ScanNavigator";
+import RecipesNavigator from "./RecipesNavigator";
 import SettingsNavigator from "./SettingsNavigator";
-import RecipesScreen from "../screens/RecipesScreen";
+import routes from "./routes";
 import FoodDye from "../screens/FoodDye";
-import HomeNavigator from "./HomeNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -78,7 +78,7 @@ const AppNavigator = () => (
     />
     <Tab.Screen
       name="Recipes"
-      component={RecipesScreen}
+      component={RecipesNavigator}
       options={{
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="book-open-outline" color={color} size={size} />

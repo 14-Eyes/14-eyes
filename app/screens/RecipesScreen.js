@@ -41,7 +41,7 @@ function RecipesScreen({ navigation }) {
                     <TouchableOpacity
                         key={item.id}
                         style={styles.squareButton}
-                        onPress={() => console.log(`${item.title} pressed`)} // replace with navigation
+                        onPress={() => navigation.navigate("RecipesSubScreen")}
                         activeOpacity={0.8}
                     >
                         <Image source={item.image} style={styles.squareImage} />
@@ -52,7 +52,7 @@ function RecipesScreen({ navigation }) {
             <View style={styles.buttonContainer}>
                 <AppButton
                     title="Want more?"
-                    onPress={() => navigation.navigate("WantMoreScreen")}
+                    onPress={() => navigation.navigate("RecipesWantMore")}
                     color="primary"
                     style={styles.customButton}
                     showArrow
