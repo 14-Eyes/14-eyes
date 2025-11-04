@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     },
     content: {
         flexGrow: 1,
+        paddingTop: height * 0.0,
         padding: 20,
     },
     title: {

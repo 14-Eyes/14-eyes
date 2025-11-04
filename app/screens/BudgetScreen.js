@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start", // evenly space header, buttons, and chatbot button
     alignItems: "center",
     backgroundColor: colors.light,
-    paddingHorizontal: width * 0.025,
-    paddingVertical: height * 0.05,
-    paddingTop: height * 0.04,
+    paddingHorizontal: width * 0.04,
+    paddingVertical: height * 0.08,
+    paddingTop: height * 0.0,
   },
   headerContainer: {
     alignItems: "center",
