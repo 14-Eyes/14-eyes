@@ -11,7 +11,7 @@ const BadStack = createStackNavigator();
 const BadListNavigator = () => (
   <BadStack.Navigator>
   <BadStack.Screen
-	  name="HarmfulIngredients"
+	  name="HarmfulIngredient"
       component={HarmfulIngredients}
       options={{ title: "List of Vitamins & Minerals" }}
 	/>

@@ -24,7 +24,7 @@ const VitStack = createStackNavigator();
 const VitaminNavigator = () => (
   <VitStack.Navigator>
   <VitStack.Screen
-	  name="EssentialNutrients"
+	  name="EssentialNutrient"
       component={EssentialNutrients}
       options={{ title: "List of Vitamins & Minerals" }}
 	/>

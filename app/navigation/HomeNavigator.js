@@ -22,11 +22,11 @@ import FoodDye from "../screens/FoodDye";
 import Preservatives from "../screens/Preservatives";
 import Sugars from "../screens/Sugars";
 import FoodFacts from "../screens/FoodFacts";
-import Budgets from "../screens/BudgetPage";
 import Vitamins from "../screens/Vitamins";
 import Home from "../screens/Home";
 import VitaminNavigator from "./VitaminNavigator";
 import BadListNavigator from "./BadListNavigator";
+import BudgetNavigator from "./BudgetNavigator";
 
 const Stack = createStackNavigator();
 
@@ -38,12 +38,12 @@ const HomeNavigator = () => (
       options={{ title: "Home" }}
 	/>
     <Stack.Screen
-	  name="EssentialNutrient"
+	  name="EssentialNutrients"
       component={VitaminNavigator}
       options={{ title: "Essential Nutrients" }}
 	/>
     <Stack.Screen
-	  name="HarmfulIngredient"
+	  name="HarmfulIngredients"
       component={BadListNavigator}
       options={{ title: "Harmful Ingredients" }}
 	/>
@@ -69,9 +69,10 @@ const HomeNavigator = () => (
 	/>
   <Stack.Screen
     name="Budgets"
-      component={Budgets}
+      component={BudgetNavigator}
       options={{ title: "Budgeting Plans" }}
   />
+  <Stack.Screen
 	  name="Vitamins"
       component={VitaminNavigator}
       options={{ title: "List of Vitamins & Minerals", headerShown: false}}
