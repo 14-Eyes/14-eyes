@@ -22,12 +22,12 @@ const HomeNavigator = () => (
       options={{ title: "Home" }}
 	/>
     <Stack.Screen
-	  name="EssentialNutrients"
+	  name="EssentialNutrient"
       component={VitaminNavigator}
       options={{ title: "Essential Nutrients" }}
 	/>
     <Stack.Screen
-	  name="HarmfulIngredients"
+	  name="HarmfulIngredient"
       component={BadListNavigator}
       options={{ title: "Harmful Ingredients" }}
 	/>

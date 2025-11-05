@@ -67,7 +67,7 @@ export default {
             picture: 'cheese',
             desc: "An explination on what you can do with this.",
             vitaminList: [
-                12, 17, 8,
+                12, 17, 8, 28, 0,
             ],
         },
     ],
