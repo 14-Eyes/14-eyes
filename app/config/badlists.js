@@ -1,3 +1,5 @@
+//Provides a general list of products labeled as 'Bad'
+
 export default {
     dyeChoices: [
         {
