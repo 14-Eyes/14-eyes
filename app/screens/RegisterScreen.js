@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, Image, ImageBackground, View, Platform, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Image, ImageBackground, View, Platform } from "react-native";
 import * as Yup from "yup";
 import AuthContext from "../auth/context";
 
@@ -157,13 +157,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 25,
     backgroundColor: 'white',
-  },
-  logoContainer: {
-    top: 20,
-    margin: 50,
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: 'center',
   },
   buttonContainer: {
     padding: 20,

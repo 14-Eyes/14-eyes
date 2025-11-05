@@ -16,15 +16,8 @@ function FoodFacts({navi}) {
     return (
       <Screen style={styles.container}>
 	    <ScrollView>
-          <AppText style={styles.title}>List of Sugars*</AppText>
-        
-          {sugars.map(sugar => (
-			<AppText style={styles.text} key={sugar.id}>{sugar.label}</AppText>
-          ))}
-
-	  <AppText style={styles.italic}>*Please note: this list contains all the possible sugars that can be present in foods.
-	     The distinction between "good" and "bad" sugars can be found when scanning items using the barcode scanner.</AppText>
-
+          <AppText style={styles.title}>Food Facts</AppText>
+          <AppText style={styles.italic}>Probably put good fats and good sugars here eventually</AppText>
 	    </ScrollView>
       </Screen>
     );

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Image, ImageBackground, StyleSheet, View, Platform, KeyboardAvoidingView } from "react-native";
+import { Image, ImageBackground, StyleSheet, View, Platform } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";

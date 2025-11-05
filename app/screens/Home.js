@@ -1,18 +1,14 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, Text, SafeAreaView, TouchableOpacity, Image, Platform } from "react-native";
-// import Carousel from "react-native-snap-carousel";
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, Image, Platform } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
-// import { SliderBox } from "react-native-image-slider-box";
 
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
-import routes from "../navigation/routes";
 import choices from "../config/funfact";
 const windowWidth = Dimensions.get('window').width;
 
-{/* Change the bannerSponsor.png to change the image ad for the banner (size needs to be 1200px by 250px) */}
 const funfact = choices.funfact; // used to map fun fact
 
 var random_index = 0;
@@ -23,7 +19,6 @@ for(var i=0; i<18; i++)
     //console.log({random_index});
     funfact.splice(random_index, 1);
 }
-
 //console.log("funfact size: %d", funfact.length);
 
 export class Home extends Component {
@@ -56,7 +51,6 @@ export class Home extends Component {
             <Text style={{fontSize: 25}}>{item.title}</Text>
             <Text>{item.text}</Text>
           </View>
-
         )
     }
 
@@ -64,38 +58,38 @@ export class Home extends Component {
         return (
           <><Screen style={styles.container}>
             <Image
-                    style={styles.logo}
-                    source={require("../assets/bannerSponsor.png")}
-                ></Image>
-                <View style={styles.flexContainer}>
-                    <Carousel
-                        loop
-                        autoPlay
-                        autoPlayInterval={6500}
-                        width={windowWidth * 0.9}
-                        height={100}
-                        data={this.state.carouselItems}
-                        scrollAnimationDuration={1000}
-                        renderItem={({ item, index }) => (
-                            <View
-                            key={index}
-                            style={{
-                                backgroundColor: 'floralwhite',
-                                borderRadius: 20,
-                                height: 100,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginHorizontal: 10,
-                                padding: 10,
-                            }}
-                            >
-                            <Text style={{ fontSize: 18, textAlign: 'center' }}>
-                                {item.text}
-                            </Text>
-                            </View>
-                        )}
-                    />
-                </View>
+                style={styles.logo}
+                source={require("../assets/bannerSponsor.png")}
+            ></Image>
+            <View style={styles.flexContainer}>
+                <Carousel
+                    loop
+                    autoPlay
+                    autoPlayInterval={6500}
+                    width={windowWidth * 0.9}
+                    height={100}
+                    data={this.state.carouselItems}
+                    scrollAnimationDuration={1000}
+                    renderItem={({ item, index }) => (
+                        <View
+                        key={index}
+                        style={{
+                            backgroundColor: 'floralwhite',
+                            borderRadius: 20,
+                            height: 100,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginHorizontal: 10,
+                            padding: 10,
+                        }}
+                        >
+                        <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                            {item.text}
+                        </Text>
+                    </View>
+                    )}
+                />
+            </View>
                <View style={styles.buttonGood}>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('EssentialNutrients')}
@@ -118,8 +112,8 @@ export class Home extends Component {
                         <Image source={require('../assets/food_facts.png')} style={[styles.image]} />
                         <Text style={styles.buttonText}>Other Food Facts</Text>
                     </TouchableOpacity>
-                   </View>
-               </Screen></>
+                </View>
+            </Screen></>
         );
     }
 }
@@ -137,7 +131,6 @@ const styles = StyleSheet.create({
         bottom: 10,
     },
     flexContainer: {
-        //flex: 1,
         flexDirection:'row',
         justifyContent: 'center',
         top: 60,

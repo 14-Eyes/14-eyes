@@ -6,13 +6,11 @@ import fa from "../screens/Fats";
 import FoodDye from "../screens/FoodDye";
 import Preservatives from "../screens/Preservatives";
 import Sugars from "../screens/Sugars";
-import Vitamins from "../screens/Vitamins";
-import EssentialNutrients from "../screens/EssentialNutrients";
-import HarmfulIngredients from "../screens/HarmfulIngredients";
 import FoodFacts from "../screens/FoodFacts";
 import Budgets from "../screens/BudgetPage";
 import Home from "../screens/Home";
 import VitaminNavigator from "./VitaminNavigator";
+import BadListNavigator from "./BadListNavigator";
 
 const Stack = createStackNavigator();
 
@@ -25,12 +23,12 @@ const HomeNavigator = () => (
 	/>
     <Stack.Screen
 	  name="EssentialNutrients"
-      component={EssentialNutrients}
+      component={VitaminNavigator}
       options={{ title: "Essential Nutrients" }}
 	/>
     <Stack.Screen
 	  name="HarmfulIngredients"
-      component={HarmfulIngredients}
+      component={BadListNavigator}
       options={{ title: "Harmful Ingredients" }}
 	/>
     <Stack.Screen
@@ -52,11 +50,6 @@ const HomeNavigator = () => (
 	  name="Sugars"
       component={Sugars}
       options={{ title: "List of Sugars" }}
-	/>
-  <Stack.Screen
-	  name="Vitamins"
-      component={VitaminNavigator}
-      options={{ title: "List of Vitamins & Minerals" }, {headerShown: false}}
 	/>
   <Stack.Screen
     name="Budgets"

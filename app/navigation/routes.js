@@ -14,6 +14,7 @@ export default Object.freeze({
   FOOD_ITEM: "FoodDetails",
   DYES: "FoodDye",
   NUTRIENTS: "EssentialNutrients",
+  FOOD_LIST: "FoodList",
   HARMFUL_INGREDIENTS: "HarmfulIngredients",
   FOOD_FACTS: "FoodFacts",
   PRESERVATIVES: "Preservatives",
