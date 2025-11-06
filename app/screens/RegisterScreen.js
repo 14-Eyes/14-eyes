@@ -97,82 +97,84 @@ function RegisterScreen({ navigation }) {
           style={styles.background}
           source={require("../assets/welcome_2.png")}
     >
-    <View style={styles.logoContainer}>
+    <Screen style={styles.container}>
       <Image
         style={styles.logo}
         source={require("../assets/appsponsor_2.png")}
       ></Image>
-    </View>
+            <View style={styles.boxContainer}>
+                <View style={styles.buttonContainer}>
+                <AppForm
+                  initialValues={{
+                    name: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                  }}
+                  onSubmit={handleSubmit}
+                  validationSchema={validationSchema}
+                >
+                  <AppFormField
+                    name="name"
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    icon="account"
+                    placeholder="Name"
+                    textContentType="name"
+                  />
+                  <AppFormField
+                    name="email"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
+                    icon="email"
+                    placeholder="Email"
+                    textContentType="emailAddress"
+                  />
+                  <AppFormField
+                    name="password"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    icon="lock"
+                    placeholder="Password"
+                    secureTextEntry
+                    textContentType="password"
+                  />
+                  <AppFormField
+                    name="confirmPassword"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    icon="lock-question"
+                    placeholder="Confirm Password"
+                    secureTextEntry
+                    textContentType="password"
+                  />
 
-    <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-      <AppForm
-        initialValues={{
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        }}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        <AppFormField
-          name="name"
-          autoCapitalize="words"
-          autoCorrect={false}
-          icon="account"
-          placeholder="Name"
-          textContentType="name"
-        />
-        <AppFormField
-          name="email"
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="email-address"
-          icon="email"
-          placeholder="Email"
-          textContentType="emailAddress"
-        />
-        <AppFormField
-          name="password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          placeholder="Password"
-          secureTextEntry
-          textContentType="password"
-        />
-        <AppFormField
-          name="confirmPassword"
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock-question"
-          placeholder="Confirm Password"
-          secureTextEntry
-          textContentType="password"
-        />
+                  <View style={styles.fixContainer}>
+                    <SubmitButton title="Register" color='black' />
 
-        <View style={styles.fixContainer}>
-          <SubmitButton title="Register" color='black' />
-
-          <AppText style={styles.text}>
-                —————— OR ——————
-          </AppText>
-          <AppButton
-            title="back"
-            onPress={() => navigation.goBack()} // adding goBack() makes screen slide from left to right
-          />
-        </View>
-      </AppForm>
-      </View>
-    </View>
-
+                    <AppText style={styles.text}>
+                          —————— OR ——————
+                    </AppText>
+                    <AppButton
+                      title="back"
+                      onPress={() => navigation.navigate(routes.LOGIN)}
+                    />
+                  </View>
+                </AppForm>
+                </View>
+              </View>
+        </Screen>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    top: 15,
+    padding: 2,
+  },
+  boxContainer: {
     marginBottom: 20,
     marginHorizontal: 25,
     justifyContent: 'center', // Center the box vertically
@@ -194,13 +196,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 25,
     backgroundColor: 'white',
-  },
-  logoContainer: {
-    top: 20,
-    margin: 50,
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: 'center',
   },
   buttonContainer: {
     padding: 20,

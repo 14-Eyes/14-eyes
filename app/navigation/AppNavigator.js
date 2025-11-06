@@ -30,6 +30,8 @@ import FoodDye from "../screens/FoodDye";
 
 const Tab = createBottomTabNavigator();
 
+// https://static.enapter.com/rn/icons/material-community.html for MaterialCommunityIcons
+
 const AppNavigator = () => (
   <Tab.Navigator
     // hides the default header globally so we can add our own header styles
