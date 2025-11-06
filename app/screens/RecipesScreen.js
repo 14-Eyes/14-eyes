@@ -14,7 +14,7 @@ import colors from "../config/colors";
 
 const { width, height } = Dimensions.get("window");
 
-// recipe button data (replace images/titles)
+// recipe button data (replace images/titles later)
 const recipeButtons = [
   { id: 1, title: "Sample Recipe Placeholder 1", image: require("../assets/sampleRecipe.png") },
   { id: 2, title: "Sample Recipe 2", image: require("../assets/sampleRecipe.png") },
@@ -64,7 +64,8 @@ function RecipesScreen({ navigation }) {
   );
 }
 
-const squareSize = width * 0.36; // 2 per row with spacing inbetween
+//determines size of the square buttons
+const squareSize = width * 0.36;
 
 const styles = StyleSheet.create({
     container: {
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
 	},
 
     // for the square recipe buttons
+    // 2 buttons per row with spacing inbetween
     grid: {
         flexDirection: "row",
         flexWrap: "wrap",

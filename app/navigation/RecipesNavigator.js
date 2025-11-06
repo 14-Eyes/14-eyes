@@ -23,7 +23,7 @@ function RecipesNavigator() {
       <Stack.Screen
         name="RecipesSubScreen"
         component={RecipesSubScreen}
-        options={({ navigation }) => getSubScreenHeaderBack(navigation)}	  
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
