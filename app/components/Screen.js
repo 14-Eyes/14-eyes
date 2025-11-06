@@ -21,45 +21,67 @@
 
 import React from "react";
 import { Platform, KeyboardAvoidingView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import Constants from "expo-constants";
 import colors from "../config/colors";
 
 /*  
     If you ever need to add edge to edge componenets onto the screen
-    (like an image background), try using the following code to manually 
-    override the whole screen formatting this file provides:
+    (like an image background), make your Screen component like this:
+        <Screen transparentBackground style={styles.whateverStyle}>
+          content here
+        </Screen>
+*/
 
-    <Screen style={{ paddingTop: 0 }}>
-      { custom full screen layout goes here }
-    </Screen>
+/* ANOTHER NOTE:
+    I have the transparentBackground linked to a conditional 'justifyContent: flex-end',
+    this is because I only want this to apply to the Login, Register, and Forgot Password screens.
+    This would be located inside the styles.view, like the old code, but for some reason
+    this breaks other screens, so I made this conditional.
+
+    ** I'm not sure how to add this to other screens yet without also adding the transparentBackground conditional
+
 */
 
 function Screen({ children, style, transparentBackground = false }) {
   const headerHeight = useHeaderHeight(); // returns 0 if no header is present on screen
-  
+  const insets = useSafeAreaInsets();
+
   return (
-    <SafeAreaView
-      style={[
-        styles.safeArea,
-        // if there's no header on the screen, adds top padding equal to the status bar height. otherwise, if there is a header, no padding is added
-        headerHeight === 0 && { paddingTop: Constants.statusBarHeight },
-        
-        // default to app color.light, but allow transparency per-screen (for screens like login)
-        transparentBackground ? { backgroundColor: "transparent" } : { backgroundColor: colors.light },
-      ]}
-      edges={["left", "right"]} // could add "bottom" also
-    >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardContainer}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.keyboardContainer}
+      keyboardVerticalOffset={insets.bottom + Constants.statusBarHeight}    >
+      <SafeAreaView
+        style={[
+          styles.safeArea,
+          // if there's no header on the screen, adds top padding equal to the status bar height. otherwise, if there is a header, no padding is added
+          headerHeight === 0 && { paddingTop: Constants.statusBarHeight },
+          
+          // default to app color.light, but allow transparency per-screen (for screens like login)
+          transparentBackground
+            ? { backgroundColor: "transparent" }
+            : { backgroundColor: colors.light },
+        ]}
+        edges={["left", "right"]} // could add "bottom" also
       >
-        <View style={[styles.view, style]}>
+      
+        {/* apply 'flex: 1' for normal screens */}
+        <View
+          style={[
+            transparentBackground ? styles.flexEndView : styles.flexFullView,
+            style,
+          ]}
+        >
           {children}
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        
+        {/* spacer for keyboard lift on transparent screens (like login) */}
+        {transparentBackground && <View style={{ flex: 1 }} />}
+      
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -71,8 +93,14 @@ const styles = StyleSheet.create({
   keyboardContainer: {
     flex: 1,
   },
-  view: {
-    flex: 1, 
+  // layout for most screens
+  flexFullView: {
+    flex: 1,
+  },
+   // layout for login, register, forgot pass
+   // may want to add this to Home, since those screens were created using this
+  flexEndView: {
+    justifyContent: "flex-end",
   },
 });
 
