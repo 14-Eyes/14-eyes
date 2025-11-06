@@ -97,7 +97,8 @@ function RegisterScreen({ navigation }) {
           style={styles.background}
           source={require("../assets/welcome_2.png")}
     >
-    <Screen style={styles.container}>
+    {/* added transparentBackground to ensure background image fully shows */}
+    <Screen transparentBackground style={styles.container}>
       <Image
         style={styles.logo}
         source={require("../assets/appsponsor_2.png")}

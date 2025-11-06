@@ -36,7 +36,7 @@ import colors from "../config/colors";
     </Screen>
 */
 
-function Screen({ children, style }) {
+function Screen({ children, style, transparentBackground = false }) {
   const headerHeight = useHeaderHeight(); // returns 0 if no header is present on screen
   
   return (
@@ -45,6 +45,9 @@ function Screen({ children, style }) {
         styles.safeArea,
         // if there's no header on the screen, adds top padding equal to the status bar height. otherwise, if there is a header, no padding is added
         headerHeight === 0 && { paddingTop: Constants.statusBarHeight },
+        
+        // default to app color.light, but allow transparency per-screen (for screens like login)
+        transparentBackground ? { backgroundColor: "transparent" } : { backgroundColor: colors.light },
       ]}
       edges={["left", "right"]} // could add "bottom" also
     >
@@ -63,7 +66,6 @@ function Screen({ children, style }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.light,
     paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
   },
   keyboardContainer: {
