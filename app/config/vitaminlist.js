@@ -16,242 +16,272 @@ export default {
     vitamins: [
         {
             id: 1,
-            label: "VITAMIN A",
+            label: "Vitamin A",
             use: "Plays an important role in bone growth and in the immune system",
-            good: [
-                "Sweet potatoes", "Carrots", "Pumpkins", "Squash", "Spinach", "Mangoes", "Turnip greens",
+            buttonColor: "#5F2879",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 2,
-            label: "VITAMIN B1",
+            label: "Vitamin B1",
             use: "Helps convert food into energy and is critical for nerve function",
-            good: [
-                "Pork chops", "Brown rice", "Ham", "Soymilk", "Watermelons", "Acorn squash",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 3,
-            label: "VITAMIN B2",
+            label: "Vitamin B2",
             use: "Helps convert food into energy. Needed for healthy skin, hair, blood, and brain",
-            good: [
-                "Milk", "Eggs", "Yogurt", "Cheese", "Meats", "Green leafy vegetables", "Whole and enriched grains and cereals",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 4,
-            label: "VITAMIN B3",
+            label: "Vitamin B3",
             use: "Helps convert food into energy. Essential for healthy skin, blood cells, brain, and nervous system",
-            good: [
-                "Meat", "Poultry", "Fish", "Fortified and whole grains", "Mushrooms", "Potatoes", "Peanut butter",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 5,
-            label: "VITAMIN B5",
+            label: "Vitamin B5",
             use: "Helps convert food into energy. Helps make lipids (fats), neurotransmitters, steroid hormones, and hemoglobin",
-            good: [
-                "Chicken", "Egg yolk", "Whole grains", "Broccoli", "Mushrooms", "Avocados", "Tomato products",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 6,
-            label: "VITAMIN B6",
+            label: "Vitamin B6",
             use: "Aids in lowering homocysteine levels and may reduce the risk of heart disease",
-            good: [
-                "Meat", "Fish", "Poultry", "Legumes", "Tofu and other soy products", "Potatoes", "Noncitrus fruits",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 7,
-            label: "VITAMIN B12",
+            label: "Vitamin B12",
             use: "Aids in lowering homocysteine levels and may lower the risk of heart disease. Assists in making new cells",
-            good: [
-                "Meat", "Poultry", "Fish", "Milk", "Cheese", "Eggs", "Fortified cereals", "Fortified soymilk",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 8,
-            label: "BIOTIN",
+            label: "Biotin",
             use: "Helps convert food into energy and synthesize glucose",
-            good: [
-                "Whole grains", "Organ meats", "Egg yolks", "Soybeans", "Fish",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 9,
-            label: "VITAMIN C",
+            label: "Vitamin C",
             use: "Long-term use of supplemental vitamin C may protect against cataracts. Helps make collagen, a connective tissue that knits together wounds and supports blood vessel walls",
-            good: [
-                "Fruits and fruit juices (especially citrus)", "Potatoes", "Broccoli", "Bell peppers", "Spinach", "Strawberries", "Tomatoes", "Brussels sprouts",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 10,
-            label: "CHOLINE",
+            label: "Choline",
             use: "Helps make and release the neurotransmitter acetylcholine, which aids in many nerve and brain activities",
-            good: [
-                "Milk", "Eggs", "Liver", "Salmon", "Peanuts",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 11,
-            label: "VITAMIN D",
+            label: "Vitamin D",
             use: "Helps maintain normal blood levels of calcium and phosphorus, which strengthen bones",
-            good: [
-                "Fortified milk or margarine", "Fortified cereals", "Fatty fish",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 12,
-            label: "VITAMIN E",
+            label: "Vitamin E",
             use: "Acts as an antioxidant, neutralizing unstable molecules that can damage cells",
-            good: [
-                "Vegetable oils", "Salad dressings", "Wheat germ", "Leafy green vegetables", "Whole grains", "Nuts",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 13,
-            label: "VITAMIN Bg",
+            label: "Vitamin Bg",
             use: "Helps prevent brain and spine birth defects when taken early in pregnancy",
-            good: [
-                "Fortified grains and cereals", "Asparagus", "Okra", "Spinach", "Turnip greens", "Broccoli", "Legumes", "Orange juice", "Tomato juice",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 14,
-            label: "VITAMIN K",
+            label: "Vitamin K",
             use: "Activates proteins and calcium essential to blood clotting. May help prevent hip fractures",
-            good: [
-                "Cabbage", "Liver", "Eggs", "Milk", "Spinach", "Broccoli", "Sprouts", "Kale", "Collards",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 15,
-            label: "CALCIUM",
+            label: "Calcium",
             use: "Builds and protects bones and teeth",
-            good: [
-                "Yogurt", "Cheese", "Milk", "Tofu", "Sardines", "Salmon", "Fortified juices", "Leafy green vegetables, like broccoli and kale",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 16,
-            label: "CHLORIDE",
+            label: "Chloride",
             use: "Balances fluids in the body",
-            good: [
-                "Salt (sodium chloride)", "Soy sauce",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 17,
-            label: "CHROMIUM",
+            label: "Chronium",
             use: "Enhances the activity of insulin, helps maintain normal blood glucose levels, and is needed to free energy from glucose",
-            good: [
-                "Meat", "Poultry", "Fish", "Eggs", "Potatoes", "Nuts", "Cheese",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 18,
-            label: "COPPER",
+            label: "Copper",
             use: "Plays an important role in iron metabolism and immune system",
-            good: [
-                "Liver", "Shellfish", "Nuts", "Seeds", "Whole-grain products", "Beans", "Prunes", "Cocoa", "Black pepper",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 19,
-            label: "FLUORIDE",
+            label: "Fluoride",
             use: "Encourages strong bone formation. Keeps dental cavities from starting or worsening",
-            good: [
-                "Water that is fluoridated", "Toothpaste with fluoride", "Marine fish", "Teas",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 20,
-            label: "IODINE",
+            label: "Iodine",
             use: "Part of thyroid hormone, which helps set body temperature and influences nerve and muscle function",
-            good: [
-                "Iodized salt", "Processed foods", "Seafood",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 21,
-            label: "IRON",
+            label: "Iron",
             use: "Helps hemoglobin in red blood cells and myoglobin in muscle cells ferry oxygen throughout the body",
-            good: [
-                "Red meat", "Poultry", "Eggs", "Fruits", "Green vegetables", "Fortified bread and grain products",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 22,
-            label: "MAGNESIUM",
+            label: "Magnesium",
             use: "Works with calcium in muscle contraction, blood clotting, and regulation of blood pressure",
-            good: [
-                "Green vegetables", "Legumes", "Cashews", "Sunflower seeds and other seeds", "Halibut", "Whole-wheat bread", "Milk",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 23,
-            label: "MANGANESE",
+            label: "Manganese",
             use: "Helps form bones. Helps metabolize amino acids, cholesterol, and carbohydrates",
-            good: [
-                "Fish", "Nuts", "Legumes", "Whole grains", "Tea",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 24,
-            label: "MOLYBDENUM",
+            label: "Molybdenum",
             use: "Part of several enzymes, one of which helps ward off a form of severe neurological damage in infants",
-            good: [
-                "Legumes", "Nuts", "Grain products", "Milk",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 25,
-            label: "PHOSPHORUS",
+            label: "Phosphorus",
             use: "Helps build and protect bones and teeth. Part of DNA and RNA. Helps convert food into energy",
-            good: [
-                "Milk and dairy products", "Meat", "Fish", "Poultry", "Eggs", "Liver", "Green peas", "Broccoli", "Potatoes", "Almonds",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 26,
-            label: "POTASSIUM",
+            label: "Potassium",
             use: "Balances fluids in the body. Helps maintain steady heartbeat and send nerve impulses",
-            good: [
-                "Meat", "Milk", "Fruits", "Vegetables", "Grains", "Legumes",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 27,
-            label: "SELENIUM",
+            label: "Selenium",
             use: "Acts as an antioxidant, neutralizing unstable molecules that can damage cells",
-            good: [
-                "Organ meats", "Seafood", "Walnuts", "Grain products",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 28,
-            label: "SODIUM",
+            label: "Sodium",
             use: "Balances fluids in the body. Helps send nerve impulses. Needed for muscle contractions",
-            good: [
-                "Salt", "Soy sauce", "Vegetables",
+            buttonColor: "#00BA71",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 29,
-            label: "SULFUR",
+            label: "Sulfur",
             use: "Needed for healthy hair, skin, and nails",
-            good: [
-                "Meats", "Fish", "Poultry", "Nuts", "Legumes",
+            buttonColor: "#ea9c60",
+            linkTo: [
+                1, 2,
             ],
         },
         {
             id: 30,
-            label: "ZINC",
+            label: "Zinc",
             use: "Needed for immune system, taste, smell, and wound healing",
-            good: [
-                "Red meat", "Poultry", "Oysters and other seafood", "Fortified cereals", "Beans", "Nuts",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2,
             ],
         },
     ],

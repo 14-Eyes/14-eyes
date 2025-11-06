@@ -14,23 +14,49 @@
  */
 
 import React from "react";
-import { FlatList, StyleSheet, View, ScrollView } from "react-native";
+import { FlatList, StyleSheet, View, ScrollView, TouchableOpacity, Text, Image, Platform } from "react-native";
 
 import AppText from "../components/AppText";
+import AppButton from "../components/AppButton";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import foodz from "../config/foods";
+import imageSource from "../config/photoBank";
+import vit from "../config/vitaminlist";
+
+const vitamins = vit.vitamins;
 
 //Takes the vitamin parameter set when navigating to display its name and list of good food
-export const FoodsForVitamin = ({route}) => {
-    const goodFoods = route.params.vitamin.good
+export const FoodsForVitamin = ({route, navigation}) => {
+    const foodList = route.params.food.mapToo
+
     return (
         <Screen style={styles.container}>
-            <AppText style={styles.title}>Good sources of {route.params.vitamin.label}</AppText>
-            <AppText style={styles.use}>{route.params.vitamin.use}</AppText>
-            {goodFoods.map(Food => (
-          <AppText style={styles.text} key={Food.toString()}>{Food}</AppText>
-          ))}
-          
+            <ScrollView>
+            <AppText style={styles.title}>{route.params.food.label}</AppText>
+            <AppText style={styles.italic}>{route.params.food.pageDesc}</AppText>
+
+            {foodList.map(food => (
+              <View style={styles.imageContainer} key={food.id}>
+                <Image source={imageSource[food.picture]} style={[styles.image]} />
+                <Text style={styles.imageText}>{food.label}</Text>
+                <Text style={styles.smallText}>{food.desc}</Text>
+
+                <View style={styles.listContainer}>
+                  {food.vitaminList.map(vitamin => (
+                    <View style={styles.vitaminContainer} key={vitamin.toString()}>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('Vitamins',{vitamin: vitamins[vitamin]})}
+                        style={[styles.button, { backgroundColor: vitamins[vitamin].buttonColor }]}
+                        >
+                          <Text style={styles.buttonText}>{vitamins[vitamin].label}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                  </View>
+              </View>
+              ))}
+            </ScrollView>
         </Screen>
     );
 }
@@ -45,27 +71,76 @@ const styles = StyleSheet.create({
     container: {
       alignItems: "center",
       justifyContent: "center",
-      padding: 10,
+      padding: 5,
       backgroundColor: colors.light,
     },
     title: {
-      color: colors.buttongreen,
       fontSize: 40,
       marginBottom: 20,
       marginTop: 0,
       textAlign: "center",
     },
-    text: {
-      fontSize: 25,
-      textAlign: "center",
+    italic: {
+        fontStyle: 'italic',
+        textAlign: "center",
+        marginBottom: 10,
+        fontSize: 14,
     },
-    use: {
-      fontStyle: 'italic',
-      textAlign: "center",
-      marginBottom: 20,
-      fontSize: 15,
+    imageText: {
+        fontSize: 18,
+        textTransform: "uppercase",
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
+        fontWeight: "bold",
+        position: 'absolute',
+        color: colors.black,
+        alignSelf: 'center',
+        top: 80,
     },
-    
+    image: {
+        height: 150,
+        width: "100%",
+        borderRadius: 25,
+    },
+    smallText: {
+        fontSize: 12,
+        fontStyle: 'italic',
+        textAlign: "center",
+        color: colors.medium,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
+        top: 10,
+    },
+    imageContainer: {
+      padding: 20,
+      flexDirection: 'column', // Align children horizontally
+      width: 350,
+    },
+    listContainer: {
+      flex: 1,
+      flexDirection: 'row', // Align children horizontally
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
+    vitaminContainer: {
+      justifyContent: 'center', // Push items to the right end of the row
+      alignItems: 'center', // Optionally, center items vertically
+      padding: 10,
+      width: '33%',
+    },
+    button: {
+      height: 50,
+      width: 100,
+      borderRadius: 25,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    buttonText: {
+      fontSize: 12,
+      color: colors.white,
+      textTransform: "uppercase",
+      fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
+      fontWeight: "bold",
+      position: 'absolute',
+    },
   });
 
   export default FoodsForVitamin;

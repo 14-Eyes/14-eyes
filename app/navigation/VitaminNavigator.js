@@ -13,6 +13,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import EssentialNutrients from "../screens/EssentialNutrients";
 import Vitamins from "../screens/Vitamins";
 import Foods from "../screens/FoodsForVitamin";
 
@@ -23,15 +24,20 @@ const VitStack = createStackNavigator();
 const VitaminNavigator = () => (
   <VitStack.Navigator>
   <VitStack.Screen
+	  name="EssentialNutrient"
+      component={EssentialNutrients}
+      options={{ title: "List of Vitamins & Minerals" }}
+	/>
+  <VitStack.Screen
+	  name="FoodList"
+      component={Foods}
+      options={{ title: "List of Vitamins & Minerals" }}
+	/>
+  <VitStack.Screen
 	  name="Vitamins"
       component={Vitamins}
       options={{ title: "List of Vitamins & Minerals" }}
 	/>
-  <VitStack.Screen
-    name="GoodFood"
-      component={Foods}
-      options={{ title: "List of High Vitamin Food Sources" }}
-  />
 
   </VitStack.Navigator>
   );
