@@ -17,17 +17,15 @@ import { Image, ImageBackground, StyleSheet, View, Platform } from "react-native
 import * as Yup from "yup";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
-
 import { auth, db } from "../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import ErrorMessage from "../components/forms/ErrorMessage";
 import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
+import {sendPasswordResetEmail } from "firebase/auth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -37,12 +35,10 @@ function ResetPasswordScreen( { navigation} ) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
 
-
   const handleSubmit = async ({ email }) => {
     try {
-      //const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
+      //Do Stuff
+      sendPasswordResetEmail(authContext, email)
       authContext.setUser(user);
 
       const userDoc = await getDoc(doc(db, "users", user.uid));
