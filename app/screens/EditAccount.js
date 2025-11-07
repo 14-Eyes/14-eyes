@@ -51,12 +51,10 @@ function EditAccount({ navigation }) {
   const handleDeleteConfirm = () => {
     setShowDeleteModal(false);    
 
-    deleteDoc(doc(db, "users", authContext.user.uid)).then(deleteUser(authContext.user));
-
-    navigation.goBack();
+    deleteDoc(doc(db, "users", authContext.user.uid));
+    deleteUser(authContext.user);
     
-
-//    navigation.navigate(routes.LOGIN);
+    navigation.navigate(routes.WELCOME);
   };
 
   return (

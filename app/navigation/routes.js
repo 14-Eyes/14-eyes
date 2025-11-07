@@ -24,7 +24,7 @@ export default Object.freeze({
   ACCOUNT_CONDITIONS: "AccountConditions",
   ACCOUNT_DIETARY_PREFERENCES: "AccountDietaryPreferences",
   FOOD_ITEM: "FoodDetails",
-  LOGIN: "Login",
+  LOGIN: "LoginScreen",
   REGISTER: "Register",
   CHILD_ALERT: "ChildAlert",
   CHILD_SCAN: "Scan",

@@ -61,7 +61,7 @@ const rtdb = getDatabase(app);
 // Export for use in other files
 export { app, auth, db, rtdb };
 
-/*
+
 if (__DEV__) { // __DEV__ is true in development builds
   const EMULATOR_HOST = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 
@@ -77,7 +77,7 @@ if (__DEV__) { // __DEV__ is true in development builds
   // console.log(`[Firebase Config] Connecting to Realtime Database Emulator at http://${EMULATOR_HOST}:9000`);
   // connectDatabaseEmulator(rtdb, EMULATOR_HOST, 9000);
 }
-*/
+
 
 export default app;
 
