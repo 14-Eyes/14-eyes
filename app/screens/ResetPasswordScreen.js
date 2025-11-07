@@ -25,7 +25,7 @@ import AuthContext from "../auth/context";
 import ErrorMessage from "../components/forms/ErrorMessage";
 import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
-import {sendPasswordResetEmail } from "firebase/auth";
+import {getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -34,11 +34,12 @@ const validationSchema = Yup.object().shape({
 function ResetPasswordScreen( { navigation} ) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
+  const auth = getAuth();
 
   const handleSubmit = async ({ email }) => {
     try {
       //Do Stuff
-      sendPasswordResetEmail(authContext, email)
+      sendPasswordResetEmail(auth, email)
       authContext.setUser(user);
 
       const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -70,12 +71,12 @@ function ResetPasswordScreen( { navigation} ) {
       <View style={styles.boxContainer}>
         <View style={styles.buttonContainer}>
           <AppForm
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ email: ""}}
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
             >
             <ErrorMessage
-              error="Invalid email and/or password."
+              error="Invalid email."
               visible={loginFailed}
             />
             <AppFormField
