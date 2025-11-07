@@ -19,7 +19,7 @@ import React, { useContext, useState } from "react";
 import { Image, ImageBackground, StyleSheet, View, Platform } from "react-native";
 import * as Yup from "yup";
 
-import Screen from "../components/Screen";
+import ScreenAuth from "../components/ScreenAuth";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
 
@@ -71,8 +71,8 @@ function LoginScreen( { navigation} ) {
       style={styles.background}
       source={require("../assets/welcome_2.png")}
     >
-      {/* added transparentBackground to ensure background image fully shows */}
-      <Screen transparentBackground style={styles.container}>
+      {/* VOIDED - added transparentBackground to ensure background image fully shows */}
+      <ScreenAuth style={styles.container}>
         <Image
             style={styles.logo}
             source={require("../assets/eltrRainbow_new.png")}
@@ -125,7 +125,7 @@ function LoginScreen( { navigation} ) {
             </AppForm>
           </View>
         </View>
-      </Screen>
+      </ScreenAuth>
     </ImageBackground>
   );
 }

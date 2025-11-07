@@ -26,6 +26,8 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import Constants from "expo-constants";
 import colors from "../config/colors";
 
+// Okay none of these edits do anything anymore since I made a new ScreenAccount.js file for just the login, register, and reset pass screens lol :'(
+
 /*  
     If you ever need to add edge to edge componenets onto the screen
     (like an image background), make your Screen component like this:
