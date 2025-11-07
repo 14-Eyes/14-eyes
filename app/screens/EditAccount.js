@@ -47,14 +47,13 @@ function EditAccount({ navigation }) {
   ];
   // console.log("AuthContext:", authContext);
 
+      const { setUser } = useContext(AuthContext);
   // DELETE ACCOUNT
   const handleDeleteConfirm = () => {
     setShowDeleteModal(false);    
-
     deleteDoc(doc(db, "users", authContext.user.uid));
     deleteUser(authContext.user);
-    
-    navigation.navigate(routes.WELCOME);
+    setUser(null);
   };
 
   return (
