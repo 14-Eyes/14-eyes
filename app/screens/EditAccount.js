@@ -20,6 +20,10 @@ import ListItemSeparator from "../components/lists/ListItemSeparator";
 import routes from "../navigation/routes";
 import AuthContext from "../auth/context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { db } from "../config/firebase";
+import {deleteUser } from "firebase/auth";
+import { deleteDoc, doc } from "firebase/firestore"
+
 
 function EditAccount({ navigation }) {
   const authContext = useContext(AuthContext);
@@ -45,8 +49,14 @@ function EditAccount({ navigation }) {
 
   // DELETE ACCOUNT
   const handleDeleteConfirm = () => {
-    setShowDeleteModal(false);
-    console.log("Account deleted"); // replace this with actual delete logic
+    setShowDeleteModal(false);    
+
+    deleteDoc(doc(db, "users", authContext.user.uid)).then(deleteUser(authContext.user));
+
+    navigation.goBack();
+    
+
+//    navigation.navigate(routes.LOGIN);
   };
 
   return (
