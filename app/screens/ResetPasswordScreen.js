@@ -42,6 +42,7 @@ function ResetPasswordScreen( { navigation} ) {
       await sendPasswordResetEmail(auth, email)
       console.log("Working?");
       setValidEmail(true);
+      setLoginFailed(false);
       /*
       OLD CODE
       authContext.setUser(user);
@@ -53,6 +54,7 @@ function ResetPasswordScreen( { navigation} ) {
         console.log("No such document!");
       }*/
     } catch (error) {
+      setValidEmail(false);
       setLoginFailed(true);
       console.log("Login error:", error);
     }
@@ -81,8 +83,7 @@ function ResetPasswordScreen( { navigation} ) {
               visible={loginFailed}
             />
             <GoodMessage
-              //Temporary Holder
-              result="Valid email."
+              result="A reset link has been sent to your inbox!"
               visible={validEmail}
             />
             <AppFormField
