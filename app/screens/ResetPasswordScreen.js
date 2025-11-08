@@ -19,7 +19,7 @@ import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
 import { auth, db } from "../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import Screen from "../components/Screen";
+import ScreenAuth from "../components/ScreenAuth";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import {ErrorMessage, GoodMessage} from "../components/forms/ErrorMessage";
@@ -66,7 +66,8 @@ function ResetPasswordScreen( { navigation} ) {
       style={styles.background}
       source={require("../assets/welcome_2.png")}
     >
-      <Screen style={styles.container}>
+      {/* VOIDED - added transparentBackground to ensure background image fully shows */}
+      <ScreenAuth style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/eltrRainbow_new.png")}
@@ -105,7 +106,7 @@ function ResetPasswordScreen( { navigation} ) {
           </AppForm>
         </View>
       </View>
-      </Screen>
+      </ScreenAuth>
     </ImageBackground>
   );
 }

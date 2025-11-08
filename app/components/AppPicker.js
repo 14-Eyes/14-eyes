@@ -33,6 +33,7 @@ import {
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Constants from "expo-constants";
 
 import defaultStyles from "../config/styles";
 import AppText from "./AppText";
@@ -79,22 +80,24 @@ function AppPicker({
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType="slide">
         <Screen>
-          <Button title="Close" onPress={() => setModalVisible(false)} />
-          <FlatList
-            columnWrapperStyle={modalStyle}
-            numColumns={numColumns}
-            data={items}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <PickerItemComponent
-                item={item}
-                onPress={() => {
-                  setModalVisible(false);
-                  onSelectItem(item);
-                }}
-              />
-            )}
-          />
+          <View style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
+            <Button title="Close" onPress={() => setModalVisible(false)} />
+            <FlatList
+              columnWrapperStyle={modalStyle}
+              numColumns={numColumns}
+              data={items}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <PickerItemComponent
+                  item={item}
+                  onPress={() => {
+                    setModalVisible(false);
+                    onSelectItem(item);
+                  }}
+                />
+              )}
+            />
+          </View>
         </Screen>
       </Modal>
     </>
@@ -104,6 +107,7 @@ function AppPicker({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    paddingTop: 0,
     padding: 15,
     marginVertical: 10,
     alignItems: "center",

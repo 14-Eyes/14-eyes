@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: TOOLTIP_HEIGHT, // reserve space for tooltip
   },
   listContent: {
-    paddingBottom: 45, // adds padding at the end of the list
+    // paddingBottom: 45, // adds padding at the end of the list
   },
   toolTipContainer: {
     height: TOOLTIP_HEIGHT,
