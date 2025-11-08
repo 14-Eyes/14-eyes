@@ -22,7 +22,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
-import ErrorMessage from "../components/forms/ErrorMessage";
+import {ErrorMessage, GoodMessage} from "../components/forms/ErrorMessage";
 import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
 import {getAuth, sendPasswordResetEmail } from "firebase/auth";
@@ -79,9 +79,9 @@ function ResetPasswordScreen( { navigation} ) {
               error="Invalid email."
               visible={loginFailed}
             />
-            <ErrorMessage
+            <GoodMessage
               //Temporary Holder
-              error="Valid email."
+              result="Valid email."
               visible={!loginFailed}
             />
             <AppFormField

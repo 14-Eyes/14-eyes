@@ -18,9 +18,18 @@ function ErrorMessage({ error, visible }) {
   return <AppText style={styles.error}>{error}</AppText>;
 }
 
+function GoodMessage({ result, visible }) {
+  if (visible || !result) return null;
+
+  return <AppText style={styles.good}>{result}</AppText>;
+}
+
 const styles = StyleSheet.create({
   error: {
     color: "red",
+  },
+  good: {
+    color: "green",
   },
 });
 export default ErrorMessage;
