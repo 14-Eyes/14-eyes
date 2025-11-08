@@ -26,7 +26,8 @@ import colors from "../config/colors";
 import ListItemSeparator from "../components/lists/ListItemSeparator";
 import routes from "../navigation/routes";
 import AuthContext from "../auth/context";
-import Firebase from "../config/firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -73,12 +74,19 @@ const menuItems = [
   },
 ];
 
-// logout function does not work currently
+// logout function
 function SettingsScreen( { navigation } ) {
   const authContext = useContext(AuthContext);
 
-  const handleLogOut = () => {
-    Firebase.auth()
+  const handleLogOut = async () => {
+    try {
+		await signOut(auth);
+		console.log('user signed out');
+	} catch (error) {
+		console.log('logout error:', error);
+	}
+	//old logout code that doesnt work
+	/*Firebase.auth()
       .signOut()
       .then(() => {
         // Sign-out successful.
@@ -86,7 +94,7 @@ function SettingsScreen( { navigation } ) {
       })
       .catch((error) => {
         console.log(error);
-      });
+      });*/
   };
 
   return (

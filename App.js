@@ -11,10 +11,11 @@
 
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import navigationTheme from "./app/navigation/navigationTheme";
 import AdNavigator from "./app/navigation/AdNavigator";
@@ -22,6 +23,8 @@ import AppNavigator from "./app/navigation/AppNavigator";
 import ChildNavigator from "./app/navigation/ChildNavigator";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import AuthContext from "./app/auth/context";
+import { auth } from "./app/config/firebase";
+//import { firebase } from "@react-native-firebase/auth";
 
 
 const Stack = createStackNavigator();
@@ -29,6 +32,20 @@ const Stack = createStackNavigator();
 export default function App() {
   const [user, setUser] = useState();
   const [username, setUsername] = useState();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        console.log('User Authenticated:', firebaseUser.email);
+        setUser(firebaseUser);
+      } else {
+        console.log('No authenticated user');
+        setUser(null);
+        setUsername(null);
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <SafeAreaProvider>
