@@ -34,23 +34,23 @@ const validationSchema = Yup.object().shape({
 function ResetPasswordScreen( { navigation} ) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
+  const [userNotFound, setUserNotFound] = useState(false);
   const auth = getAuth();
 
   const handleSubmit = async ({ email }) => {
     try {
-      //Do Stuff
-      sendPasswordResetEmail(auth, email)
+      await sendPasswordResetEmail(auth, email)
+      console.log("Working?");
+      /*
+      OLD CODE
       authContext.setUser(user);
-
       const userDoc = await getDoc(doc(db, "users", user.uid));
 
       if (userDoc.exists()) {
         authContext.setUsername(userDoc.data().name);
       } else {
         console.log("No such document!");
-      }
-
-      setLoginFailed(false);
+      }*/
     } catch (error) {
       setLoginFailed(true);
       console.log("Login error:", error);
