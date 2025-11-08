@@ -79,6 +79,11 @@ function ResetPasswordScreen( { navigation} ) {
               error="Invalid email."
               visible={loginFailed}
             />
+            <ErrorMessage
+              //Temporary Holder
+              error="Valid email."
+              visible={!loginFailed}
+            />
             <AppFormField
               name="email"
               autoCaptilize="none"
