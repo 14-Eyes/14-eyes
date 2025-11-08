@@ -14,11 +14,13 @@
 
 // NEW
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { initializeAuth, getReactNativePersistence, getAuth, connectAuthEmulator } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import Constants from "expo-constants";
 import { Platform } from 'react-native'; // <--- IMPORT Platform for Android check
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // OLD
 // import firebase from "firebase/compat/app";
 // import "firebase/compat/auth";
@@ -54,7 +56,8 @@ const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 //   });
 
 // Initialize other services
-const auth = getAuth(app);
+//const auth = getAuth(app);
+const auth = initializeAuth(app, {persistence: getReactNativePersistence(AsyncStorage)});
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
