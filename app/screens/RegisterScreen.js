@@ -27,7 +27,7 @@ import * as Yup from "yup";
 import AuthContext from "../auth/context";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
-import Screen from "../components/Screen";
+import ScreenAuth from "../components/ScreenAuth";
 import colors from "../config/colors";
 import { auth, db} from "../config/firebase";
 
@@ -97,7 +97,8 @@ function RegisterScreen({ navigation }) {
           style={styles.background}
           source={require("../assets/welcome_2.png")}
     >
-    <Screen style={styles.container}>
+    {/* VOIDED - added transparentBackground to ensure background image fully shows */}
+    <ScreenAuth style={styles.container}>
       <Image
         style={styles.logo}
         source={require("../assets/appsponsor_2.png")}
@@ -164,7 +165,7 @@ function RegisterScreen({ navigation }) {
                 </AppForm>
                 </View>
               </View>
-        </Screen>
+        </ScreenAuth>
     </ImageBackground>
   );
 }

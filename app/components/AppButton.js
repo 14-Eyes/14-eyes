@@ -55,9 +55,9 @@ function AppButton({ title, onPress, color = "primary", style, leftAlign = false
 
 const styles = StyleSheet.create({
   button: {
-    //height: 50,
+    // height: 50,
     width: "100%",
-    //borderRadius: 25,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     padding: 15,
