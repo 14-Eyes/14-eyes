@@ -34,13 +34,14 @@ const validationSchema = Yup.object().shape({
 function ResetPasswordScreen( { navigation} ) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
-  const [userNotFound, setUserNotFound] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
   const auth = getAuth();
 
   const handleSubmit = async ({ email }) => {
     try {
       await sendPasswordResetEmail(auth, email)
       console.log("Working?");
+      setValidEmail(true);
       /*
       OLD CODE
       authContext.setUser(user);
@@ -82,7 +83,7 @@ function ResetPasswordScreen( { navigation} ) {
             <GoodMessage
               //Temporary Holder
               result="Valid email."
-              visible={!loginFailed}
+              visible={validEmail}
             />
             <AppFormField
               name="email"
