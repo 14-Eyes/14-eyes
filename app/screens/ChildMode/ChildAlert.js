@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 100,
-    paddingTop: 5,
+    paddingTop: 230,
   },              
   textbox: {
     color: colors.black,

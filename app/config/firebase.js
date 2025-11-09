@@ -14,13 +14,11 @@
 
 // NEW
 import { initializeApp, getApps } from "firebase/app";
-import { initializeAuth, getReactNativePersistence, getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import Constants from "expo-constants";
 import { Platform } from 'react-native'; // <--- IMPORT Platform for Android check
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 // OLD
 // import firebase from "firebase/compat/app";
 // import "firebase/compat/auth";
@@ -56,8 +54,7 @@ const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 //   });
 
 // Initialize other services
-//const auth = getAuth(app);
-const auth = initializeAuth(app, {persistence: getReactNativePersistence(AsyncStorage)});
+const auth = getAuth(app);
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
@@ -79,8 +76,8 @@ if (__DEV__) { // __DEV__ is true in development builds
   // If you also want to connect Realtime Database to its emulator
   // console.log(`[Firebase Config] Connecting to Realtime Database Emulator at http://${EMULATOR_HOST}:9000`);
   // connectDatabaseEmulator(rtdb, EMULATOR_HOST, 9000);
-}*/
-
+}
+*/
 
 export default app;
 

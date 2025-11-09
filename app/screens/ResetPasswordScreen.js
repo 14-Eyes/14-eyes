@@ -22,7 +22,7 @@ import { auth, db } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
-import ScreenAuth from "../components/ScreenAuth";
+import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import ErrorMessage from "../components/forms/ErrorMessage";
@@ -66,8 +66,7 @@ function ResetPasswordScreen( { navigation} ) {
       style={styles.background}
       source={require("../assets/welcome_2.png")}
     >
-      {/* VOIDED - added transparentBackground to ensure background image fully shows */}
-      <ScreenAuth style={styles.container}>
+      <Screen style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/eltrRainbow_new.png")}
@@ -102,7 +101,7 @@ function ResetPasswordScreen( { navigation} ) {
           </AppForm>
         </View>
       </View>
-      </ScreenAuth>
+      </Screen>
     </ImageBackground>
   );
 }
