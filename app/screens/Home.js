@@ -155,20 +155,18 @@ export class Home extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 4,
         backgroundColor: colors.light,
-        bottom: 10,
     },
     flexContainer: {
         flexDirection:'row',
         justifyContent: 'center',
-        top: 60,
+        top: 100,
     },
     buttonGood: {
       flexDirection: 'column',
-      width: 300,
+      width: 350,
       alignSelf: 'center',
-      top: 100,
+      top: 150,
     },
     text: {
         color: colors.primary,
@@ -180,7 +178,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     button: {
-        height: 100,
+        height: 120,
         width: "100%",
         borderRadius: 25,
         justifyContent: "center",
@@ -189,7 +187,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     buttonText: {
-        fontSize: 18,
+        fontSize: 20,
         color: colors.white,
         textTransform: "uppercase",
         fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",

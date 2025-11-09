@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getSubScreenHeader } from "./HeaderStyles";
 
 import HarmfulIngredients from "../screens/HarmfulIngredients";
 import Sugars from "../screens/Sugars";
@@ -13,12 +14,12 @@ const BadListNavigator = () => (
   <BadStack.Screen
 	  name="HarmfulIngredient"
       component={HarmfulIngredients}
-      options={{ title: "List of Vitamins & Minerals" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Harmful Ingredients")}
 	/>
   <BadStack.Screen
 	  name="Sugars"
       component={Sugars}
-      options={{ title: "List of Vitamins & Minerals" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Harmful Ingredient List")}
 	/>
   </BadStack.Navigator>
   );
