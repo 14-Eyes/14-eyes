@@ -17,17 +17,15 @@ import { Image, ImageBackground, StyleSheet, View, Platform } from "react-native
 import * as Yup from "yup";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
-
 import { auth, db } from "../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-
 import ScreenAuth from "../components/ScreenAuth";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
-import ErrorMessage from "../components/forms/ErrorMessage";
+import {ErrorMessage, GoodMessage} from "../components/forms/ErrorMessage";
 import AppButton from "../components/AppButton";
 import routes from "../navigation/routes";
+import {getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -36,25 +34,27 @@ const validationSchema = Yup.object().shape({
 function ResetPasswordScreen( { navigation} ) {
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
-
+  const [validEmail, setValidEmail] = useState(false);
+  const auth = getAuth();
 
   const handleSubmit = async ({ email }) => {
     try {
-      //const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
+      await sendPasswordResetEmail(auth, email)
+      console.log("Working?");
+      setValidEmail(true);
+      setLoginFailed(false);
+      /*
+      OLD CODE
       authContext.setUser(user);
-
       const userDoc = await getDoc(doc(db, "users", user.uid));
 
       if (userDoc.exists()) {
         authContext.setUsername(userDoc.data().name);
       } else {
         console.log("No such document!");
-      }
-
-      setLoginFailed(false);
+      }*/
     } catch (error) {
+      setValidEmail(false);
       setLoginFailed(true);
       console.log("Login error:", error);
     }
@@ -75,13 +75,17 @@ function ResetPasswordScreen( { navigation} ) {
       <View style={styles.boxContainer}>
         <View style={styles.buttonContainer}>
           <AppForm
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ email: ""}}
             onSubmit={handleSubmit}
             validationSchema={validationSchema}
             >
             <ErrorMessage
-              error="Invalid email and/or password."
+              error="Invalid email."
               visible={loginFailed}
+            />
+            <GoodMessage
+              result="A reset link has been sent to your inbox!"
+              visible={validEmail}
             />
             <AppFormField
               name="email"
