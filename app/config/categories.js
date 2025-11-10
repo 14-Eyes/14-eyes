@@ -63,7 +63,7 @@ export default {
                 {
             id: 7,
             label: "Oils",
-            desc: "Corn Oil, Canola Oil, Vegetable Oil, etc.",
+            desc: "Corn, Canola, Peanut Oil etc.",
             pageDesc: "This stuff is good for you!",
             buttonColor: "#8acff4",
             mapToo: foodz.oils,
@@ -103,7 +103,7 @@ export default {
         {
             id: 12,
             label: "Breads",
-            desc: "Multigrain, Gluten-free, Sourdough, etc.",
+            desc: "Multigrain, Pita, Rye, etc.",
             pageDesc: "This stuff is good for you!",
             buttonColor: "#FAD717",
             mapToo: foodz.breads,

@@ -19,7 +19,7 @@ function BudgetNavigator() {
       <Stack.Screen
         name="BudgetingBasics"
         component={BudgetingBasicsScreen}
-        options={({ navigation }) => getSubScreenHeader(navigation, "Budgeting Basics")}	  
+        options={({ navigation }) => getSubScreenHeader(navigation, "Budgeting Basics")}
       />
       <Stack.Screen
         name="SampleBudget"

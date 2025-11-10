@@ -15,14 +15,9 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getSubScreenHeader } from "./HeaderStyles";
 
-import Energy from "../screens/EnergyPage";
-import fa from "../screens/Fats";
-import FoodDye from "../screens/FoodDye";
-import Preservatives from "../screens/Preservatives";
-import Sugars from "../screens/Sugars";
 import FoodFacts from "../screens/FoodFacts";
-import Vitamins from "../screens/Vitamins";
 import Home from "../screens/Home";
 import VitaminNavigator from "./VitaminNavigator";
 import BadListNavigator from "./BadListNavigator";
@@ -35,57 +30,27 @@ const HomeNavigator = () => (
     <Stack.Screen
 	  name="HomeScreen"
       component={Home}
-      options={{ title: "Home" }}
+      options={{ headerShown: false }}
 	/>
     <Stack.Screen
 	  name="EssentialNutrients"
       component={VitaminNavigator}
-      options={{ title: "Essential Nutrients" }}
+      options={{ headerShown: false }}
 	/>
     <Stack.Screen
 	  name="HarmfulIngredients"
       component={BadListNavigator}
-      options={{ title: "Harmful Ingredients" }}
+      options={{ headerShown: false }}
 	/>
     <Stack.Screen
 	  name="FoodFacts"
       component={FoodFacts}
-      options={{ title: "Food Facts" }}
-	/>
-    <Stack.Screen
-	  name="FoodDye"
-      component={FoodDye}
-      options={{ title: "List of Food Dyes" }}
-	/>
-    <Stack.Screen
-	  name="Preservatives"
-      component={Preservatives}
-      options={{ title: "List of Preservatives" }}
-	/>
-  <Stack.Screen
-	  name="Sugars"
-      component={Sugars}
-      options={{ title: "List of Sugars" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Food Facts")}
 	/>
   <Stack.Screen
     name="Budgets"
       component={BudgetNavigator}
       options={{ title: "Budgeting Plans" }}
-  />
-  <Stack.Screen
-	  name="Vitamins"
-      component={VitaminNavigator}
-      options={{ title: "List of Vitamins & Minerals", headerShown: false}}
-	/>
-   <Stack.Screen
-    name="Fats"
-      component={fa} //
-      options={{ title: "List of Healthy Fats" }}
-  />
- <Stack.Screen
-    name="Energy"
-      component={Energy} //
-      options={{ title: "List of Energy-Filled Foods" }}
   />
 
   </Stack.Navigator>

@@ -12,6 +12,7 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getMainHeader, getSubScreenHeader, getSubScreenHeaderBack } from "./HeaderStyles";
 
 import EssentialNutrients from "../screens/EssentialNutrients";
 import Vitamins from "../screens/Vitamins";
@@ -22,21 +23,27 @@ const VitStack = createStackNavigator();
 
 //stack contains the vitamins and foodforvitamin screens to navigate
 const VitaminNavigator = () => (
-  <VitStack.Navigator>
+  <VitStack.Navigator
+    screenOptions={{
+        headerTitleAlign: "center", // center the title
+        headerTitleStyle: { fontSize: 18 },
+        headerStyle: { backgroundColor: "white" },
+      }}
+  >
   <VitStack.Screen
 	  name="EssentialNutrient"
       component={EssentialNutrients}
-      options={{ title: "List of Vitamins & Minerals" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Essential Nutrients")}
 	/>
   <VitStack.Screen
 	  name="FoodList"
       component={Foods}
-      options={{ title: "List of Vitamins & Minerals" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "List of Foods")}
 	/>
   <VitStack.Screen
 	  name="Vitamins"
       component={Vitamins}
-      options={{ title: "List of Vitamins & Minerals" }}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Vitamins")}
 	/>
 
   </VitStack.Navigator>
