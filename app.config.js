@@ -31,6 +31,7 @@ export default {
       fallbackToCacheTimeout: 0,
     },
     assetBundlePatterns: ["**/*"],
+    
     ios: {
       bundleIdentifier: "com.eatliketherainbow.eatliketherainbow",
       buildNumber: "1.0.0",
@@ -40,13 +41,29 @@ export default {
           "This app uses the camera to scan barcodes of grocery items to pull their ingredients list.",
       },
     },
+    
     android: {
       package: "com.eatliketherainbow.eatliketherainbow",
       versionCode: 1,
+      permissions: [
+        "CAMERA",
+      ],
     },
+    
     web: {
       favicon: "./app/assets/eltrLogo.png",
     },
+
+    plugins: [
+      [
+        "expo-camera",
+        {
+          cameraPermission:
+            "Allow Eat Like The Rainbow to access your camera for barcode scanning.",
+        },
+      ],
+    ],
+
     extra: {
       API_KEY: process.env.API_KEY,
       AUTH_DOMAIN: process.env.AUTH_DOMAIN,

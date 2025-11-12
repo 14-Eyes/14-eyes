@@ -16,7 +16,7 @@
 
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
-import { Camera } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { useIsFocused } from "@react-navigation/native";
 
 import colors from "../config/colors";
@@ -24,64 +24,81 @@ import routes from "../navigation/routes";
 import productApi from "../api/products";
 
 function ScanningScreen({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
 
-  const barcodeScanned = async (barcode) => {
+  const barcodeScanned = async ({ data }) => {
     setLoading(true);
-    const response = await productApi.getProduct(barcode);
-    setLoading(false);
-
-    navigation.navigate(routes.FOOD_ITEM, response.data);
+     try {
+      const response = await productApi.getProduct(data);
+      navigation.navigate(routes.FOOD_ITEM, response.data);
+    } finally {
+      setLoading(false);
+    }
+    // OLD
+    // const response = await productApi.getProduct(barcode);
+    // setLoading(false);
+    // navigation.navigate(routes.FOOD_ITEM, response.data);
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  }, []);
+ useEffect(() => {
+    if (!permission?.granted) {
+      requestPermission();
+    }
+  }, [permission]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await Camera.requestCameraPermissionsAsync();
+  //     setHasPermission(status === "granted");
+  //   })();
+  // }, []);
 
-  if (hasPermission === null) {
-    return <View />;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  if (!permission) return <View />;
+  if (!permission.granted) return <Text>No access to camera</Text>;
+  // if (hasPermission === null) {
+  //   return <View />;
+  // }
+  // if (hasPermission === false) {
+  //   return <Text>No access to camera</Text>;
+  // }
 
-  return (
-    <>
+ return (
+    <View style={styles.container}>
       {isFocused && (
-        <Camera
-          style={styles.camera}
-          type={Camera.Constants.Type.back}
-          onBarCodeScanned={barcodeScanned}
-        >
-          <View style={styles.barcodeBorder}>
-            <ActivityIndicator
-              animating={loading}
-              size="large"
-              color={colors.primary}
-            />
-          </View>
-        </Camera>
+        <CameraView
+          style={StyleSheet.absoluteFill}
+          facing="back"
+          onBarcodeScanned={barcodeScanned}
+        />
       )}
-    </>
+
+      <View style={styles.overlay}>
+        <View style={styles.barcodeBorder}>
+          <ActivityIndicator
+            animating={loading}
+            size="large"
+            color={colors.primary}
+          />
+        </View>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  camera: {
+  container: {
     flex: 1,
+    backgroundColor: "black",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
   },
   barcodeBorder: {
-    borderWidth: 5,
-    width: "70%",
+    borderWidth: 4,
+    width: "75%",
     height: "30%",
     borderColor: colors.white,
     justifyContent: "center",
