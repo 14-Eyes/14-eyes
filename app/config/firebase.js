@@ -14,7 +14,7 @@
 
 // NEW
 import { initializeApp, getApps } from "firebase/app";
-import { initializeAuth, getReactNativePersistence, getAuth, connectAuthEmulator } from "firebase/auth";
+import { initializeAuth, getReactNativePersistence, getAuth, connectAuthEmulator, browserLocalPersistence } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import Constants from "expo-constants";
@@ -57,7 +57,16 @@ const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 
 // Initialize other services
 //const auth = getAuth(app);
-const auth = initializeAuth(app, {persistence: getReactNativePersistence(AsyncStorage)});
+// FIX FOR WEB AUTH ERROR BELOW (rewrite of code)
+let auth;
+if (Platform.OS === "web") {
+  // browser persistence
+  auth = getAuth(app);
+  auth.setPersistence(browserLocalPersistence);
+} else {
+  // persistence for other platforms
+  auth = initializeAuth(app, {persistence: getReactNativePersistence(AsyncStorage)});
+}
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
