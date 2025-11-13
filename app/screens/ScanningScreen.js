@@ -58,6 +58,7 @@ function ScanningScreen({ navigation }) {
           style={StyleSheet.absoluteFill}
           facing="back"
           onBarcodeScanned={barcodeScanned}
+          zoom={0.1} // prevents 0.5 camera effect
         />
       )}
 
