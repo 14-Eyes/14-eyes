@@ -29,7 +29,7 @@ const ScanNavigator = () => (
     <Stack.Screen 
       name="FoodDetails" 
       component={FoodDetails} 
-      options={getSubScreenHeaderBack}
+      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
     />
   </Stack.Navigator>
 );
