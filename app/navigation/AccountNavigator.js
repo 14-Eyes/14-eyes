@@ -20,15 +20,19 @@ import EditAccountPassword from "../screens/EditAccountPassword";
 import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
 import AccountDietaryPreferences from "../screens/AccountDietaryPreferences";
+import Firebase from "../config/firebase";
+
 
 const Stack = createStackNavigator();
 let word = "Hello world";
 console.log(word);
+
 /*
-const userName = useContext(AuthContext).user.uid;
+const userName = useContext(AuthContext).user?.displayName;
 getAuth().currentUser
 console.log(userName);
 */
+
 const usersAccount ="'s Account"
 
 
