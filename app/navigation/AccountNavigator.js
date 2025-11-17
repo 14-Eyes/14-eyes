@@ -24,9 +24,11 @@ import AccountDietaryPreferences from "../screens/AccountDietaryPreferences";
 const Stack = createStackNavigator();
 let word = "Hello world";
 console.log(word);
-//const userName = useContext(AuthContext).user.uid;
-//getAuth().currentUser
-//console.log(userName);
+/*
+const userName = useContext(AuthContext).user.uid;
+getAuth().currentUser
+console.log(userName);
+*/
 const usersAccount ="'s Account"
 
 
