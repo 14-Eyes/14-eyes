@@ -25,17 +25,17 @@ import Firebase from "../config/firebase";
 
 const Stack = createStackNavigator();
 let word = "Hello world";
-console.log(word);
+console.log(word+"1");
 
-/*
-const userName = useContext(AuthContext).user?.displayName;
-getAuth().currentUser
+
+//const userName = useContext(AuthContext).user?.displayName;
+const userName = AuthContext.user?.displayName;
+console.log(word+"2");
+//getAuth().currentUser
+console.log(word+"3");
 console.log(userName);
-*/
 
-const usersAccount ="'s Account"
-
-
+const usersAccount =userName+"'s Account"
 
 const AccountNavigator = () => (
   <Stack.Navigator>
