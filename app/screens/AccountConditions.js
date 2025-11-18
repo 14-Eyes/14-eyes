@@ -11,6 +11,8 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { doc, updateDoc, arrayUnion, arrayRemove, getDoc} from "firebase/firestore";
+import { db } from "../config/firebase";
 import AuthContext from "../auth/context";
 import AppPicker from "../components/AppPicker";
 import AppText from "../components/AppText";
@@ -40,26 +42,75 @@ function AccountConditions(props) {
   }, []);
 
   const loadConditions = async () => {
-    const response = await sstore.get(key);
-    setConditions(response);
+    try {
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const conditionIDs = data.conditions || [];
+
+        const fullConditions = conditionIDs
+          .map(id => conditionChoices.find(choice => choice.id === id))
+          .filter(condition => condition !== undefined);
+
+        setConditions(fullConditions);
+        sstore.store(key, fullConditions);
+      }
+    } catch (error) {
+      console.error("Firestore condition loading error:", error);
+
+      const response = await sstore.get(key);
+      setConditions(response || []);
+    } finally {
+      setLoading(false);
+    }
+    //const response = await sstore.get(key);
+    //setConditions(response);
   };
 
-  const handleDelete = (condition) => {
-    // Delete the item from item
-    const updated = conditions.filter((m) => m.id !== condition.id);
-    setConditions(updated);
-    sstore.store(key, updated);
-  };
-
-  const onSelectItem = (condition) => {
-    if (conditions.includes(condition)) {
-      setConditions(conditions);
-    } else {
-      const updated = JSON.parse(JSON.stringify(conditions));
-      updated.push(condition);
-      //console.log(updated);
+  const handleDelete = async (condition) => {
+    try{
+      // Delete the item from item
+      const updated = conditions.filter((m) => m.id !== condition.id);
       setConditions(updated);
+
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        conditions: arrayRemove(condition.id)
+      });
+      
       sstore.store(key, updated);
+      console.log("Removed condition");
+
+    } catch (error) {
+      console.error("Error with condition removal:", error);
+      loadConditions();    
+    }
+  };
+
+  const onSelectItem = async (condition) => {
+    if (conditions.find(c => c.id === condition.id)) {
+      console.log("Condition already added");
+      return;
+    } 
+    try {
+      const updated = [...conditions, condition];
+      setConditions(updated);
+      
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        conditions: arrayUnion(condition.id)
+      });
+      //updated.push(condition);
+      //console.log(updated);
+      //(updated);
+      sstore.store(key, updated);
+      console.log("Added Condition");
+
+    } catch (error) {
+      console.error("Error adding condition", error);
+      loadConditions();
     }
   };
 

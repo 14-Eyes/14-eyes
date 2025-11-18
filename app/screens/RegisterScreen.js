@@ -63,10 +63,10 @@ function RegisterScreen({ navigation }) {
           .doc(`${userID}`)
           .set({*/
             name: name,
-            allergies: [],
+            email: email,
             conditions: [],
+            allergies: [],
             dietary_preferences: [],
-            
           })
     /*Firebase.auth()
       .createUserWithEmailAndPassword(email, password)

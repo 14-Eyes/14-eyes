@@ -11,109 +11,109 @@
 export default {
   dietChoices: [
     {
-      id: 1,
+      id: 101,
       label: "Vegan",
     },
     {
-      id: 2,
+      id: 102,
       label: "Vegetarian",
     },
     {
-      id: 3,
+      id: 103,
       label: "Pescetarian",
     },
     {
-      id: 4,
+      id: 104,
       label: "Lactose Free",
     },
     {
-      id: 5,
+      id: 105,
       label: "Gluten Free",
     },
     {
-      id: 6,
+      id: 106,
       label: "Kosher",
     },
     {
-      id: 7,
+      id: 107,
       label: "Halal",
     },
     {
-      id: 8,
+      id: 108,
       label: "Paleo",
     },
     {
-      id: 9,
+      id: 109,
       label: "Keto",
     },
   ],
   
   allergyChoices: [
     {
-      id: 1,
+      id: 201,
       label: "Soy",
     },
     {
-      id: 2,
+      id: 202,
       label: "Peanuts",
     },
     {
-      id: 3,
+      id: 203,
       label: "Shellfish",
     },
     {
-      id: 4,
+      id: 204,
       label: "Eggs",
     },
     {
-      id: 5,
+      id: 205,
       label: "Dairy",
     },
     {
-      id: 6,
+      id: 206,
       label: "Wheat",
     },
     {
-      id: 7,
+      id: 207,
       label: "Tree Nut",
     },
     {
-      id: 8,
+      id: 208,
       label: "Sesame",
     },
     {
-      id: 9,
+      id: 209,
       label: "Corn",
     },
     {
-      id: 10,
+      id: 210,
       label: "Gelatin",
     },
     {
-      id: 11,
+      id: 211,
       label: "Gluten",
     },
     {
-      id: 12,
+      id: 212,
       label: "Red 40",
     },
     {
-      id: 13,
+      id: 213,
       label: "Blue 2",
     },
     {
-      id: 14,
+      id: 214,
       label: "Yellow 5",
     },
     {
-      id: 15,
+      id: 215,
       label: "Yellow 6",
     },
   ],
 
   conditionChoices: [
     {
-      id: 1,
+      id: 301,
       label: "Cancer",
       avoid: ["sucrose", "lactose", "sodium"],
       good: [
@@ -129,7 +129,7 @@ export default {
       ],
     },
     {
-      id: 2,
+      id: 302,
       label: "IBS",
       avoid: ["lactose", "gluten", "sodium"],
       good: [
@@ -142,7 +142,7 @@ export default {
       ],
     },
     {
-      id: 3,
+      id: 303,
       label: "Heart Disease",
       avoid: ["sucrose", "cholesterol", "saturated_fat", "sodium"],
       good: [
@@ -160,7 +160,7 @@ export default {
       goodSpicy: ["horseradish", "red pepper", "jalapeno"],
     },
     {
-      id: 4,
+      id: 304,
       label: "Obesity",
       avoid: ["saturated_fat", "sodium", "gluten", "cholesterol"],
       good: [
@@ -173,7 +173,7 @@ export default {
       ],
    },
    {//added ADD/ADHD to conditions
-      id: 5,
+      id: 305,
       label: "ADD/ADHD",
       avoid: ["simple_carbohydrates", "sugar", "white_rice"],
       good: [
@@ -189,7 +189,7 @@ export default {
       ],
    },
    {//added Diabetes to conditions
-     id: 6,
+     id: 306,
      label: "Diabetes",
      avoid: ["simple_carbohydrates", "complex_carbohydrates", "sugar", "saturated_fat"],
      good: [
