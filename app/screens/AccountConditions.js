@@ -24,25 +24,37 @@ import {
 } from "../components/lists/index";
 import ScreenFlexible from "../components/ScreenFlexible";
 import colors from "../config/colors";
-import choices from "../config/options";
+//import choices from "../config/options";
 import sstore from "../utility/sstore";
+import { fetchCond } from "../utility/fetchOptions";
 
 let initialItems = [];
 
-const conditionChoices = choices.conditionChoices;
+//const conditionChoices = choices.conditionChoices;
 
 function AccountConditions(props) {
   const authContext = useContext(AuthContext);
   const key = authContext.user.uid + "conditions"; //use user id to create unique id for async storage
+  
   const [conditions, setConditions] = useState(initialItems);
+  const [conditionChoices, setConditionChoices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   /* use effect runs only once each time page is rendered */
   useEffect(() => {
-    loadConditions();
+    loadData();
   }, []);
 
-  const loadConditions = async () => {
+  //load conditions and user data
+  const loadData = async () => {
     try {
+      setLoading(true);
+
+      //fetch conditions from firestore
+      const choices = await fetchCond();
+      setConditionChoices(choices);
+
+      //fetch user information
       const userDocRef = doc(db, "users", authContext.user.uid);
       const userDoc = await getDoc(userDocRef);
 
@@ -51,7 +63,7 @@ function AccountConditions(props) {
         const conditionIDs = data.conditions || [];
 
         const fullConditions = conditionIDs
-          .map(id => conditionChoices.find(choice => choice.id === id))
+          .map(id => choices.find(choice => choice.id === id))
           .filter(condition => condition !== undefined);
 
         setConditions(fullConditions);
@@ -69,9 +81,10 @@ function AccountConditions(props) {
     //setConditions(response);
   };
 
+  //delete conditios from user account
   const handleDelete = async (condition) => {
     try{
-      // Delete the item from item
+      
       const updated = conditions.filter((m) => m.id !== condition.id);
       setConditions(updated);
 
@@ -85,10 +98,11 @@ function AccountConditions(props) {
 
     } catch (error) {
       console.error("Error with condition removal:", error);
-      loadConditions();    
+      loadData();    
     }
   };
 
+  //selecting a condition
   const onSelectItem = async (condition) => {
     if (conditions.find(c => c.id === condition.id)) {
       console.log("Condition already added");
@@ -110,7 +124,7 @@ function AccountConditions(props) {
 
     } catch (error) {
       console.error("Error adding condition", error);
-      loadConditions();
+      loadData();
     }
   };
 
