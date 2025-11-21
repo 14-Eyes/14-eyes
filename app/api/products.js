@@ -10,8 +10,7 @@
 import client from "./client";
 
 const getProduct = (barcode) => {
-  const productURL = "/v0/product/" + barcode.data + ".json";
-
+  const productURL = "/v0/product/" + barcode + ".json";
   return client.get(productURL);
 };
 
