@@ -21,6 +21,8 @@ import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
 import AccountDietaryPreferences from "../screens/AccountDietaryPreferences";
 import Firebase from "../config/firebase";
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+
 
 
 const Stack = createStackNavigator();
@@ -29,13 +31,18 @@ console.log(word+"1");
 
 
 //const userName = useContext(AuthContext).user?.displayName;
-const userName = AuthContext.user?.displayName;
+//const userName = AuthContext.user?.displayName;
 console.log(word+"2");
 //getAuth().currentUser
 console.log(word+"3");
-console.log(userName);
+console.log("Auth Con: "+AuthContext.user)
+//console.log(userName);
+console.log("Auth Con UserName: "+AuthContext.userName)
 
-const usersAccount =userName+"'s Account"
+const userNameX = AuthContext.userName;
+
+
+const usersAccount =userNameX+"'s Account"
 
 const AccountNavigator = () => (
   <Stack.Navigator>
