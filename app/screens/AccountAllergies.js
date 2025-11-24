@@ -10,6 +10,8 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { doc, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 import AuthContext from "../auth/context";
 import AppPicker from "../components/AppPicker";
 import AppText from "../components/AppText";
@@ -21,43 +23,105 @@ import {
 } from "../components/lists/index";
 import ScreenFlexible from "../components/ScreenFlexible";
 import colors from "../config/colors";
-import choices from "../config/options";
+//import choices from "../config/options";
 import sstore from "../utility/sstore";
+import { fetchAllergies } from "../utility/fetchOptions";
 
 let initialItems = [];
 
-const allergyChoices = choices.allergyChoices;
+//const allergyChoices = choices.allergyChoices;
 
 function AccountAllergies(props) {
   const authContext = useContext(AuthContext);
   const key = authContext.user.uid + "allergies";
+
   const [allergies, setAllergies] = useState(initialItems);
+  const [allergyChoices, setAllergyChoices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadAllergies();
+    loadData();
   }, []);
 
-  const loadAllergies = async () => {
-    const response = await sstore.get(key);
-    setAllergies(response);
+  const loadData = async () => {
+    try {
+      setLoading(true);
+
+      //fetch conditions from firestore
+      const choices = await fetchAllergies();
+      setAllergyChoices(choices);
+
+      //fetch user information
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const allergyIDs = data.allergies || [];
+
+        const fullAllergies = allergyIDs
+          .map(id => choices.find(choice => choice.id === id))
+          .filter(allergy => allergy !== undefined);
+
+        setAllergies(fullAllergies);
+        sstore.store(key, fullAllergies);
+      }
+    } catch (error) {
+      console.error("Firestore allergy loading error:", error);
+
+      const response = await sstore.get(key);
+      setAllergies(response || []);
+    } finally {
+      setLoading(false);
+    }
+    //const response = await sstore.get(key);
+    //setConditions(response);
   };
 
-  const handleDelete = (allergy) => {
-    // Delete the item from item
-    const updated = allergies.filter((m) => m.id !== allergy.id);
-    sstore.store(key, updated);
-    setAllergies(updated);
-  };
-
-  const onSelectItem = (allergy) => {
-    //console.log(allergies);
-    if (allergies.includes(allergy)) {
-      setAllergies(allergies);
-    } else {
-      const updated = JSON.parse(JSON.stringify(allergies));
-      updated.push(allergy);
-      sstore.store(key, updated);
+  //delete conditios from user account
+  const handleDelete = async (allergy) => {
+    try{
+      
+      const updated = allergies.filter((m) => m.id !== allergy.id);
       setAllergies(updated);
+
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        allergies: arrayRemove(allergy.id)
+      });
+      
+      sstore.store(key, updated);
+      console.log("Removed allergy");
+
+    } catch (error) {
+      console.error("Error with allergy removal:", error);
+      loadData();    
+    }
+  };
+
+  //selecting a condition
+  const onSelectItem = async (allergy) => {
+    if (allergies.find(c => c.id === allergy.id)) {
+      console.log("Allergy already added");
+      return;
+    } 
+    try {
+      const updated = [...allergies, allergy];
+      setAllergies(updated);
+      
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        allergies: arrayUnion(allergy.id)
+      });
+      //updated.push(condition);
+      //console.log(updated);
+      //(updated);
+      sstore.store(key, updated);
+      console.log("Added allergy");
+
+    } catch (error) {
+      console.error("Error adding allergy", error);
+      loadData();
     }
   };
 
