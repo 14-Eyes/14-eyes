@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { doc, updateDoc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
 import AuthContext from "../auth/context";
 import AppPicker from "../components/AppPicker";
 import AppText from "../components/AppText";
-
 import {
   ListItem,
   ListItemDeleteAction,
@@ -11,43 +12,103 @@ import {
 } from "../components/lists/index";
 import ScreenFlexible from "../components/ScreenFlexible";
 import colors from "../config/colors";
-import choices from "../config/options";
+//import choices from "../config/options";
 import sstore from "../utility/sstore";
+import { fetchDiet } from "../utility/fetchOptions";
 
 let initialItems = [];
 
-const dietChoices = choices.dietChoices;
+//const dietChoices = choices.dietChoices;
 
 function AccountDietaryPreferences(props) {
   const authContext = useContext(AuthContext);
   const key = authContext.user.uid + "diets";
+
   const [diets, setDiets] = useState(initialItems);
+  const [dietChoices, setDietChoices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadDiets();
+    loadData();
   }, []);
 
-  const loadDiets = async () => {
-    const response = await sstore.get(key);
-    setDiets(response);
+  const loadData = async () => {
+    try {
+      setLoading(true);
+
+      //fetch dietary preferences from firestore
+      const choices = await fetchDiet();
+      setDietChoices(choices);
+
+      //fetch user information
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const dietIDs = data.dietary_preferences || [];
+
+        const fullDiets = dietIDs
+          .map(id => choices.find(choice => choice.id === id))
+          .filter(diet => diet !== undefined);
+        
+        setDiets(fullDiets);
+        sstore.store(key, fullDiets);
+      }
+    } catch (error) {
+      console.error("Firestore dietary preferences loading error:", error);
+
+      const response = await sstore.get(key);
+      setDiets(response || []);
+    } finally {
+      setLoading(false);
+    }
+    //const response = await sstore.get(key);
+    //setDiets(response);
   };
 
-  const handleDelete = (diet) => {
-    // Delete the item from item
-    const updated = diets.filter((m) => m.id !== diet.id);
-    sstore.store(key, updated);
-    setDiets(updated);
-  };
+  //delete dietary preferences from user account
+  const handleDelete = async (diet) => {
+    try{
 
-  const onSelectItem = (diet) => {
-    //console.log(diets);
-    if (diets.includes(diet)) {
-      setDiets(diets);
-    } else {
-      const updated = JSON.parse(JSON.stringify(diets));
-      updated.push(diet);
-      sstore.store(key, updated);
+      const updated = diets.filter((m) => m.id !== diet.id);
       setDiets(updated);
+
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        dietary_preferences: arrayRemove(diet.id)
+      });
+
+      sstore.store(key, updated);
+      console.log("Removed dietary preference");
+
+    }catch (error) {
+      console.error("Error with dietary preference removal:", error);
+      loadData();
+    }
+  };
+
+  //selecting a dietart preferences
+  const onSelectItem = async (diet) => {
+    if (diets.find(c => c.id === diet.id)) {
+      console.log("Dietary preference already added");
+      return;
+    }
+    try {
+      const updated = [...diets, diet];
+      setDiets(updated);
+
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        dietary_preferences: arrayUnion(diet.id)
+      });
+
+      sstore.store(key, updated);
+      console.log("Added dietary preference");
+
+    } catch (error) {
+      console.error("Error adding dietary preference", error);
+      loadData();
     }
   };
 

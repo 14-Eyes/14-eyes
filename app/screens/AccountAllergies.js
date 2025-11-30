@@ -78,7 +78,7 @@ function AccountAllergies(props) {
     //setConditions(response);
   };
 
-  //delete conditios from user account
+  //delete allergies from user account
   const handleDelete = async (allergy) => {
     try{
       
@@ -99,7 +99,7 @@ function AccountAllergies(props) {
     }
   };
 
-  //selecting a condition
+  //selecting an allergy
   const onSelectItem = async (allergy) => {
     if (allergies.find(c => c.id === allergy.id)) {
       console.log("Allergy already added");

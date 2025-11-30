@@ -3,6 +3,7 @@ import { db } from '../config/firebase';
 
 let condCache = null;
 let allergyCache = null;
+let dietCache = null;
 
 //fetch conditions from firestore
 export const fetchCond = async () => {
@@ -56,6 +57,32 @@ export const fetchAllergies = async () => {
     }
 };
 
+//fetch dietary preferences from firestore 
+export const fetchDiet = async () => {
+
+    if(dietCache) {
+        console.log("using cached dietary preferences");
+        return dietCache;
+    }
+    
+    try {
+        const dietDoc = await getDoc(doc(db, 'options', 'dietary-preferences'));
+
+        if (dietDoc.exists()) {
+            //store conditions in cache
+            dietCache = dietDoc.data().items;
+            console.log("dietary preferences loaded from firestore");
+            return dietCache;
+        } else {
+            console.log("no dietary preferences document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching dietary preferences:", error);
+        return [];
+    }
+};
+
 //clear caches
 export const clearCondCache = () => {
     condCache = null;
@@ -67,6 +94,10 @@ export const clearAllergyCache = () => {
     console.log("allergy cache cleared");
 };
 
+export const clearDietCache = () => {
+    dietCache = null;
+    console.log("dietary preferences cache cleared");
+};
 
 //get condition by ID
 export const getCondById = async (id) => {
@@ -78,4 +109,10 @@ export const getCondById = async (id) => {
 export const getAllergyById = async (id) => {
     const allergies = await fetchAllergies();
     return allergies.find(a => a.id === id);
+};
+
+//get dietary preference by ID
+export const getDietById = async (id) => {
+    const dietaryPref = await fetchDiet();
+    return dietaryPref.find(d => d.id === id);
 };
