@@ -8,7 +8,7 @@ import { StyleSheet, View, Image, ScrollView, ActivityIndicator } from "react-na
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-// Import any other service functions here (for allergies, diet, preservatives, etc.)
+// Import any other utility functions here (for allergies, diet, preservatives, etc.)
 import { checkConditions } from "../utility/checkConditions";
 
 import Screen from "../components/Screen";

@@ -24,8 +24,8 @@ export async function checkConditions(ingredientsText) {
         }
 
         // load the big conditions document from Firebase (inside objects collection); uses AsyncStorage
-        // const condDoc = await getDoc(doc(db, "options", "conditions"));
-        // const allConditions = condDoc.data().items;
+            // const condDoc = await getDoc(doc(db, "options", "conditions"));
+            // const allConditions = condDoc.data().items;
         const allConditions = await fetchCond();
 
         // save only the conditions that match what the user has currently set
