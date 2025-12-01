@@ -10,41 +10,56 @@ import colors from "../config/colors";
 
 import AuthContext from "../auth/context";
 import { auth, db } from "../config/firebase";
-import { updateEmail, verifyBeforeUpdateEmail } from "firebase/auth";
+
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  verifyBeforeUpdateEmail,
+} from "firebase/auth";
+
 import { doc, updateDoc } from "firebase/firestore";
 
 const validationSchema = Yup.object().shape({
   newEmail: Yup.string().required().email().label("New Email"),
+  password: Yup.string().required().label("Password"),
 });
 
 function ChangeEmailScreen({ navigation }) {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSubmit = async ({ newEmail }) => {
+  const handleSubmit = async ({ newEmail, password }) => {
     setErrorVisible(false);
     setErrorText("");
 
     try {
       const trimmedEmail = newEmail.trim().toLowerCase();
 
-      // Step 1: Send verification email for the new email
+      // 1) REAUTHENTICATE (Firebase requires this)
+      const credential = EmailAuthProvider.credential(
+        auth.currentUser.email,
+        password
+      );
+
+      await reauthenticateWithCredential(auth.currentUser, credential);
+
+      // 2) Send verification link to NEW email
       await verifyBeforeUpdateEmail(auth.currentUser, trimmedEmail);
 
-      // Step 2: Save new email temporarily in Firestore (optional)
+      // 3) Store pending email (optional)
       await updateDoc(doc(db, "users", user.uid), {
         pendingEmail: trimmedEmail,
       });
 
-      // Step 3: Show success modal
+      // 4) Show modal
       setShowSuccess(true);
     } catch (err) {
-      console.log("EMAIL UPDATE ERROR:", err);
+      console.log("EMAIL UPDATE ERROR:", err.code, err.message);
       setErrorVisible(true);
-      setErrorText("Unable to update email. Try again.");
+      setErrorText(err.code); // shows REAL Firebase error
     }
   };
 
@@ -53,10 +68,11 @@ function ChangeEmailScreen({ navigation }) {
       <AppText style={styles.tooltip}>
         Your current email is {user.email}.
       </AppText>
+
       <AppText style={styles.tooltip}>Enter your new email.</AppText>
 
       <AppForm
-        initialValues={{ newEmail: "" }}
+        initialValues={{ newEmail: "", password: "" }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
@@ -69,7 +85,16 @@ function ChangeEmailScreen({ navigation }) {
           icon="email"
           placeholder="New Email"
           keyboardType="email-address"
-          textContentType="emailAddress"
+        />
+
+        {/* Required for re-authentication */}
+        <AppFormField
+          name="password"
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="lock"
+          placeholder="Current Password"
+          secureTextEntry
         />
 
         <SubmitButton title="Save" />
