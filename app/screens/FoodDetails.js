@@ -9,7 +9,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 // Import any other service functions here (for allergies, diet, preservatives, etc.)
-import { checkConditions } from "../services/conditionsService";
+import { checkConditions } from "../utility/checkConditions";
 
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
