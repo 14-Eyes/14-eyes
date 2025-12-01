@@ -11,6 +11,8 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { doc, updateDoc, arrayUnion, arrayRemove, getDoc} from "firebase/firestore";
+import { db } from "../config/firebase";
 import AuthContext from "../auth/context";
 import AppPicker from "../components/AppPicker";
 import AppText from "../components/AppText";
@@ -22,44 +24,107 @@ import {
 } from "../components/lists/index";
 import ScreenFlexible from "../components/ScreenFlexible";
 import colors from "../config/colors";
-import choices from "../config/options";
+//import choices from "../config/options";
 import sstore from "../utility/sstore";
+import { fetchCond } from "../utility/fetchOptions";
 
 let initialItems = [];
 
-const conditionChoices = choices.conditionChoices;
+//const conditionChoices = choices.conditionChoices;
 
 function AccountConditions(props) {
   const authContext = useContext(AuthContext);
   const key = authContext.user.uid + "conditions"; //use user id to create unique id for async storage
+  
   const [conditions, setConditions] = useState(initialItems);
+  const [conditionChoices, setConditionChoices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   /* use effect runs only once each time page is rendered */
   useEffect(() => {
-    loadConditions();
+    loadData();
   }, []);
 
-  const loadConditions = async () => {
-    const response = await sstore.get(key);
-    setConditions(response);
+  //load conditions and user data
+  const loadData = async () => {
+    try {
+      setLoading(true);
+
+      //fetch conditions from firestore
+      const choices = await fetchCond();
+      setConditionChoices(choices);
+
+      //fetch user information
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const conditionIDs = data.conditions || [];
+
+        const fullConditions = conditionIDs
+          .map(id => choices.find(choice => choice.id === id))
+          .filter(condition => condition !== undefined);
+
+        setConditions(fullConditions);
+        sstore.store(key, fullConditions);
+      }
+    } catch (error) {
+      console.error("Firestore condition loading error:", error);
+
+      const response = await sstore.get(key);
+      setConditions(response || []);
+    } finally {
+      setLoading(false);
+    }
+    //const response = await sstore.get(key);
+    //setConditions(response);
   };
 
-  const handleDelete = (condition) => {
-    // Delete the item from item
-    const updated = conditions.filter((m) => m.id !== condition.id);
-    setConditions(updated);
-    sstore.store(key, updated);
-  };
-
-  const onSelectItem = (condition) => {
-    if (conditions.includes(condition)) {
-      setConditions(conditions);
-    } else {
-      const updated = JSON.parse(JSON.stringify(conditions));
-      updated.push(condition);
-      //console.log(updated);
+  //delete conditios from user account
+  const handleDelete = async (condition) => {
+    try{
+      
+      const updated = conditions.filter((m) => m.id !== condition.id);
       setConditions(updated);
+
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        conditions: arrayRemove(condition.id)
+      });
+      
       sstore.store(key, updated);
+      console.log("Removed condition");
+
+    } catch (error) {
+      console.error("Error with condition removal:", error);
+      loadData();    
+    }
+  };
+
+  //selecting a condition
+  const onSelectItem = async (condition) => {
+    if (conditions.find(c => c.id === condition.id)) {
+      console.log("Condition already added");
+      return;
+    } 
+    try {
+      const updated = [...conditions, condition];
+      setConditions(updated);
+      
+      const userDocRef = doc(db, "users", authContext.user.uid);
+      await updateDoc(userDocRef, {
+        conditions: arrayUnion(condition.id)
+      });
+      //updated.push(condition);
+      //console.log(updated);
+      //(updated);
+      sstore.store(key, updated);
+      console.log("Added Condition");
+
+    } catch (error) {
+      console.error("Error adding condition", error);
+      loadData();
     }
   };
 
