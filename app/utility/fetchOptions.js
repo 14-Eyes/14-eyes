@@ -1,9 +1,33 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+/* NOTE:
+AsyncStorage basically will save a copy of everything even
+when the app reloads. The first call to the database will
+trigger the "using cached conditions" console log, since it
+is loading this data for the first time. After that, if the
+app is reloaded, this data should all still be saved, preventing
+another call to the database.
+*/
+
+// for AsyncStorage
+const COND_KEY = "CACHE_CONDITIONS";
+const ALLERGY_KEY = "CACHE_ALLERGIES";
+const DIET_KEY = "CACHE_DIET";
 
 let condCache = null;
 let allergyCache = null;
 let dietCache = null;
+
+// AsyncStorage functions
+async function loadFromStorage(key) {
+  const json = await AsyncStorage.getItem(key);
+  return json ? JSON.parse(json) : null;
+}
+async function saveToStorage(key, data) {
+  await AsyncStorage.setItem(key, JSON.stringify(data));
+}
 
 //fetch conditions from firestore
 export const fetchCond = async () => {
@@ -13,12 +37,24 @@ export const fetchCond = async () => {
         return condCache;
     }
     
+    // check AsyncStorage next
+    const stored = await loadFromStorage(COND_KEY);
+    if (stored) {
+        condCache = stored;
+        console.log("using AsyncStorage cached conditions");
+        return condCache;
+    }
+
     try {
         const condDoc = await getDoc(doc(db, 'options', 'conditions'));
 
         if (condDoc.exists()) {
             //store conditions in cache
             condCache = condDoc.data().items;
+
+            // persist conditions to local storage
+            await saveToStorage(COND_KEY, condCache);
+            
             console.log("conditions loaded from firestore");
             return condCache;
         } else {
@@ -38,6 +74,13 @@ export const fetchAllergies = async () => {
         console.log("using cached allergies");
         return allergyCache;
     }
+
+    const stored = await loadFromStorage(ALLERGY_KEY);
+    if (stored) {
+        allergyCache = stored;
+        console.log("using AsyncStorage cached allergies");
+        return allergyCache;
+    }
   
     try {
         const allergiesDoc = await getDoc(doc(db, 'options', 'allergies'));
@@ -45,6 +88,10 @@ export const fetchAllergies = async () => {
         if (allergiesDoc.exists()) {
             //store allergies in cache
             allergyCache = allergiesDoc.data().items;
+
+            // persist allergies to local storage
+            await saveToStorage(ALLERGY_KEY, allergyCache);
+            
             console.log("allergies loaded from firestore");
             return allergyCache;
         } else {
@@ -64,6 +111,13 @@ export const fetchDiet = async () => {
         console.log("using cached dietary preferences");
         return dietCache;
     }
+
+    const stored = await loadFromStorage(DIET_KEY);
+    if (stored) {
+        dietCache = stored;
+        console.log("using AsyncStorage cached dietary preferences");
+        return dietCache;
+    }
     
     try {
         const dietDoc = await getDoc(doc(db, 'options', 'dietary-preferences'));
@@ -71,6 +125,10 @@ export const fetchDiet = async () => {
         if (dietDoc.exists()) {
             //store conditions in cache
             dietCache = dietDoc.data().items;
+
+            // persist diet pref to local storage
+            await saveToStorage(DIET_KEY, dietCache); 
+
             console.log("dietary preferences loaded from firestore");
             return dietCache;
         } else {
@@ -84,18 +142,21 @@ export const fetchDiet = async () => {
 };
 
 //clear caches
-export const clearCondCache = () => {
+export const clearCondCache = async () => {
     condCache = null;
+    await AsyncStorage.removeItem(COND_KEY);
     console.log("condition cache cleared");
 };
 
-export const clearAllergyCache = () => {
+export const clearAllergyCache = async () => {
     allergyCache = null;
+    await AsyncStorage.removeItem(ALLERGY_KEY);
     console.log("allergy cache cleared");
 };
 
-export const clearDietCache = () => {
+export const clearDietCache = async () => {
     dietCache = null;
+    await AsyncStorage.removeItem(DIET_KEY);
     console.log("dietary preferences cache cleared");
 };
 

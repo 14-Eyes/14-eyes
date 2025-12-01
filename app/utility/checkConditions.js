@@ -4,6 +4,7 @@
 
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { fetchCond } from "./fetchOptions";
 
 export async function checkConditions(ingredientsText) {
     try {
@@ -22,13 +23,14 @@ export async function checkConditions(ingredientsText) {
             return { good: [], avoid: [] };
         }
 
-        // load the big conditions document from Firebase (inside objects collection)
-        const condDoc = await getDoc(doc(db, "options", "conditions"));
-        const allConditions = condDoc.data().items;
+        // load the big conditions document from Firebase (inside objects collection); uses AsyncStorage
+        // const condDoc = await getDoc(doc(db, "options", "conditions"));
+        // const allConditions = condDoc.data().items;
+        const allConditions = await fetchCond();
 
         // save only the conditions that match what the user has currently set
         const active = allConditions.filter((c) =>
-        userConditions.includes(c.id)
+            userConditions.includes(c.id)
         );
 
         // --- Scan all ingredients for text matches ---
@@ -36,18 +38,18 @@ export async function checkConditions(ingredientsText) {
         const results = { good: [], avoid: [] };
 
         active.forEach((cond) => {
-        // scan for good matches; store in good
-        cond.good.forEach((g) => {
-            if (lowerIngredients.includes(g.toLowerCase())) {
-            results.good.push(g);
-            }
-        });
-        // scan for bad matches; store in avoid
-        cond.avoid.forEach((a) => {
-            if (lowerIngredients.includes(a.toLowerCase())) {
-            results.avoid.push(a);
-            }
-        });
+            // scan for good matches; store in good
+            cond.good.forEach((g) => {
+                if (lowerIngredients.includes(g.toLowerCase())) {
+                    results.good.push(g);
+                }
+            });
+            // scan for bad matches; store in avoid
+            cond.avoid.forEach((a) => {
+                if (lowerIngredients.includes(a.toLowerCase())) {
+                results.avoid.push(a);
+                }
+            });
         });
         // ---------------------------------------------
 
