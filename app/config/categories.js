@@ -16,7 +16,7 @@ export default {
             id: 1,
             label: "Fruits",
             desc: "Apple, Bananas, Plums, etc.",
-            pageDesc: "This stuff is good for you!",
+            pageDesc: "It can be hard to know where to find the vitamins and minerals that are essential for our health. Listed below are different types of food groups, the essential nutrients they provide our body, and what those nutrients do for your body!",
             buttonColor: "#F43545",
             mapToo: foodz.fruits,
         },

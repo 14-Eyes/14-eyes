@@ -112,18 +112,20 @@ const styles = StyleSheet.create({
     imageContainer: {
       padding: 20,
       flexDirection: 'column', // Align children horizontally
-      width: 350,
+      alignItems: 'center', // Optionally, center items vertically
+      width: 375,
     },
     listContainer: {
       flex: 1,
       flexDirection: 'row', // Align children horizontally
       flexWrap: 'wrap',
       justifyContent: 'center',
+      top: 10,
     },
     vitaminContainer: {
       justifyContent: 'center', // Push items to the right end of the row
       alignItems: 'center', // Optionally, center items vertically
-      padding: 10,
+      padding: 5,
       width: '33%',
     },
     button: {
