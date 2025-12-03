@@ -37,7 +37,7 @@ import {
   Image,
   Platform,
   Linking,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
@@ -48,26 +48,14 @@ import AppButton from "../components/AppButton";
 import choices from "../config/funfact";
 
 const windowWidth = Dimensions.get("window").width; // used to map fun facts
+const funfact = choices.funfact;
 
-// this code will shuffle ALL food facts, and then only show the top 15 of them to the user
-const getfunfacts = (funfacts) => {
-  return [...funfacts]               // copy foodfacts array
-    .sort(() => 0.5 - Math.random()) // shuffle the copy
-    .slice(0, 15);                   // take first 15
-};
+var random_index = 0;
 
-// this code will shuffle ALL food facts and show to user
-// const funfacts = [...choices.funfact].sort(
-//   () => 0.5 - Math.random()
-// );
-
-// var random_index = 0;
-// for (var i = 0; i < 18; i++) {
-//   random_index = Math.floor(Math.random() * funfact.length);
-//   //console.log({random_index});
-//   funfact.splice(random_index, 1);
-// }
-//console.log("funfact size: %d", funfact.length);
+for (var i = 0; i < 18; i++) {
+  random_index = Math.floor(Math.random() * funfact.length);
+  funfact.splice(random_index, 1);
+}
 
 export class Home extends Component {
   constructor(props) {
@@ -79,49 +67,20 @@ export class Home extends Component {
         require("../assets/bannerSponsor.png"),
       ],
       activeIndex: 0,
-      carouselItems: getfunfacts(choices.funfact).map((fact) => ({
-        id: fact.id,
-        label: fact.label,
-      })),
-      // carouselItems: funfact.map((fact) => {
-      //   return { text: <AppText key={fact.id}>{fact.label}</AppText> };
-      // }),
+      carouselItems: funfact.map((fact) => {
+        return { text: <AppText key={fact.id}>{fact.label}</AppText> };
+      }),
     };
   }
-
-  // _renderItem({ item, index }) {
-  //   return (
-  //     <View
-  //       style={{
-  //         backgroundColor: "floralwhite",
-  //         borderRadius: 20,
-  //         height: 200,
-  //         alignItems: "center",
-  //         padding: 2,
-  //         marginLeft: 25,
-  //         marginRight: 25,
-  //       }}
-  //     >
-  //       <Text style={{ fontSize: 25 }}>{item.title}</Text>
-  //       <Text>{item.text}</Text>
-  //     </View>
-  //   );
-  // }
 
   render() {
     return (
       <Screen style={styles.container}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-          {/* <View style={styles.grid}> */}
-            <Image
-              style={styles.logo}
-              source={require("../assets/appsponsor.png")}
-            />
-            {/* <Image
-              style={styles.eltrlogo}
-              source={require("../assets/eltrRainbow_new.png")}
-            /> */}
-          {/* </View> */}
+        <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
+          <Image
+            style={styles.logo}
+            source={require("../assets/bannerSponsor.png")}
+          />
 
           <View style={styles.flexContainer}>
             <Carousel
@@ -132,11 +91,22 @@ export class Home extends Component {
               height={120}
               data={this.state.carouselItems}
               scrollAnimationDuration={1000}
-              renderItem={({ item }) => (
-                <View style={styles.carouselItem}>
-                  <AppText style={styles.carouselText}>
-                    {item.label}
-                  </AppText>
+              renderItem={({ item, index }) => (
+                <View
+                  key={index}
+                  style={{
+                    backgroundColor: "floralwhite",
+                    borderRadius: 20,
+                    height: 120,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginHorizontal: 10,
+                    padding: 10,
+                  }}
+                >
+                  <Text style={{ fontSize: 16, textAlign: "center" }}>
+                    {item.text}
+                  </Text>
                 </View>
               )}
             />
@@ -145,7 +115,7 @@ export class Home extends Component {
           <View style={styles.buttonGood}>
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate('EssentialNutrients')
+                this.props.navigation.navigate("EssentialNutrients")
               }
               style={[styles.button]}
             >
@@ -158,7 +128,7 @@ export class Home extends Component {
 
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate('HarmfulIngredientsStack')
+                this.props.navigation.navigate("HarmfulIngredientsStack")
               }
               style={[styles.button]}
             >
@@ -170,14 +140,14 @@ export class Home extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('FoodFacts')}
+              onPress={() => this.props.navigation.navigate("FoodFacts")}
               style={[styles.button]}
             >
               <Image
                 source={require("../assets/food_facts.png")}
                 style={[styles.image]}
               />
-              <Text style={styles.buttonText}>Fun Food Facts</Text>
+              <Text style={styles.buttonText}>Other Food Facts</Text>
             </TouchableOpacity>
 
             {/* Donation Section */}
@@ -204,7 +174,7 @@ export class Home extends Component {
                 style={styles.donateButton}
                 onPress={() =>
                   Linking.openURL(
-                    "https://www.paypal.com/fundraiser/charity/3629811"
+                    "https://www.paypal.com/donate?token=N3DmdQoxZLRuD7AB5usiR0TTHA70C8f1RX3iuuM6uUAD34y7905nNYWaHsXRTbVPyKWpsHBI4_C0qa9f"
                   )
                 }
               >
@@ -229,65 +199,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   flexContainer: {
-    alignItems: "center",
-    marginVertical: 20,
-    // flexDirection: "row",
-    // justifyContent: "center",
-    // top: 100,
+    flexDirection: "row",
+    justifyContent: "center",
+    top: 100,
   },
-
-  // grid: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: "center",
-  //   paddingHorizontal: 45,
-  //   marginTop: 15,
-  // },
+  buttonGood: {
+    flexDirection: "column",
+    width: 350,
+    alignSelf: "center",
+    marginTop: 150,
+  },
   logo: {
     alignSelf: "center",
-		height: 75,
-    width: 185, 
-		resizeMode: 'contain',
-    overflow: "hidden",
-    marginTop: 10,
-    // marginBottom: 10,
-    // width: 250,
-    // top: 0,
-    // position: "absolute",
-    // justifyContent: "center",
-  },
-  // eltrlogo: {
-  //   // alignSelf: "center",
-	// 	height: 100,
-  //   width: 100, 
-	// 	resizeMode: 'contain',
-  //   overflow: "hidden",
-  //   marginTop: 10,
-  //   borderRadius: 20,
-  // },
-
-  carouselItem: {
-    backgroundColor: "floralwhite",
-    borderRadius: 20,
-    height: 120,
-    alignItems: "center",
+    top: 0,
+    position: "absolute",
     justifyContent: "center",
-    marginHorizontal: 10,
-    padding: 10,
-  },
-  carouselText: {
-    fontSize: 17,
-    textAlign: "center",
-  },
-
-  buttonGood: {
-    // flexDirection: "column",
-    width: "90%",
-    alignSelf: "center",
-    // marginTop: 150,
-  },
-  text: {
-    color: colors.primary,
   },
   button: {
     height: 120,
@@ -297,17 +223,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 3,
     marginVertical: 5,
-    // iOS Shadow properties
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    // Android Elevation property
-    elevation: 6,
   },
   buttonText: {
-    fontSize: 24,
-    textAlign: "center",
+    fontSize: 20,
     color: colors.white,
     textTransform: "uppercase",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
@@ -318,14 +236,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 25,
-    resizeMode: "cover", // Or 'contain', 'stretch', etc.
+    resizeMode: "cover",
   },
-
   donationContainer: {
     backgroundColor: "#EDEDED",
     padding: 15,
     borderRadius: 20,
-    marginTop: 25,
+    marginTop: 15,
     marginBottom: 30,
   },
   donationTitle: {
