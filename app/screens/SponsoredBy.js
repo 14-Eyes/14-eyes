@@ -41,11 +41,9 @@ const FadeInView = (props) => {
 };
 
 function SponsoredBy({ navigation }) {
-  
-  // Automatically go to intro video after 6 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate("IntroVidScreen"); // FIXED FOR OPTION A
+      navigation.navigate("IntroVidScreen");
     }, 6000);
 
     return () => clearTimeout(timer);
@@ -65,7 +63,7 @@ function SponsoredBy({ navigation }) {
         <View style={styles.buttonContainer}>
           <CloseButton
             title="X"
-            onPress={() => navigation.navigate("IntroVidScreen")} // OPTION A
+            onPress={() => navigation.navigate("IntroVidScreen")}
           />
         </View>
 
