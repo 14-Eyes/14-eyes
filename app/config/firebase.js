@@ -88,8 +88,8 @@ if (__DEV__) { // __DEV__ is true in development builds
   // If you also want to connect Realtime Database to its emulator
   // console.log(`[Firebase Config] Connecting to Realtime Database Emulator at http://${EMULATOR_HOST}:9000`);
   // connectDatabaseEmulator(rtdb, EMULATOR_HOST, 9000);
-}
-*/
+}*/
+
 
 export default app;
 
