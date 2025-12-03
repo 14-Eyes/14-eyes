@@ -53,8 +53,8 @@ export default function App() {
         <NavigationContainer theme={navigationTheme}>
           {user ? (
             <Stack.Navigator>
-          <Stack.Screen
-                name="App Sponsor"
+              <Stack.Screen
+                name="AdNavigator"
                 component={AdNavigator}
                 options={{ headerShown: false }}
               />

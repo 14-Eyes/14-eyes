@@ -11,17 +11,26 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import SponsoredBy from "../screens/SponsoredBy";
+import IntroVidScreen from "../screens/IntroVidScreen";   //  ADDED
 
 const Stack = createStackNavigator();
 
 const AdNavigator = () => (
   <Stack.Navigator>
+
     <Stack.Screen
       name="Sponsored"
       component={SponsoredBy}
-	  headerMode="none"
-      options={{ headerShown: false }}	  
-	/>  
+      headerMode="none"
+      options={{ headerShown: false }}
+    />
+
+    <Stack.Screen
+      name="IntroVidScreen"
+      component={IntroVidScreen}
+      options={{ headerShown: false }}
+    />
+
   </Stack.Navigator>
 );
 
