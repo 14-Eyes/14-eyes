@@ -116,7 +116,8 @@ function FoodDetails({ route }) {
     load();
   }, []);
 
-  
+  console.log("Scanner screen rendered");
+
   // -----------------------------
   // FOLLOWING IS ALL UI
   // -----------------------------
