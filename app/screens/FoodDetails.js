@@ -11,6 +11,7 @@ import { getAuth } from "firebase/auth";
 // Import any other utility functions here (for allergies, diet, preservatives, etc.)
 import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
+import { checkDiet } from "../utility/checkDiet";
 
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
@@ -34,6 +35,12 @@ function FoodDetails({ route }) {
   // arrays to store the results of any ingredient matches FOR ALLERGIES
   const [allergyMatches, setAllergyMatches] = useState({
     avoid: [],
+  });
+
+  // arrays to store the results of any ingredient matches FOR DIETS
+  const [dietMatches, setDietMatches] = useState({
+    avoid: [],
+    certifications: [],
   });
 
   // could add other arrays to store allergies/diet matches, or could try to combine with the above arrays
@@ -81,16 +88,26 @@ function FoodDetails({ route }) {
         const allergens =
           food?.product?.allergens_tags || [];  // should be default
 
+        const labels =                          // for diet
+          food?.product?.labels_tags || [];     // should be default
+
+        const analysis =                                   // for diet
+          food?.product?.ingredients_analysis_tags || [];  // should be default
+
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
           ingredients: ingredients,                         // default to empty 
           allergens: allergens,
+          labels: labels,                                   // for diet
+          analysis: analysis,                               // for diet
         });
 
         // Debug to see full ingredients list pulled from Open Food Facts in terminal
         console.log("INGREDIENTS RAW TEXT:", ingredients);
         console.log("ALLERGENS RAW TEXT:", allergens);
+        console.log("DIETS RAW TEXT - LABELS:", labels);
+        console.log("DIETS RAW TEXT - ANALYSIS:", analysis);
 
         if (ingredients) {
           // Run condition checking function if ingredients exist (located below)
@@ -105,6 +122,12 @@ function FoodDetails({ route }) {
           if (allergyResults) {
             setAllergyMatches(allergyResults);
           }
+
+          // Run diet checking function if ingredients exist (located below)
+          const dietResults = await checkDiet(ingredients, labels, analysis);
+          if (dietResults) {
+            setDietMatches(dietResults);
+          }
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling
@@ -116,7 +139,7 @@ function FoodDetails({ route }) {
     load();
   }, []);
 
-  console.log("Scanner screen rendered");
+  // console.log("Scanner screen rendered");
 
   // -----------------------------
   // FOLLOWING IS ALL UI
@@ -133,6 +156,7 @@ function FoodDetails({ route }) {
   }
   // -----------------------------
 
+  
   // ------ NO PRODUCT FOUND -----
   if (productNotFound) {
     return (
@@ -169,11 +193,12 @@ function FoodDetails({ route }) {
   // -----------------------------
 
   // Set isBad & isGood booleans to determine thumbs up/down image
-  const hasAllergy = allergyMatches.avoid.length > 0;
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
+  const hasAllergy = allergyMatches.avoid.length > 0;
+  const hasDietBadMatch = dietMatches.avoid.length > 0;
   
-  const isBad = hasAllergy || hasConditionBad;
+  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
   const isGood = !isBad && hasConditionGood;
 
   // ------ SCREEN DISPLAY ------
@@ -220,16 +245,6 @@ function FoodDetails({ route }) {
           {/* FOOD INFO SECTION - separated from images + title */}
           <View style={styles.foodInfo}>
 
-            {/* ALLERGY WARNINGS */}
-            {hasAllergy && ( // display only if at least 1 bad allergy ingredient found
-              <>
-                <AppText style={styles.badHeader}>Potential Allergens</AppText>
-                {allergyMatches.avoid.map((item, i) => (
-                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
-                ))}
-              </>
-            )}
-
             {/* AVOID LIST */}
             {hasConditionBad && ( // display only if at least 1 bad ingredient found
               <>
@@ -249,6 +264,38 @@ function FoodDetails({ route }) {
                 ))}
               </>
             )}
+
+            {/* ALLERGY WARNINGS */}
+            {hasAllergy && ( // display only if at least 1 bad allergy ingredient found
+              <>
+                <AppText style={styles.badHeader}>Potential Allergens</AppText>
+                {allergyMatches.avoid.map((item, i) => (
+                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
+                ))}
+              </>
+            )}
+
+            {/* DIET WARNINGS */}
+            {dietMatches.avoid.length > 0 && (
+              <>
+                <AppText style={styles.badHeader}>Potential Dietary Conflicts</AppText>
+                {dietMatches.avoid.map((item, i) => (
+                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
+                ))}
+              </>
+            )}
+
+            {/* DIET CERTIFICATIONS */}
+            {dietMatches.certifications.length > 0 && (
+              <>
+                <AppText style={styles.goodHeader}>Official Dietary Certifications Found</AppText>
+                {dietMatches.certifications.map((item, i) => (
+                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
+                ))}
+              </>
+            )}
+
+
 
             {/* NO ACCOUNT RELATED INGREDIENTS FOUND */}
             {conditionMatches.avoid.length === 0 && conditionMatches.good.length === 0 && allergyMatches.avoid.length === 0 && (
