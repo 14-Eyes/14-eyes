@@ -13,9 +13,13 @@ import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
 
+// Ultra Processed
+import UltraProcessedMarker from "../components/UltraProcessedMarker";
+
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -54,6 +58,9 @@ function FoodDetails({ route }) {
     image: "",
     ingredients: "",
     allergens: [],
+    labels: [],
+    analysis: [],
+    novaGroup: null,
   });
 
   // -------------------------------------------------
@@ -94,6 +101,9 @@ function FoodDetails({ route }) {
         const analysis =                                   // for diet
           food?.product?.ingredients_analysis_tags || [];  // should be default
 
+        const novaGroup =                       // for ultra processed marker
+          food?.product?.nova_group ?? null;
+          
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
@@ -101,13 +111,15 @@ function FoodDetails({ route }) {
           allergens: allergens,
           labels: labels,                                   // for diet
           analysis: analysis,                               // for diet
+          novaGroup,                                        // for ultra processed marker
         });
 
-        // Debug to see full ingredients list pulled from Open Food Facts in terminal
+        // Debug to see all info pulled from Open Food Facts in terminal
         console.log("INGREDIENTS RAW TEXT:", ingredients);
         console.log("ALLERGENS RAW TEXT:", allergens);
         console.log("DIETS RAW TEXT - LABELS:", labels);
         console.log("DIETS RAW TEXT - ANALYSIS:", analysis);
+        console.log("NOVA GROUP:", novaGroup);
 
         if (ingredients) {
           // Run condition checking function if ingredients exist (located below)
@@ -242,6 +254,9 @@ function FoodDetails({ route }) {
             </View>
           )}
 
+          {/* ULTRA-PROCESSED MARKER */}
+          <UltraProcessedMarker novaGroup={product.novaGroup} />
+
           {/* FOOD INFO SECTION - separated from images + title */}
           <View style={styles.foodInfo}>
 
@@ -294,8 +309,6 @@ function FoodDetails({ route }) {
                 ))}
               </>
             )}
-
-
 
             {/* NO ACCOUNT RELATED INGREDIENTS FOUND */}
             {conditionMatches.avoid.length === 0 && conditionMatches.good.length === 0 && allergyMatches.avoid.length === 0 && (
