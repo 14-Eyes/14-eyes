@@ -33,7 +33,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
 
         // --- Scan all ingredients and diet certifications for text matches ---
         const lowerIngredients = ingredientsText.toLowerCase();
-        const foundAvoid = new Set();
+        const foundAvoid = new Map();
         const foundCerts = new Set();
 
         const lowerCerts = [...offLabels, ...offAnalysis].map(tag => 
@@ -48,7 +48,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
                 const d = raw.trim().toLowerCase();
                 
                 if (lowerIngredients.includes(d)) {
-                    foundAvoid.add(d);
+                    foundAvoid.set(d, diet.label);
                 }
             });
 
@@ -64,7 +64,15 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         // ---------------------------------------------
         
         // convert "found" to expected array format
-        const results = { avoid: Array.from(foundAvoid), certifications: Array.from(foundCerts), };
+        const results = {
+            avoid: Array.from(foundAvoid.entries()).map(
+                ([ingredient, diet]) => ({
+                ingredient,
+                diet,
+                })
+            ),
+            certifications: Array.from(foundCerts),
+        };
         
         console.log("DIET INGREDIENT MATCHES:", results.avoid);
         console.log("DIET CERTIFICATIONS MATCHED:", results.certifications);

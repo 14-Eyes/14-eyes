@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////
-/* COMPLETELY REWRITTEN CODE - ONLY FOR CONDITIONS AND ALLERGIES LOGIC */
+/* COMPLETELY REWRITTEN CODE - MAIN LOGIC DRIVER FOR CONDITIONS, ALLERGIES, AND DIET CHECK */
+/* also main logic driver for identifying diet certifications and ultra-processed markers (NOVA score) */
 
 /* !!! SEE FoodDetailsOld.js FOR OLD CODE !!! */
 
@@ -12,14 +13,16 @@ import { getAuth } from "firebase/auth";
 import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
+import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
-// Ultra Processed
-import UltraProcessedMarker from "../components/UltraProcessedMarker";
-
+// Components
+import FoodMatchInfo from "../components/FoodMatchInfo"; // Ingredient list for each cond/allergy/diet
+import UltraProcessedMarker from "../components/UltraProcessedMarker"; // Ultra Processed Marker
+import DietCertificationBadge from "../components/DietCertificationBadge"; // Diet Cert Badge
+import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -151,12 +154,24 @@ function FoodDetails({ route }) {
     load();
   }, []);
 
+  // // -------------------------------------------------
+  // // SET UP FOUND FOOD ITEM INFO ARRAY
+  // // This array is used to later display the info related to 
+  // // conditions, allergies, and diet to the user
+  // // -------------------------------------------------
+  const { foundFoodInfo, groupedInfo } = buildFoodMatches({
+    conditionMatches,
+    allergyMatches,
+    dietMatches,
+  });
+
+
   // console.log("Scanner screen rendered");
 
   // -----------------------------
   // FOLLOWING IS ALL UI
   // -----------------------------
-
+ 
   // ------ LOADING DISPLAY ------
   if (loading) {
     return (
@@ -211,11 +226,19 @@ function FoodDetails({ route }) {
   const hasDietBadMatch = dietMatches.avoid.length > 0;
   
   const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
-  const isGood = !isBad && hasConditionGood;
+  const isGood = !isBad || (!isBad && hasConditionGood);
+
+  const badConditionInfo = groupedInfo.condition.filter(
+    item => item.severity === "bad"
+  );
+  const goodConditionInfo = groupedInfo.condition.filter(
+    item => item.severity === "good"
+  );
 
   // ------ SCREEN DISPLAY ------
   if (!productNotFound) {
     return (
+      <>
       <ScrollView style={styles.scroll}>
         <Screen style={styles.foodContainer}>
 
@@ -234,7 +257,7 @@ function FoodDetails({ route }) {
           {/* PRODUCT NAME */}
           <AppText style={styles.title}>{product.name}</AppText>
 
-          {/* THUMBS DOWN IMAGE - shows if ANY avoid ingredient found */}
+          {/* THUMBS DOWN IMAGE - shows if ANY avoid/bad ingredient found */}
           {isBad && (
             <View style={{ marginTop: 15 }}>
               <Image
@@ -244,7 +267,7 @@ function FoodDetails({ route }) {
             </View>
           )}
             
-          {/* THUMBS UP IMAGE - shows only if ANY good ingredient found & NO bad ingredients found */}
+          {/* THUMBS UP IMAGE - shows only if NO avoid/bad ingredients found AND/OR if ANY good ingredient found */}
           {isGood && (
             <View style={{ marginTop: 15 }}>
               <Image
@@ -257,70 +280,131 @@ function FoodDetails({ route }) {
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
 
+          {/* DIET CERTIFICATIONS */}
+          {dietMatches.certifications.length > 0 && (
+            <View style={styles.certBadge}>
+              {dietMatches.certifications.map((cert, i) => (
+                <DietCertificationBadge key={`cert-${i}`} label={cert} />
+              ))}
+            </View>
+          )}
+
+
           {/* FOOD INFO SECTION - separated from images + title */}
           <View style={styles.foodInfo}>
 
+          {/* ALLERGIES */}
+            {hasAllergy && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Allergy Warning
+                </AppText>
+                {groupedInfo.allergy.map((info, index) => (
+                  <FoodMatchInfo
+                    key={`allergy-${index}`}
+                    foundFoodInfo={info}
+                  />
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* CONDITIONS */}
+            {hasConditionBad > 0 && (
+              <>
+                <AppText style={styles.badHeader}>
+                  This food is BAD for you because...
+                </AppText>
+                {badConditionInfo.map((info, index) => (
+                  <FoodMatchInfo
+                    key={`condition-bad-${index}`}
+                    foundFoodInfo={info}
+                  />
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {hasConditionGood > 0 && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  This food is GOOD for you because...
+                </AppText>
+                {goodConditionInfo.map((info, index) => (
+                  <FoodMatchInfo
+                    key={`condition-good-${index}`}
+                    foundFoodInfo={info}
+                  />
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* DIETS */}
+            {hasDietBadMatch && (
+              <>
+                <AppText style={styles.badHeader}>
+                  This food conflicts with your diet because...
+                </AppText>
+                {groupedInfo.diet.map((info, index) => (
+                  <FoodMatchInfo
+                    key={`diet-${index}`}
+                    foundFoodInfo={info}
+                  />
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* NO ACCOUNT RELATED INGREDIENTS FOUND */}
+            {foundFoodInfo.length === 0 && (
+              <AppText style={styles.noneFound}>
+                No ingredient conflicts detected based on your profile.
+              </AppText>
+            )}
+
+            {/* {foundFoodInfo.length > 0 ? (
+              foundFoodInfo.map((info, index) => (
+                <FoodMatchInfo key={index} foundFoodInfo={info} />
+              ))
+            ) : (
+              <AppText style={styles.noneFound}>
+                No ingredient conflicts detected based on your profile.
+                {"\n"}We cannot determine if this food is good or bad.
+              </AppText>
+            )} */}
+
             {/* AVOID LIST */}
-            {hasConditionBad && ( // display only if at least 1 bad ingredient found
+            {/* {hasConditionBad && ( // display only if at least 1 bad ingredient found
               <>
                 <AppText style={styles.badHeader}>Potential Harmful Ingredients Found</AppText>
                 {conditionMatches.avoid.map((item, i) => (
                   <AppText key={i} style={styles.bullet}>• {item}</AppText>
                 ))}
               </>
-            )}
+            )} */}
 
             {/* GOOD LIST */}
-            {hasConditionGood && ( // display only if at least 1 good ingredient found
+            {/* {hasConditionGood && ( // display only if at least 1 good ingredient found
               <>
                 <AppText style={styles.goodHeader}>Potential Helpful Ingredients Found</AppText>
                 {conditionMatches.good.map((item, i) => (
                   <AppText key={i} style={styles.bullet}>• {item}</AppText>
                 ))}
               </>
-            )}
+            )} */}
 
-            {/* ALLERGY WARNINGS */}
-            {hasAllergy && ( // display only if at least 1 bad allergy ingredient found
-              <>
-                <AppText style={styles.badHeader}>Potential Allergens</AppText>
-                {allergyMatches.avoid.map((item, i) => (
-                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
-                ))}
-              </>
-            )}
-
-            {/* DIET WARNINGS */}
-            {dietMatches.avoid.length > 0 && (
-              <>
-                <AppText style={styles.badHeader}>Potential Dietary Conflicts</AppText>
-                {dietMatches.avoid.map((item, i) => (
-                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
-                ))}
-              </>
-            )}
-
-            {/* DIET CERTIFICATIONS */}
-            {dietMatches.certifications.length > 0 && (
-              <>
-                <AppText style={styles.goodHeader}>Official Dietary Certifications Found</AppText>
-                {dietMatches.certifications.map((item, i) => (
-                  <AppText key={i} style={styles.bullet}>• {item}</AppText>
-                ))}
-              </>
-            )}
-
-            {/* NO ACCOUNT RELATED INGREDIENTS FOUND */}
-            {conditionMatches.avoid.length === 0 && conditionMatches.good.length === 0 && allergyMatches.avoid.length === 0 && (
+            {/* {conditionMatches.avoid.length === 0 && conditionMatches.good.length === 0 && allergyMatches.avoid.length === 0 && (
               <AppText style={styles.noneFound}>
                 No condition-related or allergy-related ingredients detected.
                 {"\n"}We cannot determine if this food is good or bad.
               </AppText>
-            )}
+            )} */}
 
           </View>
         </Screen>
       </ScrollView>
+      </>
     );
   }
 }
@@ -392,9 +476,11 @@ const styles = StyleSheet.create({
     textAlign: "center", 
   },
   title: { 
-    fontSize: 26, 
+    fontSize: 30, 
     fontWeight: "bold", 
     marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
     textAlign: "center",
   },
   thumbs: {
@@ -409,26 +495,36 @@ const styles = StyleSheet.create({
     marginTop: 20, 
   },
   badHeader: { 
-    fontSize: 20, 
+    fontSize: 19, 
+    textAlign: "center",
     color: colors.eltrred, 
     fontWeight: "bold", 
-    marginTop: 20, 
-    marginBottom: 10, 
+    marginTop: 5, 
+    marginBottom: 5, 
   },
   goodHeader: { 
-    fontSize: 20, 
+    fontSize: 19, 
+    textAlign: "center",
     color: colors.eltrgreen, 
     fontWeight: "bold", 
-    marginTop: 20, 
-    marginBottom: 10, 
+    marginTop: 5, 
+    marginBottom: 5, 
   },
   bullet: { 
     fontSize: 18, 
     marginLeft: 10, 
-    marginVertical: 2, 
+    marginVertical: 1, 
+  },
+  certBadge: {
+    flexDirection: "row",
+    justifyContent: "center", // centers single badge
+    alignItems: "center",
+    flexWrap: "wrap", 
+    marginTop: 10,
   },
   noneFound: { 
-    marginTop: 10, 
+    marginTop: 10,
+    paddingBottom: 25, 
     color: colors.medium, 
     fontSize: 16, 
     textAlign: "center", 

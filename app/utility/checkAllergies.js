@@ -35,7 +35,7 @@ export async function checkAllergies(ingredientsText, allergensTags = []) {
 
         // --- Scan all ingredients and allergies for text matches ---
         const lowerIngredients = ingredientsText.toLowerCase();
-        const found = new Set();;
+        const found = new Map();
 
         const lowerTags = allergensTags.map(tag =>
             tag.replace(/^en:/, "").trim().toLowerCase()
@@ -48,19 +48,26 @@ export async function checkAllergies(ingredientsText, allergensTags = []) {
 
                 lowerTags.forEach(tag => {
                     if (tag.includes(a) || a.includes(tag)) {
-                        found.add(a);
+                        found.set(a, allergy.label);
                     }
                 });
 
                 if (lowerIngredients.includes(a)) {
-                    found.add(a);
+                    found.set(a, allergy.label);
                 }
             });
         });
         // ---------------------------------------------
         
         // convert "found" to expected array format
-        const results = { avoid: Array.from(found) };
+        const results = {
+            avoid: Array.from(found.entries()).map(
+                ([ingredient, allergy]) => ({
+                    ingredient,
+                    allergy,
+                })
+            ),
+        };
         
         console.log("ALLERGY RAW MATCHES:", results.avoid);
 

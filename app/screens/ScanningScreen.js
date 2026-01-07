@@ -15,7 +15,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from "react";
-import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Text, Button } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
@@ -28,6 +28,13 @@ function ScanningScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
   const [hasScanned, setHasScanned] = useState(false);
+
+  {/* un-comment below block to simulate barcode scan on android studio */}
+  // const MOCK_BARCODE = "5034467000216"; // replace this to test different food products
+  // const mockScan = () => {
+  //   barcodeScanned({ data: MOCK_BARCODE });
+  // };
+
 
   const barcodeScanned = async ({ data }) => {
     if (hasScanned) return;   // block repeat scans
@@ -64,7 +71,19 @@ function ScanningScreen({ navigation }) {
   if (!permission.granted) return <Text>No access to camera</Text>;
 
  return (
+
     <View style={styles.container}>
+
+    {/* un-comment below block to simulate barcode scan on android studio */}
+        {/* <View style={styles.mockButton}>
+          <Button
+            title="Mock Scan (Emulator)"
+            onPress={mockScan}
+            disabled={loading}
+            color={colors.primary}
+          />
+        </View> */}
+
       {isFocused && (
         <CameraView
           style={StyleSheet.absoluteFill}
@@ -105,6 +124,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  // un-comment below style block to simulate android barcode scan
+  // mockButton: {
+  //   position: "absolute",
+  //   bottom: 40,
+  //   alignSelf: "center",
+  //   backgroundColor: "white",
+  //   padding: 6,
+  //   borderRadius: 8,
+  //   zIndex: 9999,
+  //   elevation: 10,
+  // },
 });
 
 export default ScanningScreen;
