@@ -41,13 +41,19 @@ export async function checkConditions(ingredientsText) {
             // scan for good matches; store in good
             cond.good.forEach((g) => {
                 if (lowerIngredients.includes(g.toLowerCase())) {
-                    results.good.push(g);
+                    results.good.push({
+                        ingredient: g,
+                        condition: cond.label,
+                    })
                 }
             });
             // scan for bad matches; store in avoid
             cond.avoid.forEach((a) => {
                 if (lowerIngredients.includes(a.toLowerCase())) {
-                results.avoid.push(a);
+                    results.avoid.push({
+                        ingredient: a,
+                        condition: cond.label,
+                    })
                 }
             });
         });
