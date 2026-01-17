@@ -16,8 +16,10 @@
 // Bone health: #5F2879
 // Conversion: #ea9c60
 // Brain Health: #00BA71
-// Other: #8acff4
+// Pigment: #FAD717
+// Fluids: #8acff4
 // Heart/Blood Health: #F43545
+// Other: #F786AA
 
 export default {
     vitamins: [
@@ -27,7 +29,7 @@ export default {
             use: "Plays an important role in bone growth and in the immune system",
             buttonColor: "#5F2879",
             linkTo: [
-                1, 2,
+                1, 2, 3, 8, 9,
             ],
         },
         {
@@ -36,7 +38,7 @@ export default {
             use: "Helps convert food into energy and is critical for nerve function",
             buttonColor: "#ea9c60",
             linkTo: [
-                1, 2,
+                1, 3, 4, 5, 6, 8, 9, 10, 11, 12,
             ],
         },
         {
@@ -45,7 +47,7 @@ export default {
             use: "Helps convert food into energy. Needed for healthy skin, hair, blood, and brain",
             buttonColor: "#ea9c60",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 5, 8, 9, 10, 12,
             ],
         },
         {
@@ -54,7 +56,7 @@ export default {
             use: "Helps convert food into energy. Essential for healthy skin, blood cells, brain, and nervous system",
             buttonColor: "#ea9c60",
             linkTo: [
-                1, 2,
+                1, 2, 4, 5, 6, 8, 9, 10, 11, 12,
             ],
         },
         {
@@ -63,7 +65,7 @@ export default {
             use: "Helps convert food into energy. Helps make lipids (fats), neurotransmitters, steroid hormones, and hemoglobin",
             buttonColor: "#ea9c60",
             linkTo: [
-                1, 2,
+                2, 3, 4, 11, 13,
             ],
         },
         {
@@ -72,7 +74,7 @@ export default {
             use: "Aids in lowering homocysteine levels and may reduce the risk of heart disease",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12,
             ],
         },
         {
@@ -81,7 +83,7 @@ export default {
             use: "Aids in lowering homocysteine levels and may lower the risk of heart disease. Assists in making new cells",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                3, 10, 11,
             ],
         },
         {
@@ -90,7 +92,7 @@ export default {
             use: "Helps convert food into energy and synthesize glucose",
             buttonColor: "#ea9c60",
             linkTo: [
-                1, 2,
+                4, 6,
             ],
         },
         {
@@ -99,7 +101,7 @@ export default {
             use: "Long-term use of supplemental vitamin C may protect against cataracts. Helps make collagen, a connective tissue that knits together wounds and supports blood vessel walls",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 4, 8, 9,
             ],
         },
         {
@@ -108,7 +110,7 @@ export default {
             use: "Helps make and release the neurotransmitter acetylcholine, which aids in many nerve and brain activities",
             buttonColor: "#00BA71",
             linkTo: [
-                1, 2,
+                3, 10, 11,
             ],
         },
         {
@@ -117,7 +119,7 @@ export default {
             use: "Helps maintain normal blood levels of calcium and phosphorus, which strengthen bones",
             buttonColor: "#5F2879",
             linkTo: [
-                1, 2,
+                3, 7, 10, 11,
             ],
         },
         {
@@ -126,178 +128,241 @@ export default {
             use: "Acts as an antioxidant, neutralizing unstable molecules that can damage cells",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 5, 6, 7, 10, 11, 12, 13,
             ],
         },
         {
             id: 13,
-            label: "Vitamin Bg",
-            use: "Helps prevent brain and spine birth defects when taken early in pregnancy",
-            buttonColor: "#00BA71",
-            linkTo: [
-                1, 2,
-            ],
-        },
-        {
-            id: 14,
             label: "Vitamin K",
             use: "Activates proteins and calcium essential to blood clotting. May help prevent hip fractures",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 7, 8, 9, 13,
             ],
         },
         {
-            id: 15,
+            id: 14,
             label: "Calcium",
             use: "Builds and protects bones and teeth",
             buttonColor: "#5F2879",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 8, 9, 10, 11, 12,
             ],
         },
         {
-            id: 16,
+            id: 15,
             label: "Chloride",
             use: "Balances fluids in the body",
             buttonColor: "#8acff4",
             linkTo: [
-                1, 2,
+                8,
             ],
         },
         {
-            id: 17,
+            id: 16,
             label: "Chronium",
             use: "Enhances the activity of insulin, helps maintain normal blood glucose levels, and is needed to free energy from glucose",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 10,
             ],
         },
         {
-            id: 18,
+            id: 17,
             label: "Copper",
             use: "Plays an important role in iron metabolism and immune system",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 5, 6, 10, 11, 13,
             ],
         },
         {
-            id: 19,
+            id: 18,
             label: "Fluoride",
             use: "Encourages strong bone formation. Keeps dental cavities from starting or worsening",
             buttonColor: "#5F2879",
             linkTo: [
-                1, 2,
+                1, 11,
             ],
         },
         {
-            id: 20,
+            id: 19,
             label: "Iodine",
             use: "Part of thyroid hormone, which helps set body temperature and influences nerve and muscle function",
             buttonColor: "#8acff4",
             linkTo: [
-                1, 2,
+                3, 11, 13,
             ],
         },
         {
-            id: 21,
+            id: 20,
             label: "Iron",
             use: "Helps hemoglobin in red blood cells and myoglobin in muscle cells ferry oxygen throughout the body",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12,
             ],
         },
         {
-            id: 22,
+            id: 21,
             label: "Magnesium",
             use: "Works with calcium in muscle contraction, blood clotting, and regulation of blood pressure",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12,
             ],
         },
         {
-            id: 23,
+            id: 22,
             label: "Manganese",
             use: "Helps form bones. Helps metabolize amino acids, cholesterol, and carbohydrates",
             buttonColor: "#5F2879",
             linkTo: [
-                1, 2,
+                1, 2, 4, 5, 6, 8, 9, 12,
             ],
         },
         {
-            id: 24,
+            id: 23,
             label: "Molybdenum",
             use: "Part of several enzymes, one of which helps ward off a form of severe neurological damage in infants",
             buttonColor: "#00BA71",
             linkTo: [
-                1, 2,
+                3, 4, 5,
             ],
         },
         {
-            id: 25,
+            id: 24,
             label: "Phosphorus",
             use: "Helps build and protect bones and teeth. Part of DNA and RNA. Helps convert food into energy",
             buttonColor: "#5F2879",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13,
             ],
         },
         {
-            id: 26,
+            id: 25,
             label: "Potassium",
             use: "Balances fluids in the body. Helps maintain steady heartbeat and send nerve impulses",
             buttonColor: "#8acff4",
             linkTo: [
-                1, 2,
+                1, 2, 3, 4, 5, 6, 8, 9, 10, 11,
+            ],
+        },
+        {
+            id: 26,
+            label: "Selenium",
+            use: "Acts as an antioxidant, neutralizing unstable molecules that can damage cells",
+            buttonColor: "#F786AA",
+            linkTo: [
+                3, 5, 6, 10, 11, 12,
             ],
         },
         {
             id: 27,
-            label: "Selenium",
-            use: "Acts as an antioxidant, neutralizing unstable molecules that can damage cells",
-            buttonColor: "#8acff4",
-            linkTo: [
-                1, 2,
-            ],
-        },
-        {
-            id: 28,
             label: "Sodium",
             use: "Balances fluids in the body. Helps send nerve impulses. Needed for muscle contractions",
             buttonColor: "#8acff4",
             linkTo: [
-                1, 2,
+                8, 10, 11, 12,
+            ],
+        },
+        {
+            id: 28,
+            label: "Sulfur",
+            use: "Needed for healthy hair, skin, and nails",
+            buttonColor: "#F786AA",
+            linkTo: [
+                2, 4, 10, 11,
             ],
         },
         {
             id: 29,
-            label: "Sulfur",
-            use: "Needed for healthy hair, skin, and nails",
-            buttonColor: "#8acff4",
-            linkTo: [
-                1, 2,
-            ],
-        },
-        {
-            id: 30,
             label: "Zinc",
             use: "Needed for immune system, taste, smell, and wound healing",
             buttonColor: "#F43545",
             linkTo: [
-                1, 2,
+                3, 4, 5, 6, 8, 9, 10, 11, 12, 13,
+            ],
+        },
+        {
+            id: 30,
+            label: "Vitamin B9",
+            use: "Essential for DNA repair and red blood cell production.",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12,
             ],
         },
         {
             id: 31,
-            label: "Vitamin B6",
-            use: "Needed for brain development and used to maintain nervous and immune system health",
-            buttonColor: "#00BA71",
+            label: "Lutein",
+            use: "An orange-yellow antioxidant pigment that is important for eye health and muscle strength",
+            buttonColor: "#FAD717",
+            linkTo: [
+                1, 2, 4, 8,
+            ],
+        },
+        {
+            id: 32,
+            label: "Zeaxanthin",
+            use: "An orange-yellow pigment found in fruits and vegetables. Promotes eye health.",
+            buttonColor: "#FAD717",
+            linkTo: [
+                1, 2, 4, 8,
+            ],
+        },
+        {
+            id: 33,
+            label: "Anthocyanin",
+            use: "A red, purple, and blue antioxidant pigment found in fruits and vegetables. Helps to reduce inflammation, improve cardiovascular health, and reduces the risk of cancer.",
+            buttonColor: "#FAD717",
             linkTo: [
                 1, 2,
+            ],
+        },
+        {
+            id: 34,
+            label: "Anthoxanthin",
+            use: "A white pigment found in fruits and vegetables. Helps reduce cholesterol and blood pressure.",
+            buttonColor: "#FAD717",
+            linkTo: [
+                1, 2,
+            ],
+        },
+        {
+            id: 35,
+            label: "Polyphenol",
+            use: "An antioxidant found in plants and vegetables. Reduces inflammation, and lowers the risks of getting heart diseases and diabetes.",
+            buttonColor: "#F43545",
+            linkTo: [
+                1, 2, 6, 9,
+            ],
+        },
+        {
+            id: 36,
+            label: "Lycopene",
+            use: "A red pigment found in fruits and vegetables. Helps reduce the risk of cancer.",
+            buttonColor: "#FAD717",
+            linkTo: [
+                1, 2,
+            ],
+        },
+        {
+            id: 37,
+            label: "Capsaicin",
+            use: "The source of the spicy taste of certain vegetables. Reduces inflammation and has pain relieving properties.",
+            buttonColor: "#F786AA",
+            linkTo: [
+                2,
+            ],
+        },
+        {
+            id: 38,
+            label: "Chlorophyll",
+            use: "A green pigment found in vegetables. Contains lots of B-Vitamins and other nutrients.",
+            buttonColor: "#FAD717",
+            linkTo: [
+                2, 4, 9,
             ],
         },
     ],
