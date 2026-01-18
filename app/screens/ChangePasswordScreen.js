@@ -25,19 +25,28 @@ const validationSchema = Yup.object().shape({
     .label("Confirm Password"),
 });
 
-function ChangePasswordScreen({ navigation }) {
+function ChangePasswordScreen() {
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
 
-  const SuccessPopup = ({ title, message, onClose }) => (
+  /* ---------- POPUPS ---------- */
+
+  const SuccessPopup = ({ onClose }) => (
     <Modal visible transparent animationType="fade">
       <View style={styles.modalOverlay}>
         <View style={styles.modalBox}>
-          <Text style={styles.modalTitle}>{title}</Text>
-          <Text style={styles.modalMessage}>{message}</Text>
-          <TouchableOpacity style={styles.modalButton} onPress={onClose}>
+          <Text style={styles.modalTitle}>Success</Text>
+          <Text style={styles.modalMessage}>
+            Your password has been updated successfully.
+          </Text>
+
+          <TouchableOpacity
+            style={styles.modalButton}
+            onPress={onClose}
+          >
             <Text style={styles.modalButtonText}>OK</Text>
           </TouchableOpacity>
         </View>
@@ -45,12 +54,34 @@ function ChangePasswordScreen({ navigation }) {
     </Modal>
   );
 
+  const LogOutPopup = ({ onClose }) => (
+    <Modal visible transparent animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalBox}>
+          <Text style={styles.modalTitle}>Log Out</Text>
+          <Text style={styles.modalMessage}>
+            You will be logged out and will need to sign in again using your new
+            password.
+          </Text>
+
+          <TouchableOpacity
+            style={styles.modalButton}
+            onPress={onClose}
+          >
+            <Text style={styles.modalButtonText}>OK</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+
+  /* ---------- SUBMIT ---------- */
+
   const handleSubmit = async ({ currentPassword, newPassword }) => {
     setError("");
 
     try {
       const user = auth.currentUser;
-
       if (!user || !user.email) {
         setError("No authenticated user.");
         return;
@@ -64,12 +95,7 @@ function ChangePasswordScreen({ navigation }) {
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
 
-      if (authContext?.setUser) {
-        authContext.setUser(auth.currentUser);
-      }
-
       setShowSuccess(true);
-
     } catch (err) {
       console.log("CHANGE PASSWORD ERROR:", err);
 
@@ -87,6 +113,8 @@ function ChangePasswordScreen({ navigation }) {
       }
     }
   };
+
+  /* ---------- UI ---------- */
 
   return (
     <>
@@ -110,7 +138,6 @@ function ChangePasswordScreen({ navigation }) {
             autoCorrect={false}
             icon="lock"
             placeholder="Current Password"
-            textContentType="password"
           />
 
           <AppText style={styles.label}>Enter your new password.</AppText>
@@ -121,7 +148,6 @@ function ChangePasswordScreen({ navigation }) {
             autoCorrect={false}
             icon="lock"
             placeholder="New Password"
-            textContentType="newPassword"
           />
 
           <AppText style={styles.label}>Re-enter your new password.</AppText>
@@ -132,7 +158,6 @@ function ChangePasswordScreen({ navigation }) {
             autoCorrect={false}
             icon="lock-question"
             placeholder="Confirm New Password"
-            textContentType="password"
           />
 
           <SubmitButton title="Change Password" />
@@ -141,17 +166,27 @@ function ChangePasswordScreen({ navigation }) {
 
       {showSuccess && (
         <SuccessPopup
-          title="Success"
-          message="Your password has been updated."
           onClose={() => {
             setShowSuccess(false);
-            navigation.goBack();
+            setShowLogout(true);
+          }}
+        />
+      )}
+
+      {showLogout && (
+        <LogOutPopup
+          onClose={async () => {
+            setShowLogout(false);
+            await auth.signOut();
+            authContext?.setUser?.(null);
           }}
         />
       )}
     </>
   );
 }
+
+/* ---------- STYLES ---------- */
 
 const styles = StyleSheet.create({
   container: {
@@ -165,7 +200,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginTop: 12,
   },
-
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
@@ -177,16 +211,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
     elevation: 5,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 5,
+    marginBottom: 8,
   },
   modalMessage: {
     fontSize: 15,
@@ -207,4 +237,3 @@ const styles = StyleSheet.create({
 });
 
 export default ChangePasswordScreen;
-

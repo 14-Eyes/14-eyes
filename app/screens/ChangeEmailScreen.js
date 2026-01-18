@@ -25,43 +25,85 @@ const validationSchema = Yup.object().shape({
 });
 
 function ChangeEmailScreen({ navigation }) {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorText, setErrorText] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
 
   const handleSubmit = async ({ newEmail, password }) => {
-    setErrorVisible(false);
-    setErrorText("");
+  setErrorVisible(false);
+  setErrorText("");
 
-    try {
-      const trimmedEmail = newEmail.trim().toLowerCase();
+  try {
+    const trimmedEmail = newEmail.trim().toLowerCase();
 
-      // 1) REAUTHENTICATE (Firebase requires this)
-      const credential = EmailAuthProvider.credential(
-        auth.currentUser.email,
-        password
-      );
+    const credential = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    );
 
-      await reauthenticateWithCredential(auth.currentUser, credential);
+    await reauthenticateWithCredential(auth.currentUser, credential);
+    await verifyBeforeUpdateEmail(auth.currentUser, trimmedEmail);
+    await auth.currentUser.reload();
 
-      // 2) Send verification link to NEW email
-      await verifyBeforeUpdateEmail(auth.currentUser, trimmedEmail);
+    await updateDoc(doc(db, "users", user.uid), {
+      pendingEmail: trimmedEmail,
+    });
 
-      // 3) Store pending email (optional)
-      await updateDoc(doc(db, "users", user.uid), {
-        pendingEmail: trimmedEmail,
-      });
+    setShowSuccess(true); // show first popup
+  } catch (err) {
+    console.log("EMAIL UPDATE ERROR:", err.code, err.message);
 
-      // 4) Show modal
-      setShowSuccess(true);
-    } catch (err) {
-      console.log("EMAIL UPDATE ERROR:", err.code, err.message);
+    // Friendly error messages
+    if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
       setErrorVisible(true);
-      setErrorText(err.code); // shows REAL Firebase error
+      setErrorText("Invalid password.");
+    } else {
+      setErrorVisible(true);
+      setErrorText(err.code); // fallback to Firebase error code for other errors
     }
-  };
+  }
+};
+
+
+  /* ---------- POPUPS ---------- */
+
+  const SuccessPopup = ({ onClose }) => (
+    <Modal visible transparent animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalBox}>
+          <Text style={styles.modalTitle}>Success</Text>
+          <Text style={styles.modalText}>
+            A verification link has been sent to your new email.
+          </Text>
+          <TouchableOpacity style={styles.modalButton} onPress={onClose}>
+            <Text style={styles.modalButtonText}>OK</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
+
+  const LogOutPopup = ({ onClose }) => (
+    <Modal visible transparent animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalBox}>
+          <Text style={styles.modalTitle}>Log Out</Text>
+          <Text style={styles.modalText}>
+            After you confirm the change, you will be logged out and need to sign in again using your new email.
+          </Text>
+          <TouchableOpacity
+            style={styles.modalButton}
+            onPress={onClose}
+          >
+            <Text style={styles.modalButtonText}>OK</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  );
 
   return (
     <Screen style={styles.container}>
@@ -87,7 +129,6 @@ function ChangeEmailScreen({ navigation }) {
           keyboardType="email-address"
         />
 
-        {/* Required for re-authentication */}
         <AppFormField
           name="password"
           autoCapitalize="none"
@@ -100,28 +141,26 @@ function ChangeEmailScreen({ navigation }) {
         <SubmitButton title="Save" />
       </AppForm>
 
-      {/* Success Modal */}
-      <Modal visible={showSuccess} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Success</Text>
-            <Text style={styles.modalText}>
-              A verification link has been sent to your new email. Open the link
-              to confirm the change.
-            </Text>
+      {/* ---------- POPUPS ---------- */}
 
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => {
-                setShowSuccess(false);
-                navigation.goBack();
-              }}
-            >
-              <Text style={styles.modalButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      {showSuccess && (
+        <SuccessPopup
+          onClose={() => {
+            setShowSuccess(false);
+            setShowLogout(true);
+          }}
+        />
+      )}
+
+      {showLogout && (
+        <LogOutPopup
+          onClose={async () => {
+            setShowLogout(false);
+            await auth.signOut();
+            setUser(null);
+          }}
+        />
+      )}
     </Screen>
   );
 }
