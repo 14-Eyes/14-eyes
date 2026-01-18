@@ -15,10 +15,12 @@ another call to the database.
 const COND_KEY = "CACHE_CONDITIONS";
 const ALLERGY_KEY = "CACHE_ALLERGIES";
 const DIET_KEY = "CACHE_DIET";
+const SUGAR_KEY = "CACHE_SUGARS";
 
 let condCache = null;
 let allergyCache = null;
 let dietCache = null;
+let sugarCache = null;
 
 // AsyncStorage functions
 async function loadFromStorage(key) {
@@ -123,7 +125,7 @@ export const fetchDiet = async () => {
         const dietDoc = await getDoc(doc(db, 'options', 'dietary-preferences'));
 
         if (dietDoc.exists()) {
-            //store conditions in cache
+            //store diet pref in cache
             dietCache = dietDoc.data().items;
 
             // persist diet pref to local storage
@@ -137,6 +139,42 @@ export const fetchDiet = async () => {
         }
     } catch (error) {
         console.error("error fetching dietary preferences:", error);
+        return [];
+    }
+};
+
+//fetch good sugars from firestore
+export const fetchGoodSugars = async () => {
+    if(sugarCache) {
+        console.log("using cached good sugars");
+        return sugarCache;
+    }
+
+    const stored = await loadFromStorage(SUGAR_KEY);
+    if (stored) {
+        sugarCache = stored;
+        console.log("using AsyncStorage cached good sugars");
+        return sugarCache;
+    }
+    
+    try {
+        const sugarDoc = await getDoc(doc(db, 'ingredients', 'good-sugars'));
+
+        if (sugarDoc.exists()) {
+            //store sugars in cache
+            sugarCache = sugarDoc.data().items;
+
+            // persist sugars to local storage
+            await saveToStorage(SUGAR_KEY, sugarCache); 
+
+            console.log("good sugars loaded from firestore");
+            return sugarCache;
+        } else {
+            console.log("no good sugars document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching good sugars:", error);
         return [];
     }
 };
@@ -158,6 +196,13 @@ export const clearDietCache = async () => {
     dietCache = null;
     await AsyncStorage.removeItem(DIET_KEY);
     console.log("dietary preferences cache cleared");
+};
+
+//clear sugars cache, might not be needed but here just in case
+export const clearSugarCache = async () => {
+    sugarCache = null;
+    await AsyncStorage.removeItem(SUGAR_KEY);
+    console.log("good sugars cache cleared");
 };
 
 //get condition by ID

@@ -13,6 +13,8 @@ import { getAuth } from "firebase/auth";
 import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
+import { checkGoodSugars } from "../utility/checkGoodSugars";
+import { extractVitaminsMinerals } from "../utility/pullVitaminsMinerals";
 import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
 // Components
@@ -49,6 +51,12 @@ function FoodDetails({ route }) {
     avoid: [],
     certifications: [],
   });
+
+  //arrays to store the results of any sugar matches for GOOD SUGARS
+  const [goodSugarMatches, setGoodSugarMatches] = useState([]);
+
+  //array to store vitamins and minerals found
+  const [vitaminsFound, setVitaminsFound] = useState([]);
 
   // could add other arrays to store allergies/diet matches, or could try to combine with the above arrays
   // my first thought is probably to try adding separate arrays?
@@ -143,6 +151,19 @@ function FoodDetails({ route }) {
           if (dietResults) {
             setDietMatches(dietResults);
           }
+
+          //Run good sugar checking function if ingredients exist
+          const goodSugarResults = await checkGoodSugars(ingredients);
+          if (goodSugarResults) {
+            setGoodSugarMatches(goodSugarResults);
+          }
+
+          //Pull vitamins and minerals
+          const nutrients = food?.product?.nutriments;
+          if (nutrients) {
+            const vitamins = extractVitaminsMinerals(nutrients);
+            setVitaminsFound(vitamins);
+          }
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling
@@ -224,6 +245,8 @@ function FoodDetails({ route }) {
   const hasConditionGood = conditionMatches.good.length > 0;
   const hasAllergy = allergyMatches.avoid.length > 0;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
+  const hasGoodSugar = goodSugarMatches.length > 0;
+  const hasVitaminMineral = vitaminsFound.length > 0;
   
   const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
   const isGood = !isBad || (!isBad && hasConditionGood);
@@ -339,6 +362,41 @@ function FoodDetails({ route }) {
                 <LineDivider />
               </>
             )}
+
+            {/* GOOD SUGARS */}
+            {hasGoodSugar && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Natural sweetners found
+                </AppText>
+                {goodSugarMatches.map((sugar, index) => (
+                  <AppText 
+                  key={`sugar-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* VITAMINS + MINERALS */}
+            {hasVitaminMineral && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Vitamins and minerals found:
+                </AppText>
+                {vitaminsFound.map((vitamin, index) => (
+                  <AppText 
+                  key={`vitamin-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {vitamin} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
 
             {/* DIETS */}
             {hasDietBadMatch && (
