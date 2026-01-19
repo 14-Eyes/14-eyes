@@ -29,63 +29,13 @@ function ChangePasswordScreen() {
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showLogout, setShowLogout] = useState(false);
-
-  /* ---------- POPUPS ---------- */
-
-  const SuccessPopup = ({ onClose }) => (
-    <Modal visible transparent animationType="fade">
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalBox}>
-          <Text style={styles.modalTitle}>Success</Text>
-          <Text style={styles.modalMessage}>
-            Your password has been updated successfully.
-          </Text>
-
-          <TouchableOpacity
-            style={styles.modalButton}
-            onPress={onClose}
-          >
-            <Text style={styles.modalButtonText}>OK</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Modal>
-  );
-
-  const LogOutPopup = ({ onClose }) => (
-    <Modal visible transparent animationType="fade">
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalBox}>
-          <Text style={styles.modalTitle}>Log Out</Text>
-          <Text style={styles.modalMessage}>
-            You will be logged out and will need to sign in again using your new
-            password.
-          </Text>
-
-          <TouchableOpacity
-            style={styles.modalButton}
-            onPress={onClose}
-          >
-            <Text style={styles.modalButtonText}>OK</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Modal>
-  );
-
-  /* ---------- SUBMIT ---------- */
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async ({ currentPassword, newPassword }) => {
     setError("");
 
     try {
       const user = auth.currentUser;
-      if (!user || !user.email) {
-        setError("No authenticated user.");
-        return;
-      }
 
       const credential = EmailAuthProvider.credential(
         user.email,
@@ -95,26 +45,18 @@ function ChangePasswordScreen() {
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
 
-      setShowSuccess(true);
+      setShowModal(true);
     } catch (err) {
-      console.log("CHANGE PASSWORD ERROR:", err);
-
       if (
         err.code === "auth/wrong-password" ||
         err.code === "auth/invalid-credential"
       ) {
         setError("Invalid password.");
-      } else if (err.code === "auth/requires-recent-login") {
-        setError("Please log out and log back in, then try again.");
-      } else if (err.code === "auth/too-many-requests") {
-        setError("Too many attempts. Try again later.");
       } else {
         setError("Unable to change password. Please try again.");
       }
     }
   };
-
-  /* ---------- UI ---------- */
 
   return (
     <>
@@ -164,29 +106,36 @@ function ChangePasswordScreen() {
         </AppForm>
       </Screen>
 
-      {showSuccess && (
-        <SuccessPopup
-          onClose={() => {
-            setShowSuccess(false);
-            setShowLogout(true);
-          }}
-        />
-      )}
+      <Modal visible={showModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Success</Text>
+            <Text style={styles.modalMessage}>
+              Your password has been updated successfully.
+            </Text>
 
-      {showLogout && (
-        <LogOutPopup
-          onClose={async () => {
-            setShowLogout(false);
-            await auth.signOut();
-            authContext?.setUser?.(null);
-          }}
-        />
-      )}
+            <Text style={styles.modalTitle}>Log Out</Text>
+            <Text style={styles.modalMessage}>
+              You will be logged out and will need to sign in again using your
+              new password.
+            </Text>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={async () => {
+                setShowModal(false);
+                await auth.signOut();
+                authContext?.setUser?.(null);
+              }}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
-
-/* ---------- STYLES ---------- */
 
 const styles = StyleSheet.create({
   container: {

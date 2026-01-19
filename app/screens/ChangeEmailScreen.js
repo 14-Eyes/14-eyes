@@ -29,81 +29,42 @@ function ChangeEmailScreen({ navigation }) {
 
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showLogout, setShowLogout] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async ({ newEmail, password }) => {
-  setErrorVisible(false);
-  setErrorText("");
+    setErrorVisible(false);
+    setErrorText("");
 
-  try {
-    const trimmedEmail = newEmail.trim().toLowerCase();
+    try {
+      const trimmedEmail = newEmail.trim().toLowerCase();
 
-    const credential = EmailAuthProvider.credential(
-      auth.currentUser.email,
-      password
-    );
+      const credential = EmailAuthProvider.credential(
+        auth.currentUser.email,
+        password
+      );
 
-    await reauthenticateWithCredential(auth.currentUser, credential);
-    await verifyBeforeUpdateEmail(auth.currentUser, trimmedEmail);
-    await auth.currentUser.reload();
+      await reauthenticateWithCredential(auth.currentUser, credential);
+      await verifyBeforeUpdateEmail(auth.currentUser, trimmedEmail);
+      await auth.currentUser.reload();
 
-    await updateDoc(doc(db, "users", user.uid), {
-      pendingEmail: trimmedEmail,
-    });
+      await updateDoc(doc(db, "users", user.uid), {
+        pendingEmail: trimmedEmail,
+      });
 
-    setShowSuccess(true); // show first popup
-  } catch (err) {
-    console.log("EMAIL UPDATE ERROR:", err.code, err.message);
-
-    // Friendly error messages
-    if (err.code === "auth/wrong-password" || err.code === "auth/invalid-credential") {
-      setErrorVisible(true);
-      setErrorText("Invalid password.");
-    } else {
-      setErrorVisible(true);
-      setErrorText(err.code); // fallback to Firebase error code for other errors
+      setShowModal(true);
+    } catch (err) {
+      if (
+        err.code === "auth/wrong-password" ||
+        err.code === "auth/invalid-credential"
+      ) {
+        setErrorVisible(true);
+        setErrorText("Invalid password.");
+      } else {
+        setErrorVisible(true);
+        setErrorText(err.code);
+      }
     }
-  }
-};
-
-
-  /* ---------- POPUPS ---------- */
-
-  const SuccessPopup = ({ onClose }) => (
-    <Modal visible transparent animationType="fade">
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalBox}>
-          <Text style={styles.modalTitle}>Success</Text>
-          <Text style={styles.modalText}>
-            A verification link has been sent to your new email.
-          </Text>
-          <TouchableOpacity style={styles.modalButton} onPress={onClose}>
-            <Text style={styles.modalButtonText}>OK</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Modal>
-  );
-
-  const LogOutPopup = ({ onClose }) => (
-    <Modal visible transparent animationType="fade">
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalBox}>
-          <Text style={styles.modalTitle}>Log Out</Text>
-          <Text style={styles.modalText}>
-            After you confirm the change, you will be logged out and need to sign in again using your new email.
-          </Text>
-          <TouchableOpacity
-            style={styles.modalButton}
-            onPress={onClose}
-          >
-            <Text style={styles.modalButtonText}>OK</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Modal>
-  );
+  };
 
   return (
     <Screen style={styles.container}>
@@ -141,26 +102,33 @@ function ChangeEmailScreen({ navigation }) {
         <SubmitButton title="Save" />
       </AppForm>
 
-      {/* ---------- POPUPS ---------- */}
+      <Modal visible={showModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Success</Text>
+            <Text style={styles.modalText}>
+              A verification link has been sent to your new email.
+            </Text>
 
-      {showSuccess && (
-        <SuccessPopup
-          onClose={() => {
-            setShowSuccess(false);
-            setShowLogout(true);
-          }}
-        />
-      )}
+            <Text style={styles.modalTitle}>LogOut</Text>
+            <Text style={styles.modalText}>
+              After you confirm the change, you will be logged out and will need
+              to sign in again using your new email.
+            </Text>
 
-      {showLogout && (
-        <LogOutPopup
-          onClose={async () => {
-            setShowLogout(false);
-            await auth.signOut();
-            setUser(null);
-          }}
-        />
-      )}
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={async () => {
+                setShowModal(false);
+                await auth.signOut();
+                setUser(null);
+              }}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </Screen>
   );
 }
