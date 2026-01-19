@@ -15,6 +15,7 @@ import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
 import { checkGoodSugars } from "../utility/checkGoodSugars";
 import { checkBadSugars } from "../utility/checkBadSugars";
+import { checkDyes } from "../utility/checkDyes";
 import { extractVitaminsMinerals } from "../utility/pullVitaminsMinerals";
 import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
@@ -56,8 +57,11 @@ function FoodDetails({ route }) {
   //arrays to store the results of any sugar matches for GOOD SUGARS
   const [goodSugarMatches, setGoodSugarMatches] = useState([]);
 
-   //arrays to store the results of any sugar matches for BAD SUGARS
+  //arrays to store the results of any sugar matches for BAD SUGARS
   const [badSugarMatches, setBadSugarMatches] = useState([]);
+
+  //arrays to store the results of any dye matches 
+  const [dyeMatches, setDyeMatches] = useState([]);
 
   //array to store vitamins and minerals found
   const [vitaminsFound, setVitaminsFound] = useState([]);
@@ -168,6 +172,12 @@ function FoodDetails({ route }) {
             setBadSugarMatches(badSugarResults);
           }
 
+          //Run dye checking function if ingredients exist
+          const dyeResults = await checkDyes(ingredients);
+          if (dyeResults) {
+            setDyeMatches(dyeResults);
+          }
+
           //Pull vitamins and minerals
           const nutrients = food?.product?.nutriments;
           if (nutrients) {
@@ -257,6 +267,7 @@ function FoodDetails({ route }) {
   const hasDietBadMatch = dietMatches.avoid.length > 0;
   const hasGoodSugar = goodSugarMatches.length > 0;
   const hasBadSugar = badSugarMatches.length >0;
+  const hasDye = dyeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
   const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
@@ -403,6 +414,23 @@ function FoodDetails({ route }) {
                   style={styles.bullet}
                   > 
                   • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* DYES */}
+            {hasDye && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Artificial dyes found:
+                </AppText>
+                {dyeMatches.map((dye, index) => (
+                  <AppText 
+                  key={`dye-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {dye.name} </AppText>
                 ))}
                 <LineDivider />
               </>

@@ -17,12 +17,14 @@ const ALLERGY_KEY = "CACHE_ALLERGIES";
 const DIET_KEY = "CACHE_DIET";
 const SUGAR_KEY = "CACHE_SUGARS";
 const BADSUGAR_KEY = "CACHE_BADSUGARS";
+const DYE_KEY = "CACHE_DYES";
 
 let condCache = null;
 let allergyCache = null;
 let dietCache = null;
 let sugarCache = null;
 let badSugarCache = null;
+let dyeCache = null;
 
 // AsyncStorage functions
 async function loadFromStorage(key) {
@@ -217,6 +219,42 @@ export const fetchBadSugars = async () => {
     }
 };
 
+//fetch dyes from firestore
+export const fetchDyes = async () => {
+    if(dyeCache) {
+        console.log("using cached dyes");
+        return dyeCache;
+    }
+
+    const stored = await loadFromStorage(DYE_KEY);
+    if (stored) {
+        dyeCache = stored;
+        console.log("using AsyncStorage cached dyes");
+        return dyeCache;
+    }
+    
+    try {
+        const dyeDoc = await getDoc(doc(db, 'ingredients', 'dyes'));
+
+        if (dyeDoc.exists()) {
+            //store dyes in cache
+            dyeCache = dyeDoc.data().items;
+
+            // persist bad sugars to local storage
+            await saveToStorage(DYE_KEY, dyeCache); 
+
+            console.log("dyes loaded from firestore");
+            return dyeCache;
+        } else {
+            console.log("no dyes document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching dyes:", error);
+        return [];
+    }
+};
+
 //clear caches
 export const clearCondCache = async () => {
     condCache = null;
@@ -237,6 +275,7 @@ export const clearDietCache = async () => {
 };
 
 //clear sugars cache, might not be needed but here just in case
+//we can follow this pattern to clear the other caches if needed
 export const clearSugarCache = async () => {
     sugarCache = null;
     await AsyncStorage.removeItem(SUGAR_KEY);
