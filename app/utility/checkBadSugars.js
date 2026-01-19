@@ -28,7 +28,7 @@ export async function checkBadSugars(ingredientsText) {
             }
         });
 
-        console.log(`found ${results.length} bad sugars`);
+        console.log("found ", results.length, "bad sugars");
         return results;
 
     } catch (err) {

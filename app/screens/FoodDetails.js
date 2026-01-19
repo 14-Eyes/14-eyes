@@ -16,6 +16,7 @@ import { checkDiet } from "../utility/checkDiet";
 import { checkGoodSugars } from "../utility/checkGoodSugars";
 import { checkBadSugars } from "../utility/checkBadSugars";
 import { checkDyes } from "../utility/checkDyes";
+import { checkPreservatives } from "../utility/checkPreservatives";
 import { extractVitaminsMinerals } from "../utility/pullVitaminsMinerals";
 import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
@@ -62,6 +63,9 @@ function FoodDetails({ route }) {
 
   //arrays to store the results of any dye matches 
   const [dyeMatches, setDyeMatches] = useState([]);
+
+  //arrays to store the results of any preservative matches 
+  const [preservativeMatches, setPreservativeMatches] = useState([]);
 
   //array to store vitamins and minerals found
   const [vitaminsFound, setVitaminsFound] = useState([]);
@@ -178,6 +182,12 @@ function FoodDetails({ route }) {
             setDyeMatches(dyeResults);
           }
 
+          //Run preservative checking function if ingredients exist
+          const preservativeResults = await checkPreservatives(ingredients);
+          if (preservativeResults) {
+            setPreservativeMatches(preservativeResults);
+          }
+
           //Pull vitamins and minerals
           const nutrients = food?.product?.nutriments;
           if (nutrients) {
@@ -268,6 +278,7 @@ function FoodDetails({ route }) {
   const hasGoodSugar = goodSugarMatches.length > 0;
   const hasBadSugar = badSugarMatches.length >0;
   const hasDye = dyeMatches.length > 0;
+  const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
   const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
@@ -431,6 +442,23 @@ function FoodDetails({ route }) {
                   style={styles.bullet}
                   > 
                   • {dye.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* PRESERVATIVES */}
+            {hasPreservative && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Artificial preservatives found:
+                </AppText>
+                {preservativeMatches.map((preservative, index) => (
+                  <AppText 
+                  key={`preservative-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {preservative.name} </AppText>
                 ))}
                 <LineDivider />
               </>

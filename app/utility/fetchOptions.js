@@ -18,6 +18,7 @@ const DIET_KEY = "CACHE_DIET";
 const SUGAR_KEY = "CACHE_SUGARS";
 const BADSUGAR_KEY = "CACHE_BADSUGARS";
 const DYE_KEY = "CACHE_DYES";
+const PRESERVE_KEY = "CACHE-PRESERVATIVES";
 
 let condCache = null;
 let allergyCache = null;
@@ -25,6 +26,7 @@ let dietCache = null;
 let sugarCache = null;
 let badSugarCache = null;
 let dyeCache = null;
+let preserveCache = null;
 
 // AsyncStorage functions
 async function loadFromStorage(key) {
@@ -240,7 +242,7 @@ export const fetchDyes = async () => {
             //store dyes in cache
             dyeCache = dyeDoc.data().items;
 
-            // persist bad sugars to local storage
+            // persist dyes to local storage
             await saveToStorage(DYE_KEY, dyeCache); 
 
             console.log("dyes loaded from firestore");
@@ -251,6 +253,42 @@ export const fetchDyes = async () => {
         }
     } catch (error) {
         console.error("error fetching dyes:", error);
+        return [];
+    }
+};
+
+//fetch preservatives from firestore
+export const fetchPreservatives = async () => {
+    if(preserveCache) {
+        console.log("using cached preservatives");
+        return preserveCache;
+    }
+
+    const stored = await loadFromStorage(PRESERVE_KEY);
+    if (stored) {
+        preserveCache = stored;
+        console.log("using AsyncStorage cached preservatives");
+        return preserveCache;
+    }
+    
+    try {
+        const preserveDoc = await getDoc(doc(db, 'ingredients', 'preservatives'));
+
+        if (preserveDoc.exists()) {
+            //store preservatives in cache
+            preserveCache = preserveDoc.data().items;
+
+            // persist preservatives to local storage
+            await saveToStorage(PRESERVE_KEY, preserveCache); 
+
+            console.log("preservatives loaded from firestore");
+            return preserveCache;
+        } else {
+            console.log("no preservatives document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching preservatives:", error);
         return [];
     }
 };

@@ -28,7 +28,7 @@ export async function checkDyes(ingredientsText) {
             }
         });
 
-        console.log(`found ${results.length} dyes`);
+        console.log("found ", results.length, "dyes");
         return results;
 
     } catch (err) {
