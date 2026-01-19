@@ -1,17 +1,17 @@
 // ----------------------------
-// GOOD SUGARS SCANNING LOGIC
+// BAD SUGARS SCANNING LOGIC
 // ----------------------------
 
-import { fetchGoodSugars } from "./fetchOptions";
+import { fetchBadSugars } from "./fetchOptions";
 
-export async function checkGoodSugars(ingredientsText) {
+export async function checkBadSugars(ingredientsText) {
     try {
         
-        //fetch good sugars from firebase
-        const allGoodSugars = await fetchGoodSugars();
+        //fetch bad sugars from firebase
+        const allBadSugars = await fetchBadSugars();
 
         //if no sugars stored, exit function with a empty array
-        if (allGoodSugars.length === 0) {
+        if (allBadSugars.length === 0) {
             return [];
         }
 
@@ -19,8 +19,8 @@ export async function checkGoodSugars(ingredientsText) {
         const lowerIngredients = ingredientsText.toLowerCase();
         const results = [];
 
-        //scan for good sugar matches and stores them in results array
-        allGoodSugars.forEach((sugar) => {
+        //scan for bad sugar matches and stores them in results array
+        allBadSugars.forEach((sugar) => {
             if (lowerIngredients.includes(sugar.label.toLowerCase())) {
                 results.push({
                     name: sugar.label
@@ -28,11 +28,11 @@ export async function checkGoodSugars(ingredientsText) {
             }
         });
 
-        console.log(`found ${results.length} good sugars`);
+        console.log(`found ${results.length} bad sugars`);
         return results;
 
     } catch (err) {
-        console.log("Good sugars scan failed:", err);
+        console.log("Bad sugars scan failed:", err);
         return [];
     }
 }

@@ -16,11 +16,13 @@ const COND_KEY = "CACHE_CONDITIONS";
 const ALLERGY_KEY = "CACHE_ALLERGIES";
 const DIET_KEY = "CACHE_DIET";
 const SUGAR_KEY = "CACHE_SUGARS";
+const BADSUGAR_KEY = "CACHE_BADSUGARS";
 
 let condCache = null;
 let allergyCache = null;
 let dietCache = null;
 let sugarCache = null;
+let badSugarCache = null;
 
 // AsyncStorage functions
 async function loadFromStorage(key) {
@@ -175,6 +177,42 @@ export const fetchGoodSugars = async () => {
         }
     } catch (error) {
         console.error("error fetching good sugars:", error);
+        return [];
+    }
+};
+
+//fetch bad sugars from firestore
+export const fetchBadSugars = async () => {
+    if(badSugarCache) {
+        console.log("using cached bad sugars");
+        return badSugarCache;
+    }
+
+    const stored = await loadFromStorage(SUGAR_KEY);
+    if (stored) {
+        badSugarCache = stored;
+        console.log("using AsyncStorage cached bad sugars");
+        return badSugarCache;
+    }
+    
+    try {
+        const badSugarDoc = await getDoc(doc(db, 'ingredients', 'bad-sugars'));
+
+        if (badSugarDoc.exists()) {
+            //store bad sugars in cache
+            badSugarCache = badSugarDoc.data().items;
+
+            // persist bad sugars to local storage
+            await saveToStorage(BADSUGAR_KEY, badSugarCache); 
+
+            console.log("bad sugars loaded from firestore");
+            return badSugarCache;
+        } else {
+            console.log("no bad sugars document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching bad sugars:", error);
         return [];
     }
 };

@@ -14,6 +14,7 @@ import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
 import { checkGoodSugars } from "../utility/checkGoodSugars";
+import { checkBadSugars } from "../utility/checkBadSugars";
 import { extractVitaminsMinerals } from "../utility/pullVitaminsMinerals";
 import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
@@ -54,6 +55,9 @@ function FoodDetails({ route }) {
 
   //arrays to store the results of any sugar matches for GOOD SUGARS
   const [goodSugarMatches, setGoodSugarMatches] = useState([]);
+
+   //arrays to store the results of any sugar matches for BAD SUGARS
+  const [badSugarMatches, setBadSugarMatches] = useState([]);
 
   //array to store vitamins and minerals found
   const [vitaminsFound, setVitaminsFound] = useState([]);
@@ -158,6 +162,12 @@ function FoodDetails({ route }) {
             setGoodSugarMatches(goodSugarResults);
           }
 
+          //Run bad sugar checking function if ingredients exist
+          const badSugarResults = await checkBadSugars(ingredients);
+          if (badSugarResults) {
+            setBadSugarMatches(badSugarResults);
+          }
+
           //Pull vitamins and minerals
           const nutrients = food?.product?.nutriments;
           if (nutrients) {
@@ -246,6 +256,7 @@ function FoodDetails({ route }) {
   const hasAllergy = allergyMatches.avoid.length > 0;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
   const hasGoodSugar = goodSugarMatches.length > 0;
+  const hasBadSugar = badSugarMatches.length >0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
   const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
@@ -367,11 +378,28 @@ function FoodDetails({ route }) {
             {hasGoodSugar && (
               <>
                 <AppText style={styles.goodHeader}>
-                  Natural sweetners found
+                  Natural sweetners found:
                 </AppText>
                 {goodSugarMatches.map((sugar, index) => (
                   <AppText 
                   key={`sugar-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* BAD SUGARS */}
+            {hasBadSugar && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Harmful sweetners found:
+                </AppText>
+                {badSugarMatches.map((sugar, index) => (
+                  <AppText 
+                  key={`bad-sugar-${index}`} 
                   style={styles.bullet}
                   > 
                   • {sugar.name} </AppText>
