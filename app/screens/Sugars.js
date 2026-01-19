@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: 10,
     fontSize: 14,
+    textAlign: "center",
   },
   
 });

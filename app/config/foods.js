@@ -30,7 +30,7 @@ export default {
         },
         {
             id: 3,
-            label: "Avacado",
+            label: "Avocado",
             picture: 'avacado',
             desc: "Can be mashed, cooked, or eaten fresh",
             vitaminList: [

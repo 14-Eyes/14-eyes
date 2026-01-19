@@ -189,7 +189,7 @@ export default {
         {
             id: 4,
             label: "Confectioner's sugar",
-            why: "Also known as powdered sugar or icing sugar, its a powdery sugar product made from ground sugar. Has been linked to higher rates of obesity and diabetes when consumed in excess.",
+            why: "Also known as powdered sugar or icing sugar, it's a powdery sugar product made from ground sugar. Has been linked to higher rates of obesity and diabetes when consumed in excess.",
         },
         {
             id: 5,
@@ -229,12 +229,12 @@ export default {
         {
             id: 12,
             label: "Rice syrup",
-            why: "Also known as rice malt, its a sweetener with no nutritional value. Has been found to have high levels of arsenic, as well as negative health effects for gut health and blood sugar levels.",
+            why: "Also known as rice malt, it's a sweetener with no nutritional value. Has been found to have high levels of arsenic, as well as negative health effects for gut health and blood sugar levels.",
         },
         {
             id: 13,
             label: "Saccharose",
-            why: "Also known as table sugar or sucrose, its a sweetener made from glucose and fructose. Has been linked to an increased risk of obesity, diabetes, decreased heart and blood health, and metabolic disorders.",
+            why: "Also known as table sugar or sucrose, it's a sweetener made from glucose and fructose. Has been linked to an increased risk of obesity, diabetes, decreased heart and blood health, and metabolic disorders.",
         },
     ],
     preservativesChoices: [
@@ -387,7 +387,7 @@ export default {
         },
         {
             id: 2,
-            label: "Tans Fats",
+            label: "Trans Fats",
             why: "Includes most fried foods, margarine, baked goods, and processed snacks like crackers. Has been linked to an increased risk of inflammation, heart disease, diabetes, and strokes when consumed in large amounts.",
         },
     ],

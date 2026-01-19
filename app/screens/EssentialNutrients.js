@@ -18,7 +18,7 @@ function EssentialNutrients({navigation}) {
       <Screen style={styles.container}>
 	    <ScrollView>
           <AppText style={styles.title}>Nutrients in Everyday Foods</AppText>
-          <AppText style={styles.italic}>The following are various foods found in most grocery stores and resturants that contain vitamins and minerals essential to your health.</AppText>
+          <AppText style={styles.italic}>The following are various foods found in most grocery stores and restaurants that contain vitamins and minerals essential to your health.</AppText>
 
           <View style={styles.listContainer}>
           {foods.map(food => (
