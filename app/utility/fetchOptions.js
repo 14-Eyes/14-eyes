@@ -188,7 +188,7 @@ export const fetchBadSugars = async () => {
         return badSugarCache;
     }
 
-    const stored = await loadFromStorage(SUGAR_KEY);
+    const stored = await loadFromStorage(BADSUGAR_KEY);
     if (stored) {
         badSugarCache = stored;
         console.log("using AsyncStorage cached bad sugars");
