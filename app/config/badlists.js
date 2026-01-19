@@ -229,12 +229,12 @@ export default {
         {
             id: 12,
             label: "Rice syrup",
-            why: "Also known as rice malt, it’s a sweetener with no nutritional value. Has been found to have high levels of arsenic, as well as negative health effects for gut health and blood sugar levels.",
+            why: "Also known as rice malt, its a sweetener with no nutritional value. Has been found to have high levels of arsenic, as well as negative health effects for gut health and blood sugar levels.",
         },
         {
             id: 13,
             label: "Saccharose",
-            why: "Also known as table sugar or sucrose, it’s a sweetener made from glucose and fructose. Has been linked to an increased risk of obesity, diabetes, decreased heart and blood health, and metabolic disorders.",
+            why: "Also known as table sugar or sucrose, its a sweetener made from glucose and fructose. Has been linked to an increased risk of obesity, diabetes, decreased heart and blood health, and metabolic disorders.",
         },
     ],
     preservativesChoices: [
