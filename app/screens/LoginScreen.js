@@ -26,6 +26,7 @@ import colors from "../config/colors";
 import { auth, db } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { clearAllOptionCaches } from "../utility/fetchOptions";
 
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
@@ -49,6 +50,10 @@ function LoginScreen( { navigation} ) {
       const user = userCredential.user;
 
       authContext.setUser(user);
+
+      // CLEAR ALL CACHES EVERY TIME USER LOGS IN
+      // this way new firebase updates will load in
+      await clearAllOptionCaches();
 
       const userDoc = await getDoc(doc(db, "users", user.uid));
 

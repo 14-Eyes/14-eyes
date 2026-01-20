@@ -31,6 +31,7 @@ import ScreenAuth from "../components/ScreenAuth";
 import colors from "../config/colors";
 import { auth, db} from "../config/firebase";
 
+import { clearAllOptionCaches } from "../utility/fetchOptions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 
@@ -81,9 +82,13 @@ function RegisterScreen({ navigation }) {
           .set({
             name: name,
           })*/
-          .then(() => {
+          .then(async () => {
             console.log("Firestore document successfully written for UID:", userID);
             authContext.setUsername(name);
+
+            // CLEAR ALL CACHES EVERY TIME USER LOGS IN
+            // this way new firebase updates will load in
+            await clearAllOptionCaches();
           })
           .catch((error) => {
             console.error("Error writing document: ", error);

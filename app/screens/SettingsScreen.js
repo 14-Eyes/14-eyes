@@ -28,6 +28,7 @@ import routes from "../navigation/routes";
 import AuthContext from "../auth/context";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { clearAllOptionCaches } from "../utility/fetchOptions";
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -79,12 +80,15 @@ function SettingsScreen( { navigation } ) {
   const authContext = useContext(AuthContext);
 
   const handleLogOut = async () => {
-    try {
+	  try {
+		await clearAllOptionCaches();
 		await signOut(auth);
-		console.log('user signed out');
-	} catch (error) {
-		console.log('logout error:', error);
-	}
+		authContext.setUser(null);
+		console.log("User signed out, cache cleared");
+	  } catch (error) {
+		console.error("Logout error:", error);
+	  }
+	};
 	//old logout code that doesnt work
 	/*Firebase.auth()
       .signOut()
@@ -95,7 +99,6 @@ function SettingsScreen( { navigation } ) {
       .catch((error) => {
         console.log(error);
       });*/
-  };
 
   return (
     <Screen style={styles.screen}>
@@ -109,7 +112,7 @@ function SettingsScreen( { navigation } ) {
 					<ListItem
 						title={item.title}
 						onPress={
-						item.isLogout
+							item.isLogout
 							? handleLogOut
 							: () => navigation.navigate(item.target)
 						}

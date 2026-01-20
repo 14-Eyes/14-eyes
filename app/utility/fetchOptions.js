@@ -160,6 +160,13 @@ export const clearDietCache = async () => {
     console.log("dietary preferences cache cleared");
 };
 
+export const clearAllOptionCaches = async () => {
+  await clearCondCache();
+  await clearAllergyCache();
+  await clearDietCache();
+  console.log("ALL caches cleared");
+};
+
 //get condition by ID
 export const getCondById = async (id) => {
     const conditions = await fetchCond();
