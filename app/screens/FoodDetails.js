@@ -24,6 +24,7 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import { checkNutritions } from "../utility/checkNutrition";
+import { boolean } from "yup";
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -35,9 +36,11 @@ function FoodDetails({ route }) {
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
+
   const [conditionMatches, setConditionMatches] = useState({
     good: [],
     avoid: [],
+    badNutri: false
   });
 
   // arrays to store the results of any ingredient matches FOR ALLERGIES
@@ -113,7 +116,9 @@ function FoodDetails({ route }) {
 
         const nutriscore =
           food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null
+          //Copy NovaScore
           
+          //Need to add a nutriscore
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
