@@ -106,12 +106,19 @@ function FoodDetails({ route }) {
 
         const novaGroup =                       // for ultra processed marker
           food?.product?.nova_group ?? null;
+
+        const nutrients =
+          food?.product?.
+
+        const nutriscore =
+          food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null
           
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
           ingredients: ingredients,                         // default to empty 
           allergens: allergens,
+          nutrients: nutrients,
           labels: labels,                                   // for diet
           analysis: analysis,                               // for diet
           novaGroup,                                        // for ultra processed marker
