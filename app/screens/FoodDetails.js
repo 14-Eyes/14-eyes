@@ -23,6 +23,7 @@ import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+import { checkNutritions } from "../utility/checkNutrition";
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -108,7 +109,7 @@ function FoodDetails({ route }) {
           food?.product?.nova_group ?? null;
 
         const nutrients =
-          food?.product?.
+          food?.product?.nutriments || []; 
 
         const nutriscore =
           food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null
@@ -150,6 +151,9 @@ function FoodDetails({ route }) {
           if (dietResults) {
             setDietMatches(dietResults);
           }
+          
+          const nutriResults = await checkNutritions(nutrients);
+
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling
