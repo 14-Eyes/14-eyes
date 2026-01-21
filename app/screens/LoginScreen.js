@@ -114,13 +114,19 @@ function LoginScreen( { navigation} ) {
               <View style={styles.fixContainer}>
                 <SubmitButton title="Login" color='black' />
 
-                <AppText style={styles.text}>
+                {/* <AppText style={styles.text}>
                   —————— OR ——————
-                </AppText>
+                </AppText> */}
+
+                <View style={styles.separatorContainer}>
+                  <View style={styles.line} />
+                  <AppText style={styles.text}>OR</AppText>
+                  <View style={styles.line} />
+                </View>
 
                 <AppButton
-                title="register"
-                onPress={() => navigation.navigate(routes.REGISTER)}
+                  title="register"
+                  onPress={() => navigation.navigate(routes.REGISTER)}
                 />
 
                 <AppText style={styles.forgotText} onPress={() => navigation.navigate(routes.RESET_PASSWORD)}>
@@ -137,27 +143,33 @@ function LoginScreen( { navigation} ) {
 
 const styles = StyleSheet.create({
   container: {
-    top: 15,
-    padding: 2,
+    flex: 1,
+    justifyContent: "center",
+    // top: 15,
+    // padding: 2,
   },
   boxContainer: {
-    marginBottom: 20,
-    marginHorizontal: 25,
-    justifyContent: 'center', // Center the box vertically
+    width: "100%",
+    maxWidth: 340,
+    marginBottom: 28,
+    // marginHorizontal: 25,
+    // justifyContent: 'center', // Center the box vertically
     alignItems: 'center',     // Center the box horizontally
     backgroundColor: 'white',
     borderWidth: 3,
     borderColor: 'purple',
     borderRadius: 25,
-    overflow: "hidden",
+    paddingVertical: 20,
+    // overflow: "hidden",
   },
   buttonContainer: {
-    padding: 20,
     width: "100%",
+    paddingHorizontal: 20,
   },
   background: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    // justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
@@ -165,7 +177,18 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     bottom: 20,
   },
+  separatorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 8,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.medium,
+  },
   text: {
+    marginHorizontal: 10,
     color: colors.medium,
     fontSize: 20,
     textAlign: "center",
@@ -175,6 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textDecorationLine: 'underline',
     textAlign: "right",
+    marginTop: 10,
   },
 });
 
