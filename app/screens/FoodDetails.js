@@ -281,7 +281,7 @@ function FoodDetails({ route }) {
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
-  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
+  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
