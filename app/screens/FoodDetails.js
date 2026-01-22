@@ -396,6 +396,39 @@ function FoodDetails({ route }) {
               </>
             )}
 
+            {/* DIETS */}
+            {hasDietBadMatch && (
+              <>
+                <AppText style={styles.badHeader}>
+                  This food conflicts with your diet because...
+                </AppText>
+                {groupedInfo.diet.map((info, index) => (
+                  <FoodMatchInfo
+                    key={`diet-${index}`}
+                    foundFoodInfo={info}
+                  />
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* VITAMINS + MINERALS */}
+            {hasVitaminMineral && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Vitamins and minerals found:
+                </AppText>
+                {vitaminsFound.map((vitamin, index) => (
+                  <AppText 
+                  key={`vitamin-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {vitamin} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
             {/* GOOD SUGARS */}
             {hasGoodSugar && (
               <>
@@ -459,40 +492,6 @@ function FoodDetails({ route }) {
                   style={styles.bullet}
                   > 
                   • {preservative.name} </AppText>
-                ))}
-                <LineDivider />
-              </>
-            )}
-
-            {/* VITAMINS + MINERALS */}
-            {hasVitaminMineral && (
-              <>
-                <AppText style={styles.goodHeader}>
-                  Vitamins and minerals found:
-                </AppText>
-                {vitaminsFound.map((vitamin, index) => (
-                  <AppText 
-                  key={`vitamin-${index}`} 
-                  style={styles.bullet}
-                  > 
-                  • {vitamin} </AppText>
-                ))}
-                <LineDivider />
-              </>
-            )}
-
-
-            {/* DIETS */}
-            {hasDietBadMatch && (
-              <>
-                <AppText style={styles.badHeader}>
-                  This food conflicts with your diet because...
-                </AppText>
-                {groupedInfo.diet.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`diet-${index}`}
-                    foundFoodInfo={info}
-                  />
                 ))}
                 <LineDivider />
               </>
@@ -650,10 +649,10 @@ const styles = StyleSheet.create({
     color: colors.eltrgreen, 
     fontWeight: "bold", 
     marginTop: 5, 
-    marginBottom: 5, 
+    marginBottom: 8, 
   },
   bullet: { 
-    fontSize: 18, 
+    fontSize: 16, 
     marginLeft: 10, 
     marginVertical: 1, 
   },
