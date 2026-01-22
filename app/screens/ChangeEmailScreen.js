@@ -72,7 +72,7 @@ function ChangeEmailScreen({ navigation }) {
         Your current email is {user.email}.
       </AppText>
 
-      <AppText style={styles.tooltip}>Enter your new email.</AppText>
+      <AppText style={styles.tooltip}>What would you like to change it to?</AppText>
 
       <AppForm
         initialValues={{ newEmail: "", password: "" }}
