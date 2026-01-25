@@ -96,7 +96,7 @@ export class Home extends Component {
                     autoPlay
                     autoPlayInterval={6500}
                     width={windowWidth * 0.9}
-                    height={100}
+                    height={120}
                     data={this.state.carouselItems}
                     scrollAnimationDuration={1000}
                     renderItem={({ item, index }) => (
@@ -105,14 +105,14 @@ export class Home extends Component {
                         style={{
                             backgroundColor: 'floralwhite',
                             borderRadius: 20,
-                            height: 100,
+                            height: 120,
                             alignItems: 'center',
                             justifyContent: 'center',
                             marginHorizontal: 10,
                             padding: 10,
                         }}
                         >
-                        <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                        <Text style={{ fontSize: 16, textAlign: 'center' }}>
                             {item.text}
                         </Text>
                     </View>

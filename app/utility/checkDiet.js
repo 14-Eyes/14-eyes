@@ -6,6 +6,12 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchDiet } from "./fetchOptions";
 
+// set the base available open food facts (off) non-diet variables (currently only these 2 exist in off)
+const OFF_DIET_CONFLICTS = {
+    vegetarian: "non-vegetarian",
+    vegan: "non-vegan",
+};
+
 export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = []) {
     try {
 
@@ -25,7 +31,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
 
         // load the big diets document from Firebase (inside objects collection); uses AsyncStorage
         const allDiets = await fetchDiet();
-
+        
         // save only the diets that match what the user has currently set
         const active = allDiets.filter((d) =>
             userDiets.includes(d.id)
@@ -35,6 +41,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         const lowerIngredients = ingredientsText.toLowerCase();
         const foundAvoid = new Map();
         const foundCerts = new Set();
+        const foundOffConflicts = new Map(); // stores off "non-vegan" or "non-vegetarian" matches with user set diet
 
         const lowerCerts = [...offLabels, ...offAnalysis].map(tag => 
             tag.replace(/^en:/, "").trim().toLowerCase()
@@ -52,14 +59,23 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
                 }
             });
 
-            // scan for official diet certifications
-            active.forEach((diet) => {
-                const dietKey = diet.label.toLowerCase();
+            // scan for official diet certifications and official diet conflicts to send back to FoodDetails.js
+            const dietKey = diet.label.toLowerCase();
+            const conflictTag = OFF_DIET_CONFLICTS[dietKey];
 
-                if (lowerCerts.includes(dietKey)) {
-                    foundCerts.add(diet.label);
-                }
-            });
+            // diet certifications
+            if (lowerCerts.includes(dietKey)) {
+                foundCerts.add(diet.label);
+            }
+            
+            // diet conflicts
+            if (conflictTag && lowerCerts.includes(conflictTag)) {
+                const key = `${diet.label}-${conflictTag}`;
+                foundOffConflicts.set(key, {
+                    diet: diet.label,
+                    tag: conflictTag,
+                });
+            }
         });
         // ---------------------------------------------
         
@@ -67,15 +83,17 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         const results = {
             avoid: Array.from(foundAvoid.entries()).map(
                 ([ingredient, diet]) => ({
-                ingredient,
-                diet,
+                    ingredient,
+                    diet,
                 })
             ),
             certifications: Array.from(foundCerts),
+            offConflicts: Array.from(foundOffConflicts.values()),
         };
         
         console.log("DIET INGREDIENT MATCHES:", results.avoid);
         console.log("DIET CERTIFICATIONS MATCHED:", results.certifications);
+        console.log("DIET CONFLICTS MATCHED:", results.offConflicts);
 
         return results;
     } catch (err) {

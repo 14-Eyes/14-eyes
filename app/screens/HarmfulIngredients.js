@@ -17,7 +17,7 @@ function HarmfulIngredients({navigation}) {
       <Screen style={styles.container}>
 	    <ScrollView>
           <AppText style={styles.title}>Harmful Ingredients</AppText>
-          <AppText style={styles.italic}>Description of the stuff and what's going on here</AppText>
+          <AppText style={styles.italic}>The following are various items found in everyday foods and drinks that are harmful to your body and health.</AppText>
 
           <View style={styles.listContainer}>
             {options.map(food => (
