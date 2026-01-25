@@ -15,10 +15,18 @@ another call to the database.
 const COND_KEY = "CACHE_CONDITIONS";
 const ALLERGY_KEY = "CACHE_ALLERGIES";
 const DIET_KEY = "CACHE_DIET";
+const SUGAR_KEY = "CACHE_SUGARS";
+const BADSUGAR_KEY = "CACHE_BADSUGARS";
+const DYE_KEY = "CACHE_DYES";
+const PRESERVE_KEY = "CACHE-PRESERVATIVES";
 
 let condCache = null;
 let allergyCache = null;
 let dietCache = null;
+let sugarCache = null;
+let badSugarCache = null;
+let dyeCache = null;
+let preserveCache = null;
 
 // AsyncStorage functions
 async function loadFromStorage(key) {
@@ -123,7 +131,7 @@ export const fetchDiet = async () => {
         const dietDoc = await getDoc(doc(db, 'options', 'dietary-preferences'));
 
         if (dietDoc.exists()) {
-            //store conditions in cache
+            //store diet pref in cache
             dietCache = dietDoc.data().items;
 
             // persist diet pref to local storage
@@ -137,6 +145,150 @@ export const fetchDiet = async () => {
         }
     } catch (error) {
         console.error("error fetching dietary preferences:", error);
+        return [];
+    }
+};
+
+//fetch good sugars from firestore
+export const fetchGoodSugars = async () => {
+    if(sugarCache) {
+        console.log("using cached good sugars");
+        return sugarCache;
+    }
+
+    const stored = await loadFromStorage(SUGAR_KEY);
+    if (stored) {
+        sugarCache = stored;
+        console.log("using AsyncStorage cached good sugars");
+        return sugarCache;
+    }
+    
+    try {
+        const sugarDoc = await getDoc(doc(db, 'ingredients', 'good-sugars'));
+
+        if (sugarDoc.exists()) {
+            //store sugars in cache
+            sugarCache = sugarDoc.data().items;
+
+            // persist sugars to local storage
+            await saveToStorage(SUGAR_KEY, sugarCache); 
+
+            console.log("good sugars loaded from firestore");
+            return sugarCache;
+        } else {
+            console.log("no good sugars document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching good sugars:", error);
+        return [];
+    }
+};
+
+//fetch bad sugars from firestore
+export const fetchBadSugars = async () => {
+    if(badSugarCache) {
+        console.log("using cached bad sugars");
+        return badSugarCache;
+    }
+
+    const stored = await loadFromStorage(BADSUGAR_KEY);
+    if (stored) {
+        badSugarCache = stored;
+        console.log("using AsyncStorage cached bad sugars");
+        return badSugarCache;
+    }
+    
+    try {
+        const badSugarDoc = await getDoc(doc(db, 'ingredients', 'bad-sugars'));
+
+        if (badSugarDoc.exists()) {
+            //store bad sugars in cache
+            badSugarCache = badSugarDoc.data().items;
+
+            // persist bad sugars to local storage
+            await saveToStorage(BADSUGAR_KEY, badSugarCache); 
+
+            console.log("bad sugars loaded from firestore");
+            return badSugarCache;
+        } else {
+            console.log("no bad sugars document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching bad sugars:", error);
+        return [];
+    }
+};
+
+//fetch dyes from firestore
+export const fetchDyes = async () => {
+    if(dyeCache) {
+        console.log("using cached dyes");
+        return dyeCache;
+    }
+
+    const stored = await loadFromStorage(DYE_KEY);
+    if (stored) {
+        dyeCache = stored;
+        console.log("using AsyncStorage cached dyes");
+        return dyeCache;
+    }
+    
+    try {
+        const dyeDoc = await getDoc(doc(db, 'ingredients', 'dyes'));
+
+        if (dyeDoc.exists()) {
+            //store dyes in cache
+            dyeCache = dyeDoc.data().items;
+
+            // persist dyes to local storage
+            await saveToStorage(DYE_KEY, dyeCache); 
+
+            console.log("dyes loaded from firestore");
+            return dyeCache;
+        } else {
+            console.log("no dyes document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching dyes:", error);
+        return [];
+    }
+};
+
+//fetch preservatives from firestore
+export const fetchPreservatives = async () => {
+    if(preserveCache) {
+        console.log("using cached preservatives");
+        return preserveCache;
+    }
+
+    const stored = await loadFromStorage(PRESERVE_KEY);
+    if (stored) {
+        preserveCache = stored;
+        console.log("using AsyncStorage cached preservatives");
+        return preserveCache;
+    }
+    
+    try {
+        const preserveDoc = await getDoc(doc(db, 'ingredients', 'preservatives'));
+
+        if (preserveDoc.exists()) {
+            //store preservatives in cache
+            preserveCache = preserveDoc.data().items;
+
+            // persist preservatives to local storage
+            await saveToStorage(PRESERVE_KEY, preserveCache); 
+
+            console.log("preservatives loaded from firestore");
+            return preserveCache;
+        } else {
+            console.log("no preservatives document in firestore");
+            return [];
+        }
+    } catch (error) {
+        console.error("error fetching preservatives:", error);
         return [];
     }
 };
@@ -158,6 +310,14 @@ export const clearDietCache = async () => {
     dietCache = null;
     await AsyncStorage.removeItem(DIET_KEY);
     console.log("dietary preferences cache cleared");
+};
+
+//clear sugars cache, might not be needed but here just in case
+//we can follow this pattern to clear the other caches if needed
+export const clearSugarCache = async () => {
+    sugarCache = null;
+    await AsyncStorage.removeItem(SUGAR_KEY);
+    console.log("good sugars cache cleared");
 };
 
 export const clearAllOptionCaches = async () => {

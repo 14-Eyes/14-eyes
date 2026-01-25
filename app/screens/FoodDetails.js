@@ -13,6 +13,11 @@ import { getAuth } from "firebase/auth";
 import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
+import { checkGoodSugars } from "../utility/checkGoodSugars";
+import { checkBadSugars } from "../utility/checkBadSugars";
+import { checkDyes } from "../utility/checkDyes";
+import { checkPreservatives } from "../utility/checkPreservatives";
+import { extractVitaminsMinerals } from "../utility/pullVitaminsMinerals";
 import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
 // Components
@@ -49,6 +54,21 @@ function FoodDetails({ route }) {
     avoid: [],
     certifications: [],
   });
+
+  //arrays to store the results of any sugar matches for GOOD SUGARS
+  const [goodSugarMatches, setGoodSugarMatches] = useState([]);
+
+  //arrays to store the results of any sugar matches for BAD SUGARS
+  const [badSugarMatches, setBadSugarMatches] = useState([]);
+
+  //arrays to store the results of any dye matches 
+  const [dyeMatches, setDyeMatches] = useState([]);
+
+  //arrays to store the results of any preservative matches 
+  const [preservativeMatches, setPreservativeMatches] = useState([]);
+
+  //array to store vitamins and minerals found
+  const [vitaminsFound, setVitaminsFound] = useState([]);
 
   // could add other arrays to store allergies/diet matches, or could try to combine with the above arrays
   // my first thought is probably to try adding separate arrays?
@@ -143,6 +163,37 @@ function FoodDetails({ route }) {
           if (dietResults) {
             setDietMatches(dietResults);
           }
+
+          //Run good sugar checking function if ingredients exist
+          const goodSugarResults = await checkGoodSugars(ingredients);
+          if (goodSugarResults) {
+            setGoodSugarMatches(goodSugarResults);
+          }
+
+          //Run bad sugar checking function if ingredients exist
+          const badSugarResults = await checkBadSugars(ingredients);
+          if (badSugarResults) {
+            setBadSugarMatches(badSugarResults);
+          }
+
+          //Run dye checking function if ingredients exist
+          const dyeResults = await checkDyes(ingredients);
+          if (dyeResults) {
+            setDyeMatches(dyeResults);
+          }
+
+          //Run preservative checking function if ingredients exist
+          const preservativeResults = await checkPreservatives(ingredients);
+          if (preservativeResults) {
+            setPreservativeMatches(preservativeResults);
+          }
+
+          //Pull vitamins and minerals
+          const nutrients = food?.product?.nutriments;
+          if (nutrients) {
+            const vitamins = extractVitaminsMinerals(nutrients);
+            setVitaminsFound(vitamins);
+          }
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling
@@ -224,8 +275,13 @@ function FoodDetails({ route }) {
   const hasConditionGood = conditionMatches.good.length > 0;
   const hasAllergy = allergyMatches.avoid.length > 0;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
+  const hasGoodSugar = goodSugarMatches.length > 0;
+  const hasBadSugar = badSugarMatches.length >0;
+  const hasDye = dyeMatches.length > 0;
+  const hasPreservative = preservativeMatches.length > 0;
+  const hasVitaminMineral = vitaminsFound.length > 0;
   
-  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
+  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -351,6 +407,91 @@ function FoodDetails({ route }) {
                     key={`diet-${index}`}
                     foundFoodInfo={info}
                   />
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* VITAMINS + MINERALS */}
+            {hasVitaminMineral && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Vitamins and minerals found:
+                </AppText>
+                {vitaminsFound.map((vitamin, index) => (
+                  <AppText 
+                  key={`vitamin-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {vitamin} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* GOOD SUGARS */}
+            {hasGoodSugar && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Natural sweetners found:
+                </AppText>
+                {goodSugarMatches.map((sugar, index) => (
+                  <AppText 
+                  key={`sugar-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* BAD SUGARS */}
+            {hasBadSugar && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Harmful sweetners found:
+                </AppText>
+                {badSugarMatches.map((sugar, index) => (
+                  <AppText 
+                  key={`bad-sugar-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* DYES */}
+            {hasDye && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Artificial dyes found:
+                </AppText>
+                {dyeMatches.map((dye, index) => (
+                  <AppText 
+                  key={`dye-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {dye.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* PRESERVATIVES */}
+            {hasPreservative && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Artificial preservatives found:
+                </AppText>
+                {preservativeMatches.map((preservative, index) => (
+                  <AppText 
+                  key={`preservative-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {preservative.name} </AppText>
                 ))}
                 <LineDivider />
               </>
@@ -508,10 +649,10 @@ const styles = StyleSheet.create({
     color: colors.eltrgreen, 
     fontWeight: "bold", 
     marginTop: 5, 
-    marginBottom: 5, 
+    marginBottom: 8, 
   },
   bullet: { 
-    fontSize: 18, 
+    fontSize: 16, 
     marginLeft: 10, 
     marginVertical: 1, 
   },
