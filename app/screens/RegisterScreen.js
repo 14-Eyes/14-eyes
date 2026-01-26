@@ -31,7 +31,6 @@ import ScreenAuth from "../components/ScreenAuth";
 import colors from "../config/colors";
 import { auth, db} from "../config/firebase";
 
-import { clearAllOptionCaches } from "../utility/fetchOptions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 
@@ -82,13 +81,9 @@ function RegisterScreen({ navigation }) {
           .set({
             name: name,
           })*/
-          .then(async () => {
+          .then(() => {
             console.log("Firestore document successfully written for UID:", userID);
             authContext.setUsername(name);
-
-            // CLEAR ALL CACHES EVERY TIME USER LOGS IN
-            // this way new firebase updates will load in
-            await clearAllOptionCaches();
           })
           .catch((error) => {
             console.error("Error writing document: ", error);
@@ -163,12 +158,9 @@ function RegisterScreen({ navigation }) {
                   <View style={styles.fixContainer}>
                     <SubmitButton title="Register" color='black' />
 
-                    <View style={styles.separatorContainer}>
-                      <View style={styles.line} />
-                      <AppText style={styles.text}>OR</AppText>
-                      <View style={styles.line} />
-                    </View>
-
+                    <AppText style={styles.text}>
+                          —————— OR ——————
+                    </AppText>
                     <AppButton
                       title="back"
                       onPress={() => navigation.navigate(routes.LOGIN)}
@@ -184,59 +176,41 @@ function RegisterScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // top: 15,
-    // padding: 2,
-    flex: 1,
-    justifyContent: "center",
+    top: 15,
+    padding: 2,
   },
   boxContainer: {
-    width: "100%",
-    maxWidth: 340,
-    // marginBottom: 5,
-    // marginHorizontal: 25,
-    // justifyContent: 'center', // Center the box vertically
+    marginBottom: 20,
+    marginHorizontal: 25,
+    justifyContent: 'center', // Center the box vertically
     alignItems: 'center',     // Center the box horizontally
     backgroundColor: 'white',
     borderWidth: 3,
     borderColor: 'purple',
     borderRadius: 25,
-    paddingVertical: 20,
-    // overflow: "hidden",
-  },
-  buttonContainer: {
-    paddingHorizontal: 20,
-    width: "100%",
+    overflow: "hidden",
   },
   background: {
     flex: 1,
-    justifyContent: "center",
-    // justifyContent: "flex-end",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
     alignSelf: "center",
-    // marginTop: 10,
-    // marginBottom: 20,
-    bottom: 30,
+    marginTop: 10,
+    marginBottom: 20,
     borderRadius: 25,
     backgroundColor: 'white',
   },
-  separatorContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginVertical: 8,
-    },
-    line: {
-      flex: 1,
-      height: 1,
-      backgroundColor: colors.medium,
-    },
-    text: {
-      marginHorizontal: 10,
-      color: colors.medium,
-      fontSize: 20,
-      textAlign: "center",
-    },
+  buttonContainer: {
+    padding: 20,
+    width: "100%",
+  },
+  text: {
+    color: colors.medium,
+    fontSize: 20,
+    textAlign: "center",
+  }
 });
 
 export default RegisterScreen;

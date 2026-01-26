@@ -6,22 +6,24 @@ special screen for the auth screens:
  */
 
 import React from "react";
+import {Platform} from 'react-native';
 import Constants from "expo-constants";
 import {
   KeyboardAvoidingView,
   StyleSheet,
   View,
-  Platform,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-function ScreenAuth({ children }) {
+
+function ScreenAuth({ children, style }) {
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={[styles.screen]}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={[styles.screen, style]}
     >
-      {children}
-      {/* <View style={{ flex: 1 }} /> */}
+      <View style={[styles.view, style]}>{children}</View>
+      <View style={{ flex: 1 }} />
     </KeyboardAvoidingView>
   );
 }
@@ -31,12 +33,10 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     flex: 1,
     backgroundColor: "transparent",
-    justifyContent: "center",
-    alignItems: "center",
   },
-  // view: {
-  //   justifyContent: "center",
-  // },
+  view: {
+    justifyContent: "flex-end",
+  },
 });
 
 export default ScreenAuth;

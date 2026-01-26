@@ -38,9 +38,7 @@ function AppTextInput({ icon, width = "100%", ...otherProps }) {
         placeholderTextColor={defaultStyles.colors.medium}
         {...otherProps}
         // style={defaultStyles.text}
-        style={[defaultStyles.text, styles.input]}
-        includeFontPadding={true}
-        textAlignVertical="center"
+        style={[defaultStyles.text, { flex: 1 }]}
       />
     </View>
   );
@@ -48,20 +46,12 @@ function AppTextInput({ icon, width = "100%", ...otherProps }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 10,
     flexDirection: "row",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    padding: 15,
     marginVertical: 10,
     alignItems: "center",
-  },
-  input: {
-    width: "90%",
-    // minHeight: 35,
-    height: 35, 
-    paddingVertical: 0,
   },
   icon: {
     marginRight: 10,
