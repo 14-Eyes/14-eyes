@@ -38,8 +38,8 @@ export const FoodsForVitamin = ({route, navigation}) => {
 
             {foodList.map(food => (
               <View style={styles.imageContainer} key={food.id}>
-                <Text style={styles.imageText}>{food.label}</Text>
                 <Image source={imageSource[food.picture]} style={[styles.image]} />
+                <Text style={styles.imageText}>{food.label}</Text>
                 <Text style={styles.smallText}>{food.desc}</Text>
 
                 <View style={styles.listContainer}>
@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
         textTransform: "uppercase",
         fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
         fontWeight: "bold",
-        //position: 'absolute',
+        position: 'absolute',
         color: colors.black,
         alignSelf: 'center',
-        //top: 80,
+        top: 80,
     },
     image: {
         height: 150,

@@ -38,12 +38,12 @@ const imageAssets = {
   tomato: require('../assets/food_images/fruit/tomato.png'),
   watermelon: require('../assets/food_images/fruit/watermelon.png'),
 
-  kale: require('../assets/food_images/vegetable/kale.jpg'),
-  eggplant: require('../assets/food_images/vegetable/eggplant.jpg'),
-  butter: require('../assets/food_images/dairy/butter.jpg'),
-  cheese: require('../assets/food_images/dairy/cheese.jpg'),
-  black_bean: require('../assets/food_images/legume/black-bean.jpg'),
-  chickpea: require('../assets/food_images/legume/chickpea.jpg'),
+  kale: require('../assets/food_images/kale.png'),
+  eggplant: require('../assets/food_images/eggplant.png'),
+  butter: require('../assets/food_images/butter.png'),
+  cheese: require('../assets/food_images/cheese.png'),
+  black_bean: require('../assets/food_images/black_bean.png'),
+  chickpea: require('../assets/food_images/chickpea.png'),
 };
 
 export default imageAssets;
