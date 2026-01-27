@@ -46,9 +46,13 @@ function DisplayMessage({ result, visible, error }) {
 const styles = StyleSheet.create({
   error: {
     color: "red",
+    minHeight: 20,
+    textAlign: "center",
   },
   good: {
     color: "green",
+    minHeight: 20,
+    textAlign: "center",
   },
 });
 

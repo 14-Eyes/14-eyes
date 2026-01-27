@@ -113,30 +113,37 @@ function ResetPasswordScreen( { navigation} ) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    flex: 1,
+    justifyContent: "center",
+    // padding: 10,
   },
   boxContainer: {
-    justifyContent: 'center', // Center the box vertically
+    width: "100%",
+    maxWidth: 340,
+    // justifyContent: 'center', // Center the box vertically
     alignItems: 'center',     // Center the box horizontally
     backgroundColor: 'white',
     borderWidth: 3,
     borderColor: 'purple',
     borderRadius: 25,
-    overflow: "hidden",
+    paddingVertical: 20,
+    bottom: 50,
+    // overflow: "hidden",
   },
   buttonContainer: {
-    padding: 20,
     width: "100%",
+    paddingHorizontal: 20,
   },
   background: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    // justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
     alignSelf: "center",
-    marginBottom: 20,
     borderRadius: 25,
+    bottom: 110,
   },
   text: {
     color: colors.medium,
@@ -145,9 +152,10 @@ const styles = StyleSheet.create({
   },
   forgotText: {
     color: colors.medium,
-    fontSize: 18,
-    textDecorationLine: 'underline',
-    textAlign: "right",
+        fontSize: 18,
+        textDecorationLine: 'underline',
+        textAlign: "right",
+        marginTop: 10,
   },
 });
 

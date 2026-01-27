@@ -36,6 +36,9 @@ function FoodDetails({ route }) {
   const db = getFirestore();
   const auth = getAuth();
 
+  // set barcode value state
+  const [barcode, setBarcode] = useState(null);
+
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
@@ -53,6 +56,7 @@ function FoodDetails({ route }) {
   const [dietMatches, setDietMatches] = useState({
     avoid: [],
     certifications: [],
+    offConflicts: [],
   });
 
   //arrays to store the results of any sugar matches for GOOD SUGARS
@@ -127,6 +131,14 @@ function FoodDetails({ route }) {
         const novaGroup =                       // for ultra processed marker
           food?.product?.nova_group ?? null;
           
+        const barcode =
+          food?.barcode?.code ??
+          food?.barcode ??
+          food?.code ??
+          null;
+        setBarcode(barcode);
+        console.log("barcode:", barcode);
+
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
@@ -275,13 +287,15 @@ function FoodDetails({ route }) {
   const hasConditionGood = conditionMatches.good.length > 0;
   const hasAllergy = allergyMatches.avoid.length > 0;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
+  const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
   const hasGoodSugar = goodSugarMatches.length > 0;
   const hasBadSugar = badSugarMatches.length >0;
   const hasDye = dyeMatches.length > 0;
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
-  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasBadSugar || hasDye || hasPreservative;
+  const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
+  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasDietOffConflicts || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -397,17 +411,48 @@ function FoodDetails({ route }) {
             )}
 
             {/* DIETS */}
-            {hasDietBadMatch && (
+            {hasAnyDietConflict && (
               <>
                 <AppText style={styles.badHeader}>
                   This food conflicts with your diet because...
                 </AppText>
-                {groupedInfo.diet.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`diet-${index}`}
-                    foundFoodInfo={info}
-                  />
-                ))}
+
+                {hasDietOffConflicts && (
+                  <>
+                    <AppText style={{ fontSize: 16 }}>
+                      This food is officially classified as{" "}
+                      <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
+                        {dietMatches.offConflicts
+                          .map(conflict => conflict.tag.replace("-", " "))
+                          .join(" and ")}
+                      </AppText>{" "}
+                      by Open Food Facts.
+                    </AppText>
+
+                    {barcode && (
+                      <AppText
+                        style={[{ fontSize: 16, color: colors.eltrdarkblue }]}
+                        onPress={() =>
+                          Linking.openURL(
+                            `https://world.openfoodfacts.org/products/${barcode}`
+                          )
+                        }
+                      >
+                        Learn more
+                      </AppText>
+                    )}
+                  </>
+                )}
+
+                {hasDietBadMatch &&
+                  groupedInfo.diet.map((info, index) => (
+                    <FoodMatchInfo
+                      key={`diet-${index}`}
+                      foundFoodInfo={info}
+                    />
+                  ))
+                }
+
                 <LineDivider />
               </>
             )}
