@@ -25,19 +25,6 @@ const getTagColor = (tag) => {
   return TAG_COLORS[tag] || colors.primary;
 };
 
-
-// Edit ingredients list with whatever ingredients
-/*  I really want to have this pull from a database of recipes
-    of some some sort, I just don't know how to do that yet so this
-    is a static screen */
-// const ingredientsList = [
-//     "4 cups whole grain oats",
-//     "2 tbsp honey",
-//     "1/2 cup almond milk",
-//     "1 tsp cinnamon powder",
-//     "1 ripe banana",
-// ];
-
 function RecipesSubScreen({ route, navigation }) {
     const { recipeId } = route.params;
     const recipe = recipes.find((r) => r.id === recipeId);

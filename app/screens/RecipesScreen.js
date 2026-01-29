@@ -15,18 +15,6 @@ import { recipes } from "../config/recipes";
 
 const { width, height } = Dimensions.get("window");
 
-// recipe button data (replace images/titles later)
-// const recipeButtons = [
-//   { id: 1, title: "Baked, Bone-In Pork Chop", image: require("../assets/sampleRecipe.png") },
-//   { id: 2, title: "Roasted Chicken, Asparagus, and Tomato", image: require("../assets/sampleRecipe.png") },
-//   { id: 3, title: "Stuffed Mushrooms with Chicken and Spinach", image: require("../assets/sampleRecipe.png") },
-//   { id: 4, title: "Asparagus Soup", image: require("../assets/sampleRecipe.png") },
-//   { id: 5, title: "Pumpkin-Coconut Smoothie", image: require("../assets/sampleRecipe.png") },
-//   { id: 6, title: "Stuffed Sweet Potato", image: require("../assets/sampleRecipe.png") },
-//   { id: 7, title: "Grass-Fed Beef & Cheese Sliders", image: require("../assets/sampleRecipe.png") },
-//   { id: 8, title: "Brainiac Salad", image: require("../assets/sampleRecipe.png") },
-// ];
-
 function RecipesScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
