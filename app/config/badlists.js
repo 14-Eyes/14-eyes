@@ -285,12 +285,12 @@ export default {
         },
         {
             id: 10,
-            label: "Potassium bisulphite",
+            label: "Potassium bisulfite",
             why: "A preservative found in alcoholic beverages. Can cause toxic fumes when exposed to heat for a prolonged period.",
         },
         {
             id: 11,
-            label: "Potassium metabisulphite",
+            label: "Potassium metabisulfite",
             why: "A powdered preservative found in food, beverages, and medicine, most often wine. Can cause allergic reactions, respiratory issues, and can be unsafe for those with sulfite sensitivity.",
         },
 	{
@@ -310,7 +310,7 @@ export default {
         },
         {
             id: 15,
-            label: "Potassium sulphite",
+            label: "Potassium sulfite",
             why: "A preservative found in food and beverages. Can cause asthma, and in those with sulfite allergies, severe allergic reactions.",
         },
         {
@@ -335,12 +335,12 @@ export default {
         },
         {
             id: 20,
-            label: "Sodium bisulphite",
+            label: "Sodium bisulfite",
             why: "A chemical preservative found in food. When consumed in large amounts, it can be poisonous, causing nausea, vomiting, and throat damage. In smaller amounts, it can trigger allergic reactions.",
         },
         {
             id: 21,
-            label: "Sodium metabisulphite",
+            label: "Sodium metabisulfite",
             why: "A chemical preservative found in food and beverages, and also used in brewing. Can cause allergic reactions, irritations to skin and eyes, and is more harmful to those with sulfite sensitivities. It can also create toxic fumes when decomposing.",
         },
         {
@@ -370,7 +370,7 @@ export default {
         },
         {
             id: 27,
-            label: "Sodium sulphite",
+            label: "Sodium sulfite",
             why: "A preservative found in food, used in water treatment, and paper industry. Can cause allergic reactions, respiratory issues, skin irritation, and can pose more severe risks to those with sulfite sensitivities.",
         },
         {
