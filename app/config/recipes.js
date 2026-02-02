@@ -180,7 +180,7 @@ export const recipes = [
         ],
         description: [
             "Mushrooms are disease fighters. This is your anti-inflammatory food which is necessary in fighting all diseases but especially important for healthy gut function.",
-            "Okay, here comes one of my all time favorites, and yes, you get some cheese!",
+            "Okay, here comes one of my all time favorites, and yes, you get some cheese! ~Enjoy!",
         ],
         notes: [
 
@@ -219,7 +219,7 @@ export const recipes = [
         description: [
             "Perfect for those suffering from an upset tummy due to chemo or just feeling yucky from treatments. Also good for aching joints. Perfect heart healthy snack!",
             "Shed those pounds with this vitamin packed mid-afternoon snack.",
-            "Gut health hero with this recipe!",
+            "Gut health hero with this recipe! ~Enjoy!",
         ],
         notes: [
             "Makes 2 servings.",
@@ -266,7 +266,7 @@ export const recipes = [
             "Pour into a glass and drink.",
         ],
         description: [
-            "Great for those who suffer from IBS and other digestion problems!",
+            "Great for those who suffer from IBS and other digestion problems! ~Enjoy!",
         ],
         notes: [
 
@@ -312,7 +312,7 @@ export const recipes = [
             "Heart Healthy… Full of potassium, an important electrolyte that helps regulate your heartbeat.",
             "Cancer Fighter… Rich in beta-carotene that may reduce the risk of developing certain cancers.",
             "IBS Friendly… Loaded with fiber and easy to digest.",
-            "Helps in weight loss… Low calorie content, high in water and fiber that help you fill fuller longer.",
+            "Helps in weight loss… Low calorie content, high in water and fiber that help you fill fuller longer. ~Enjoy!",
         ],
         notes: [
             "*This will allow the steam to evaporate when cooking in the microwave.",
@@ -364,7 +364,7 @@ export const recipes = [
             "Add your favorite condiment and serve warm.",
         ],
         description: [
-            "Here’s a fun and healthy way to get some great protein in those you love! Perfect when the kiddos have friends over or for an easy afternoon snack when your athlete is beyond hungry!",
+            "Here’s a fun and healthy way to get some great protein in those you love! Perfect when the kiddos have friends over or for an easy afternoon snack when your athlete is beyond hungry! ~Enjoy!",
         ],
         notes: [
             "*This will keep the patty from folding into a small ball during cooking.",
@@ -408,10 +408,10 @@ export const recipes = [
         instructions: [
             "In a large bowl, add dressing to the bottom.",
             "Add avocado, egg, spices, cabbage and spinach.",
-            "Chill for up to 1 day in the refrigerator or toss and serve. (Building the salad this way will allow you to keep the salad chilled for up to one day without it getting soggy!) ~Enjoy!",
+            "Chill for up to 1 day in the refrigerator or toss and serve. (Building the salad this way will allow you to keep the salad chilled for up to one day without it getting soggy!)",
         ],
         description: [
-            "Want to keep your focus and help improve your brain health? Then here’s your salad!",
+            "Want to keep your focus and help improve your brain health? Then here’s your salad! ~Enjoy!",
         ],
         notes: [
 
