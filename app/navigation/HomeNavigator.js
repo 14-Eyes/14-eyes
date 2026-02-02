@@ -38,7 +38,7 @@ const HomeNavigator = () => (
       options={{ headerShown: false }}
 	/>
     <Stack.Screen
-	  name="HarmfulIngredients"
+	  name="HarmfulIngredientsStack"
       component={BadListNavigator}
       options={{ headerShown: false }}
 	/>
