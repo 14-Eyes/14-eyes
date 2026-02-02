@@ -193,11 +193,11 @@ export class Home extends Component {
                 style={styles.donateButton}
                 onPress={() =>
                   Linking.openURL(
-                    "https://www.paypal.com/donate?token=X43KQtsru7dxWMgbDsRPLci_9Cvk_kNbfOw8Uo8uPWx-YsHTWcacr6VBNMy0xcZZBpQihpJznO9sdXuo"
+                    "https://www.paypal.com/donate?token=t7EooTVUFzOQvTvnzUDBtvGd1crajPdEU3Dh82RzHr7JOpFrY7V1Jjna3W5Dmkqgiif2SzIZKGKru3NL"
                   )
                 }
               >
-                <Text style={styles.donateButtonText}>DONATE BUTTON</Text>
+                <Text style={styles.donateButtonText}>DONATE </Text>
               </TouchableOpacity>
             </View>
           </View>
