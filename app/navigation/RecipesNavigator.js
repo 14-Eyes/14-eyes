@@ -13,7 +13,7 @@ function RecipesNavigator() {
       <Stack.Screen
         name="RecipesScreenHome"
         component={RecipesScreen}
-        options={{ headerShown: false }}
+        options={{ unmountOnBlur: false, headerShown: false }}
       />
       <Stack.Screen
         name="RecipesWantMore"
@@ -23,7 +23,7 @@ function RecipesNavigator() {
       <Stack.Screen
         name="RecipesSubScreen"
         component={RecipesSubScreen}
-        options={{ headerShown: false }}
+        options={{ unmountOnBlur: false, headerShown: false }}
       />
     </Stack.Navigator>
   );
