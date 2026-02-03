@@ -365,5 +365,23 @@ export default {
                 1, 3, 8,
             ],
         },
+        {
+            id: 39,
+            label: "Omega-3",
+            use: "Healthy, essential fats that your body needs for heart and brain health.",
+            buttonColor: "#F43545",
+            linkTo: [
+                3, 5, 6, 10, 11,
+            ],
+        },
+        {
+            id: 40,
+            label: "Omega-6",
+            use: "Healthy, essential fats that your body needs for heart health.",
+            buttonColor: "#F43545",
+            linkTo: [
+                7, 8, 10,
+            ],
+        },
     ],
 };
