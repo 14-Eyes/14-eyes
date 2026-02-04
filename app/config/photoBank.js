@@ -4,7 +4,7 @@ const imageAssets = {
   // FRUIT
   apple: require('../assets/food_images/fruit/apple.png'),
   apricot: require('../assets/food_images/fruit/apricot.png'),
-  avacado: require('../assets/food_images/fruit/avacado.png'),
+  avocado: require('../assets/food_images/fruit/avocado.png'),
   banana: require('../assets/food_images/fruit/banana.png'),
   blackberry: require('../assets/food_images/fruit/blackberry.png'),
   blackgrape: require('../assets/food_images/fruit/blackgrape.png'),
@@ -142,7 +142,7 @@ const imageAssets = {
   pecan: require('../assets/food_images/nut/pecan.jpg'),
   walnut: require('../assets/food_images/nut/walnut.jpg'),
 
-  avacadooil: require('../assets/food_images/oil/avacado-oil.jpg'),
+  avocadooil: require('../assets/food_images/oil/avocado-oil.jpg'),
   coconutoil: require('../assets/food_images/oil/coconut-oil.jpg'),
   grapeseedoil: require('../assets/food_images/oil/grapeseed-oil.jpg'),
   oliveoil: require('../assets/food_images/oil/olive-oil.jpg'),

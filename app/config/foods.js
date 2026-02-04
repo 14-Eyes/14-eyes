@@ -31,7 +31,7 @@ export default {
         {
             id: 3,
             label: "Avocado",
-            picture: 'avacado',
+            picture: 'avocado',
             desc: "Can be mashed, cooked, or eaten fresh",
             vitaminList: [
                 8, 11, 12, 2, 3, 5, 29, 7, 16, 19, 30, 20, 21, 24, 31,
@@ -646,8 +646,8 @@ export default {
         },
         {
             id: 36,
-            label: "Zuchinni",
-            picture: 'zuchinni',
+            label: "Zucchini",
+            picture: 'zucchini',
             desc: "Can be cooked or eaten fresh",
             vitaminList: [
                 0, 8, 12, 5, 29, 20, 21, 23, 24,
@@ -723,7 +723,7 @@ export default {
         {
             id: 8,
             label: "Cream Cheese",
-            picture: 'ccreamheese',
+            picture: 'creamcheese',
             desc: "Used in cooking, baking, and as a spread",
             vitaminList: [
                 0, 12, 2, 29, 6, 13, 9, 23, 24, 25, 26, 28,
@@ -851,7 +851,7 @@ export default {
         },
         {
             id: 5,
-            label: "Greean Bean",
+            label: "Green Bean",
             picture: 'greenbean',
             desc: "Can be eaten fresh or cooked",
             vitaminList: [
@@ -1236,8 +1236,8 @@ export default {
     oils: [
         {
             id: 1,
-            label: "Avacado Oil",
-            picture: 'avacadooil',
+            label: "Avocado Oil",
+            picture: 'avocadooil',
             desc: "Used to cook or bake food.",
             vitaminList: [
                 0, 10, 11, 12, 19, 30, 20, 24, 28,
