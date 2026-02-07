@@ -34,27 +34,30 @@ export const Vitamins = ({route, navigation}) => {
   const vit = route.params.vitamin;
 
     return (
-      <Screen style={styles.container}>
-	    <ScrollView>
+      <Screen style={styles.screen}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
           <AppText style={styles.title}>{vit.label}</AppText>
           <AppText style={styles.italic}>{vit.use}</AppText>
 
           <AppText style={styles.italic}>Commonly found in...</AppText>
 
           <View style={styles.listContainer}>
-          {vit.linkTo.map(Food => (
-            <View style={styles.buttonContainer} key={Food.toString()}>
-              <TouchableOpacity
-              onPress={() => navigation.navigate('FoodList',{food: categories[Food]})}
-              style={[styles.button, { backgroundColor: categories[Food].buttonColor }]}
-              >
-                <Text style={styles.buttonText}>{categories[Food].label}</Text>
-              </TouchableOpacity>
-          </View>
-          ))}
-          </View>
+            {vit.linkTo.map(Food => (
+              <View style={styles.buttonContainer} key={Food.toString()}>
+                <TouchableOpacity
+                onPress={() => navigation.navigate('FoodList',{food: categories[Food]})}
+                style={[styles.button, { backgroundColor: categories[Food].buttonColor }]}
+                >
+                  <Text style={styles.buttonText}>{categories[Food].label}</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+            </View>
 
-	    </ScrollView>
+        </ScrollView>
       </Screen>
     );
 }
@@ -63,26 +66,21 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.light,
-    justifyContent: "center",
+  },
+  scrollContent: {
+    paddingTop: 10,      // adds space under header before text
+    paddingHorizontal: 15,
+    paddingBottom: 80,  // ensures content is above bottom nav bar
     alignItems: "center",
   },
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    backgroundColor: colors.light,
-  },
+
   title: {
     textTransform: "uppercase",
+    color: 'black',
     fontSize: 40,
-    marginBottom: 0,
+    marginBottom: 15,
     marginTop: 0,
     textAlign: "center",
-  },
-  text: {
-    fontSize: 25,
-    textDecorationLine: 'underline',
-    color: colors.buttongreen
   },
   italic: {
     fontStyle: 'italic',
@@ -90,15 +88,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 15,
   },
-  buttonText: {
-    fontSize: 16,
-    color: colors.white,
-    textTransform: "uppercase",
-    fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
-    fontWeight: "bold",
+  listContainer: {
+    flex: 1,
+    flexDirection: 'row', // Align children horizontally
+    flexWrap: 'wrap',
   },
   buttonContainer: {
-    justifyContent: 'center', // Push items to the right end of the row
+    // justifyContent: 'center', // Centers each row of buttons vertically
     alignItems: 'center', // Optionally, center items vertically
     padding: 10,
     width: '50%',
@@ -118,11 +114,6 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     fontWeight: "bold",
     position: 'absolute',
-  },
-  listContainer: {
-    flex: 1,
-    flexDirection: 'row', // Align children horizontally
-    flexWrap: 'wrap',
   },
   
 });

@@ -16,10 +16,10 @@ export const HarmfulIngredientsSubScreen = ({route, navigation}) => {
 
     return (
       <Screen style={styles.screen}>
-	    <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
           <AppText style={styles.title}>{route.params.food.label}</AppText>
           <AppText style={styles.italic}>{route.params.food.pageDesc}</AppText>
           <LineDivider />
@@ -30,7 +30,7 @@ export const HarmfulIngredientsSubScreen = ({route, navigation}) => {
               <Text style={styles.smallText}>{food.why}</Text>
             </View>
           ))}
-	    </ScrollView>
+        </ScrollView>
       </Screen>
     );
 }

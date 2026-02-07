@@ -23,6 +23,7 @@ import colors from "../config/colors";
 import foodz from "../config/foods";
 import imageSource from "../config/photoBank";
 import vit from "../config/vitaminlist";
+import LineDivider from "../components/Divider";
 
 const vitamins = vit.vitamins;
 
@@ -31,10 +32,14 @@ export const FoodsForVitamin = ({route, navigation}) => {
     const foodList = route.params.food.mapToo
 
     return (
-        <Screen style={styles.container}>
-            <ScrollView>
+        <Screen style={styles.screen}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
             <AppText style={styles.title}>{route.params.food.label}</AppText>
             <AppText style={styles.italic}>{route.params.food.pageDesc}</AppText>
+            <LineDivider />
 
             {foodList.map(food => (
               <View style={styles.imageContainer} key={food.id}>
@@ -55,8 +60,8 @@ export const FoodsForVitamin = ({route, navigation}) => {
                   ))}
                   </View>
               </View>
-              ))}
-            </ScrollView>
+            ))}
+          </ScrollView>
         </Screen>
     );
 }
@@ -65,26 +70,32 @@ const styles = StyleSheet.create({
     screen: {
       flex: 1,
       backgroundColor: colors.light,
-      justifyContent: "center",
+    },
+    scrollContent: {
+      paddingTop: 10,      // adds space under header before text
+      paddingHorizontal: 15,
+      paddingBottom: 80,  // ensures content is above bottom nav bar
       alignItems: "center",
     },
-    container: {
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 5,
-      backgroundColor: colors.light,
-    },
+
     title: {
       fontSize: 40,
-      marginBottom: 20,
+      marginBottom: 15,
       marginTop: 0,
       textAlign: "center",
     },
     italic: {
         fontStyle: 'italic',
         textAlign: "center",
-        marginBottom: 10,
-        fontSize: 14,
+        // marginBottom: 20,
+        fontSize: 15,
+    },
+    listContainer: {
+      flex: 1,
+      flexDirection: 'row', // Align children horizontally
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      paddingTop: 20,
     },
     imageText: {
         fontSize: 18,
@@ -95,19 +106,20 @@ const styles = StyleSheet.create({
         color: colors.black,
         alignSelf: 'center',
         //top: 80,
-    },
-    image: {
-        height: 150,
-        width: "100%",
-        borderRadius: 25,
+        paddingBottom: 5,
     },
     smallText: {
-        fontSize: 12,
+        fontSize: 14,
         fontStyle: 'italic',
         textAlign: "center",
         color: colors.medium,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
         top: 10,
+    },
+    image: {
+        height: 150,
+        width: "100%",
+        borderRadius: 25,
     },
     imageContainer: {
       padding: 20,
@@ -115,15 +127,8 @@ const styles = StyleSheet.create({
       alignItems: 'center', // Optionally, center items vertically
       width: 375,
     },
-    listContainer: {
-      flex: 1,
-      flexDirection: 'row', // Align children horizontally
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      top: 10,
-    },
     vitaminContainer: {
-      justifyContent: 'center', // Push items to the right end of the row
+      justifyContent: 'center', // Centers each row of buttons vertically
       alignItems: 'center', // Optionally, center items vertically
       padding: 5,
       width: '33%',

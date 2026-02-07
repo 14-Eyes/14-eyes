@@ -15,11 +15,11 @@ const options = cats.harmfulCategories;
 function HarmfulIngredients({navigation}) {
     return (
       <Screen style={styles.screen}>
-	    <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-          <AppText style={styles.title}>Harmful Ingredients</AppText>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <AppText style={styles.title}>Harmful {'\n'} Ingredients</AppText>
           <AppText style={styles.italic}>The following are various items found in everyday foods and drinks that are harmful to your body and health.</AppText>
 
           <View style={styles.listContainer}>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   buttonContainer: {
-    justifyContent: 'center', // Push items to the right end of the row
+    // justifyContent: 'center', // Centers each row of buttons vertically
     alignItems: 'center', // Optionally, center items vertically
     padding: 10,
     width: '50%',
