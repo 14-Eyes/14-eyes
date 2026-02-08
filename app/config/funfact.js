@@ -12,7 +12,7 @@ export default {
      funfact: [
         {
             id: 1,
-            label: "Eating Healthy is good for the soul.",
+            label: "Eating healthy is good for the soul.",
         },
         {
             id: 2,
@@ -24,7 +24,7 @@ export default {
         },
         {
             id: 4,
-            label: "Dont count baked potatoes out! They are great at absorbing simple sugars and low in calories.",
+            label: "Don't count baked potatoes out! They are great at absorbing simple sugars and are low in calories.",
         },
         {
             id: 5,
@@ -32,11 +32,11 @@ export default {
         },
         {
             id: 6,
-            label:	"Potatoes are full of fiber and are essential in helping control blood sugar.",
+            label:	"Potatoes are full of fiber and help control blood sugar.",
         },
         {
             id: 7,
-            label:	"Mixed Nuts are a great source of protein!",
+            label:	"Mixed nuts are a great source of protein!",
         },
         {
             id: 8,
@@ -44,7 +44,7 @@ export default {
         },
         {
             id: 9,
-            label:	"Tomatoes can help protect your immune system from herbicides and pesticides.",
+            label:	"Tomatoes can help protect your immune system from damage caused by herbicides and pesticides.",
         },
         {
             id: 	10,
@@ -60,11 +60,11 @@ export default {
         },
         {
             id: 	13,
-            label:	"Apples are superfoods in fighting disease like cancer, heart disease and obesity.",
+            label:	"Apples are superfoods that help fight diseases like cancer, heart disease, and obesity.",
         },
         {
             id: 	14,
-            label:	"Mushrooms are loaded with vitamin D, which is super important for strong bones.",
+            label:	"Mushrooms are loaded with Vitamin D, which is super important for strong bones.",
         }, 
         {
             id: 	15,
@@ -72,7 +72,7 @@ export default {
         },
         {
             id: 	16,
-            label:	"Lemons are great heart food? Full of vitamin C, lemons help protect against heart disease and can aid in weight loss!",
+            label:	"Lemons are great heart food! Full of vitamin C, lemons help protect against heart disease and can aid in weight loss!",
         },
         {
             id: 	17,
@@ -80,7 +80,7 @@ export default {
         },
         {
             id: 	18,
-            label:	"Limes are an amazing fruit that help keep your heart in great shape, fights cancer and keeps your kidneys in top form!",
+            label:	"Limes are an amazing fruit that help keep your heart in great shape, fight cancer, and keeps your kidneys in top form!",
         },
         {
             id: 	19,
@@ -88,11 +88,11 @@ export default {
         },
         {
             id: 	20,
-            label:	"Grilled Pork Chops are great for your heart! This lean meat contains B-vitamins that can help drop some pounds and load you up on protein.",
+            label:	"Grilled pork chops are great for your heart! This lean meat contains B-vitamins that can help drop some pounds and load you up on protein.",
         },
         {
             id: 	21,
-            label:	"Black Beans help to regulate your blood sugar and helps reduce the chances of birth defects!",
+            label:	"Black beans help regulate your blood sugar and reduce the chances of birth defects!",
         },
         {
             id: 	22,
@@ -100,7 +100,7 @@ export default {
         },
         {
             id: 	23,
-            label:	"Any Godsource Food is an excellent choice for a great snack! Created just for you!",
+            label:	"Any God-source Food is an excellent choice for a great snack! Created just for you!",
         },       
     ]
 };

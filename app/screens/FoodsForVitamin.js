@@ -22,10 +22,10 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 import foodz from "../config/foods";
 import imageSource from "../config/photoBank";
-import vit from "../config/vitaminlist";
+import vitaminData from "../config/vitaminlist";
 import LineDivider from "../components/Divider";
 
-const vitamins = vit.vitamins;
+const { vitamins, vitaminLegend } = vitaminData;
 
 //Takes the vitamin parameter set when navigating to display its name and list of good food
 export const FoodsForVitamin = ({route, navigation}) => {
@@ -39,6 +39,18 @@ export const FoodsForVitamin = ({route, navigation}) => {
           >
             <AppText style={styles.title}>{route.params.food.label}</AppText>
             <AppText style={styles.italic}>{route.params.food.pageDesc}</AppText>
+            <AppText style={styles.legendIntroText}>To know what a certain vitamin or mineral does for your body, click on its name. Each name is colored corresponding to one of the target areas below:</AppText>
+            <View style={styles.legendContainer}>
+              {vitaminLegend.map(item => (
+                <View
+                  key={item.label}
+                  style={[styles.legendButton, { backgroundColor: item.color }]}
+                >
+                  <Text style={styles.legendText}>{item.label}</Text>
+                </View>
+              ))}
+            </View>
+            
             <LineDivider />
 
             {foodList.map(food => (
@@ -85,11 +97,41 @@ const styles = StyleSheet.create({
       textAlign: "center",
     },
     italic: {
-        fontStyle: 'italic',
-        textAlign: "center",
-        // marginBottom: 20,
-        fontSize: 15,
+      fontStyle: 'italic',
+      textAlign: "center",
+      marginBottom: 20,
+      fontSize: 15,
     },
+
+    // vitamin legend styles:
+    legendIntroText: {
+      // fontStyle: 'italic',
+      fontWeight: "bold",
+      textAlign: "center",
+      marginBottom: 5,
+      fontSize: 15,
+    },
+    legendContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    },
+    legendButton: {
+      height: 35,
+      minWidth: 80,
+      borderRadius: 16,
+      justifyContent: "center",
+      alignItems: "center",
+      margin: 4,
+    },
+    legendText: {
+      fontSize: 10,
+      color: colors.white,
+      textTransform: "uppercase",
+      fontWeight: "bold",
+      fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
+    },
+
     listContainer: {
       flex: 1,
       flexDirection: 'row', // Align children horizontally
