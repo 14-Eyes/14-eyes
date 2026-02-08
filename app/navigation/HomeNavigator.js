@@ -47,11 +47,6 @@ const HomeNavigator = () => (
       component={FoodFacts}
       options={({ navigation }) => getSubScreenHeader(navigation, "Food Facts")}
 	/>
-  <Stack.Screen
-    name="Budgets"
-      component={BudgetNavigator}
-      options={{ title: "Budgeting Plans" }}
-  />
 
   </Stack.Navigator>
   );

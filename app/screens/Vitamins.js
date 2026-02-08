@@ -21,14 +21,14 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 //import vit from "../config/vitaminlist";
 import routes from "../navigation/routes";
-import { FoodsForVitamin } from "./FoodsForVitamin";
+import { FoodList } from "./FoodList";
 import cats from "../config/categories";
 
 //const vitamins = vit.vitamins;
 const categories = cats.foodCategories;
 
 //Displays list of vitamins and minerals
-//When pressed, send the individual vitamin object to the FoodsForVitamin screen
+//When pressed, send the individual vitamin object to the FoodList screen
 export const Vitamins = ({route, navigation}) => {
 
   const vit = route.params.vitamin;
