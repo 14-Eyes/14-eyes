@@ -128,7 +128,7 @@ export class Home extends Component {
                         <Text style={styles.buttonText}>Essential Nutrients</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('HarmfulIngredients')}
+                        onPress={() => this.props.navigation.navigate('HarmfulIngredientsStack')}
                         style={[styles.button]}
                         >
                         <Image source={require('../assets/harmful_ingredients.png')} style={[styles.image]} />

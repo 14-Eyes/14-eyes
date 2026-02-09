@@ -14,16 +14,19 @@ const options = cats.harmfulCategories;
 
 function HarmfulIngredients({navigation}) {
     return (
-      <Screen style={styles.container}>
-	    <ScrollView>
-          <AppText style={styles.title}>Harmful Ingredients</AppText>
+      <Screen style={styles.screen}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <AppText style={styles.title}>Harmful {'\n'} Ingredients</AppText>
           <AppText style={styles.italic}>The following are various items found in everyday foods and drinks that are harmful to your body and health.</AppText>
 
           <View style={styles.listContainer}>
             {options.map(food => (
               <View style={styles.buttonContainer} key={food.id}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('Sugars',{food: food})}
+                onPress={() => navigation.navigate('HarmfulIngredientsSubScreen',{food: food})}
                 style={[styles.button, { backgroundColor: food.buttonColor }]}
                 >
                   <Text style={styles.buttonText}>{food.label}</Text>
@@ -43,27 +46,26 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.light,
-    justifyContent: "center",
+  },
+  scrollContent: {
+    paddingTop: 10,      // adds space under header before text
+    paddingHorizontal: 15,
+    paddingBottom: 80,  // ensures content is above bottom nav bar
     alignItems: "center",
   },
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    backgroundColor: colors.light,
-  },
+
   title: {
     color: 'black',
     fontSize: 40,
-    marginBottom: 5,
+    marginBottom: 15,
     marginTop: 0,
     textAlign: "center",
   },
   italic: {
     fontStyle: 'italic',
     textAlign: "center",
-    marginBottom: 10,
-    fontSize: 14,
+    marginBottom: 20,
+    fontSize: 15,
   },
   listContainer: {
     flex: 1,
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   buttonContainer: {
-    justifyContent: 'center', // Push items to the right end of the row
+    // justifyContent: 'center', // Centers each row of buttons vertically
     alignItems: 'center', // Optionally, center items vertically
     padding: 10,
     width: '50%',
@@ -93,9 +95,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   buttonSmallText: {
-    fontSize: 12,
+    fontSize: 13,
     fontStyle: 'italic',
     textAlign: "center",
+    marginTop: 5,
     color: colors.medium,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
   },

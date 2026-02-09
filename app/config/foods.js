@@ -4,7 +4,7 @@
     picture: Picture to map to in photoBank.js
     desc: Short description of the food
     vitaminList: [
-        Vitamin(s) to map too in vitaminlist.js, Number is -1 id
+        Vitamin(s) to map to in vitaminlist.js, Number is -1 id
     ],
 */
 
@@ -385,7 +385,7 @@ export default {
         },
         {
             id: 7,
-            label: "Brussel Sprout",
+            label: "Brussels Sprouts",
             picture: 'brussel',
             desc: "Can be cooked or eaten fresh",
             vitaminList: [
@@ -450,7 +450,7 @@ export default {
             id: 14,
             label: "Chive",
             picture: 'chive',
-            desc: "Can be cooked or eaten freshCan be cooked, eaten fresh, or used as a spice",
+            desc: "Can be cooked, eaten fresh, or used as a spice",
             vitaminList: [
                 0, 8, 11, 12, 29, 13, 9, 19, 20, 21, 24,
             ],
@@ -475,7 +475,7 @@ export default {
         },
         {
             id: 17,
-            label: "Jalapeno",
+            label: "Jalapeño",
             picture: 'jalapeno',
             desc: "Spicy! Can be cooked or eaten fresh",
             vitaminList: [
@@ -679,7 +679,7 @@ export default {
             id: 3,
             label: "Buttermilk",
             picture: 'buttermilk',
-            desc: "Used in cooking, baking, is easier to digest then some milk products",
+            desc: "Used in cooking and baking, and is easier to digest than some milk products",
             vitaminList: [
                 0, 10, 2, 4, 5, 29, 6, 13, 9, 20, 23, 24, 28,
             ],
@@ -751,7 +751,7 @@ export default {
             id: 11,
             label: "Goat Milk",
             picture: 'goatmilk',
-            desc: "Used in cooking and baking, or drank on its own",
+            desc: "Used in cooking and baking, or can be drunk on its own",
             vitaminList: [
                 0, 8, 10, 1, 2, 3, 5, 13, 16, 20, 21, 23, 24, 28,
             ],
@@ -760,7 +760,7 @@ export default {
             id: 12,
             label: "Milk",
             picture: 'milk',
-            desc: "Used in cooking and baking, or drank on its own",
+            desc: "Used in cooking and baking, or can be drunk on its own",
             vitaminList: [
                 0, 10, 11, 2, 3, 4, 5, 29, 6, 7, 13, 9, 18, 23, 24, 20, 22, 25, 28,
             ],
@@ -778,7 +778,7 @@ export default {
             id: 14,
             label: "Rice Milk",
             picture: 'ricemilk',
-            desc: "An alternative to regular dairy products, has arsenic in small quantities",
+            desc: "An alternative to regular dairy products; contains arsenic in small quantities",
             vitaminList: [
                 0, 10, 2, 6, 13, 19, 20, 23, 24,
             ],
@@ -794,7 +794,7 @@ export default {
         },
         {
             id: 16,
-            label: "Sourcream",
+            label: "Sour Cream",
             picture: 'sourcream',
             desc: "Used in cooking, baking, and as a spread",
             vitaminList: [
@@ -889,7 +889,7 @@ export default {
             id: 9,
             label: "Lima Bean",
             picture: 'limabean',
-            desc: "Can be eaten fresh or cooked.",
+            desc: "Can be eaten fresh or cooked",
             vitaminList: [
                 8, 12, 1, 5, 29, 9, 16, 19, 20, 21, 22, 23, 24, 28,
             ],
@@ -998,7 +998,7 @@ export default {
         },
         {
             id: 6,
-            label: "Chia Seed",
+            label: "Chia Seeds",
             picture: 'chia',
             desc: "Used in cooking and baking, or eaten cooked",
             vitaminList: [
@@ -1081,7 +1081,7 @@ export default {
             id: 15,
             label: "Quinoa",
             picture: 'quinoa',
-            desc: "Used in cooking and baking, or eaten cooked, has all 9 amino acids",
+            desc: "Used in cooking and baking, or eaten cooked, contains all 9 amino acids",
             vitaminList: [
                 11, 1, 2, 5, 29, 33, 16, 19, 20, 21, 23, 24, 28,
             ],
@@ -1238,7 +1238,7 @@ export default {
             id: 1,
             label: "Avocado Oil",
             picture: 'avocadooil',
-            desc: "Used to cook or bake food.",
+            desc: "Used to cook or bake food",
             vitaminList: [
                 0, 10, 11, 12, 19, 30, 20, 24, 28,
             ],
@@ -1472,7 +1472,7 @@ export default {
         },
         {
             id: 21,
-            label: "Tumeric",
+            label: "Turmeric",
             picture: 'tumeric',
             desc: "A powder used to season food",
             vitaminList: [
@@ -1530,7 +1530,7 @@ export default {
             id: 5,
             label: "Fennel",
             picture: 'fennel',
-            desc: "A root used to season food",
+            desc: "A bulb used to season food",
             vitaminList: [
                 0, 8, 12, 2, 3, 4, 29, 13, 19, 30, 20, 21, 24, 31,
             ],
@@ -1755,7 +1755,7 @@ export default {
         },
         {
             id: 13,
-            label: "Phesant",
+            label: "Pheasant",
             picture: 'phesant',
             desc: "Must be eaten cooked",
             vitaminList: [
@@ -1901,7 +1901,7 @@ export default {
         },
         {
             id: 13,
-            label: "Mahi-Mahi",
+            label: "Mahi-mahi",
             picture: 'mahimahi',
             desc: "Can be eaten cooked or raw",
             vitaminList: [
@@ -2065,7 +2065,7 @@ export default {
         },
         {
             id: 6,
-            label: "Cibatta",
+            label: "Ciabatta",
             picture: 'cibatta',
             desc: "Made from barley or wheat",
             vitaminList: [
@@ -2164,7 +2164,7 @@ export default {
         },
         {
             id: 17,
-            label: "Pumpernickle",
+            label: "Pumpernickel",
             picture: 'pumpernickle',
             desc: "Made from rye",
             vitaminList: [
@@ -2267,7 +2267,7 @@ export default {
             id: 6,
             label: "Tea",
             picture: 'tea',
-            desc: "A versatile drink that can be mixed with a variety of leaves",
+            desc: "A versatile drink that can be made from a variety of leaves",
             vitaminList: [
                 0, 8, 11, 12, 1, 2, 3, 6, 13, 16, 17, 19, 20, 21, 23, 24, 28,
             ],
