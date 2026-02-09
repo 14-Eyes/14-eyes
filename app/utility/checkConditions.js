@@ -6,7 +6,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchCond } from "./fetchOptions";
 
-export async function checkConditions(ingredientsText) {
+export async function checkConditions(ingredientsText, nutrients) {
     try {
 
         const auth = getAuth();
@@ -57,6 +57,13 @@ export async function checkConditions(ingredientsText) {
                 }
             });
         });
+
+        const nutriResults = await checkNutritions(nutrients);
+        if(nutriResults)
+        {
+            results.avoid.push("Bad Nutrients"); //Needs verification, object vs string
+        }
+
         // ---------------------------------------------
 
         return results;

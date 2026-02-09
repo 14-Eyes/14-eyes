@@ -114,11 +114,9 @@ function FoodDetails({ route }) {
         const nutrients =
           food?.product?.nutriments || []; 
 
-        const nutriscore =
+        const nutriScore =
           food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null
-          //Copy NovaScore
           
-          //Need to add a nutriscore
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
@@ -127,7 +125,8 @@ function FoodDetails({ route }) {
           nutrients: nutrients,
           labels: labels,                                   // for diet
           analysis: analysis,                               // for diet
-          novaGroup,                                        // for ultra processed marker
+          novaGroup: novaGroup,                                        // for ultra processed marker
+          nutriScore: nutriScore,
         });
 
         // Debug to see all info pulled from Open Food Facts in terminal
@@ -140,25 +139,25 @@ function FoodDetails({ route }) {
         if (ingredients) {
           // Run condition checking function if ingredients exist (located below)
           // await checkConditions(ingredients);
-          const condResults = await checkConditions(ingredients);
+          const condResults = await checkConditions(ingredients, nutrients);
           if (condResults) {
             setConditionMatches(condResults);
           }
 
           // Run allergy checking function if ingredients exist (located below)
-          const allergyResults = await checkAllergies(ingredients, allergens);
+          const allergyResults = await checkAllergies(ingredients, allergens, nutrients);
           if (allergyResults) {
             setAllergyMatches(allergyResults);
           }
 
           // Run diet checking function if ingredients exist (located below)
-          const dietResults = await checkDiet(ingredients, labels, analysis);
+          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients);
           if (dietResults) {
             setDietMatches(dietResults);
           }
           
+          //Should be able to be replaced with boolean value in each of the above checks
           const nutriResults = await checkNutritions(nutrients);
-
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling

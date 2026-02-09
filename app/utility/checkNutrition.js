@@ -9,7 +9,12 @@ import { fetchCond } from "./fetchOptions";
 //Currently limited to scanning info based on 100g, which is doubtful to reflect proper serving sizes. Requires adjustment
 //Currently limited to providing only certain nutrion fact statistics. Requires attention
 //Currently limtied to only working based on gram calculations. Requires attention
-//Currently limited to only working if each condition number is different. Requires adjustment
+//Currenlty limited to relying on every nutrition being available from the json. Requires attention
+// Optional we could have nutrient minimums, would be useful for diets.
+//Fixed only working if each condition number is different. Requires adjustment
+
+//Need to add additional int parameter to hanlde conditions, allergies, and diets serpately
+            
 
 //Firebase key
 // 0 - Calories
@@ -62,83 +67,28 @@ export async function checkNutritions(nutrients) {
         const fiber = nutrients.fiber;
         const totalSugar = nutrients.sugars;
         const protein = nutrients.proteins;
-
+        
+        const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
+        let badRange=false;
+        
         active.forEach((cond) => {
-            // Optional if we have nutrient minimums, could be useful for diets.
-            /*
-            cond.Nutrient_Min.forEach((g) => {
-                if (lowerIngredients.includes(g.toLowerCase())) {
-                    results.Nutrient_Min.push({
-                        ingredient: g,
-                        condition: cond.label,
-                    })
-                }
-            });*/
-            // scan for bad matches; store in Nutrient_Max
+            let i =0;
             cond.Nutrient_Max.forEach((a) => {
-                //switch case for the firebase nutrient records
+                //Arry scanning for firebase nutrient records
                 //checks if appropriate nutrient is within acceptable range
                     // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
-                    // but if it can't have any it will be 0
-                    //May be worth replacing with static for loop if possible
-                switch(userConditions.indexOf(a))
+                    // but if the user can't have any it will be 0
+                if(a>=itemNutris[i]&&a!=.01)
                 {
-                    case 0:
-                        if(calories>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 1: 
-                        if(totalFat>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 2:
-                        if(saturatedFat>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 3:
-                        if(sodium>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 4:
-                        if(totalCarbohydrates>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 5:
-                        if(fiber>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 6:
-                        if(totalSugar>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    case 7:
-                        if(protein>=a&&a!=.01)
-                        {
-                            console.log("This is bad.")
-                        }
-                        break;
-                    default:
-                        console.log("This is done.")
+                    console.log("This is bad.")
+                    badRange=true;
                 }
+                i++;
             });
         });
         // ---------------------------------------------
 
-        return results;
+        return badRange;
     } catch (err) {
         console.log("Nutrition scan failed:", err);
     }

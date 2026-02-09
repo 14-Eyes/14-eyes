@@ -6,7 +6,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchDiet } from "./fetchOptions";
 
-export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = []) {
+export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [], nutrients) {
     try {
 
         const auth = getAuth();
