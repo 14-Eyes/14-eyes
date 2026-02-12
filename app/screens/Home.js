@@ -128,6 +128,64 @@ export class Home extends Component {
                   <Text style={{ fontSize: 16, textAlign: "center" }}>
                     {item.text}
                   </Text>
+    render() {
+        return (
+          <><Screen style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require("../assets/bannerSponsor.png")}
+            ></Image>
+            <View style={styles.flexContainer}>
+                <Carousel
+                    loop
+                    autoPlay
+                    autoPlayInterval={6500}
+                    width={windowWidth * 0.9}
+                    height={120}
+                    data={this.state.carouselItems}
+                    scrollAnimationDuration={1000}
+                    renderItem={({ item, index }) => (
+                        <View
+                        key={index}
+                        style={{
+                            backgroundColor: 'floralwhite',
+                            borderRadius: 20,
+                            height: 120,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginHorizontal: 10,
+                            padding: 10,
+                        }}
+                        >
+                        <Text style={{ fontSize: 16, textAlign: 'center' }}>
+                            {item.text}
+                        </Text>
+                    </View>
+                    )}
+                />
+            </View>
+               <View style={styles.buttonGood}>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('EssentialNutrients')}
+                        style={[styles.button]}
+                        >
+                        <Image source={require('../assets/essential_nutrients.png')} style={[styles.image]} />
+                        <Text style={styles.buttonText}>Essential Nutrients</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('HarmfulIngredients')}
+                        style={[styles.button]}
+                        >
+                        <Image source={require('../assets/harmful_ingredients.png')} style={[styles.image]} />
+                        <Text style={styles.buttonText}>Harmful Ingredients</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('FoodFacts')}
+                        style={[styles.button]}
+                        >
+                        <Image source={require('../assets/food_facts.png')} style={[styles.image]} />
+                        <Text style={styles.buttonText}>Other Food Facts</Text>
+                    </TouchableOpacity>
                 </View>
               )}
             />
