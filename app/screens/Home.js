@@ -47,15 +47,17 @@ import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 import choices from "../config/funfact";
 
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get("window").width; // used to map fun facts
 const funfact = choices.funfact;
 
 var random_index = 0;
 
 for (var i = 0; i < 18; i++) {
   random_index = Math.floor(Math.random() * funfact.length);
+  //console.log({random_index});
   funfact.splice(random_index, 1);
 }
+//console.log("funfact size: %d", funfact.length);
 
 export class Home extends Component {
   constructor(props) {
@@ -197,7 +199,7 @@ export class Home extends Component {
                   )
                 }
               >
-                <Text style={styles.donateButtonText}>DONATE </Text>
+                <Text style={styles.donateButtonText}>DONATE</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -206,6 +208,12 @@ export class Home extends Component {
     );
   }
 }
+
+/* for flex component in container
+1 -> (only top half)
+2 & 3 ->(all but last button)
+4 -> (all 6)
+*/
 
 const styles = StyleSheet.create({
   container: {
@@ -252,7 +260,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 25,
-    resizeMode: "cover",
+    resizeMode: "cover", // Or 'contain', 'stretch', etc.
   },
 
   donationContainer: {
