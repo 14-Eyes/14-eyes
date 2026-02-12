@@ -136,7 +136,7 @@ export class Home extends Component {
           <View style={styles.buttonGood}>
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate("EssentialNutrients")
+                this.props.navigation.navigate('EssentialNutrients')
               }
               style={[styles.button]}
             >
@@ -149,7 +149,7 @@ export class Home extends Component {
 
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate("HarmfulIngredients")
+                this.props.navigation.navigate('HarmfulIngredientsStack')
               }
               style={[styles.button]}
             >
@@ -161,7 +161,7 @@ export class Home extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("FoodFacts")}
+              onPress={() => this.props.navigation.navigate('FoodFacts')}
               style={[styles.button]}
             >
               <Image
