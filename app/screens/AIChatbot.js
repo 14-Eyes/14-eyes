@@ -6,17 +6,31 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
+import { SafeAreaInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { geminiModel } from "../config/firebase";
+import LineDivider from "../components/Divider";
+
+const { width, height } = Dimensions.get("window");
+
 
 function ChatBot({ navigation }) {
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([
+        {
+            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Just ask me anything :)",
+            sender: "ai",
+        }
+    ]);
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const insets = useSafeAreaInsets();
 
     const sendMessage = async () => {
 
@@ -43,9 +57,13 @@ function ChatBot({ navigation }) {
     };
 
     return (
-        <Screen style={styles.container}>
-            <AppText style={styles.title}>AI Chat Test</AppText>
-            <ScrollView style={styles.messages}>
+        <View style={styles.container}>
+            <AppText style={styles.title}>Ask about healthy budgeting choices, or nutritional advice!</AppText>
+            <LineDivider/>
+            <ScrollView 
+                style={styles.messages}
+                contentContainerStyle={{ paddingBottom: 20 }}
+            >
                 {messages.map((msg, index) => (
                     <View key={index} style={[
                         styles.message,
@@ -53,30 +71,35 @@ function ChatBot({ navigation }) {
                     ]}
                     >
                         <AppText style={styles.messageText}>
-                            {msg.sender === "user" ? "You: " : "AI: "}
+                            {msg.sender === "user" ? "" : ""}
                             {msg.text}
                         </AppText>
                     </View>
                 ))}
                 {isLoading && <AppText>AI is thinking...</AppText>}
             </ScrollView>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    value={inputText}
-                    onChangeText={setInputText}
-                    placeholder="Type something!"
-                    multiline
-                />
-                <TouchableOpacity
-                    style={styles.sendButton}
-                    onPress={sendMessage}
-                    disabled={isLoading}
-                >
-                    <AppText style={styles.sendButtonText}>Send</AppText>
-                </TouchableOpacity>
-            </View>
-        </Screen>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 70 : 0}
+            >
+                <View style={[styles.inputContainer, { paddingBottom: insets.bottom || 10}]}>
+                    <TextInput
+                        style={styles.input}
+                        value={inputText}
+                        onChangeText={setInputText}
+                        placeholder="Ask Away!"
+                        multiline
+                    />
+                    <TouchableOpacity
+                        style={styles.sendButton}
+                        onPress={sendMessage}
+                        disabled={isLoading}
+                    >
+                        <AppText style={styles.sendButtonText}>Send</AppText>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        </View>
     );
 }
 
@@ -87,9 +110,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
+    textAlign: "center",
+    color: colors.eltrgreen,
   },
   messages: {
     flex: 1,
@@ -101,11 +126,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   userMessage: {
-    backgroundColor: "#e3f2fd",
+    backgroundColor: colors.eltrblue,
     alignSelf: "flex-end",
   },
   aiMessage: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.eltrapricot,
     alignSelf: "flex-start",
   },
   messageText: {
