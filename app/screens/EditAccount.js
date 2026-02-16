@@ -81,15 +81,23 @@ function EditAccount({ navigation }) {
   const handleDeleteConfirm = async () => {
     try {
       setShowDeleteModal(false); 
-      const uid = auth.currentUser.uid;
+      
+      const currentUser = auth.currentUser;
+      if (!currentUser) return;
+      
+      const uid = currentUser.uid;
 
-      await clearAllOptionCaches();   
       deleteDoc(doc(db, "users", uid));
-      deleteUser(auth.currentUser);
+      deleteUser(currentUser);
+      await clearAllOptionCaches();   
       setUser(null);
       console.log("Account deleted and cache cleared");
     } catch (error) {
       console.error("Error deleting account:", error);
+
+      if (error.code === "auth/requires-recent-login") {
+        alert("Please re-login and try deleting your account again.");
+      }
     }
   };
 

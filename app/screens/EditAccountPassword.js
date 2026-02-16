@@ -46,6 +46,7 @@ function EditAccountPassword() {
       await updatePassword(user, newPassword);
 
       setShowModal(true);
+      console.log("Password updated");
     } catch (err) {
       if (
         err.code === "auth/wrong-password" ||
@@ -75,7 +76,7 @@ function EditAccountPassword() {
           <AppText style={styles.title}>
             Want to change your password?{"\n"}
             Enter your password information in the below fields. 
-            You will be logged out of your account after pressing the "Change Password" button.
+            You will be logged out of your account and will need to re-login.
           </AppText>
 
           <AppText style={styles.label}>Enter current password:</AppText>
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingLeft: 10,
     paddingRight: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     marginTop: 12,
   },
   label: {
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
     marginBottom: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   modalOverlay: {
     flex: 1,
