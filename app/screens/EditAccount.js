@@ -22,7 +22,7 @@ import ListItemSeparator from "../components/lists/ListItemSeparator";
 import AuthContext from "../auth/context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { db } from "../config/firebase";
-import {deleteUser } from "firebase/auth";
+import {deleteUser, onAuthStateChanged } from "firebase/auth";
 import { deleteDoc, doc, getDoc } from "firebase/firestore"
 import { auth } from "../config/firebase";
 import { clearAllOptionCaches } from "../utility/fetchOptions";
@@ -75,14 +75,17 @@ function EditAccount({ navigation }) {
     },
   ];
 
-      const { setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+  
   // DELETE ACCOUNT
   const handleDeleteConfirm = async () => {
     try {
       setShowDeleteModal(false); 
+      const uid = auth.currentUser.uid;
+
       await clearAllOptionCaches();   
-      deleteDoc(doc(db, "users", authContext.user.uid));
-      deleteUser(authContext.user);
+      deleteDoc(doc(db, "users", uid));
+      deleteUser(auth.currentUser);
       setUser(null);
       console.log("Account deleted and cache cleared");
     } catch (error) {
