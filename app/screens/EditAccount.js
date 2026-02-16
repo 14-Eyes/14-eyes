@@ -13,6 +13,7 @@
 
 
 import React, { useContext, useState, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { StyleSheet, View, FlatList, Modal, Text, TouchableOpacity } from "react-native";
 import Screen from "../components/Screen";
 import ListItem from "../components/lists/ListItem";
@@ -31,42 +32,44 @@ function EditAccount({ navigation }) {
   const [displayName, setDisplayName] = useState("");
 
   // Load name from Firestore every time screen opens
-  useEffect(() => {
-    const loadName = async () => {
-      const uid = auth.currentUser?.uid;
-      if (!uid) return;
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadName = async () => {
+        const uid = auth.currentUser?.uid;
+        if (!uid) return;
 
-      const userDoc = await getDoc(doc(db, "users", uid));
-      if (userDoc.exists()) {
-        const data = userDoc.data();
-        setDisplayName(data.name || "Not set");
+        const userDoc = await getDoc(doc(db, "users", uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          setDisplayName(data.name || "Not set");
 
-        if (authContext?.setUser) {
-          authContext.setUser({
-            ...auth.currentUser,
-            displayName: data.name,
-          });
+          if (authContext?.setUser) {
+            authContext.setUser((prev) => ({
+              ...prev,
+              displayName: data.name,
+            }));
+          }
         }
-      }
-    };
+      };
 
-    loadName();
-  }, []);
+      loadName();
+    }, [])
+  );
 
   const menuItems = [
     {
       title: "Name",
       description: displayName,
-      target: "ChangeName",
+      target: "EditAccountName",
     },
     {
       title: "Email",
       description: auth.currentUser?.email,
-      target: "ChangeEmail",
+      target: "EditAccountEmail",
     },
     {
       title: "Change Password",
-      target: "ChangePassword",
+      target: "EditAccountPassword",
     },
   ];
 

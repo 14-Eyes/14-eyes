@@ -21,8 +21,12 @@ export default Object.freeze({
   ACCOUNT: "AccountDetails",
   ABOUT: "AboutScreen",
   ACCOUNT_EDIT: "EditAccount",
+  ACCOUNT_EDIT_EMAIL: "EditAccountEmail",
+  ACCOUNT_EDIT_NAME: "EditAccountName",
+  ACCOUNT_EDIT_PASSWORD: "EditAccountPassword",
   ACCOUNT_ALLERGIES: "AccountAllergies",
   ACCOUNT_CONDITIONS: "AccountConditions",
+  ACCOUNT_DIET: "AccountDietaryPreferences",
   //DELETE: "DeleteAccount", Lukas will need to add code back here!
   SETTINGS: "SettingsScreen",
 

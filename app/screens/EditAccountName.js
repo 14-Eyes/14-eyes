@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
   newName: Yup.string().required().label("New Name"),
 });
 
-function ChangeNameScreen({ navigation }) {
+function EditAccountName({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
 
   const [successVisible, setSuccessVisible] = useState(false);
@@ -58,14 +58,14 @@ function ChangeNameScreen({ navigation }) {
           placeholder="New Name"
         />
 
-        <SubmitButton title="Save" />
+        <SubmitButton title="CHANGE NAME" />
       </AppForm>
 
       {/* Success Modal */}
       <Modal visible={successVisible} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Success</Text>
+            <Text style={styles.modalTitle}>Success!</Text>
             <Text style={styles.modalMessage}>
               Your name has been updated.
             </Text>
@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: "center",
     textAlign: "center",
-    marginBottom: 6,
+    marginBottom: 15,
+    marginTop: 20,
   },
   modalOverlay: {
     flex: 1,
@@ -129,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChangeNameScreen;
+export default EditAccountName;

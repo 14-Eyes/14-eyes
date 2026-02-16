@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .label("Confirm Password"),
 });
 
-function ChangePasswordScreen() {
+function EditAccountPassword() {
   const authContext = useContext(AuthContext);
 
   const [error, setError] = useState("");
@@ -72,7 +72,13 @@ function ChangePasswordScreen() {
         >
           <ErrorMessage visible={!!error} error={error} />
 
-          <AppText style={styles.label}>Enter current password.</AppText>
+          <AppText style={styles.title}>
+            Want to change your password?{"\n"}
+            Enter your password information in the below fields. 
+            You will be logged out of your account after pressing the "Change Password" button.
+          </AppText>
+
+          <AppText style={styles.label}>Enter current password:</AppText>
           <AppFormField
             name="currentPassword"
             secureTextEntry
@@ -82,7 +88,7 @@ function ChangePasswordScreen() {
             placeholder="Current Password"
           />
 
-          <AppText style={styles.label}>Enter your new password.</AppText>
+          <AppText style={styles.label}>Enter your new password:</AppText>
           <AppFormField
             name="newPassword"
             secureTextEntry
@@ -92,7 +98,7 @@ function ChangePasswordScreen() {
             placeholder="New Password"
           />
 
-          <AppText style={styles.label}>Re-enter your new password.</AppText>
+          <AppText style={styles.label}>Re-enter your new password:</AppText>
           <AppFormField
             name="confirmPassword"
             secureTextEntry
@@ -109,14 +115,14 @@ function ChangePasswordScreen() {
       <Modal visible={showModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Success</Text>
+            <Text style={styles.modalTitle}>Success!</Text>
             <Text style={styles.modalMessage}>
               Your password has been updated successfully.
             </Text>
 
-            <Text style={styles.modalTitle}>Log Out</Text>
+            {/* <Text style={styles.modalTitle}>Log Out</Text> */}
             <Text style={styles.modalMessage}>
-              You will be logged out and will need to sign in again using your
+              You will now be logged out and will need to sign in again using your
               new password.
             </Text>
 
@@ -142,12 +148,21 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.white,
   },
+  title: {
+    fontSize: 18,
+    alignSelf: "center",
+    textAlign: "center",
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10,
+    marginTop: 12,
+  },
   label: {
     fontSize: 15,
     alignSelf: "center",
     textAlign: "center",
-    marginBottom: 4,
-    marginTop: 12,
+    marginBottom: 5,
+    marginTop: 20,
   },
   modalOverlay: {
     flex: 1,
@@ -185,4 +200,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChangePasswordScreen;
+export default EditAccountPassword;

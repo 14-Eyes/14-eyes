@@ -14,9 +14,13 @@ import { getSubScreenHeader } from "./HeaderStyles";
 import AccountDetails from "../screens/AccountDetails";
 import EditAccount from "../screens/EditAccount";
 
-import ChangeNameScreen from "../screens/ChangeNameScreen";
-import ChangeEmailScreen from "../screens/ChangeEmailScreen";
-import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+import EditAccountName from "../screens/EditAccountName";
+import EditAccountEmail from "../screens/EditAccountEmail";
+import EditAccountPassword from "../screens/EditAccountPassword";
+
+// import ChangeNameScreen from "../screens/ChangeNameScreen";
+// import ChangeEmailScreen from "../screens/ChangeEmailScreen";
+// import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 
 import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
@@ -56,24 +60,37 @@ const AccountNavigator = () => (
       options={({ navigation }) => getSubScreenHeader(navigation, "My Dietary Preferences")}
     />
 
-    {/* FIX: navigation must be passed to getSubScreenHeader */}
     <Stack.Screen
+      name="EditAccountName"
+      component={EditAccountName}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Change Name")}	  
+    />
+    <Stack.Screen
+      name="EditAccountEmail"
+      component={EditAccountEmail}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Change Email")}	  
+    />
+    <Stack.Screen
+      name="EditAccountPassword"
+      component={EditAccountPassword}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Change Password")}	  
+    />  
+
+    {/* <Stack.Screen
       name="ChangeName"
       component={ChangeNameScreen}
       options={({ navigation }) => getSubScreenHeader(navigation, "Change Name")}
     />
-
     <Stack.Screen
       name="ChangeEmail"
       component={ChangeEmailScreen}
       options={({ navigation }) => getSubScreenHeader(navigation, "Change Email")}
     />
-
     <Stack.Screen
       name="ChangePassword"
       component={ChangePasswordScreen}
       options={({ navigation }) => getSubScreenHeader(navigation, "Change Password")}
-    />
+    /> */}
   </Stack.Navigator>
 );
 

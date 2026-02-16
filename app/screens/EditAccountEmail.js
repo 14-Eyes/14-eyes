@@ -18,13 +18,14 @@ import {
 } from "firebase/auth";
 
 import { doc, updateDoc } from "firebase/firestore";
+import EditAccount from "./EditAccount";
 
 const validationSchema = Yup.object().shape({
   newEmail: Yup.string().required().email().label("New Email"),
   password: Yup.string().required().label("Password"),
 });
 
-function ChangeEmailScreen({ navigation }) {
+function EditAccountEmail({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
 
   const [errorVisible, setErrorVisible] = useState(false);
@@ -68,11 +69,17 @@ function ChangeEmailScreen({ navigation }) {
 
   return (
     <Screen style={styles.container}>
-      <AppText style={styles.tooltip}>
-        Your current email is {user.email}.
+      
+      <AppText style={styles.title}>
+        Want to change your email?{"\n"} 
+        Enter your new email account in the field below.
+        A verification link will be sent to your new email's spam inbox, and you will be logged out of your account.
       </AppText>
-
-      <AppText style={styles.tooltip}>What would you like to change it to?</AppText>
+      
+      <AppText style={styles.tooltip}>
+        Your current email is {user.email}.{"\n"}
+        What would you like to change it to?
+      </AppText>
 
       <AppForm
         initialValues={{ newEmail: "", password: "" }}
@@ -99,21 +106,20 @@ function ChangeEmailScreen({ navigation }) {
           secureTextEntry
         />
 
-        <SubmitButton title="Save" />
+        <SubmitButton title="Change Email" />
       </AppForm>
 
       <Modal visible={showModal} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <Text style={styles.modalTitle}>Success</Text>
+            <Text style={styles.modalTitle}>Success!</Text>
             <Text style={styles.modalText}>
-              A verification link has been sent to your new email.
+              A verification link has been sent to your new email. Make sure to check your spam inbox!
             </Text>
 
-            <Text style={styles.modalTitle}>LogOut</Text>
             <Text style={styles.modalText}>
-              After you confirm the change, you will be logged out and will need
-              to sign in again using your new email.
+              You will now be logged out and will need
+              to sign in again using your new email. 
             </Text>
 
             <TouchableOpacity
@@ -138,10 +144,21 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.white,
   },
+  title: {
+    fontSize: 18,
+    alignSelf: "center",
+    textAlign: "center",
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10,
+    marginTop: 12,
+  },
   tooltip: {
     fontSize: 15,
+    alignSelf: "center",
     textAlign: "center",
-    marginBottom: 6,
+    marginBottom: 5,
+    marginTop: 20,
   },
   modalOverlay: {
     flex: 1,
@@ -176,4 +193,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChangeEmailScreen;
+export default EditAccountEmail;
