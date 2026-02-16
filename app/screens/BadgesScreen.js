@@ -1,3 +1,6 @@
+
+// GET RID OF THIS !!!!!!!!!!!!
+
 /**
  * Placeholder screen for future badge-related features.
  *

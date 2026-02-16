@@ -11,20 +11,9 @@ import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import { recipes } from "../config/recipes";
 
 const { width, height } = Dimensions.get("window");
-
-// recipe button data (replace images/titles later)
-const recipeButtons = [
-  { id: 1, title: "Sample Recipe Placeholder 1", image: require("../assets/sampleRecipe.png") },
-  { id: 2, title: "Sample Recipe 2", image: require("../assets/sampleRecipe.png") },
-  { id: 3, title: "Sample Recipe 3", image: require("../assets/sampleRecipe.png") },
-  { id: 4, title: "Sample Recipe 4", image: require("../assets/sampleRecipe.png") },
-  { id: 5, title: "Sample Recipe 5", image: require("../assets/sampleRecipe.png") },
-  { id: 6, title: "Sample Recipe 6", image: require("../assets/sampleRecipe.png") },
-  { id: 7, title: "Sample Recipe 7", image: require("../assets/sampleRecipe.png") },
-  { id: 8, title: "Sample Recipe 8", image: require("../assets/sampleRecipe.png") },
-];
 
 function RecipesScreen({ navigation }) {
   return (
@@ -35,20 +24,28 @@ function RecipesScreen({ navigation }) {
             style={styles.pic}
             source={require("../assets/appsponsor.png")}
         />
+
         <ScrollView contentContainerStyle={[styles.content, { flexGrow: 1 }]}>
             <View style={styles.grid}>
-                {recipeButtons.map((item) => (
+                {recipes.map((recipe) => (
                     <TouchableOpacity
-                        key={item.id}
+                        key={recipe.id}
                         style={styles.squareButton}
-                        onPress={() => navigation.navigate("RecipesSubScreen")}
                         activeOpacity={0.8}
+                        onPress={() => 
+                            navigation.navigate("RecipesSubScreen", {
+                                recipeId: recipe.id,
+                            })
+                        }
                     >
-                        <Image source={item.image} style={styles.squareImage} />
-                        <AppText style={styles.squareLabel}>{item.title}</AppText>
+                        <Image source={recipe.image} style={styles.squareImage} />
+                        <AppText style={styles.squareLabel}>
+                            {recipe.title}
+                        </AppText>
                     </TouchableOpacity>
                 ))}
             </View>
+
             <View style={styles.buttonContainer}>
                 <AppButton
                     title="Want more?"

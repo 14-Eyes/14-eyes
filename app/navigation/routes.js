@@ -29,27 +29,24 @@ export default Object.freeze({
   ACCOUNT_DIET: "AccountDietaryPreferences",
   //DELETE: "DeleteAccount", Lukas will need to add code back here!
   SETTINGS: "SettingsScreen",
+  HELP: "HelpScreen",
 
   //Home & Food Pages
   FOOD_ITEM: "FoodDetails",
-  DYES: "FoodDye",
   NUTRIENTS: "EssentialNutrients",
   FOOD_LIST: "FoodList",
   HARMFUL_INGREDIENTS: "HarmfulIngredients",
+  HARMFUL_INGREDIENTS_SUB_SCREEN: "HarmfulIngredientsSubScreen",
   FOOD_FACTS: "FoodFacts",
-  PRESERVATIVES: "Preservatives",
-  SUGARS: "Sugars",
   VITAMINS: "Vitamins",
   BUDGETS: "BudgetScreen",
   BUDGETING_BASICS: "BudgetingBasics",
   SAMPLE_BUDGET: "SampleBudget",
   STORES_SALES: "StoresSales",
   RECIPES: "Recipes",
-  RECIPES_WANT_MORE: "RecipesWantMore",
   RECIPES_SUB_SCREEN: "RecipesSubScreen",
-  FATS: "HealthyFats",
+  RECIPES_WANT_MORE: "RecipesWantMore",
   ENERGY: "AthleteFood",
-  HELP: "HelpScreen",
 
   //Login & Register
   LOGIN: "Login",

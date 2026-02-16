@@ -61,7 +61,6 @@ const menuItems = [
 ];
 
 function AccountDetails({ navigation }) {
-  
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>

@@ -31,6 +31,7 @@ import ScreenAuth from "../components/ScreenAuth";
 import colors from "../config/colors";
 import { auth, db} from "../config/firebase";
 
+import { clearAllOptionCaches } from "../utility/fetchOptions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc } from "firebase/firestore"; 
 
@@ -63,6 +64,10 @@ function RegisterScreen({ navigation }) {
           .doc(`${userID}`)
           .set({*/
             name: name,
+            email: email,
+            conditions: [],
+            allergies: [],
+            dietary_preferences: [],
           })
     /*Firebase.auth()
       .createUserWithEmailAndPassword(email, password)
@@ -77,9 +82,13 @@ function RegisterScreen({ navigation }) {
           .set({
             name: name,
           })*/
-          .then(() => {
+          .then(async () => {
             console.log("Firestore document successfully written for UID:", userID);
             authContext.setUsername(name);
+
+            // CLEAR ALL CACHES EVERY TIME USER LOGS IN
+            // this way new firebase updates will load in
+            await clearAllOptionCaches();
           })
           .catch((error) => {
             console.error("Error writing document: ", error);
@@ -154,9 +163,12 @@ function RegisterScreen({ navigation }) {
                   <View style={styles.fixContainer}>
                     <SubmitButton title="Register" color='black' />
 
-                    <AppText style={styles.text}>
-                          —————— OR ——————
-                    </AppText>
+                    <View style={styles.separatorContainer}>
+                      <View style={styles.line} />
+                      <AppText style={styles.text}>OR</AppText>
+                      <View style={styles.line} />
+                    </View>
+
                     <AppButton
                       title="back"
                       onPress={() => navigation.navigate(routes.LOGIN)}
@@ -172,41 +184,59 @@ function RegisterScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    top: 15,
-    padding: 2,
+    // top: 15,
+    // padding: 2,
+    flex: 1,
+    justifyContent: "center",
   },
   boxContainer: {
-    marginBottom: 20,
-    marginHorizontal: 25,
-    justifyContent: 'center', // Center the box vertically
+    width: "100%",
+    maxWidth: 340,
+    // marginBottom: 5,
+    // marginHorizontal: 25,
+    // justifyContent: 'center', // Center the box vertically
     alignItems: 'center',     // Center the box horizontally
     backgroundColor: 'white',
     borderWidth: 3,
     borderColor: 'purple',
     borderRadius: 25,
-    overflow: "hidden",
+    paddingVertical: 20,
+    // overflow: "hidden",
+  },
+  buttonContainer: {
+    paddingHorizontal: 20,
+    width: "100%",
   },
   background: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    // justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
     alignSelf: "center",
-    marginTop: 10,
-    marginBottom: 20,
+    // marginTop: 10,
+    // marginBottom: 20,
+    bottom: 30,
     borderRadius: 25,
     backgroundColor: 'white',
   },
-  buttonContainer: {
-    padding: 20,
-    width: "100%",
-  },
-  text: {
-    color: colors.medium,
-    fontSize: 20,
-    textAlign: "center",
-  }
+  separatorContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginVertical: 8,
+    },
+    line: {
+      flex: 1,
+      height: 1,
+      backgroundColor: colors.medium,
+    },
+    text: {
+      marginHorizontal: 10,
+      color: colors.medium,
+      fontSize: 20,
+      textAlign: "center",
+    },
 });
 
 export default RegisterScreen;
