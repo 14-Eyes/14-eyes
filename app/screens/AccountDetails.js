@@ -23,10 +23,6 @@ import colors from "../config/colors";
 import ListItemSeparator from "../components/lists/ListItemSeparator";
 import routes from "../navigation/routes";
 import AuthContext from "../auth/context";
-import Firebase from "../config/firebase";
-import { useFocusEffect } from "@react-navigation/native";
-import { auth } from "../config/firebase";
-
 
 const menuItems = [
   {
@@ -65,33 +61,6 @@ const menuItems = [
 ];
 
 function AccountDetails({ navigation }) {
-  const authContext = useContext(AuthContext);
-
-  const handleLogOut = () => {
-    Firebase.auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        authContext.setUser(null);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  useFocusEffect(
-    React.useCallback(() => {
-      const reloadUser = async () => {
-        try {
-          await auth.currentUser.reload(); // refresh Firebase user
-          authContext.setUser(auth.currentUser); // update context
-        } catch (err) {
-          console.log("USER RELOAD ERROR:", err);
-        }
-      };
-
-      reloadUser();
-    }, [])
-  );
   
   return (
     <Screen style={styles.screen}>

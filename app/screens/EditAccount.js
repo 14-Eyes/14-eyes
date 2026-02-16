@@ -22,7 +22,7 @@ import ListItemSeparator from "../components/lists/ListItemSeparator";
 import AuthContext from "../auth/context";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { db } from "../config/firebase";
-import { deleteUser, onAuthStateChanged } from "firebase/auth";
+import { deleteUser } from "firebase/auth";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { auth } from "../config/firebase";
 
