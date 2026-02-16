@@ -26,8 +26,6 @@ import ScanNavigator from "./ScanNavigator";
 import RecipesNavigator from "./RecipesNavigator";
 import SettingsNavigator from "./SettingsNavigator";
 import routes from "./routes";
-import FoodDye from "../screens/FoodDye";
-import AIChatbot from "../screens/AIChatbot";
 
 const Tab = createBottomTabNavigator();
 
