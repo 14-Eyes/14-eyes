@@ -157,7 +157,7 @@ function FoodDetails({ route }) {
           }
           
           //Should be able to be replaced with boolean value in each of the above checks
-          const nutriResults = await checkNutritions(nutrients);
+          //const nutriResults = await checkNutritions(nutrients);
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling
@@ -237,6 +237,7 @@ function FoodDetails({ route }) {
   // Set isBad & isGood booleans to determine thumbs up/down image
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
+  const badNutriConditions = conditionMatches.badNutri;
   const hasAllergy = allergyMatches.avoid.length > 0;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
   
@@ -324,6 +325,12 @@ function FoodDetails({ route }) {
               </>
             )}
 
+            {/* Conditional Ingredients*/}
+            {conditionMatches.badNutri && (
+              <AppText style={styles.warningText}>The nutrients are bad.</AppText>
+            )}
+
+
             {/* CONDITIONS */}
             {hasConditionBad > 0 && (
               <>
@@ -378,6 +385,7 @@ function FoodDetails({ route }) {
               </AppText>
             )}
 
+            
             {/* {foundFoodInfo.length > 0 ? (
               foundFoodInfo.map((info, index) => (
                 <FoodMatchInfo key={index} foundFoodInfo={info} />

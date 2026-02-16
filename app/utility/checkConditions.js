@@ -5,6 +5,8 @@
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchCond } from "./fetchOptions";
+import { checkNutritions } from '../utility/checkNutrition';
+
 
 export async function checkConditions(ingredientsText, nutrients) {
     try {
@@ -35,7 +37,7 @@ export async function checkConditions(ingredientsText, nutrients) {
 
         // --- Scan all ingredients for text matches ---
         const lowerIngredients = ingredientsText.toLowerCase();
-        const results = { good: [], avoid: [] };
+        const results = { good: [], avoid: [], badNutri: false};
 
         active.forEach((cond) => {
             // scan for good matches; store in good
@@ -61,11 +63,10 @@ export async function checkConditions(ingredientsText, nutrients) {
         const nutriResults = await checkNutritions(nutrients);
         if(nutriResults)
         {
-            results.avoid.push("Bad Nutrients"); //Needs verification, object vs string
+            results.badNutri=true; //Needs verification, object vs string
         }
 
         // ---------------------------------------------
-
         return results;
     } catch (err) {
         console.log("Condition scan failed:", err);

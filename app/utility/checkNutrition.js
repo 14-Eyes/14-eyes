@@ -23,7 +23,7 @@ import { fetchCond } from "./fetchOptions";
 // 3 - Sodium 
 // 4 - Total Carbohydrates 
 // 5 - Fiber 
-// 6 - Total Sugar 
+// 6 - Total Sugar (try to separate added sugars!!!!!!!!!)
 // 7 - Protein
 
 export async function checkNutritions(nutrients) {
@@ -36,32 +36,12 @@ export async function checkNutritions(nutrients) {
 
         // get user document (user's conditions); these are saved inside userConditions
         const userDoc = await getDoc(doc(db, "users", uid));
-        
-        //may need attention for pulling data 
         const userConditions = userDoc.data()?.conditions || [];
 
-        // if user has no conditions stored, set condition arrays to empty, exit and do not continue running the function
-        if (userNutrients.length === 0) {
-            return { Nutrient_Min: [], Nutrient_Max: [] };
-        }
-
-        // load the big conditions document from Firebase (inside objects collection); uses AsyncStorage
-            // const condDoc = await getDoc(doc(db, "options", "conditions"));
-            // const allConditions = condDoc.data().items;
-        const allConditions = await fetchCond();
-
-        // save only the conditions that match what the user has currently set
-        const active = allConditions.filter((c) =>
-            userConditions.includes(c.id)
-        );
-
         // --- Scan all ingredients for text matches ---
-        const lowerIngredients = nutrients.toLowerCase();
-        const results = {Nutrient_Min: [], Nutrient_Max: [] };
-
-        const calories = nutrients.energy-kcal;
+        const calories = nutrients['energy-kcal'];
         const totalFat = nutrients.fat;
-        const saturatedFat = nutrients.saturated-fat;
+        const saturatedFat = nutrients['saturated-fat'];
         const sodium = nutrients.sodium;
         const totalCarbohydrates = nutrients.carbohydrates;
         const fiber = nutrients.fiber;
@@ -70,26 +50,35 @@ export async function checkNutritions(nutrients) {
         
         const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
         let badRange=false;
-        
-        active.forEach((cond) => {
-            let i =0;
-            cond.Nutrient_Max.forEach((a) => {
+        //active.forEach((cond) => {
+            for (let j = 0; j < active.length; j++) {
+                const cond = active[j];
+            //cond.Nutrient_Max.forEach((a) => {
+                for (let i = 0; i < 8; i++)
+                {
+                    const a=cond.Nutrient_Max[i]
                 //Arry scanning for firebase nutrient records
                 //checks if appropriate nutrient is within acceptable range
                     // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
                     // but if the user can't have any it will be 0
-                if(a>=itemNutris[i]&&a!=.01)
+                console.log("This is bad: ", itemNutris[i])
+                console.log("This is good: ", a," : @ - ", i)
+                if(itemNutris[i]>=a&&a!=.01)
                 {
-                    console.log("This is bad.")
-                    badRange=true;
+                    console.log("outpu 01: ", badRange); //returns false
+                    badRange=true; 
+                    return badRange;
+                    console.log("output! 03: ", badRange); //returns true, showing the code is running\
                 }
-                i++;
-            });
-        });
+            }
+            //});
+        }
+        //});
         // ---------------------------------------------
-
+        
         return badRange;
     } catch (err) {
         console.log("Nutrition scan failed:", err);
+        console.error("Stack trace:", err.stack);
     }
 }
