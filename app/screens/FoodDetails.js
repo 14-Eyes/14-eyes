@@ -326,8 +326,8 @@ function FoodDetails({ route }) {
             )}
 
             {/* Conditional Ingredients*/}
-            {conditionMatches.badNutri && (
-              <AppText style={styles.warningText}>The nutrients are bad.</AppText>
+            {badNutriConditions && (
+              <AppText style={styles.warningText}>The nutrientional facts of this item may be bad for your condition</AppText>
             )}
 
 

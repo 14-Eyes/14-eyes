@@ -36,7 +36,12 @@ export async function checkNutritions(nutrients) {
 
         // get user document (user's conditions); these are saved inside userConditions
         const userDoc = await getDoc(doc(db, "users", uid));
+        const allConditions = await fetchCond();
         const userConditions = userDoc.data()?.conditions || [];
+        const active = allConditions.filter((c) =>
+            userConditions.includes(c.id)
+        );
+
 
         // --- Scan all ingredients for text matches ---
         const calories = nutrients['energy-kcal'];
