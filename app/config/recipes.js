@@ -204,7 +204,7 @@ export const recipes = [
         cookTime: "1.5m",
         totalTime: "4.5m",
         ingredients: [
-            "1 14.5 oz can Asparagus spears*",
+            "1-14.5 oz can Asparagus spears*",
             "1/4 cup All Natural Chicken Broth",
             "1/2 tsp Dill Weed",
             "1/4 tsp Garlic powder",
@@ -257,7 +257,7 @@ export const recipes = [
         ingredients: [
             "1 medium Banana",
             "1/2 cup Pureed pumpkin ((Libby's 100% Pumpkin in a can is perfect to use!))",
-            "1 cup 1 cup Silk Almond-Coconut Milk",
+            "1 cup Silk Almond-Coconut Milk",
             "2 tsp Ground Ginger",
         ],
         instructions: [
