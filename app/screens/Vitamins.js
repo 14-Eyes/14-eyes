@@ -106,6 +106,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.eltrpink,
+    // iOS Shadow properties
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    // Android Elevation property
+    elevation: 4,
   },
   buttonText: {
     fontSize: 18,
