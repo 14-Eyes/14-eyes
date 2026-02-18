@@ -14,7 +14,7 @@
  */
 
 
-import React from "react";
+import React, { Component } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -100,7 +100,14 @@ const AppNavigator = () => (
         ),
       }}
     />
+
   </Tab.Navigator>
+
 );
 
 export default AppNavigator;
+
+
+//name="Chatbot"
+//component={AIChatbot}
+//options={{ headerShown: false}}
