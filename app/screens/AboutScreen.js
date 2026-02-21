@@ -49,6 +49,14 @@ function AboutScreen(props) {
             <Image source={require("../assets/tiktok.png")} style={styles.socialIcon} />
           </Pressable>
 
+           <Pressable onPress={() => Linking.openURL("https://www.lemon8-app.com/@chef.cathy.zeis")}>
+            <Image source={require("../assets/lemon8.png")} style={styles.socialIcon} />
+          </Pressable>
+
+          <Pressable onPress={() => Linking.openURL("https://truthsocial.com/@eatliketherainbow")}>
+            <Image source={require("../assets/truthsocial.png")} style={styles.socialIcon} />
+          </Pressable>
+
           <Pressable onPress={() => Linking.openURL("https://www.linkedin.com/in/cathy-zeis-292988b/")}>
             <Image source={require("../assets/linkedin.png")} style={styles.socialIcon} />
           </Pressable>
