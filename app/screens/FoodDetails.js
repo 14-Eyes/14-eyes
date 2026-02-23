@@ -215,7 +215,7 @@ function FoodDetails({ route }) {
     };
 
     load();
-  }, []);
+  }, [food]);
 
   // // -------------------------------------------------
   // // SET UP FOUND FOOD ITEM INFO ARRAY
@@ -234,18 +234,6 @@ function FoodDetails({ route }) {
   // -----------------------------
   // FOLLOWING IS ALL UI
   // -----------------------------
- 
-  // ------ LOADING DISPLAY ------
-  if (loading) {
-    return (
-      <Screen style={styles.loadingMsg}>
-        <ActivityIndicator size="large" />
-        <AppText>Analyzing ingredients…</AppText>
-      </Screen>
-    );
-  }
-  // -----------------------------
-
   
   // ------ NO PRODUCT FOUND -----
   if (productNotFound) {
@@ -602,11 +590,6 @@ const styles = StyleSheet.create({
   foodContainer: { 
     alignItems: "center", 
     paddingBottom: 40,
-  },
-  loadingMsg: { 
-    flex: 1, 
-    justifyContent: "center", 
-    alignItems: "center",
   },
   // ----- NO ITEM FOUND STYLES -----
   noItem: {
