@@ -5,10 +5,10 @@
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchDiet } from "./fetchOptions";
+import { checkNutritions } from '../utility/checkNutrition';
 
 export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [], nutrients) {
     try {
-
         const auth = getAuth();
         const db = getFirestore();
 
@@ -76,6 +76,12 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         
         console.log("DIET INGREDIENT MATCHES:", results.avoid);
         console.log("DIET CERTIFICATIONS MATCHED:", results.certifications);
+
+        const nutriResults = await checkNutritions(nutrients, 2);
+        if(nutriResults)
+        {
+            results.badNutri=true; //Needs verification, object vs string
+        }
 
         return results;
     } catch (err) {

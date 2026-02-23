@@ -60,7 +60,7 @@ export async function checkConditions(ingredientsText, nutrients) {
             });
         });
 
-        const nutriResults = await checkNutritions(nutrients);
+        const nutriResults = await checkNutritions(nutrients, 1);
         if(nutriResults)
         {
             results.badNutri=true; //Needs verification, object vs string
