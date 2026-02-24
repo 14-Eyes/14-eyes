@@ -5,16 +5,12 @@
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchCond } from "./fetchOptions";
+import { fetchDiet } from "./fetchOptions";
 
-//Currently limited to scanning info based on 100g, which is doubtful to reflect proper serving sizes. Requires adjustment
+//Currently limited to scanning info based on 100g, which is doubtful to reflect proper serving sizes. Requires attention
 //Currently limited to providing only certain nutrion fact statistics. Requires attention
-//Currently limtied to only working based on gram calculations. Requires attention
 //Currenlty limited to relying on every nutrition being available from the json. Requires attention
-// Optional we could have nutrient minimums, would be useful for diets.
-//Fixed only working if each condition number is different. Requires adjustment
-
-//Need to add additional int parameter to hanlde conditions, allergies, and diets serpately
-            
+// Optional we could have nutrient minimums, would be useful for diets.            
 
 //Firebase key
 // 0 - Calories
@@ -27,6 +23,7 @@ import { fetchCond } from "./fetchOptions";
 // 7 - Protein
 
 export async function checkNutritions(nutrients, scannerSelect) {
+    //Condition Scanning
     if(scannerSelect==1)
     {
     try {
@@ -57,30 +54,25 @@ export async function checkNutritions(nutrients, scannerSelect) {
         
         const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
         let badRange=false;
-        //active.forEach((cond) => {
-            for (let j = 0; j < active.length; j++) {
-                const cond = active[j];
-            //cond.Nutrient_Max.forEach((a) => {
-                for (let i = 0; i < 8; i++)
-                {
-                    const a=cond.Nutrient_Max[i]
+        for (let j = 0; j < active.length; j++) 
+        {
+            const cond = active[j];
+            for (let i = 0; i < 8; i++)
+            {
+                const a=cond.Nutrient_Max[i]
                 //Arry scanning for firebase nutrient records
                 //checks if appropriate nutrient is within acceptable range
                     // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
                     // but if the user can't have any it will be 0
-                console.log("This is bad: ", itemNutris[i])
-                console.log("This is good: ", a," : @ - ", i)
-                if(itemNutris[i]>=a&&a!=.01)
+                if(itemNutris[i]>a&&a!=.01)
                 {
-                    console.log("outpu 01: ", badRange); //returns false
+                    console.log("output 01: ", i, " = ", ",,, ", badRange); //returns false
                     badRange=true; 
                     return badRange;
                     console.log("output! 03: ", badRange); //returns true, showing the code is running\
                 }
             }
-            //});
         }
-        //});
         // ---------------------------------------------
         
         return badRange;
@@ -95,7 +87,6 @@ export async function checkNutritions(nutrients, scannerSelect) {
     if(scannerSelect==2)
     {
     try {
-
         const auth = getAuth();
         const db = getFirestore();
 
@@ -104,7 +95,6 @@ export async function checkNutritions(nutrients, scannerSelect) {
         // get user document (user's diets); these are saved inside userDiets
         const userDoc = await getDoc(doc(db, "users", uid));
         const userDiets = userDoc.data()?.dietary_preferences || [];
-
         
         //Can remove?
         if (userDiets.length === 0) {
@@ -132,29 +122,29 @@ export async function checkNutritions(nutrients, scannerSelect) {
         const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
         let badRange=false;
         //active.forEach((cond) => {
-            for (let j = 0; j < active.length; j++) {
-                const cond = active[j];
-            //cond.Nutrient_Max.forEach((a) => {
-                for (let i = 0; i < 8; i++)
-                {
-                    const a=cond.Nutrient_Max[i]
+        for (let j = 0; j < active.length; j++) 
+        {
+            const diet = active[j];
+            for (let i = 0; i < 8; i++)
+            {
+                console.log("here we are, check ", i);
+                const a=diet.Nutrient_Max[i] //but for diet
                 //Arry scanning for firebase nutrient records
                 //checks if appropriate nutrient is within acceptable range
                     // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
                     // but if the user can't have any it will be 0
                 console.log("This is bad: ", itemNutris[i])
                 console.log("This is good: ", a," : @ - ", i)
-                if(itemNutris[i]>=a&&a!=.01)
+                if(itemNutris[i]>a&&a!=.01)
                 {
                     console.log("outpu 01: ", badRange); //returns false
                     badRange=true; 
                     return badRange;
                     console.log("output! 03: ", badRange); //returns true, showing the code is running\
                 }
+                console.log("All is well!!");
             }
-            //});
         }
-        //});
         // ---------------------------------------------
         
         return badRange;

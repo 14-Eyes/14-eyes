@@ -240,6 +240,7 @@ function FoodDetails({ route }) {
   const badNutriConditions = conditionMatches.badNutri;
   const hasAllergy = allergyMatches.avoid.length > 0;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
+  const badNutriDiet = dietMatches.badNutri;
   
   const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
   const isGood = !isBad || (!isBad && hasConditionGood);
@@ -295,6 +296,9 @@ function FoodDetails({ route }) {
 
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
+          
+          {/* Nutri-Score*/}
+          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore.charAt(0).toUpperCase()}</AppText>
 
           {/* DIET CERTIFICATIONS */}
           {dietMatches.certifications.length > 0 && (
@@ -325,9 +329,14 @@ function FoodDetails({ route }) {
               </>
             )}
 
-            {/* Conditional Ingredients*/}
+            {/* Conditional Nutrition*/}
             {badNutriConditions && (
-              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your condition:  {product.nutriScore}</AppText>
+              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your condition.</AppText>
+            )}
+
+            {/* Dietary Nutrition*/}
+            {badNutriDiet && (
+              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your deit.</AppText>
             )}
 
 

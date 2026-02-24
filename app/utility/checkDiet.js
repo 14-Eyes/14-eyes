@@ -80,7 +80,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         const nutriResults = await checkNutritions(nutrients, 2);
         if(nutriResults)
         {
-            results.badNutri=true; //Needs verification, object vs string
+            results.badNutri=true;
         }
 
         return results;
