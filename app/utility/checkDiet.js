@@ -6,7 +6,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchDiet } from "./fetchOptions";
 
-// set the base available open food facts (off) non-diet variables (currently only these 2 exist in off)
+// set the base available open food facts (off) non-diet variables (currently i think only these 2 exist in OFF)
 const OFF_DIET_CONFLICTS = {
     vegetarian: "non-vegetarian",
     vegan: "non-vegan",
@@ -26,7 +26,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
 
         // if user has no diets stored, set diet arrays to empty, exit and do not continue running the function
         if (userDiets.length === 0) {
-            return { avoid: [], certifications: [] };
+            return { avoid: [], certifications: [], offConflicts: [], };
         }
 
         // load the big diets document from Firebase (inside objects collection); uses AsyncStorage
