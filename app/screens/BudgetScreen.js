@@ -81,7 +81,7 @@ function BudgetScreen({ navigation }) {
       <TouchableOpacity
         style={styles.chatbotButton}
         // fix this functionality later
-        onPress={() => navigation.navigate("ChatBot")}
+        // onPress={() => navigation.navigate("Chatbot")}
       >
         <AppText style={styles.chatbotText}>
           Still need help?{"\n"}Use this AI chat to build a personalized budget!

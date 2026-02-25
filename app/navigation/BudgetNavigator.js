@@ -5,7 +5,6 @@ import BudgetScreen from "../screens/BudgetScreen";
 import BudgetingBasicsScreen from "../screens/BudgetingBasicsScreen";
 import SampleBudgetScreen from "../screens/SampleBudgetScreen";
 import StoresSalesScreen from "../screens/StoresSalesScreen";
-import ChatBot from "../screens/AIChatbot";
 
 const Stack = createStackNavigator();
 
@@ -32,11 +31,6 @@ function BudgetNavigator() {
         component={StoresSalesScreen}
         options={({ navigation }) => getSubScreenHeader(navigation, "Stores & Sales")}	  
       />
-      <Stack.Screen
-        name="ChatBot"
-        component={ChatBot}
-        options={({ navigation }) => getSubScreenHeader(navigation, "AI Assistant")}
-        />
     </Stack.Navigator>
   );
 }

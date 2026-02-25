@@ -15,8 +15,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { getMainHeader, getSubScreenHeader, getSubScreenHeaderBack } from "./HeaderStyles";
 
 import EssentialNutrients from "../screens/EssentialNutrients";
-import FoodList from "../screens/FoodList";
 import Vitamins from "../screens/Vitamins";
+import Foods from "../screens/FoodsForVitamin";
 
 //Create a new stack
 const VitStack = createStackNavigator();
@@ -30,21 +30,21 @@ const VitaminNavigator = () => (
         headerStyle: { backgroundColor: "white" },
       }}
   >
-    <VitStack.Screen
-      name="EssentialNutrient"
-        component={EssentialNutrients}
-        options={({ navigation }) => getSubScreenHeader(navigation, "Essential Nutrients")}
-    />
-    <VitStack.Screen
-      name="FoodList"
-        component={FoodList}
-        options={({ navigation }) => getSubScreenHeader(navigation, "List of Foods")}
-    />
-    <VitStack.Screen
-      name="Vitamins"
-        component={Vitamins}
-        options={({ navigation }) => getSubScreenHeader(navigation, "Vitamins")}
-    />
+  <VitStack.Screen
+	  name="EssentialNutrient"
+      component={EssentialNutrients}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Essential Nutrients")}
+	/>
+  <VitStack.Screen
+	  name="FoodList"
+      component={Foods}
+      options={({ navigation }) => getSubScreenHeader(navigation, "List of Foods")}
+	/>
+  <VitStack.Screen
+	  name="Vitamins"
+      component={Vitamins}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Vitamins")}
+	/>
 
   </VitStack.Navigator>
   );

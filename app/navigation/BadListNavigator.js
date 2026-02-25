@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { getSubScreenHeader } from "./HeaderStyles";
 
 import HarmfulIngredients from "../screens/HarmfulIngredients";
-import HarmfulIngredientsSubScreen from "../screens/HarmfulIngredientsSubScreen";
+import Sugars from "../screens/Sugars";
 
 //Create a new stack
 const BadStack = createStackNavigator();
@@ -12,13 +12,13 @@ const BadStack = createStackNavigator();
 const BadListNavigator = () => (
   <BadStack.Navigator>
   <BadStack.Screen
-	  name="HarmfulIngredients"
+	  name="HarmfulIngredient"
       component={HarmfulIngredients}
       options={({ navigation }) => getSubScreenHeader(navigation, "Harmful Ingredients")}
 	/>
   <BadStack.Screen
-	  name="HarmfulIngredientsSubScreen"
-      component={HarmfulIngredientsSubScreen}
+	  name="Sugars"
+      component={Sugars}
       options={({ navigation }) => getSubScreenHeader(navigation, "Harmful Ingredient List")}
 	/>
   </BadStack.Navigator>

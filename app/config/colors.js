@@ -32,7 +32,6 @@ export default {
 
   // OLD ELTR colors
   eltrlightpink: "#FABED2",
-  eltrdarkred: "#990000",
   eltrdarkblue: "#4AADE2",
   eltrlightblue: "#BCE4F9",
   eltrapricot:"#F9D2BD",

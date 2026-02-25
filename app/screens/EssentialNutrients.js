@@ -15,28 +15,25 @@ const foods = cats.foodCategories;
 function EssentialNutrients({navigation}) {
 
     return (
-      <Screen style={styles.screen}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-        >
+      <Screen style={styles.container}>
+	    <ScrollView>
           <AppText style={styles.title}>Nutrients in Everyday Foods</AppText>
-          <AppText style={styles.italic}>The following are various foods found in most grocery stores and restaurants that contain vitamins and minerals essential to your health.</AppText>
+          <AppText style={styles.italic}>Description of the stuff and what's going on here</AppText>
 
           <View style={styles.listContainer}>
-            {foods.map(food => (
-              <View style={styles.buttonContainer} key={food.id}>
-                <TouchableOpacity
+          {foods.map(food => (
+            <View style={styles.buttonContainer} key={food.id}>
+                  <TouchableOpacity
                   onPress={() => navigation.navigate('FoodList',{food: food})}
                   style={[styles.button, { backgroundColor: food.buttonColor }]}
-                >
-                  <Text style={styles.buttonText}>{food.label}</Text>
-                </TouchableOpacity>
-                <Text style={styles.buttonSmallText}>{food.desc}</Text>
-              </View>
-            ))}
+                  >
+                    <Text style={styles.buttonText}>{food.label}</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.buttonSmallText}>{food.desc}</Text>
+            </View>
+          ))}
           </View>
-	      </ScrollView>
+	    </ScrollView>
       </Screen>
     );
 }
@@ -47,26 +44,27 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.light,
-  },
-  scrollContent: {
-    paddingTop: 10,      // adds space under header before text
-    paddingHorizontal: 15,
-    paddingBottom: 80,  // ensures content is above bottom nav bar
+    justifyContent: "center",
     alignItems: "center",
   },
-
+  container: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    backgroundColor: colors.light,
+  },
   title: {
     color: 'black',
     fontSize: 40,
-    marginBottom: 15,
+    marginBottom: 5,
     marginTop: 0,
     textAlign: "center",
   },
   italic: {
     fontStyle: 'italic',
     textAlign: "center",
-    marginBottom: 20,
-    fontSize: 15,
+    marginBottom: 10,
+    fontSize: 14,
   },
   listContainer: {
     flex: 1,
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   buttonContainer: {
-    // justifyContent: 'center', // Centers each row of buttons vertically
+    justifyContent: 'center', // Push items to the right end of the row
     alignItems: 'center', // Optionally, center items vertically
     padding: 10,
     width: '50%',
@@ -96,10 +94,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   buttonSmallText: {
-    fontSize: 13,
+    fontSize: 12,
     fontStyle: 'italic',
     textAlign: "center",
-    marginTop: 5,
     color: colors.medium,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
   },

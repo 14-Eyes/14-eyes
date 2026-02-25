@@ -20,9 +20,13 @@ import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import Constants from "expo-constants";
 import { Platform } from 'react-native'; // <--- IMPORT Platform for Android check
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GoogleGenerativeAI } from "@google/generative-ai";
 
-
+// OLD
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+// import "firebase/compat/database";
+// import "firebase/compat/firestore";
+// import Constants from "expo-constants";
 
 const {
   API_KEY,
@@ -31,7 +35,6 @@ const {
   PROJECT_ID,
   MESSAGE_SENDER_ID,
   APP_ID,
-  GEMINI_API_KEY,
 } = Constants.expoConfig.extra;
 
 const firebaseConfig = {
@@ -67,23 +70,8 @@ if (Platform.OS === "web") {
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const geminiModel = genAI.getGenerativeModel({ 
-    model: "gemini-2.5-flash",
-    systemInstruction: `You are a friendly nutritional assistant. Your main goals are: 
-    - suggest healthy food alternatives
-    - provide budget friendly nutritional advice
-    - provide dietary and nutritional budgeting assistance
-    - answer questions about specific health conditions, dietary preferences, and allergies
-    - avoid using complex medical terms, keep your answers friendly and concise (150 words or less) 
-    - never provide medical help or diagnosis 
-    - ensure you are giving easily digestible responses, while providing additional context if prompted
-    - avoid recommending name brands and admit when you don't know something
-    - format your responses to fit general mobile device ratios`
-});
-
 // Export for use in other files
-export { app, auth, db, rtdb, geminiModel };
+export { app, auth, db, rtdb };
 
 /*
 if (__DEV__) { // __DEV__ is true in development builds
@@ -100,8 +88,44 @@ if (__DEV__) { // __DEV__ is true in development builds
   // If you also want to connect Realtime Database to its emulator
   // console.log(`[Firebase Config] Connecting to Realtime Database Emulator at http://${EMULATOR_HOST}:9000`);
   // connectDatabaseEmulator(rtdb, EMULATOR_HOST, 9000);
-}
-*/
+}*/
+
 
 export default app;
 
+// OLD
+// Initialize Firebase (avoid reinitialization)
+// let Firebase;
+// if (!firebase.apps.length) {
+//   Firebase = firebase.initializeApp(firebaseConfig);
+// } else {
+//   Firebase = firebase.app();
+// }
+
+// export default Firebase;
+// ------------------------
+
+// import firebase from "firebase/compat";
+// import {
+//   API_KEY,
+//   AUTH_DOMAIN,
+//   DATABASE_URL,
+//   PROJECT_ID,
+//   MESSAGE_SENDER_ID,
+//   APP_ID,
+// } from "@env";
+
+// const firebaseConfig = {
+//   apiKey: API_KEY,
+//   authDomain: AUTH_DOMAIN,
+//   databaseURL: DATABASE_URL,
+//   projectId: PROJECT_ID,
+//   storageBucket: "",
+//   messagingSenderId: MESSAGE_SENDER_ID,
+//   appId: APP_ID,
+// };
+
+// // Initialize Firebase
+// let Firebase = firebase.initializeApp(firebaseConfig);
+
+// export default Firebase;

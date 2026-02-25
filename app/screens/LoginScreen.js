@@ -26,7 +26,6 @@ import colors from "../config/colors";
 import { auth, db } from "../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { clearAllOptionCaches } from "../utility/fetchOptions";
 
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
@@ -50,10 +49,6 @@ function LoginScreen( { navigation} ) {
       const user = userCredential.user;
 
       authContext.setUser(user);
-
-      // CLEAR ALL CACHES EVERY TIME USER LOGS IN
-      // this way new firebase updates will load in
-      await clearAllOptionCaches();
 
       const userDoc = await getDoc(doc(db, "users", user.uid));
 
@@ -114,19 +109,13 @@ function LoginScreen( { navigation} ) {
               <View style={styles.fixContainer}>
                 <SubmitButton title="Login" color='black' />
 
-                {/* <AppText style={styles.text}>
+                <AppText style={styles.text}>
                   —————— OR ——————
-                </AppText> */}
-
-                <View style={styles.separatorContainer}>
-                  <View style={styles.line} />
-                  <AppText style={styles.text}>OR</AppText>
-                  <View style={styles.line} />
-                </View>
+                </AppText>
 
                 <AppButton
-                  title="register"
-                  onPress={() => navigation.navigate(routes.REGISTER)}
+                title="register"
+                onPress={() => navigation.navigate(routes.REGISTER)}
                 />
 
                 <AppText style={styles.forgotText} onPress={() => navigation.navigate(routes.RESET_PASSWORD)}>
@@ -143,33 +132,27 @@ function LoginScreen( { navigation} ) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    // top: 15,
-    // padding: 2,
+    top: 15,
+    padding: 2,
   },
   boxContainer: {
-    width: "100%",
-    maxWidth: 340,
-    marginBottom: 28,
-    // marginHorizontal: 25,
-    // justifyContent: 'center', // Center the box vertically
+    marginBottom: 20,
+    marginHorizontal: 25,
+    justifyContent: 'center', // Center the box vertically
     alignItems: 'center',     // Center the box horizontally
     backgroundColor: 'white',
     borderWidth: 3,
     borderColor: 'purple',
     borderRadius: 25,
-    paddingVertical: 20,
-    // overflow: "hidden",
+    overflow: "hidden",
   },
   buttonContainer: {
+    padding: 20,
     width: "100%",
-    paddingHorizontal: 20,
   },
   background: {
     flex: 1,
-    justifyContent: "center",
-    // justifyContent: "flex-end",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   logo: {
@@ -177,18 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     bottom: 20,
   },
-  separatorContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 8,
-  },
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: colors.medium,
-  },
   text: {
-    marginHorizontal: 10,
     color: colors.medium,
     fontSize: 20,
     textAlign: "center",
@@ -198,7 +170,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textDecorationLine: 'underline',
     textAlign: "right",
-    marginTop: 10,
   },
 });
 

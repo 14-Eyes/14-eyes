@@ -13,33 +13,26 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
-import { recipes, TAG_COLORS } from "../config/recipes";
-import LineDivider from "../components/Divider";
-// import { SensorType } from "react-native-reanimated";
+import { SensorType } from "react-native-reanimated";
 
 const { width, height } = Dimensions.get("window");
 const HEADER_HEIGHT = height * 0.45;    // height of the recipe image header - 45%
 
-// fallback to eltr orange in case tag color retrieval fails
-const getTagColor = (tag) => {
-  return TAG_COLORS[tag] || colors.primary;
-};
+// Edit ingredients list with whatever ingredients
+/*  I really want to have this pull from a database of recipes
+    of some some sort, I just don't know how to do that yet so this
+    is a static screen */
+const ingredientsList = [
+    "4 cups whole grain oats",
+    "2 tbsp honey",
+    "1/2 cup almond milk",
+    "1 tsp cinnamon powder",
+    "1 ripe banana",
+];
 
-function RecipesSubScreen({ route, navigation }) {
-    const { recipeId } = route.params;
-    const recipe = recipes.find((r) => r.id === recipeId);
-    
+function RecipesSubScreen({ navigation }) {
     // scrollY tracks verical scroll position in real time
     const scrollY = useRef(new Animated.Value(0)).current;
-
-    // backup failsafe
-    if (!recipe) {
-        return (
-            <View style={styles.container}>
-                <Text>Error: Recipe not found.</Text>
-            </View>
-        );
-    }
 
     // Fade effect for header image on scroll down
     // - Starts opaque (1) at the top
@@ -69,7 +62,7 @@ function RecipesSubScreen({ route, navigation }) {
         <View style={styles.container}>
             {/* Recipe image */}
             <Animated.Image
-                source={recipe.image}
+                source={require("../assets/sampleRecipe.png")}
                 style={[
                     styles.headerImage,
                     {
@@ -88,35 +81,39 @@ function RecipesSubScreen({ route, navigation }) {
                 scrollEventThrottle={16}
                 contentContainerStyle={{ paddingTop: HEADER_HEIGHT - 40 }} // change 40 here to have the white recipe box start higher or lower on the image
                 onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: true }
+                [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                { useNativeDriver: true }
                 )}
             >
                 <View style={styles.content}>
                     {/* Recipe title */}
-                    <Text style={styles.title}>{recipe.title}</Text>
+                    <Text style={styles.title}>Sample Recipe Placeholder 1</Text>
 
                     {/* Recipe time */}
                     <View style={styles.infoRow}>
                         <MaterialCommunityIcons name="clock-outline" size={25} color={colors.black}/>
-                        <Text style={styles.infoText}>Prep: {recipe.prepTime}</Text>
-                        <Text style={styles.infoText}>Cook: {recipe.cookTime}</Text>
-                        <Text style={styles.infoText}>Total: {recipe.totalTime}</Text>
+                        <Text style={styles.infoText}>Prep: 10m</Text>
+                        <Text style={styles.infoText}>Cook: 10m</Text>
+                        <Text style={styles.infoText}>Total: 20m</Text>
                     </View>
 
                     {/* Recipe tags */}
                     <View style={styles.tagRow}>
-                        {recipe.tags.map((tag) => (
-                            <View key={tag} style={[styles.tag, { backgroundColor: getTagColor(tag) }, ]}>
-                                <Text style={styles.tagText}>{tag}</Text>
-                            </View>
-                        ))}
+                        <View style={[styles.tag, { backgroundColor: colors.eltrred }]}>
+                        <Text style={styles.tagText}>Heart Healthy</Text>
+                        </View>
+                        <View style={[styles.tag, { backgroundColor: colors.eltrorange }]}>
+                        <Text style={styles.tagText}>Whole Grains</Text>
+                        </View>
+                        <View style={[styles.tag, { backgroundColor: colors.eltrpurple }]}>
+                        <Text style={styles.tagText}>Cancer-Fighting</Text>
+                        </View>
                     </View>
 
                     <View style={styles.recipeBox}>
                         {/* Recipe ingredients list */}
                         <Text style={styles.sectionTitle}>Ingredients</Text>
-                        {recipe.ingredients.map((item, index) => (
+                        {ingredientsList.map((item, index) => (
                             <View key={index} style={styles.listItem}>
                             <Text style={styles.bullet}>•</Text>
                             <Text style={styles.listText}>{item}</Text>
@@ -125,28 +122,12 @@ function RecipesSubScreen({ route, navigation }) {
 
                         {/* Recipe instructions list */}
                         <Text style={styles.sectionTitle}>Instructions</Text>
-                        {recipe.instructions.map((step, index) => (
-                            <Text key={index} style={styles.instructions}>
-                                {index + 1}. {step}
-                            </Text>
-                        ))}
-
-                        {/* Recipe notes */}
-                        {/* <Text style={styles.sectionTitle}>Notes</Text> */}
-                        {recipe.notes.map((note, index) => (
-                            <Text key={index} style={styles.notes}>
-                                {note}
-                            </Text>
-                        ))}
-
-                        <LineDivider />
-
-                        {/* Recipe Description */}
-                        {recipe.description.map((text, index) => (
-                            <Text key={index} style={styles.description}>
-                                {text}
-                            </Text>
-                        ))}
+                        <Text style={styles.instructions}>
+                            1. Preheat the oven to 350°F (175°C).{"\n"}
+                            2. Mix all ingredients together in a large bowl.{"\n"}
+                            3. Bake for 20 minutes or until golden brown.{"\n"}
+                            4. Serve and enjoy!
+                        </Text>
                     </View>
                 </View>
             </Animated.ScrollView>
@@ -203,7 +184,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     tag: {
-        backgroundColor: colors.primary,
         borderRadius: 10,
         paddingHorizontal: 12,
         paddingVertical: 6,
@@ -232,13 +212,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 15,
     },
-    description: {
-        fontSize: 17,
-        lineHeight: 28,
-        marginTop: 6,
-        marginBottom: 6,
-        color: colors.dark,
-    },
     listItem: {
         flexDirection: "row",
         alignItems: "flex-start",
@@ -259,16 +232,7 @@ const styles = StyleSheet.create({
     instructions: {
         fontSize: 17,
         lineHeight: 28,
-        marginBottom: 6,
         color: colors.dark,
-    },
-    notes: {
-        fontSize: 17,
-        lineHeight: 28,
-        marginTop: 15,
-        // marginBottom: 6,
-        color: colors.dark,
-        fontStyle: "italic",
     },
     backButton: {
         position: "absolute",

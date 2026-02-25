@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import { StyleSheet, ScrollView, Text, Image, Linking, View } from "react-native";
+import { StyleSheet, ScrollView, Text, Image, Linking } from "react-native";
 import { Pressable } from "react-native-gesture-handler";
 import { block } from "react-native-reanimated";
 
@@ -26,34 +26,6 @@ function AboutScreen(props) {
           style={styles.pic}
           source={require("../assets/eltrRainbow.png")}
         />
-
-{/* SOCIAL MEDIA ICONS SECTION */}
-        <View style={styles.socialContainer}>
-          <Pressable onPress={() => Linking.openURL("https://www.instagram.com/eat.liketherainbow/")}>
-            <Image source={require("../assets/instagram.png")} style={styles.socialIcon} />
-          </Pressable>
-
-          <Pressable onPress={() => Linking.openURL("https://www.facebook.com/cathy.zeisallnaturalchef")}>
-            <Image source={require("../assets/facebook.png")} style={styles.socialIcon} />
-          </Pressable>
-
-          <Pressable onPress={() => Linking.openURL("https://x.com/ChefZeis49662")}>
-            <Image source={require("../assets/twitter.png")} style={styles.socialIcon} />
-          </Pressable>
-
-          <Pressable onPress={() => Linking.openURL("https://www.youtube.com/@CathyZeis")}>
-            <Image source={require("../assets/youtube.png")} style={styles.socialIcon} />
-          </Pressable>
-
-          <Pressable onPress={() => Linking.openURL("https://www.tiktok.com/@chef.cathy.zeis?is_from_webapp=1&sender_device=pc")}>
-            <Image source={require("../assets/tiktok.png")} style={styles.socialIcon} />
-          </Pressable>
-
-          <Pressable onPress={() => Linking.openURL("https://www.linkedin.com/in/cathy-zeis-292988b/")}>
-            <Image source={require("../assets/linkedin.png")} style={styles.socialIcon} />
-          </Pressable>
-        </View>
-        
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
         <AppText style={styles.text}>
           Eat Like The Rainbow™ is a naturally done non-profit, catering to the
@@ -63,7 +35,6 @@ function AboutScreen(props) {
           patterns, to manners, following rules, and yes, even what to eat. The
           youngest among us just might be our greatest learners!
         </AppText>
-
         <AppText style={styles.title}>Meet Chef Cathy Zeis</AppText>
         <AppText style={styles.text}>
           I am an all-natural chef who creates healthy food plans for those who
@@ -78,19 +49,60 @@ function AboutScreen(props) {
           I love educating people on how the simplest ingredients can power our
           bodies. After all, our bodies are the most amazing machines ever
           created! I’ll teach you how to fuel it…naturally! For more information about me
-          and many recipes, visit my <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>website</Text>!
-          For more information on certain topics, you can also check out some resources in the library below!
+	        and many recipes, visit my <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>website</Text>!
+	        For more information on certain topics, you can also check out some resources in the library below!
         </AppText>
 
-        <AppText style={styles.title}>Library</AppText>
+	<AppText style={styles.title}>Library</AppText>
 
-        <Text style={styles.header1}>Athletic Lifestyle</Text>
-        <Text style={styles.text1}>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389')}>Exercise: 7 benefits of regular physical activity</Text>{'\n'}</Text>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.lancastergeneralhealth.org/health-hub-home/2020/march/what-athletes-should-eat-back-to-the-basic-food-groups')}>What Athletes Should Eat: Back to the Basic Food Groups</Text>{'\n'}</Text>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.uwhealth.org/news/eating-for-peak-athletic-performance')}>Eating for peak athletic performance</Text>{'\n'}</Text>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20045506')}>Eating and exercise: 5 tips to maximize your workouts</Text>{'\n'}</Text>
-        </Text>
+	<Text style={styles.header1}>Athletic Lifestyle</Text>
+	<Text style={styles.text1}>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389')}>Exercise: 7 benefits of regular physical activity</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.lancastergeneralhealth.org/health-hub-home/2020/march/what-athletes-should-eat-back-to-the-basic-food-groups')}>What Athletes Should Eat: Back to the Basic Food Groups</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.uwhealth.org/news/eating-for-peak-athletic-performance')}>Eating for peak athletic performance</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20045506')}>Eating and exercise: 5 tips to maximize your workouts</Text>{'\n'}</Text>
+	</Text>
+
+	<Text style={styles.header1}>Bedtime</Text>
+	<Text style={styles.text1}>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.youtube.com/watch?v=bom6ZrVwGIc')}>Why healthy sleep is crucial for academic success</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://health.clevelandclinic.org/sleep-and-health/')}>Does a Bad Night’s Sleep Affect Your Health?</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.cdc.gov/healthyschools/sleep.htm')}>Sleep and Health</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.sleepfoundation.org/nutrition/food-and-drink-promote-good-nights-sleep')}>The Best Foods To Help You Sleep</Text>{'\n'}</Text>
+	</Text>
+	
+	<Text style={styles.header1}>Food and Mental Health</Text>
+	<Text style={styles.text1}>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://youtu.be/CSHO9VdVRfg')}>Food and mood</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.webmd.com/diet/foods-high-in-polyphenols#1')}>Healthy Foods High in Polyphenols</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6836211/')}>Cognitive Function and Consumption of Fruit and Vegetable Polyphenols...</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www1.cbn.com/cbnnews/us/2021/june/the-surprising-link-between-these-foods-and-depression-anxiety-and-other-mental-health-issues')}>The Surprising Link Between These Foods and Depression, Anxiety and Other Mental Health Issues</Text> {'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.medicalnewstoday.com/articles/eating-fruit-and-veg-associated-with-kids-mental-well-being')}>Eating fruit and veg associated with children's mental well-being</Text>{'\n'}</Text> 
+	</Text>
+
+	<Text style={styles.header1}>Grocery Stores</Text>
+	<Text style={styles.text1}>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.webmd.com/food-recipes/features/10-tips-for-healthy-grocery-shopping')}>10 Tips for Healthy Grocery Shopping</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://medlineplus.gov/ency/article/001973.htm')}>Cow's milk and children</Text>{'\n'}</Text> 
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.nytimes.com/2020/09/08/dining/grocery-shopping-coronavirus.html')}>7 Ways the Pandemic Has Changed How We Shop for Food</Text>{'\n'}</Text> 
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.forbes.com/sites/capitalone/2018/08/20/is-fast-food-really-cheaper-than-healthy-eating/?sh=75263bb5410a')}>Is Fast Food Really Cheaper Than Healthy Eating?</Text>{'\n'}</Text> 
+	</Text>
+
+	<Text style={styles.header1}>Preservatives</Text>
+	<Text style={styles.text1}>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.webmd.com/special-reports/food-additives/video/what-food-additives')}>What are Food Additives?</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.britannica.com/topic/preservative')}>Preservative: Food Processing</Text>{'\n'}</Text>
+    	<Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.livestrong.com/article/325437-harmful-effects-of-preservatives-in-foods/')}>Harmful Effects of Preservatives in Foods</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://healthfully.com/what-are-the-dangers-of-preservatives-3201078.html')}>What Are the Dangers of Preservatives?</Text>{'\n'}</Text>
+	</Text>
+
+	<Text style={styles.header1}>Rainbow Foods</Text>
+	<Text style={styles.text1}>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.youtube.com/watch?v=onyR8Rnzgrs')}>Follow the rainbow to healthy eating</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://selecthealth.org/blog/2018/08/eating-the-rainbow')}>The Benefits of Eating the Rainbow</Text>{'\n'}</Text>
+	    <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.health.harvard.edu/blog/phytonutrients-paint-your-plate-with-the-colors-of-the-rainbow-2019042516501')}>Phytonutrients: Paint your plate with the colors of the rainbow</Text>{'\n'}</Text>
+    	<Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.healthline.com/nutrition/eat-the-rainbow')}>Eating the Rainbow — Is It Useful and Should You Try It?</Text>{'\n'}</Text> 
+	</Text>
 
         <Image
           style={styles.pic}
@@ -132,22 +144,9 @@ const styles = StyleSheet.create({
   link1: {
     color: colors.eltrdarkblue,
     fontWeight: "bold",
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  // ✅ added styles only for social icons row
-  socialContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 10,
-  },
-  socialIcon: {
-    width: 40,
-    height: 40,
-    marginHorizontal: 6,
   },
 });
 

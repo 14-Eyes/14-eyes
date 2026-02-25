@@ -13,18 +13,13 @@ import { getSubScreenHeader } from "./HeaderStyles";
 
 import AccountDetails from "../screens/AccountDetails";
 import EditAccount from "../screens/EditAccount";
-
 import EditAccountName from "../screens/EditAccountName";
 import EditAccountEmail from "../screens/EditAccountEmail";
 import EditAccountPassword from "../screens/EditAccountPassword";
-
-// import ChangeNameScreen from "../screens/ChangeNameScreen";
-// import ChangeEmailScreen from "../screens/ChangeEmailScreen";
-// import ChangePasswordScreen from "../screens/ChangePasswordScreen";
-
 import AccountAllergies from "../screens/AccountAllergies";
 import AccountConditions from "../screens/AccountConditions";
 import AccountDietaryPreferences from "../screens/AccountDietaryPreferences";
+// import DeleteAccount from "../screens/DeleteAccount";
 
 const Stack = createStackNavigator();
 
@@ -33,64 +28,49 @@ const AccountNavigator = () => (
     <Stack.Screen
       name="Account"
       component={AccountDetails}
-      options={({ navigation }) => getSubScreenHeader(navigation, "My Account")}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Account")}	  
     />
-
     <Stack.Screen
       name="EditAccount"
       component={EditAccount}
-      options={({ navigation }) => getSubScreenHeader(navigation, "Account Center")}
+      options={({ navigation }) => getSubScreenHeader(navigation, "Account Center")}	  
     />
-
-    <Stack.Screen
-      name="AccountAllergies"
-      component={AccountAllergies}
-      options={({ navigation }) => getSubScreenHeader(navigation, "My Allergies")}
-    />
-
-    <Stack.Screen
-      name="AccountConditions"
-      component={AccountConditions}
-      options={({ navigation }) => getSubScreenHeader(navigation, "My Conditions")}
-    />
-
-    <Stack.Screen
-      name="AccountDietaryPreferences"
-      component={AccountDietaryPreferences}
-      options={({ navigation }) => getSubScreenHeader(navigation, "My Dietary Preferences")}
-    />
-
     <Stack.Screen
       name="EditAccountName"
       component={EditAccountName}
-      options={({ navigation }) => getSubScreenHeader(navigation, "Change Name")}	  
+      options={({ navigation }) => getSubScreenHeader(navigation, "Edit Name")}	  
     />
     <Stack.Screen
       name="EditAccountEmail"
       component={EditAccountEmail}
-      options={({ navigation }) => getSubScreenHeader(navigation, "Change Email")}	  
+      options={({ navigation }) => getSubScreenHeader(navigation, "Edit Email")}	  
     />
     <Stack.Screen
       name="EditAccountPassword"
       component={EditAccountPassword}
       options={({ navigation }) => getSubScreenHeader(navigation, "Change Password")}	  
-    />  
-
+    />
+    {/* NO LONGER USED - reference EditAccount.js for delete account feature */}
     {/* <Stack.Screen
-      name="ChangeName"
-      component={ChangeNameScreen}
-      options={({ navigation }) => getSubScreenHeader(navigation, "Change Name")}
-    />
-    <Stack.Screen
-      name="ChangeEmail"
-      component={ChangeEmailScreen}
-      options={({ navigation }) => getSubScreenHeader(navigation, "Change Email")}
-    />
-    <Stack.Screen
-      name="ChangePassword"
-      component={ChangePasswordScreen}
-      options={({ navigation }) => getSubScreenHeader(navigation, "Change Password")}
+      name="DeleteAccount"
+      component={DeleteAccount}
+      options={{ title: "Delete Account" }}
     /> */}
+    <Stack.Screen
+      name="AccountAllergies"
+      component={AccountAllergies}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Allergies")}	  
+    />
+    <Stack.Screen
+      name="AccountConditions"
+      component={AccountConditions}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Conditions")}	  
+    />
+    <Stack.Screen
+      name="AccountDietaryPreferences"
+      component={AccountDietaryPreferences}
+      options={({ navigation }) => getSubScreenHeader(navigation, "My Dietary Preferences")}	  
+    />
   </Stack.Navigator>
 );
 

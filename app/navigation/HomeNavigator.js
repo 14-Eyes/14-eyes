@@ -38,7 +38,7 @@ const HomeNavigator = () => (
       options={{ headerShown: false }}
 	/>
     <Stack.Screen
-	  name="HarmfulIngredientsStack"
+	  name="HarmfulIngredients"
       component={BadListNavigator}
       options={{ headerShown: false }}
 	/>
@@ -47,6 +47,11 @@ const HomeNavigator = () => (
       component={FoodFacts}
       options={({ navigation }) => getSubScreenHeader(navigation, "Food Facts")}
 	/>
+  <Stack.Screen
+    name="Budgets"
+      component={BudgetNavigator}
+      options={{ title: "Budgeting Plans" }}
+  />
 
   </Stack.Navigator>
   );
