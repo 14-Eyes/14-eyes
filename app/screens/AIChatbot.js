@@ -41,7 +41,7 @@ function ChatBot({ navigation }) {
 
     const [messages, setMessages] = useState([
         {
-            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Just ask me anything :)",
+            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything :)",
             sender: "ai",
             quickReplies: getRandomPreset(REPLY_PRESETS, 3),
         }
