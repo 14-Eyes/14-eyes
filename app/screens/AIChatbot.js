@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -21,28 +21,57 @@ const { width, height } = Dimensions.get("window");
 
 
 function ChatBot({ navigation }) {
+
+    const REPLY_PRESETS = [
+        "budget friendly snack options",
+        "heart healthy shopping list",
+        "low-budget, nutrient rich lunch options",
+        "low-fat breakfast options", 
+        "optimal grocery shopping tips",
+    ];
+
+    const getRandomPreset = (pool, count = 3) => {
+        const presetArray = [...pool];
+        const random = presetArray.sort(() => 0.5 - Math.random());
+        return random.slice(0, count);
+    };
+
+
+
+
     const [messages, setMessages] = useState([
         {
-            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Just ask me anything :)",
+            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything :)",
             sender: "ai",
+            quickReplies: getRandomPreset(REPLY_PRESETS, 3),
         }
     ]);
+
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const insets = useSafeAreaInsets();
+    const ScrollViewRef = useRef(null);
 
-    const sendMessage = async () => {
+    useEffect(() => {
+        if (ScrollViewRef.current) {
+            ScrollViewRef.current.scrollToEnd({ animated: true});
+        }
+    }, [messages]);
 
-        if (!inputText.trim()) return; //exits function early if no user message
+    const sendMessage = async (messageText = null) => {
 
-        setMessages((prev) => [...prev, { text: inputText, sender: "user" }]); //adds previous user message to messages array
-        const userQuestion = inputText; //saves user input to a variable
+        const textToSend = messageText || inputText.trim();
+
+        if (!textToSend) return; //exits function early if no user message
+
+        setMessages((prev) => [...prev, { text: textToSend, sender: "user" }]); //adds previous user message to messages array
+        //const userQuestion = inputText; //saves user input to a variable
         setInputText(""); //cleares inputText
         setIsLoading(true); //sets loading boolean to true
 
         try {
-            const result = await geminiModel.generateContent(userQuestion); //calls api with user text
+            const result = await geminiModel.generateContent(textToSend); //calls api with user text
             const aiResponse = result.response.text(); //saves the ai response to a variable
 
             setMessages((prev)  => [...prev, { text: aiResponse, sender: "ai" }]); //adds previous ai message to messages array
@@ -56,24 +85,44 @@ function ChatBot({ navigation }) {
         }
     };
 
+    const handleQuickReply = (reply) => {
+        sendMessage(reply);
+    }
+
     return (
         <View style={styles.container}>
             <AppText style={styles.title}>Ask about healthy budgeting choices, or nutritional advice!</AppText>
             <LineDivider/>
             <ScrollView 
+                ref={ScrollViewRef}
                 style={styles.messages}
                 contentContainerStyle={{ paddingBottom: 20 }}
             >
                 {messages.map((msg, index) => (
-                    <View key={index} style={[
-                        styles.message,
-                        msg.sender === "user" ? styles.userMessage : styles.aiMessage,
-                    ]}
-                    >
-                        <AppText style={styles.messageText}>
-                            {msg.sender === "user" ? "" : ""}
-                            {msg.text}
-                        </AppText>
+                    <View key={index}>
+                        <View style={[
+                            styles.message,
+                            msg.sender === "user" ? styles.userMessage : styles.aiMessage,
+                        ]}
+                        >
+                            <AppText style={styles.messageText}>
+                                {msg.text}
+                            </AppText>
+                        </View>
+
+                        {msg.sender === "ai" && msg.quickReplies && (
+                            <View style={styles.quickRepliesContainer}>
+                                {msg.quickReplies.map((reply, i) => (
+                                    <TouchableOpacity
+                                        key={i}
+                                        style={styles.quickReplyButton}
+                                        onPress={() => handleQuickReply(reply)}
+                                    >
+                                        <AppText style={styles.quickReplyText}>{reply}</AppText>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        )}
                     </View>
                 ))}
                 {isLoading && <AppText>AI is thinking...</AppText>}
@@ -91,9 +140,12 @@ function ChatBot({ navigation }) {
                         multiline
                     />
                     <TouchableOpacity
-                        style={styles.sendButton}
-                        onPress={sendMessage}
-                        disabled={isLoading}
+                        style={[
+                            styles.sendButton,
+                            (!inputText.trim() || isLoading) && styles.sendButtonDisabled
+                        ]}
+                        onPress={() => sendMessage()}
+                        disabled={!inputText.trim() || isLoading}
                     >
                         <AppText style={styles.sendButtonText}>Send</AppText>
                     </TouchableOpacity>
@@ -136,6 +188,26 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 16,
   },
+  quickRepliesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 8,
+    marginBottom: 10,
+    gap: 8,
+  },
+  quickReplyButton: {
+    backgroundColor: colors.white,
+    borderWidth: 1.5,
+    borderColor: colors.eltrgreen,
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  quickReplyText: {
+    color: colors.eltrgreen,
+    fontSize: 14,
+    fontweight: '500'
+  },
   inputContainer: {
     flexDirection: "row",
     gap: 10,
@@ -153,6 +225,10 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 8,
     justifyContent: "center",
+  },
+  sendButtonDisabled: {
+    backgroundColor: colors.medium,
+    opacity: 0.6,
   },
   sendButtonText: {
     color: colors.white,
