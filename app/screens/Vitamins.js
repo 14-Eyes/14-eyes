@@ -48,10 +48,10 @@ export const Vitamins = ({route, navigation}) => {
             {vit.linkTo.map(Food => (
               <View style={styles.buttonContainer} key={Food.toString()}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('FoodList',{food: categories[Food]})}
-                style={[styles.button, { backgroundColor: categories[Food].buttonColor }]}
-                >
-                  <Text style={styles.buttonText}>{categories[Food].label}</Text>
+                  onPress={() => navigation.navigate('FoodList',{food: categories[Food]})}
+                  style={[styles.button, { backgroundColor: categories[Food].buttonColor }]}
+                  >
+                    <Text style={styles.buttonText}>{categories[Food].label}</Text>
                 </TouchableOpacity>
               </View>
             ))}

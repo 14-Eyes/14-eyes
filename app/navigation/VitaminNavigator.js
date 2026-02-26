@@ -12,7 +12,7 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { getMainHeader, getSubScreenHeader, getSubScreenHeaderBack } from "./HeaderStyles";
+import { getCustomSubScreenHeaderBack } from "./HeaderStyles";
 
 import EssentialNutrients from "../screens/EssentialNutrients";
 import FoodList from "../screens/FoodList";
@@ -33,17 +33,19 @@ const VitaminNavigator = () => (
     <VitStack.Screen
       name="EssentialNutrient"
         component={EssentialNutrients}
-        options={({ navigation }) => getSubScreenHeader(navigation, "Essential Nutrients")}
+        options={({ navigation }) => getCustomSubScreenHeaderBack(navigation, "Essential Nutrients", "HomeScreen")}
     />
+
     <VitStack.Screen
       name="FoodList"
         component={FoodList}
-        options={({ navigation }) => getSubScreenHeader(navigation, "List of Foods")}
+        options={({ navigation }) => getCustomSubScreenHeaderBack(navigation, "List of Foods", "EssentialNutrient")}
     />
+
     <VitStack.Screen
       name="Vitamins"
         component={Vitamins}
-        options={({ navigation }) => getSubScreenHeader(navigation, "Vitamins")}
+        options={({ navigation }) => getCustomSubScreenHeaderBack(navigation, "Vitamins", "EssentialNutrient")}
     />
 
   </VitStack.Navigator>
