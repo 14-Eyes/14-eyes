@@ -8,7 +8,7 @@
  */
 
 import React from "react";
-import { StyleSheet, ScrollView, Text, Image, Linking, View } from "react-native";
+import { StyleSheet, ScrollView, Text, Image, Linking, View, Alert } from "react-native";
 import { Pressable } from "react-native-gesture-handler";
 import { block } from "react-native-reanimated";
 
@@ -29,7 +29,29 @@ function AboutScreen(props) {
 
 {/* SOCIAL MEDIA ICONS SECTION */}
         <View style={styles.socialContainer}>
-          <Pressable onPress={() => Linking.openURL("https://www.instagram.com/eat.liketherainbow/")}>
+
+          {/* Instagram combined */}
+          <Pressable
+            onPress={() =>
+              Alert.alert(
+                "Open Instagram",
+                "Which page do you want to visit?",
+                [
+                  {
+                    text: "Eat Like The Rainbow",
+                    onPress: () =>
+                      Linking.openURL("https://www.instagram.com/eat.liketherainbow/"),
+                  },
+                  {
+                    text: "Chef Cathy Zeis",
+                    onPress: () =>
+                      Linking.openURL("https://www.instagram.com/chefcathyzeis/"),
+                  },
+                  { text: "Cancel", style: "cancel" },
+                ]
+              )
+            }
+          >
             <Image source={require("../assets/instagram.png")} style={styles.socialIcon} />
           </Pressable>
 
@@ -49,14 +71,23 @@ function AboutScreen(props) {
             <Image source={require("../assets/tiktok.png")} style={styles.socialIcon} />
           </Pressable>
 
+          <Pressable onPress={() => Linking.openURL("https://www.lemon8-app.com/@chef.cathy.zeis")}>
+            <Image source={require("../assets/lemon8.png")} style={styles.socialIcon} />
+          </Pressable>
+
+          <Pressable onPress={() => Linking.openURL("https://truthsocial.com/@eatliketherainbow")}>
+            <Image source={require("../assets/truthsocial.png")} style={styles.socialIcon} />
+          </Pressable>
+
           <Pressable onPress={() => Linking.openURL("https://www.linkedin.com/in/cathy-zeis-292988b/")}>
             <Image source={require("../assets/linkedin.png")} style={styles.socialIcon} />
           </Pressable>
+
         </View>
         
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
         <AppText style={styles.text}>
-          Eat Like The Rainbow™ is a naturally done non-profit, catering to the
+          <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>Eat Like The Rainbow™</Text> is a naturally done non-profit, catering to the
           youngest palates. Kindergarten through 4th grade are pivotal years in
           developing major lifestyle characteristics that will guide our future
           leaders into childhood and beyond. From religious beliefs, to sleeping
@@ -137,7 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  // ✅ added styles only for social icons row
   socialContainer: {
     flexDirection: "row",
     justifyContent: "center",
