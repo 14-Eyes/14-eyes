@@ -18,6 +18,11 @@ function StoresSalesScreen() {
           Discover weekly deals and sales from grocery stores near you.
         </AppText>
 
+        <AppText style={styles.body}>
+          Use the below window to set your current zipcode and view weekly ads and circulars.
+          Click on an item on the flyer to learn more about that specific product!
+        </AppText>
+
         <AppText style={styles.note}>
           Deals are provided by Flipp and other third-party retailers.
         </AppText>
@@ -25,9 +30,10 @@ function StoresSalesScreen() {
         <LineDivider />
 
         {/* Flipp Weekly Deals */}
+        {/* should link directly to the grocery section on the Flipp website */}
         <View style={styles.webViewContainer}>
           <WebView
-            source={{ uri: "https://flipp.com" }}
+            source={{ uri: "https://flipp.com/weekly_ads/groceries" }}
             startInLoadingState
             javaScriptEnabled
             domStorageEnabled

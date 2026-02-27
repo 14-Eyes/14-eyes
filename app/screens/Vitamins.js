@@ -48,10 +48,10 @@ export const Vitamins = ({route, navigation}) => {
             {vit.linkTo.map(Food => (
               <View style={styles.buttonContainer} key={Food.toString()}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('FoodList',{food: categories[Food]})}
-                style={[styles.button, { backgroundColor: categories[Food].buttonColor }]}
-                >
-                  <Text style={styles.buttonText}>{categories[Food].label}</Text>
+                  onPress={() => navigation.navigate('FoodList',{food: categories[Food]})}
+                  style={[styles.button, { backgroundColor: categories[Food].buttonColor }]}
+                  >
+                    <Text style={styles.buttonText}>{categories[Food].label}</Text>
                 </TouchableOpacity>
               </View>
             ))}
@@ -106,6 +106,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.eltrpink,
+    // iOS Shadow properties
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    // Android Elevation property
+    elevation: 4,
   },
   buttonText: {
     fontSize: 18,
