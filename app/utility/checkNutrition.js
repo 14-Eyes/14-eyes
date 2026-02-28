@@ -127,8 +127,11 @@ export async function checkNutritions(nutrients, scannerSelect) {
             const diet = active[j];
             for (let i = 0; i < 8; i++)
             {
-                console.log("here we are, check ", i);
-                const a=diet.Nutrient_Max[i] //but for diet
+                console.log("here we are, check Diet", i);
+                console.log("so heres the stuff... ", active.length);
+                console.log("so heres the stuff BUT MORE... ", active);
+                const a=diet.Nutrient_Max[i];
+                console.log("A   ===   ",a);
                 //Arry scanning for firebase nutrient records
                 //checks if appropriate nutrient is within acceptable range
                     // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,

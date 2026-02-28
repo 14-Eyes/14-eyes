@@ -52,6 +52,7 @@ function FoodDetails({ route }) {
   const [dietMatches, setDietMatches] = useState({
     avoid: [],
     certifications: [],
+    badNutri: false
   });
 
   // could add other arrays to store allergies/diet matches, or could try to combine with the above arrays
