@@ -28,6 +28,8 @@ import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+import { checkNutritions } from "../utility/checkNutrition";
+import { boolean } from "yup";
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -42,9 +44,11 @@ function FoodDetails({ route }) {
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
+
   const [conditionMatches, setConditionMatches] = useState({
     good: [],
     avoid: [],
+    badNutri: false
   });
 
   // arrays to store the results of any ingredient matches FOR ALLERGIES
@@ -57,6 +61,7 @@ function FoodDetails({ route }) {
     avoid: [],
     certifications: [],
     offConflicts: [],
+    badNutri: false
   });
 
   //arrays to store the results of any sugar matches for GOOD SUGARS
@@ -130,6 +135,12 @@ function FoodDetails({ route }) {
 
         const novaGroup =                       // for ultra processed marker
           food?.product?.nova_group ?? null;
+
+        const nutrients =
+          food?.product?.nutriments || []; 
+
+        const nutriScore =
+          food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null;
           
         const barcode =
           food?.barcode?.code ??
@@ -144,9 +155,11 @@ function FoodDetails({ route }) {
           image: food?.product?.image_small_url || null,
           ingredients: ingredients,                         // default to empty 
           allergens: allergens,
+          nutrients: nutrients,
           labels: labels,                                   // for diet
           analysis: analysis,                               // for diet
-          novaGroup,                                        // for ultra processed marker
+          novaGroup: novaGroup,                                        // for ultra processed marker
+          nutriScore: nutriScore,
         });
 
         // Debug to see all info pulled from Open Food Facts in terminal
@@ -157,21 +170,22 @@ function FoodDetails({ route }) {
         console.log("NOVA GROUP:", novaGroup);
 
         if (ingredients) {
-          // Run condition checking function if ingredients exist (located below)
+          //for some reason, nutrients becomes undefined here...
+         // Run condition checking function if ingredients exist (located below)
           // await checkConditions(ingredients);
-          const condResults = await checkConditions(ingredients);
+          const condResults = await checkConditions(ingredients, nutrients);
           if (condResults) {
             setConditionMatches(condResults);
           }
 
           // Run allergy checking function if ingredients exist (located below)
-          const allergyResults = await checkAllergies(ingredients, allergens);
+          const allergyResults = await checkAllergies(ingredients, allergens, nutrients);
           if (allergyResults) {
             setAllergyMatches(allergyResults);
           }
 
           // Run diet checking function if ingredients exist (located below)
-          const dietResults = await checkDiet(ingredients, labels, analysis);
+          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients);
           if (dietResults) {
             setDietMatches(dietResults);
           }
@@ -201,7 +215,6 @@ function FoodDetails({ route }) {
           }
 
           //Pull vitamins and minerals
-          const nutrients = food?.product?.nutriments;
           if (nutrients) {
             const vitamins = extractVitaminsMinerals(nutrients);
             setVitaminsFound(vitamins);
@@ -270,10 +283,13 @@ function FoodDetails({ route }) {
   }
   // -----------------------------
 
+
   // Set isBad & isGood booleans to determine thumbs up/down image
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
+  const badNutriConditions = conditionMatches.badNutri;
   const hasAllergy = allergyMatches.avoid.length > 0;
+  const badNutriDiet = dietMatches.badNutri;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
   const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
   const hasGoodSugar = goodSugarMatches.length > 0;
@@ -337,6 +353,10 @@ function FoodDetails({ route }) {
 
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
+          
+          {/* Nutri-Score    ---  product.nutriScore.charAt(0).toUpperCase()  breaks it now??????*/}
+          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText>
+          
 
           {/* DIET CERTIFICATIONS */}
           {dietMatches.certifications.length > 0 && (
@@ -366,6 +386,17 @@ function FoodDetails({ route }) {
                 <LineDivider />
               </>
             )}
+
+            {/* Conditional Nutrition*/}
+            {badNutriConditions && (
+              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your condition.</AppText>
+            )}
+
+            {/* Dietary Nutrition*/}
+            {badNutriDiet && (
+              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your diet.</AppText>
+            )}
+
 
             {/* CONDITIONS */}
             {hasConditionBad > 0 && (
@@ -537,6 +568,7 @@ function FoodDetails({ route }) {
               </AppText>
             )}
 
+            
             {/* {foundFoodInfo.length > 0 ? (
               foundFoodInfo.map((info, index) => (
                 <FoodMatchInfo key={index} foundFoodInfo={info} />
