@@ -23,7 +23,6 @@ import colors from "../config/colors";
 import ListItemSeparator from "../components/lists/ListItemSeparator";
 import routes from "../navigation/routes";
 import AuthContext from "../auth/context";
-import Firebase from "../config/firebase";
 
 const menuItems = [
   {
@@ -62,19 +61,6 @@ const menuItems = [
 ];
 
 function AccountDetails({ navigation }) {
-  const authContext = useContext(AuthContext);
-
-  const handleLogOut = () => {
-    Firebase.auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        authContext.setUser(null);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>

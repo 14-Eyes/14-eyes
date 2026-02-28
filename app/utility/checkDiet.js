@@ -14,7 +14,6 @@ const OFF_DIET_CONFLICTS = {
 };
 
 export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [], nutrients) {
-    main
     try {
         const auth = getAuth();
         const db = getFirestore();

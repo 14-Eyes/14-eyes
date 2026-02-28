@@ -13,6 +13,11 @@ import { getAuth } from "firebase/auth";
 import { checkConditions } from "../utility/checkConditions";
 import { checkAllergies } from "../utility/checkAllergies";
 import { checkDiet } from "../utility/checkDiet";
+import { checkGoodSugars } from "../utility/checkGoodSugars";
+import { checkBadSugars } from "../utility/checkBadSugars";
+import { checkDyes } from "../utility/checkDyes";
+import { checkPreservatives } from "../utility/checkPreservatives";
+import { extractVitaminsMinerals } from "../utility/pullVitaminsMinerals";
 import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all cond/allergy/diet info
 
 // Components
@@ -33,6 +38,9 @@ function FoodDetails({ route }) {
   const db = getFirestore();
   const auth = getAuth();
 
+  // set barcode value state
+  const [barcode, setBarcode] = useState(null);
+
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
@@ -52,8 +60,24 @@ function FoodDetails({ route }) {
   const [dietMatches, setDietMatches] = useState({
     avoid: [],
     certifications: [],
+    offConflicts: [],
     badNutri: false
   });
+
+  //arrays to store the results of any sugar matches for GOOD SUGARS
+  const [goodSugarMatches, setGoodSugarMatches] = useState([]);
+
+  //arrays to store the results of any sugar matches for BAD SUGARS
+  const [badSugarMatches, setBadSugarMatches] = useState([]);
+
+  //arrays to store the results of any dye matches 
+  const [dyeMatches, setDyeMatches] = useState([]);
+
+  //arrays to store the results of any preservative matches 
+  const [preservativeMatches, setPreservativeMatches] = useState([]);
+
+  //array to store vitamins and minerals found
+  const [vitaminsFound, setVitaminsFound] = useState([]);
 
   // could add other arrays to store allergies/diet matches, or could try to combine with the above arrays
   // my first thought is probably to try adding separate arrays?
@@ -118,6 +142,14 @@ function FoodDetails({ route }) {
         const nutriScore =
           food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null
           
+        const barcode =
+          food?.barcode?.code ??
+          food?.barcode ??
+          food?.code ??
+          null;
+        setBarcode(barcode);
+        console.log("barcode:", barcode);
+
         setProduct({
           name: productName,
           image: food?.product?.image_small_url || null,
@@ -156,9 +188,37 @@ function FoodDetails({ route }) {
           if (dietResults) {
             setDietMatches(dietResults);
           }
-          
-          //Should be able to be replaced with boolean value in each of the above checks
-          //const nutriResults = await checkNutritions(nutrients);
+
+          //Run good sugar checking function if ingredients exist
+          const goodSugarResults = await checkGoodSugars(ingredients);
+          if (goodSugarResults) {
+            setGoodSugarMatches(goodSugarResults);
+          }
+
+          //Run bad sugar checking function if ingredients exist
+          const badSugarResults = await checkBadSugars(ingredients);
+          if (badSugarResults) {
+            setBadSugarMatches(badSugarResults);
+          }
+
+          //Run dye checking function if ingredients exist
+          const dyeResults = await checkDyes(ingredients);
+          if (dyeResults) {
+            setDyeMatches(dyeResults);
+          }
+
+          //Run preservative checking function if ingredients exist
+          const preservativeResults = await checkPreservatives(ingredients);
+          if (preservativeResults) {
+            setPreservativeMatches(preservativeResults);
+          }
+
+          //Pull vitamins and minerals
+          const nutrients = food?.product?.nutriments;
+          if (nutrients) {
+            const vitamins = extractVitaminsMinerals(nutrients);
+            setVitaminsFound(vitamins);
+          }
         }
       } catch (err) {
         console.log("Error loading food details:", err); // error handling
@@ -168,7 +228,7 @@ function FoodDetails({ route }) {
     };
 
     load();
-  }, []);
+  }, [food]);
 
   // // -------------------------------------------------
   // // SET UP FOUND FOOD ITEM INFO ARRAY
@@ -187,18 +247,6 @@ function FoodDetails({ route }) {
   // -----------------------------
   // FOLLOWING IS ALL UI
   // -----------------------------
- 
-  // ------ LOADING DISPLAY ------
-  if (loading) {
-    return (
-      <Screen style={styles.loadingMsg}>
-        <ActivityIndicator size="large" />
-        <AppText>Analyzing ingredients…</AppText>
-      </Screen>
-    );
-  }
-  // -----------------------------
-
   
   // ------ NO PRODUCT FOUND -----
   if (productNotFound) {
@@ -235,15 +283,23 @@ function FoodDetails({ route }) {
   }
   // -----------------------------
 
+
   // Set isBad & isGood booleans to determine thumbs up/down image
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
   const badNutriConditions = conditionMatches.badNutri;
   const hasAllergy = allergyMatches.avoid.length > 0;
-  const hasDietBadMatch = dietMatches.avoid.length > 0;
   const badNutriDiet = dietMatches.badNutri;
+  const hasDietBadMatch = dietMatches.avoid.length > 0;
+  const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
+  const hasGoodSugar = goodSugarMatches.length > 0;
+  const hasBadSugar = badSugarMatches.length >0;
+  const hasDye = dyeMatches.length > 0;
+  const hasPreservative = preservativeMatches.length > 0;
+  const hasVitaminMineral = vitaminsFound.length > 0;
   
-  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch;
+  const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
+  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasDietOffConflicts || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -373,16 +429,132 @@ function FoodDetails({ route }) {
             )}
 
             {/* DIETS */}
-            {hasDietBadMatch && (
+            {hasAnyDietConflict && (
               <>
                 <AppText style={styles.badHeader}>
                   This food conflicts with your diet because...
                 </AppText>
-                {groupedInfo.diet.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`diet-${index}`}
-                    foundFoodInfo={info}
-                  />
+
+                {hasDietOffConflicts && (
+                  <>
+                    <AppText style={{ fontSize: 16 }}>
+                      This food is officially classified as{" "}
+                      <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
+                        {dietMatches.offConflicts
+                          .map(conflict => conflict.tag.replace("-", " "))
+                          .join(" and ")}
+                      </AppText>{" "}
+                      by Open Food Facts.
+                    </AppText>
+
+                    {barcode && (
+                      <AppText
+                        style={[{ fontSize: 16, color: colors.eltrdarkblue }]}
+                        onPress={() =>
+                          Linking.openURL(
+                            `https://world.openfoodfacts.org/products/${barcode}`
+                          )
+                        }
+                      >
+                        Learn more
+                      </AppText>
+                    )}
+                  </>
+                )}
+
+                {hasDietBadMatch &&
+                  groupedInfo.diet.map((info, index) => (
+                    <FoodMatchInfo
+                      key={`diet-${index}`}
+                      foundFoodInfo={info}
+                    />
+                  ))
+                }
+
+                <LineDivider />
+              </>
+            )}
+
+            {/* VITAMINS + MINERALS */}
+            {hasVitaminMineral && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Vitamins and minerals found:
+                </AppText>
+                {vitaminsFound.map((vitamin, index) => (
+                  <AppText 
+                  key={`vitamin-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {vitamin} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* GOOD SUGARS */}
+            {hasGoodSugar && (
+              <>
+                <AppText style={styles.goodHeader}>
+                  Natural sweetners found:
+                </AppText>
+                {goodSugarMatches.map((sugar, index) => (
+                  <AppText 
+                  key={`sugar-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* BAD SUGARS */}
+            {hasBadSugar && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Harmful sweetners found:
+                </AppText>
+                {badSugarMatches.map((sugar, index) => (
+                  <AppText 
+                  key={`bad-sugar-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {sugar.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* DYES */}
+            {hasDye && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Artificial dyes found:
+                </AppText>
+                {dyeMatches.map((dye, index) => (
+                  <AppText 
+                  key={`dye-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {dye.name} </AppText>
+                ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* PRESERVATIVES */}
+            {hasPreservative && (
+              <>
+                <AppText style={styles.badHeader}>
+                  Artificial preservatives found:
+                </AppText>
+                {preservativeMatches.map((preservative, index) => (
+                  <AppText 
+                  key={`preservative-${index}`} 
+                  style={styles.bullet}
+                  > 
+                  • {preservative.name} </AppText>
                 ))}
                 <LineDivider />
               </>
@@ -449,11 +621,6 @@ const styles = StyleSheet.create({
   foodContainer: { 
     alignItems: "center", 
     paddingBottom: 40,
-  },
-  loadingMsg: { 
-    flex: 1, 
-    justifyContent: "center", 
-    alignItems: "center",
   },
   // ----- NO ITEM FOUND STYLES -----
   noItem: {
@@ -541,10 +708,10 @@ const styles = StyleSheet.create({
     color: colors.eltrgreen, 
     fontWeight: "bold", 
     marginTop: 5, 
-    marginBottom: 5, 
+    marginBottom: 8, 
   },
   bullet: { 
-    fontSize: 18, 
+    fontSize: 16, 
     marginLeft: 10, 
     marginVertical: 1, 
   },
