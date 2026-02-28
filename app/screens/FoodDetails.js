@@ -168,9 +168,11 @@ function FoodDetails({ route }) {
         console.log("DIETS RAW TEXT - LABELS:", labels);
         console.log("DIETS RAW TEXT - ANALYSIS:", analysis);
         console.log("NOVA GROUP:", novaGroup);
+        console.log("Score~!!! : ", nutriScore);
 
         if (ingredients) {
-          // Run condition checking function if ingredients exist (located below)
+          //for some reason, nutrients becomes undefined here...
+         // Run condition checking function if ingredients exist (located below)
           // await checkConditions(ingredients);
           const condResults = await checkConditions(ingredients, nutrients);
           if (condResults) {
@@ -214,7 +216,6 @@ function FoodDetails({ route }) {
           }
 
           //Pull vitamins and minerals
-          const nutrients = food?.product?.nutriments;
           if (nutrients) {
             const vitamins = extractVitaminsMinerals(nutrients);
             setVitaminsFound(vitamins);
@@ -354,10 +355,9 @@ function FoodDetails({ route }) {
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
           
-          {/*
-          {/* Nutri-Score
-          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore.charAt(0).toUpperCase()}</AppText>
-          */}
+          {/* Nutri-Score    ---  product.nutriScore.charAt(0)*/}
+          <AppText style={styles.badHeader}>Nutri-Score: {nutriScore.toUpperCase()}</AppText>
+        
 
           {/* DIET CERTIFICATIONS */}
           {dietMatches.certifications.length > 0 && (

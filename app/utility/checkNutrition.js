@@ -132,7 +132,7 @@ export async function checkNutritions(nutrients, scannerSelect) {
             {
                 console.log("here we are, check Diet", i);
                 console.log("so heres the stuff... ", active.length);
-                console.log("so heres the stuff BUT MORE... ", active);
+                console.log("so heres the stuff BUT MORE... ", diet);
                 const a=diet.Nutrient_Max[i];
                 console.log("A   ===   ",a);
                 //Arry scanning for firebase nutrient records
