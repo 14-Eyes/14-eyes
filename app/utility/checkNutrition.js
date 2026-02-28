@@ -41,6 +41,9 @@ export async function checkNutritions(nutrients, scannerSelect) {
             userConditions.includes(c.id)
         );
 
+        //Testing~!
+        console.log(nutrients);
+
 
         // --- Scan all ingredients for text matches ---
         const calories = nutrients['energy-kcal'];

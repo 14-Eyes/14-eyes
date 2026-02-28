@@ -354,8 +354,10 @@ function FoodDetails({ route }) {
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
           
-          {/* Nutri-Score*/}
+          {/*
+          {/* Nutri-Score
           <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore.charAt(0).toUpperCase()}</AppText>
+          */}
 
           {/* DIET CERTIFICATIONS */}
           {dietMatches.certifications.length > 0 && (
