@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "ios": {
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Use Face ID to securely log in to ELTR"
+      }
+    }
+  }
+}

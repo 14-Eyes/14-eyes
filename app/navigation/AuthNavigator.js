@@ -5,6 +5,7 @@
  * - `LoginScreen`: for user sign-in
  * - `RegisterScreen`: for new account creation
  * - `ResetPasswordScreen`: for password recovery
+ * - `BiometricAuthScreen`: for Face ID / Fingerprint authentication
  * 
  * All screens are rendered without headers to provide a clean, full-screen experience during the authentication flow.
  * 
@@ -17,6 +18,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
+import BiometricAuthScreen from "../screens/BiometricAuthScreen"; // added
 
 const Stack = createStackNavigator();
 
@@ -27,11 +29,19 @@ const AuthNavigator = () => (
       component={LoginScreen}
       options={{ headerShown: false }}
     />
+
+    <Stack.Screen
+      name="BiometricAuth"
+      component={BiometricAuthScreen}
+      options={{ headerShown: false }}
+    />
+
     <Stack.Screen
       name="Register"
       component={RegisterScreen}
       options={{ headerShown: false }}
     />
+
     <Stack.Screen
       name="ResetPassword"
       component={ResetPasswordScreen}
