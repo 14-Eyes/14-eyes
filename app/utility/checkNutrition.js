@@ -7,10 +7,12 @@ import { getAuth } from "firebase/auth";
 import { fetchCond } from "./fetchOptions";
 import { fetchDiet } from "./fetchOptions";
 
-//Currently limited to scanning info based on 100g, which is doubtful to reflect proper serving sizes. Requires attention
+//Currently limited to scanning info based on 100g, which is doubtful to reflect proper serving sizes. Requires attention (change to DV%?)
 //Currently limited to providing only certain nutrion fact statistics. Requires attention
 //Currenlty limited to relying on every nutrition being available from the json. Requires attention
 // Optional we could have nutrient minimums, would be useful for diets.            
+
+//Could be modified to have the ID of the diet assinged in the nutrients and use that information to better identify things in the UI 
 
 //Firebase key
 // 0 - Calories
@@ -43,7 +45,6 @@ export async function checkNutritions(nutrients, scannerSelect) {
 
         //Testing~!
         console.log(nutrients);
-
 
         // --- Scan all ingredients for text matches ---
         const calories = nutrients['energy-kcal'];
@@ -130,25 +131,16 @@ export async function checkNutritions(nutrients, scannerSelect) {
             const diet = active[j];
             for (let i = 0; i < 8; i++)
             {
-                console.log("here we are, check Diet", i);
-                console.log("so heres the stuff... ", active.length);
-                console.log("so heres the stuff BUT MORE... ", diet);
                 const a=diet.Nutrient_Max[i];
-                console.log("A   ===   ",a);
                 //Arry scanning for firebase nutrient records
                 //checks if appropriate nutrient is within acceptable range
                     // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
                     // but if the user can't have any it will be 0
-                console.log("This is bad: ", itemNutris[i])
-                console.log("This is good: ", a," : @ - ", i)
                 if(itemNutris[i]>a&&a!=.01)
                 {
-                    console.log("outpu 01: ", badRange); //returns false
                     badRange=true; 
                     return badRange;
-                    console.log("output! 03: ", badRange); //returns true, showing the code is running\
                 }
-                console.log("All is well!!");
             }
         }
         // ---------------------------------------------

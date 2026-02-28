@@ -50,7 +50,6 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
 
         active.forEach((diet) => {
             // scan for bad matches; store in avoid
-            
             // scan for ingredient matches
             diet.avoid.forEach((raw) => {
                 const d = raw.trim().toLowerCase();

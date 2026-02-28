@@ -140,7 +140,7 @@ function FoodDetails({ route }) {
           food?.product?.nutriments || []; 
 
         const nutriScore =
-          food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null
+          food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null;
           
         const barcode =
           food?.barcode?.code ??
@@ -168,7 +168,6 @@ function FoodDetails({ route }) {
         console.log("DIETS RAW TEXT - LABELS:", labels);
         console.log("DIETS RAW TEXT - ANALYSIS:", analysis);
         console.log("NOVA GROUP:", novaGroup);
-        console.log("Score~!!! : ", nutriScore);
 
         if (ingredients) {
           //for some reason, nutrients becomes undefined here...
@@ -355,9 +354,9 @@ function FoodDetails({ route }) {
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
           
-          {/* Nutri-Score    ---  product.nutriScore.charAt(0)*/}
-          <AppText style={styles.badHeader}>Nutri-Score: {nutriScore.toUpperCase()}</AppText>
-        
+          {/* Nutri-Score    ---  product.nutriScore.charAt(0).toUpperCase()  breaks it now??????*/}
+          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText>
+          
 
           {/* DIET CERTIFICATIONS */}
           {dietMatches.certifications.length > 0 && (
@@ -395,7 +394,7 @@ function FoodDetails({ route }) {
 
             {/* Dietary Nutrition*/}
             {badNutriDiet && (
-              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your deit.</AppText>
+              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your diet.</AppText>
             )}
 
 
