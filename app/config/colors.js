@@ -23,6 +23,16 @@ export default {
   light: "#F8F4F3",
   lightGray: "#d6d6d6ff",
 
+  // CHARACTER colors
+  apple:"#339966",
+  tomato: "#ff0000",
+  nut: "#99cc00",
+  mushroom: "#800000",
+  grape: "#333399",
+  lime: "#008000",
+  lemon: "#ffcc00",
+  bee: "#ff6600",
+
   // OLD ELTR main colors
   // eltrgreen: "#768e6a",
   // eltrpink: "#e499b7",

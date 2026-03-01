@@ -32,75 +32,75 @@ export default {
         },
         {
             id: 6,
-            label:	"Potatoes are full of fiber and help control blood sugar.",
+            label: "Potatoes are full of fiber and help control blood sugar.",
         },
         {
             id: 7,
-            label:	"Mixed nuts are a great source of protein!",
+            label: "Mixed nuts are a great source of protein!",
         },
         {
             id: 8,
-            label:	"Popcorn with sea salt is an incredibly healthy snack for kids!",
+            label: "Popcorn with sea salt is an incredibly healthy snack for kids!",
         },
         {
             id: 9,
-            label:	"Tomatoes can help protect your immune system from damage caused by herbicides and pesticides.",
+            label: "Tomatoes can help protect your immune system from damage caused by herbicides and pesticides.",
         },
         {
-            id: 	10,
-            label:	"Tomatoes are loaded with lycopene, an essential antioxidant that keeps your heart strong!",
+            id: 10,
+            label: "Tomatoes are loaded with lycopene, an essential antioxidant that keeps your heart strong!",
         },
         {
-            id: 	11,
-            label:	"Peppers and Onions are powerful antioxidants that help prevent numerous diseases like cancer and heart disease!",
+            id: 11,
+            label: "Peppers and Onions are powerful antioxidants that help prevent numerous diseases like cancer and heart disease!",
         },
         {
-            id: 	12,
-            label:	"Onions help keep your cells strong and are a major player in fighting inflammation!",
+            id: 12,
+            label: "Onions help keep your cells strong and are a major player in fighting inflammation!",
         },
         {
-            id: 	13,
-            label:	"Apples are superfoods that help fight diseases like cancer, heart disease, and obesity.",
+            id: 13,
+            label: "Apples are superfoods that help fight diseases like cancer, heart disease, and obesity.",
         },
         {
-            id: 	14,
-            label:	"Mushrooms are loaded with Vitamin D, which is super important for strong bones.",
+            id: 14,
+            label: "Mushrooms are loaded with Vitamin D, which is super important for strong bones.",
         }, 
         {
-            id: 	15,
-            label:	"Broccoli is a superfood when it comes to cell protection and cancer prevention. Plus, broccoli helps keep your bones strong. Eat up!",
+            id: 15,
+            label: "Broccoli is a superfood when it comes to cell protection and cancer prevention. Plus, broccoli helps keep your bones strong. Eat up!",
         },
         {
-            id: 	16,
-            label:	"Lemons are great heart food! Full of vitamin C, lemons help protect against heart disease and can aid in weight loss!",
+            id: 16,
+            label: "Lemons are great heart food! Full of vitamin C, lemons help protect against heart disease and can aid in weight loss!",
         },
         {
-            id: 	17,
-            label:	"Carrots of all colors help improve your vision and are a fantastic skin protector from sun damage because of the vitamin A!",
+            id: 17,
+            label: "Carrots of all colors help improve your vision and are a fantastic skin protector from sun damage because of the vitamin A!",
         },
         {
-            id: 	18,
-            label:	"Limes are an amazing fruit that help keep your heart in great shape, fight cancer, and keeps your kidneys in top form!",
+            id: 18,
+            label: "Limes are an amazing fruit that help keep your heart in great shape, fight cancer, and keeps your kidneys in top form!",
         },
         {
-            id: 	19,
-            label:	"Asparagus is full of vitamins your body needs like Vitamin C and it helps get rid of toxins in your body!",
+            id: 19,
+            label: "Asparagus is full of vitamins your body needs like Vitamin C and it helps get rid of toxins in your body!",
         },
         {
-            id: 	20,
-            label:	"Grilled pork chops are great for your heart! This lean meat contains B-vitamins that can help drop some pounds and load you up on protein.",
+            id: 20,
+            label: "Grilled pork chops are great for your heart! This lean meat contains B-vitamins that can help drop some pounds and load you up on protein.",
         },
         {
-            id: 	21,
-            label:	"Black beans help regulate your blood sugar and reduce the chances of birth defects!",
+            id: 21,
+            label: "Black beans help regulate your blood sugar and reduce the chances of birth defects!",
         },
         {
-            id: 	22,
-            label:	"Turkish Figs are a major killer of cancer cells! Great for digestion too!",
+            id: 22,
+            label: "Turkish Figs are a major killer of cancer cells! Great for digestion too!",
         },
         {
-            id: 	23,
-            label:	"Any God-source Food is an excellent choice for a great snack! Created just for you!",
+            id: 23,
+            label: "Any God-source Food is an excellent choice for a great snack! Created just for you!",
         },       
     ]
 };
