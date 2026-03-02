@@ -67,6 +67,10 @@ function AboutScreen(props) {
             <Image source={require("../assets/youtube.png")} style={styles.socialIcon} />
           </Pressable>
 
+          </View>
+
+       <View style={styles.socialContainer}>
+
           <Pressable onPress={() => Linking.openURL("https://www.tiktok.com/@chef.cathy.zeis?is_from_webapp=1&sender_device=pc")}>
             <Image source={require("../assets/tiktok.png")} style={styles.socialIcon} />
           </Pressable>
