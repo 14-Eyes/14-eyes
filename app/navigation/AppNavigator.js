@@ -14,7 +14,7 @@
  */
 
 
-import React from "react";
+import React, { Component } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -26,7 +26,6 @@ import ScanNavigator from "./ScanNavigator";
 import RecipesNavigator from "./RecipesNavigator";
 import SettingsNavigator from "./SettingsNavigator";
 import routes from "./routes";
-import FoodDye from "../screens/FoodDye";
 
 const Tab = createBottomTabNavigator();
 
@@ -101,7 +100,14 @@ const AppNavigator = () => (
         ),
       }}
     />
+
   </Tab.Navigator>
+
 );
 
 export default AppNavigator;
+
+
+//name="Chatbot"
+//component={AIChatbot}
+//options={{ headerShown: false}}
