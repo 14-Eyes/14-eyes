@@ -13,20 +13,20 @@
  */
 
 import React, { useRef, useEffect } from "react";
-import { Animated, Text, View, Image, StyleSheet } from "react-native";
+import { Animated, View, Image, StyleSheet } from "react-native";
 
 import CloseButton from "../components/CloseButton";
 
 const FadeInView = (props) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 6000,
       useNativeDriver: true,
     }).start();
-  }, [fadeAnim]);
+  }, []);
 
   return (
     <Animated.View
@@ -41,13 +41,14 @@ const FadeInView = (props) => {
 };
 
 function SponsoredBy({ navigation }) {
+
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate("IntroVidScreen");
     }, 6000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

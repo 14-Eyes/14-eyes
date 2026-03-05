@@ -16,18 +16,18 @@ import IntroVidScreen from "../screens/IntroVidScreen";
 const Stack = createStackNavigator();
 
 const AdNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    initialRouteName="Sponsored"
+    screenOptions={{ headerShown: false }}
+  >
     <Stack.Screen
       name="Sponsored"
       component={SponsoredBy}
-      headerMode="none"
-      options={{ headerShown: false }}
     />
 
     <Stack.Screen
       name="IntroVidScreen"
       component={IntroVidScreen}
-      options={{ headerShown: false }}
     />
   </Stack.Navigator>
 );

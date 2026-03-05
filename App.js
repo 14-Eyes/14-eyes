@@ -28,64 +28,102 @@ import { doc, getDoc } from "firebase/firestore";
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [user, setUser] = useState();
-  const [username, setUsername] = useState();
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+
       if (firebaseUser) {
         console.log("User Authenticated:", firebaseUser.email);
 
-        // Fetch showIntro
-        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          setUser({ ...firebaseUser, showIntro: data.showIntro });
-        } else {
-          setUser(firebaseUser);
+        try {
+          const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+
+            setUser({
+              ...firebaseUser,
+              showIntro: data.showIntro ?? true,
+            });
+
+          } else {
+            setUser({
+              ...firebaseUser,
+              showIntro: true,
+            });
+          }
+
+        } catch (error) {
+          console.log("Error fetching user document:", error);
+          setUser({
+            ...firebaseUser,
+            showIntro: true,
+          });
         }
+
       } else {
         console.log("No authenticated user");
         setUser(null);
         setUsername(null);
       }
+
+      setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
+  if (loading) return null;
+
   return (
     <SafeAreaProvider>
       <AuthContext.Provider value={{ user, setUser, username, setUsername }}>
+
         <NavigationContainer theme={navigationTheme}>
 
           {user ? (
+
             user.showIntro ? (
-              <Stack.Navigator>
+
+              <Stack.Navigator
+                initialRouteName="AdNavigator"
+                screenOptions={{ headerShown: false }}
+              >
+
                 <Stack.Screen
                   name="AdNavigator"
                   component={AdNavigator}
-                  options={{ headerShown: false }}
                 />
+
                 <Stack.Screen
                   name="AppNavigator"
                   component={AppNavigator}
-                  options={{ headerShown: false }}
                 />
+
                 <Stack.Screen
                   name="ChildNavigator"
                   component={ChildNavigator}
-                  options={{ headerShown: false }}
                 />
+
               </Stack.Navigator>
+
             ) : (
+
               <AppNavigator />
+
             )
+
           ) : (
+
             <AuthNavigator />
+
           )}
 
         </NavigationContainer>
+
       </AuthContext.Provider>
     </SafeAreaProvider>
   );
