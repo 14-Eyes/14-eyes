@@ -173,7 +173,11 @@ function FoodDetails({ route }) {
           // Run diet checking function if ingredients exist (located below)
           const dietResults = await checkDiet(ingredients, labels, analysis);
           if (dietResults) {
-            setDietMatches(dietResults);
+            setDietMatches({
+              avoid: dietResults.avoid || [],
+              certifications: dietResults.certifications || [],
+              offConflicts: dietResults.offConflicts || [],
+            });
           }
 
           //Run good sugar checking function if ingredients exist
