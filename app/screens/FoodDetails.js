@@ -137,7 +137,7 @@ function FoodDetails({ route }) {
           food?.product?.nova_group ?? null;
 
         const nutrients =
-          food?.product?.nutriments || []; 
+          food?.product?.nutriments || {}; 
 
         const nutriScore =
           food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null;
@@ -288,18 +288,21 @@ function FoodDetails({ route }) {
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
   const badNutriConditions = conditionMatches.badNutri;
+
   const hasAllergy = allergyMatches.avoid.length > 0;
+
   const badNutriDiet = dietMatches.badNutri;
   const hasDietBadMatch = dietMatches.avoid.length > 0;
   const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
+
   const hasGoodSugar = goodSugarMatches.length > 0;
-  const hasBadSugar = badSugarMatches.length >0;
+  const hasBadSugar = badSugarMatches.length > 0;
   const hasDye = dyeMatches.length > 0;
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
   const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
-  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasDietOffConflicts || hasBadSugar || hasDye || hasPreservative;
+  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietBadMatch || hasDietOffConflicts || badNutriDiet || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -389,14 +392,11 @@ function FoodDetails({ route }) {
 
             {/* Conditional Nutrition*/}
             {badNutriConditions && (
-              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your condition.</AppText>
+              <>
+                <AppText style={styles.badHeader}>The nutritional facts of this item may be bad for your condition.</AppText>
+                <LineDivider/>
+              </>
             )}
-
-            {/* Dietary Nutrition*/}
-            {badNutriDiet && (
-              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your diet.</AppText>
-            )}
-
 
             {/* CONDITIONS */}
             {hasConditionBad > 0 && (
@@ -425,6 +425,14 @@ function FoodDetails({ route }) {
                     foundFoodInfo={info}
                   />
                 ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* Dietary Nutrition*/}
+            {badNutriDiet && (
+              <>
+                <AppText style={styles.badHeader}>The nutritional facts of this item may be bad for your diet.</AppText>
                 <LineDivider />
               </>
             )}
