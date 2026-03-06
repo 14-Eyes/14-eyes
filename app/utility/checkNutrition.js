@@ -47,6 +47,7 @@ export async function checkNutritions(nutrients, scannerSelect) {
         console.log(nutrients);
 
         // --- Scan all ingredients for text matches ---
+        //try to do an or prepared
         const calories = nutrients['energy-kcal'];
         const totalFat = nutrients.fat;
         const saturatedFat = nutrients['saturated-fat'];
