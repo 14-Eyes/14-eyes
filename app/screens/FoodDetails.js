@@ -191,6 +191,7 @@ function FoodDetails({ route }) {
               avoid: dietResults.avoid || [],
               certifications: dietResults.certifications || [],
               offConflicts: dietResults.offConflicts || [],
+              badNutri: dietResults.badNutri || false,
             });
           }
 
