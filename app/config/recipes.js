@@ -204,7 +204,7 @@ export const recipes = [
         cookTime: "1.5m",
         totalTime: "4.5m",
         ingredients: [
-            "1 14.5 oz can Asparagus spears*",
+            "1-14.5 oz can Asparagus spears*",
             "1/4 cup All Natural Chicken Broth",
             "1/2 tsp Dill Weed",
             "1/4 tsp Garlic powder",
@@ -257,7 +257,7 @@ export const recipes = [
         ingredients: [
             "1 medium Banana",
             "1/2 cup Pureed pumpkin ((Libby's 100% Pumpkin in a can is perfect to use!))",
-            "1 cup 1 cup Silk Almond-Coconut Milk",
+            "1 cup Silk Almond-Coconut Milk",
             "2 tsp Ground Ginger",
         ],
         instructions: [
@@ -397,24 +397,28 @@ export const recipes = [
         cookTime: "2m",
         totalTime: "7m",
         ingredients: [
-            "2 TBS Newman's Own Olive Oil & Vinegar Dressing",
+            "1 cup fresh blueberries, rinsed",
+            "1/4 cup Balsamic vinegar",
+            "3 TBS extra virgin olive oil",
+            "1/4 tsp garlic powder",
+            "1/4 tsp ground ginger",
             "2 cups fresh baby spinach",
             "1/2 cup red cabbage, chopped",
-            "1/8 tsp garlic powder",
             "1/4 tsp dried parsley ",
             "1/2 medium avocado, sliced",
             "1 medium boiled egg, diced",
         ],
         instructions: [
+            "In a blender, blend the blueberries, Balsamic vinegar, olive oil, garlic powder, and ginger for 15 seconds.*",
             "In a large bowl, add dressing to the bottom.",
-            "Add avocado, egg, spices, cabbage and spinach.",
+            "Add avocado, egg, the remaining spices, cabbage and spinach.",
             "Chill for up to 1 day in the refrigerator or toss and serve. (Building the salad this way will allow you to keep the salad chilled for up to one day without it getting soggy!)",
         ],
         description: [
             "Want to keep your focus and help improve your brain health? Then here’s your salad! ~Enjoy!",
         ],
         notes: [
-
+            "*I like to have a few chunks of blueberries in my dressing but if you prefer, blend until the dressing is smooth, about 30 seconds for this consistency.",
         ],
     },
 ]

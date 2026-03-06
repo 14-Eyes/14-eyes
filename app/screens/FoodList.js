@@ -181,6 +181,13 @@ const styles = StyleSheet.create({
       borderRadius: 25,
       justifyContent: "center",
       alignItems: "center",
+    // iOS Shadow properties
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 1.5,
+    // Android Elevation property
+    elevation: 3,
     },
     buttonText: {
       fontSize: 12,

@@ -90,7 +90,7 @@ function Screen({ children, style, transparentBackground = false }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
+    // paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
   },
   keyboardContainer: {
     flex: 1,

@@ -104,5 +104,6 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         return results;
     } catch (err) {
         console.log("Diet scan failed:", err);
+        return { avoid: [], certifications: [], offConflicts: [] };
     }
 }

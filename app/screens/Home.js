@@ -48,15 +48,25 @@ import AppButton from "../components/AppButton";
 import choices from "../config/funfact";
 
 const windowWidth = Dimensions.get("window").width; // used to map fun facts
-const funfact = choices.funfact;
 
-var random_index = 0;
+// this code will shuffle ALL food facts, and then only show the top 15 of them to the user
+const getfunfacts = (funfacts) => {
+  return [...funfacts]               // copy foodfacts array
+    .sort(() => 0.5 - Math.random()) // shuffle the copy
+    .slice(0, 15);                   // take first 15
+};
 
-for (var i = 0; i < 18; i++) {
-  random_index = Math.floor(Math.random() * funfact.length);
-  //console.log({random_index});
-  funfact.splice(random_index, 1);
-}
+// this code will shuffle ALL food facts and show to user
+// const funfacts = [...choices.funfact].sort(
+//   () => 0.5 - Math.random()
+// );
+
+// var random_index = 0;
+// for (var i = 0; i < 18; i++) {
+//   random_index = Math.floor(Math.random() * funfact.length);
+//   //console.log({random_index});
+//   funfact.splice(random_index, 1);
+// }
 //console.log("funfact size: %d", funfact.length);
 
 export class Home extends Component {
@@ -69,39 +79,49 @@ export class Home extends Component {
         require("../assets/bannerSponsor.png"),
       ],
       activeIndex: 0,
-      carouselItems: funfact.map((fact) => {
-        return { text: <AppText key={fact.id}>{fact.label}</AppText> };
-      }),
+      carouselItems: getfunfacts(choices.funfact).map((fact) => ({
+        id: fact.id,
+        label: fact.label,
+      })),
+      // carouselItems: funfact.map((fact) => {
+      //   return { text: <AppText key={fact.id}>{fact.label}</AppText> };
+      // }),
     };
   }
 
-  _renderItem({ item, index }) {
-    return (
-      <View
-        style={{
-          backgroundColor: "floralwhite",
-          borderRadius: 20,
-          height: 200,
-          alignItems: "center",
-          padding: 2,
-          marginLeft: 25,
-          marginRight: 25,
-        }}
-      >
-        <Text style={{ fontSize: 25 }}>{item.title}</Text>
-        <Text>{item.text}</Text>
-      </View>
-    );
-  }
+  // _renderItem({ item, index }) {
+  //   return (
+  //     <View
+  //       style={{
+  //         backgroundColor: "floralwhite",
+  //         borderRadius: 20,
+  //         height: 200,
+  //         alignItems: "center",
+  //         padding: 2,
+  //         marginLeft: 25,
+  //         marginRight: 25,
+  //       }}
+  //     >
+  //       <Text style={{ fontSize: 25 }}>{item.title}</Text>
+  //       <Text>{item.text}</Text>
+  //     </View>
+  //   );
+  // }
 
   render() {
     return (
       <Screen style={styles.container}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
-          <Image
-            style={styles.logo}
-            source={require("../assets/bannerSponsor.png")}
-          />
+        <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+          {/* <View style={styles.grid}> */}
+            <Image
+              style={styles.logo}
+              source={require("../assets/appsponsor.png")}
+            />
+            {/* <Image
+              style={styles.eltrlogo}
+              source={require("../assets/eltrRainbow_new.png")}
+            /> */}
+          {/* </View> */}
 
           <View style={styles.flexContainer}>
             <Carousel
@@ -112,22 +132,11 @@ export class Home extends Component {
               height={120}
               data={this.state.carouselItems}
               scrollAnimationDuration={1000}
-              renderItem={({ item, index }) => (
-                <View
-                  key={index}
-                  style={{
-                    backgroundColor: "floralwhite",
-                    borderRadius: 20,
-                    height: 120,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginHorizontal: 10,
-                    padding: 10,
-                  }}
-                >
-                  <Text style={{ fontSize: 16, textAlign: "center" }}>
-                    {item.text}
-                  </Text>
+              renderItem={({ item }) => (
+                <View style={styles.carouselItem}>
+                  <AppText style={styles.carouselText}>
+                    {item.label}
+                  </AppText>
                 </View>
               )}
             />
@@ -220,24 +229,65 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   flexContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    top: 100,
+    alignItems: "center",
+    marginVertical: 20,
+    // flexDirection: "row",
+    // justifyContent: "center",
+    // top: 100,
   },
-  buttonGood: {
-    flexDirection: "column",
-    width: 350,
+
+  // grid: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   paddingHorizontal: 45,
+  //   marginTop: 15,
+  // },
+  logo: {
     alignSelf: "center",
-    marginTop: 150,
+		height: 75,
+    width: 185, 
+		resizeMode: 'contain',
+    overflow: "hidden",
+    marginTop: 10,
+    // marginBottom: 10,
+    // width: 250,
+    // top: 0,
+    // position: "absolute",
+    // justifyContent: "center",
+  },
+  // eltrlogo: {
+  //   // alignSelf: "center",
+	// 	height: 100,
+  //   width: 100, 
+	// 	resizeMode: 'contain',
+  //   overflow: "hidden",
+  //   marginTop: 10,
+  //   borderRadius: 20,
+  // },
+
+  carouselItem: {
+    backgroundColor: "floralwhite",
+    borderRadius: 20,
+    height: 120,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+    padding: 10,
+  },
+  carouselText: {
+    fontSize: 17,
+    textAlign: "center",
+  },
+
+  buttonGood: {
+    // flexDirection: "column",
+    width: "90%",
+    alignSelf: "center",
+    // marginTop: 150,
   },
   text: {
     color: colors.primary,
-  },
-  logo: {
-    alignSelf: "center",
-    top: 0,
-    position: "absolute",
-    justifyContent: "center",
   },
   button: {
     height: 120,
@@ -247,9 +297,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 3,
     marginVertical: 5,
+    // iOS Shadow properties
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    // Android Elevation property
+    elevation: 6,
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 24,
+    textAlign: "center",
     color: colors.white,
     textTransform: "uppercase",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
@@ -267,7 +325,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDEDED",
     padding: 15,
     borderRadius: 20,
-    marginTop: 15,
+    marginTop: 25,
     marginBottom: 30,
   },
   donationTitle: {

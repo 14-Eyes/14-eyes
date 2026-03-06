@@ -19,9 +19,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 
-function ScanButton({ onPress }) {
+function ScanButton({ onPress, accessibilityState, navigation }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={() => {
+      if (accessibilityState?.selected) {
+        navigation.popToTop();
+      } else {
+        onPress();
+      }
+    }}>
       <View style={styles.container}>
         <MaterialCommunityIcons
           name="barcode-scan"
