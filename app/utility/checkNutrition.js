@@ -24,7 +24,9 @@ import { fetchDiet } from "./fetchOptions";
 // 6 - Total Sugar (try to separate added sugars!!!!!!!!!)
 // 7 - Protein
 
-export async function checkNutritions(nutrients, scannerSelect) {
+export async function checkNutritions(nutrients, scannerSelect) {    
+    nutrients = nutrients ?? {}; // prevents null crashes :(
+    
     //Condition Scanning
     if(scannerSelect==1)
     {
@@ -48,14 +50,14 @@ export async function checkNutritions(nutrients, scannerSelect) {
 
         // --- Scan all ingredients for text matches ---
         //try to do an or prepared
-        const calories = nutrients['energy-kcal'];
-        const totalFat = nutrients.fat;
-        const saturatedFat = nutrients['saturated-fat'];
-        const sodium = nutrients.sodium;
-        const totalCarbohydrates = nutrients.carbohydrates;
-        const fiber = nutrients.fiber;
-        const totalSugar = nutrients.sugars;
-        const protein = nutrients.proteins;
+        const calories = nutrients?.['energy-kcal'] ?? 0;
+        const totalFat = nutrients?.fat ?? 0;
+        const saturatedFat = nutrients?.['saturated-fat'] ?? 0;
+        const sodium = nutrients?.sodium ?? 0;
+        const totalCarbohydrates = nutrients?.carbohydrates ?? 0;
+        const fiber = nutrients?.fiber ?? 0;
+        const totalSugar = nutrients?.sugars ?? 0;
+        const protein = nutrients?.proteins ?? 0;
         
         const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
         let badRange=false;
@@ -73,8 +75,8 @@ export async function checkNutritions(nutrients, scannerSelect) {
                 {
                     console.log("output 01: ", i, " = ", ",,, ", badRange); //returns false
                     badRange=true; 
-                    return badRange;
                     console.log("output! 03: ", badRange); //returns true, showing the code is running\
+                    return badRange;
                 }
             }
         }
@@ -115,14 +117,14 @@ export async function checkNutritions(nutrients, scannerSelect) {
         );
 
         // --- Scan all ingredients for text matches ---
-        const calories = nutrients['energy-kcal'];
-        const totalFat = nutrients.fat;
-        const saturatedFat = nutrients['saturated-fat'];
-        const sodium = nutrients.sodium;
-        const totalCarbohydrates = nutrients.carbohydrates;
-        const fiber = nutrients.fiber;
-        const totalSugar = nutrients.sugars;
-        const protein = nutrients.proteins;
+        const calories = nutrients?.['energy-kcal'] ?? 0;
+        const totalFat = nutrients?.fat ?? 0;
+        const saturatedFat = nutrients?.['saturated-fat'] ?? 0;
+        const sodium = nutrients?.sodium ?? 0;
+        const totalCarbohydrates = nutrients?.carbohydrates ?? 0;
+        const fiber = nutrients?.fiber ?? 0;
+        const totalSugar = nutrients?.sugars ?? 0;
+        const protein = nutrients?.proteins ?? 0;
         
         const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
         let badRange=false;
