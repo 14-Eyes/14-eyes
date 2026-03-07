@@ -23,6 +23,7 @@ available diets + what their check criteria is:
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { fetchDiet } from "./fetchOptions";
+import { checkNutritions } from '../utility/checkNutrition';
 
 // set the base available open food facts (off) non-diet variables (currently i think only these 2 exist in OFF)
 const OFF_DIET_CONFLICTS = {
@@ -59,9 +60,8 @@ const DIET_RULES = {
   "vegetarian": { checkIngredients: true },
 };
 
-export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [], novaGroup = null) {
+export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [], nutrients, novaGroup = null) {
     try {
-
         const auth = getAuth();
         const db = getFirestore();
         const uid = auth.currentUser.uid; // get user id to load saved diets
@@ -82,6 +82,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         const active = allDiets.filter((d) =>
             userDiets.includes(d.id)
         );
+        console.log("Here I am! : ", active.length);
 
         // --- Scan all ingredients and diet certifications for text matches ---
         const lowerIngredients = (ingredientsText || "").toLowerCase();
@@ -218,6 +219,12 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         console.log("DIET INGREDIENT MATCHES:", results.avoid);
         console.log("DIET CERTIFICATIONS MATCHED:", results.certifications);
         console.log("DIET CONFLICTS MATCHED:", results.offConflicts);
+
+        const nutriResults = await checkNutritions(nutrients, 2);
+        if(nutriResults)
+        {
+            results.badNutri=true;
+        }
 
         return results;
 

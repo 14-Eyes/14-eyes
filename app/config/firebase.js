@@ -20,6 +20,7 @@ import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import Constants from "expo-constants";
 import { Platform } from 'react-native'; // <--- IMPORT Platform for Android check
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
 
@@ -30,6 +31,7 @@ const {
   PROJECT_ID,
   MESSAGE_SENDER_ID,
   APP_ID,
+  GEMINI_API_KEY,
 } = Constants.expoConfig.extra;
 
 const firebaseConfig = {
@@ -65,8 +67,23 @@ if (Platform.OS === "web") {
 const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const geminiModel = genAI.getGenerativeModel({ 
+    model: "gemini-2.5-flash",
+    systemInstruction: `You are a friendly nutritional assistant. Your main goals are: 
+    - suggest healthy food alternatives
+    - provide budget friendly nutritional advice
+    - provide dietary and nutritional budgeting assistance
+    - answer questions about specific health conditions, dietary preferences, and allergies
+    - avoid using complex medical terms, keep your answers friendly and concise (150 words or less) 
+    - never provide medical help or diagnosis 
+    - ensure you are giving easily digestible responses, while providing additional context if prompted
+    - avoid recommending name brands and admit when you don't know something
+    - format your responses to fit general mobile device ratios`
+});
+
 // Export for use in other files
-export { app, auth, db, rtdb };
+export { app, auth, db, rtdb, geminiModel };
 
 /*
 if (__DEV__) { // __DEV__ is true in development builds

@@ -3,64 +3,61 @@ import { StyleSheet, ScrollView, View, Dimensions, Text, Linking } from "react-n
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import { budgets } from "../config/budgets";
 
 const { height, width } = Dimensions.get("window");
 
-const groceryList = [
-    { text: ["1 package ", { label: "chicken", url: "https://www.chefcathyzeis.com/tags/chicken/" }, " thighs (8 count)"] },
-    { text: ["1 package ", { label: "pork", url: "https://www.chefcathyzeis.com/tags/pork/" }, " tenderloin"] },
-    { text: ["1 carton large ", { label: "eggs", url: "https://www.chefcathyzeis.com/tags/eggs/" }] },
-    { text: ["15 oz. bag ", { label: "pinto beans", url: "https://www.chefcathyzeis.com/tags/beans/" }] },
-    { text: ["2 ", { label: "sweet potatoes", url: "https://www.chefcathyzeis.com/tags/sweet-potato/" }, " or Idaho potatoes"] },
-    { text: ["1 crown fresh broccoli"] },
-    { text: ["1 bunch ", { label: "bananas", url: "https://www.chefcathyzeis.com/tags/bananas/" }] },
-    { text: ["1 box Cheerios"] },
-    { text: ["1 gallon Silk Almond Milk with Vanilla OR 2% milk"] },
-    { text: ["***If buying for kids under 18, please buy whole milk! Their brains and muscles need it for development."], italic: true },
-    { text: ["2.37 oz. garlic powder"] },
-    { text: ["2.37 oz. ground cinnamon"] },
-    { text: ["2.37 oz. black pepper"] },
-    { text: ["2.37 oz. ground cumin"] },
-];
+function SampleBudgetScreen({route, navigation}) {
+    const { budgetId } = route.params;
+    const budget = budgets.find((b) => b.id === budgetId);
+  
+    // backup failsafe
+    if (!budget) {
+        return (
+            <View style={styles.container}>
+                <Text>Error: Budget not found.</Text>
+            </View>
+        );
+    }
 
-function SampleBudgetScreen() {
-  return (
-    <Screen style={styles.container}>
-        <View style={styles.header}>
-            <AppText style={styles.title}>$25</AppText>
-            <AppText style={styles.subTitle}>Sample Budget</AppText>
-        </View>
+    return (
+        <Screen style={styles.container}>
+            <View style={styles.header}>
+                <AppText style={styles.title}>{budget.id}</AppText>
+                <AppText style={styles.subTitle}>Sample Budget</AppText>
+                <AppText style={styles.subText}>The following is an estimate of what can be purchased with this budget. Grocery cost may vary depending on your location.</AppText>
+            </View>
 
-        {/* Scrollable text box */}
-        <View style={styles.scrollBox}>
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-            <AppText style={styles.subTitle}>Grocery List</AppText>
-            <View style={styles.line} />
+            {/* Scrollable text box */}
+            <View style={styles.scrollBox}>
+                <ScrollView contentContainerStyle={styles.scrollContent}>
+                    <AppText style={styles.subTitle}>Grocery List</AppText>
+                    <View style={styles.line} />
 
-            {groceryList.map((item, index) => (
-                <View key={index} style={styles.listItem}>
-                <Text style={styles.bullet}>•</Text>
-                <Text style={[styles.listText, item.italic && styles.italicText]}>
-                    {item.text.map((part, i) =>
-                    typeof part === "string" ? (
-                        part
-                    ) : (
-                        <Text
-                        key={i}
-                        style={styles.linkText}
-                        onPress={() => Linking.openURL(part.url)}
-                        >
-                        {part.label}
+                    {budget.items.map((item, index) => (
+                        <View key={index} style={styles.listItem}>
+                        <Text style={styles.bullet}>•</Text>
+                        <Text style={[styles.listText, item.italic && styles.italicText]}>
+                            {item.text.map((part, i) =>
+                            typeof part === "string" ? (
+                                part
+                            ) : (
+                                <Text
+                                key={i}
+                                style={styles.linkText}
+                                onPress={() => Linking.openURL(part.url)}
+                                >
+                                {part.label}
+                                </Text>
+                            )
+                            )}
                         </Text>
-                    )
-                    )}
-                </Text>
-                </View>
-            ))}
-            </ScrollView>
-        </View>
-    </Screen>
-  );
+                        </View>
+                    ))}
+                </ScrollView>
+            </View>
+        </Screen>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -85,6 +82,13 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         textAlign: "center",
     },
+    subText: {
+        fontSize: 15,
+        marginTop: 10,
+        width: width * 0.85,
+        color: colors.dark,
+        textAlign: "center",
+    },
     bodyIntro: {
         fontSize: 18,
         lineHeight: 24,
@@ -92,11 +96,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     scrollBox: {
-        width: width * 0.84,
-        height: height * 0.55,
+        width: width * 0.85,
+        height: height * 0.50,
         backgroundColor: "#fff",
         borderRadius: 16,
-        padding: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
         marginTop: 10,
         shadowColor: "#000",
         shadowOpacity: 0.1,

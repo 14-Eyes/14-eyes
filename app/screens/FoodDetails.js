@@ -28,6 +28,8 @@ import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+import { checkNutritions } from "../utility/checkNutrition";
+import { boolean } from "yup";
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -42,9 +44,11 @@ function FoodDetails({ route }) {
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
+
   const [conditionMatches, setConditionMatches] = useState({
     good: [],
     avoid: [],
+    badNutri: false
   });
 
   // arrays to store the results of any ingredient matches FOR ALLERGIES
@@ -60,6 +64,7 @@ function FoodDetails({ route }) {
     avoid: [],
     certifications: [],
     offConflicts: [],
+    badNutri: false
   });
 
   //arrays to store the results of any sugar matches for GOOD SUGARS
@@ -133,6 +138,12 @@ function FoodDetails({ route }) {
 
         const novaGroup =                       // for ultra processed marker
           food?.product?.nova_group ?? null;
+
+        const nutrients =
+          food?.product?.nutriments || {}; 
+
+        const nutriScore =
+          food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null;
           
         const barcode =
           food?.barcode?.code ??
@@ -147,9 +158,11 @@ function FoodDetails({ route }) {
           image: food?.product?.image_small_url || null,
           ingredients: ingredients,                         // default to empty 
           allergens: allergens,
+          nutrients: nutrients,
           labels: labels,                                   // for diet
           analysis: analysis,                               // for diet
-          novaGroup,                                        // for ultra processed marker
+          novaGroup: novaGroup,                                        // for ultra processed marker
+          nutriScore: nutriScore,
         });
 
         // Debug to see all info pulled from Open Food Facts in terminal
@@ -160,23 +173,29 @@ function FoodDetails({ route }) {
         console.log("NOVA GROUP:", novaGroup);
 
         if (ingredients) {
-          // Run condition checking function if ingredients exist (located below)
+          //for some reason, nutrients becomes undefined here...
+         // Run condition checking function if ingredients exist (located below)
           // await checkConditions(ingredients);
-          const condResults = await checkConditions(ingredients);
+          const condResults = await checkConditions(ingredients, nutrients);
           if (condResults) {
             setConditionMatches(condResults);
           }
 
           // Run allergy checking function if ingredients exist (located below)
-          const allergyResults = await checkAllergies(ingredients, allergens);
+          const allergyResults = await checkAllergies(ingredients, allergens, nutrients);
           if (allergyResults) {
             setAllergyMatches(allergyResults);
           }
 
           // Run diet checking function if ingredients exist (located below)
-          const dietResults = await checkDiet(ingredients, labels, analysis, novaGroup);
+          const dietResults = await checkDiet(ingredients, labels, analysis, novaGroup, nutrients);
           if (dietResults) {
-            setDietMatches(dietResults);
+            setDietMatches({
+              avoid: dietResults.avoid || [],
+              certifications: dietResults.certifications || [],
+              offConflicts: dietResults.offConflicts || [],
+              badNutri: dietResults.badNutri || false,
+            });
           }
 
           //Run good sugar checking function if ingredients exist
@@ -204,7 +223,6 @@ function FoodDetails({ route }) {
           }
 
           //Pull vitamins and minerals
-          const nutrients = food?.product?.nutriments;
           if (nutrients) {
             const vitamins = extractVitaminsMinerals(nutrients);
             setVitaminsFound(vitamins);
@@ -218,7 +236,7 @@ function FoodDetails({ route }) {
     };
 
     load();
-  }, []);
+  }, [food]);
 
   // // -------------------------------------------------
   // // SET UP FOUND FOOD ITEM INFO ARRAY
@@ -237,18 +255,6 @@ function FoodDetails({ route }) {
   // -----------------------------
   // FOLLOWING IS ALL UI
   // -----------------------------
- 
-  // ------ LOADING DISPLAY ------
-  if (loading) {
-    return (
-      <Screen style={styles.loadingMsg}>
-        <ActivityIndicator size="large" />
-        <AppText>Analyzing ingredients…</AppText>
-      </Screen>
-    );
-  }
-  // -----------------------------
-
   
   // ------ NO PRODUCT FOUND -----
   if (productNotFound) {
@@ -285,9 +291,12 @@ function FoodDetails({ route }) {
   }
   // -----------------------------
 
+
   // Set isBad & isGood booleans to determine thumbs up/down image
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
+  const badNutriConditions = conditionMatches.badNutri;
+
   const hasAllergy = allergyMatches.avoid.length > 0;
   
   // const hasDietBadMatch = dietMatches.avoid.length > 0;
@@ -298,15 +307,16 @@ function FoodDetails({ route }) {
   const hasDietBadMatch = dietMatches.avoid.some(
     (d) => d.hasIngredientConflict || d.novaConflict
   );
+  const badNutriDiet = dietMatches.badNutri;
 
   const hasGoodSugar = goodSugarMatches.length > 0;
-  const hasBadSugar = badSugarMatches.length >0;
+  const hasBadSugar = badSugarMatches.length > 0;
   const hasDye = dyeMatches.length > 0;
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
   // const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
-  const isBad = hasConditionBad || hasAllergy || hasDietConflict || hasBadSugar || hasDye || hasPreservative;
+  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietConflict || badNutriDiet || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -360,6 +370,10 @@ function FoodDetails({ route }) {
 
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
+          
+          {/* Nutri-Score    ---  product.nutriScore.charAt(0).toUpperCase()  breaks it now??????*/}
+          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText>
+          
 
           {/* DIET CERTIFICATIONS */}
           {dietMatches.certifications.length > 0 && (
@@ -390,6 +404,14 @@ function FoodDetails({ route }) {
               </>
             )}
 
+            {/* Conditional Nutrition*/}
+            {badNutriConditions && (
+              <>
+                <AppText style={styles.badHeader}>The nutritional facts of this item may be bad for your condition.</AppText>
+                <LineDivider/>
+              </>
+            )}
+
             {/* CONDITIONS */}
             {hasConditionBad > 0 && (
               <>
@@ -417,6 +439,14 @@ function FoodDetails({ route }) {
                     foundFoodInfo={info}
                   />
                 ))}
+                <LineDivider />
+              </>
+            )}
+
+            {/* Dietary Nutrition*/}
+            {badNutriDiet && (
+              <>
+                <AppText style={styles.badHeader}>The nutritional facts of this item may be bad for your diet.</AppText>
                 <LineDivider />
               </>
             )}
@@ -624,6 +654,7 @@ function FoodDetails({ route }) {
               </AppText>
             )}
 
+            
             {/* {foundFoodInfo.length > 0 ? (
               foundFoodInfo.map((info, index) => (
                 <FoodMatchInfo key={index} foundFoodInfo={info} />
@@ -677,11 +708,6 @@ const styles = StyleSheet.create({
   foodContainer: { 
     alignItems: "center", 
     paddingBottom: 40,
-  },
-  loadingMsg: { 
-    flex: 1, 
-    justifyContent: "center", 
-    alignItems: "center",
   },
   // ----- NO ITEM FOUND STYLES -----
   noItem: {
