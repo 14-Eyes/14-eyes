@@ -43,7 +43,7 @@ const characters = [
     id: 5,
     name: "Garman Grape's Facts:",
     image: require("../assets/grape.png"),
-    facts: [2], //funfacts
+    facts: [2, 22], //funfacts
     color: colors.grape,
   },
   {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   factText: {
     fontSize: 14,
-    marginBottom: 5,
+    marginBottom: 12,
     color: colors.black,
   },
 });
