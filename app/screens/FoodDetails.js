@@ -188,7 +188,7 @@ function FoodDetails({ route }) {
           }
 
           // Run diet checking function if ingredients exist (located below)
-          const dietResults = await checkDiet(ingredients, labels, analysis, novaGroup, nutrients);
+          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients, novaGroup);
           if (dietResults) {
             setDietMatches({
               avoid: dietResults.avoid || [],
