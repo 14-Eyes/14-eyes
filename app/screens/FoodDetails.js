@@ -463,11 +463,9 @@ function FoodDetails({ route }) {
                     <AppText style={{ fontSize: 16 }}>
                       This food is officially classified as{" "}
                       <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
-                        {dietMatches.offConflicts
-                          .map(conflict => conflict.tag.replace("-", " "))
-                          .join(" and ")}
-                      </AppText>{" "}
-                      by Open Food Facts.
+                        {dietMatches.offConflicts.map(conflict => conflict.tag.replace("-", " ")).join(" and ")}
+                      </AppText>
+                      {" "}by Open Food Facts.
                     </AppText>
 
                     {barcode && (
@@ -497,12 +495,12 @@ function FoodDetails({ route }) {
                           This product is classified as{" "}
                           <AppText style={{ color: colors.eltrdarkred}}>
                             NOVA Group {product.novaGroup}
-                          </AppText>{" "}
-                          which conflicts with your{" "}
+                          </AppText>
+                          {" "}which conflicts with your{" "}
                           <AppText style={{ fontWeight: "bold" }}>
                             {d.diet}
-                          </AppText>{" "}
-                          diet.
+                          </AppText>
+                          {" "}diet.
                         </AppText>
                       )}
 
@@ -512,12 +510,12 @@ function FoodDetails({ route }) {
                           This product{" "}
                           <AppText style={{ color: colors.eltrdarkred}}>
                             does not have
-                          </AppText>{" "}
-                          an official{" "}
+                          </AppText>
+                          {" "}an official{" "}
                           <AppText style={{ fontWeight: "bold" }}>
                             {d.diet}
-                          </AppText>{" "}
-                          certification.
+                          </AppText>
+                          {" "}certification.
                         </AppText>
                       )}
 
