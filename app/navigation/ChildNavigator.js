@@ -19,17 +19,22 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import ChildHome from "../screens/ChildMode/ChildHome";
 import ChildScan from "../screens/ChildMode/ChildScan";
-import ChildBadges from "../screens/ChildMode/ChildBadges";
+import ChildRecipes from "../screens/ChildMode/ChildRecipes";
 import ChildFood from "../screens/ChildMode/ChildFood";
 import ChildFoodAbout from "../screens/ChildMode/ChildFoodAbout";
 import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
 import DriveThruNavigator from "../navigation/DriveThruNavigator";
-import BadgeScreen from "../screens/ChildMode/BadgeScreen";
+import colors from "../config/colors";
 
 const Stack = createStackNavigator();
 
 const ChildNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+      contentStyle: { backgroundColor: colors.eltrlightblue }
+    }}
+  >
     <Stack.Screen 
       name="Home" 
       component={ChildHome}
@@ -42,8 +47,8 @@ const ChildNavigator = () => (
       options={{ headerShown: true }}
     />
     <Stack.Screen
-      name="ChildBadges"
-      component={ChildBadges}
+      name="ChildRecipes"
+      component={ChildRecipes}
       options={{ headerShown: false }} />
 
     <Stack.Screen 
@@ -59,11 +64,6 @@ const ChildNavigator = () => (
     <Stack.Screen
       name="ChildChangeMode"
       component={ChildChangeMode}
-      options={{ headerShown: false }}
-    />
-    <Stack.Screen 
-      name="BadgeScreen" 
-      component={BadgeScreen}
       options={{ headerShown: false }}
     />
   </Stack.Navigator>

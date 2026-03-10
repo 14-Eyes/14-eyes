@@ -58,7 +58,7 @@ export default Object.freeze({
   CHILD_SCAN: "Scan",
   CHILD_HOME: "Home",
   CHILD_FOODITEM: "ChildFood",
-  CHILD_BADGES: "ChildBadges",
+  CHILD_RECIPES: "ChildRecipes",
   CHILD_ABOUTFOOD: "ChildFoodAbout",
   CHILD_CHANGE: "ChildChangeMode",
 });
