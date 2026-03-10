@@ -177,7 +177,7 @@ export class Home extends Component {
                 source={require("../assets/food_facts.png")}
                 style={[styles.image]}
               />
-              <Text style={styles.buttonText}>Other Food Facts</Text>
+              <Text style={styles.buttonText}>Fun Food Facts</Text>
             </TouchableOpacity>
 
             {/* Donation Section */}
