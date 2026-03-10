@@ -42,7 +42,7 @@ function ChildHome({ navigation }) {
         <View style={styles.mainButtons}>
           <View style={styles.buttonContainer}>
             <Image
-              source={require("../../assets/child_mode/ChildModeCharactersScan.jpg")}
+              source={require("../../assets/child_mode/CM_Scan.jpg")}
               style={styles.scan}
             />
             <ChildButtonLarge
@@ -53,7 +53,7 @@ function ChildHome({ navigation }) {
 
           <View style={styles.buttonContainer}>
             <Image
-              source={require("../../assets/child_mode/ChildModeCharactersPlay.jpg")}
+              source={require("../../assets/child_mode/CM_Play.jpg")}
               style={styles.play}
             />
             <ChildButtonLarge
@@ -66,7 +66,7 @@ function ChildHome({ navigation }) {
         <View style={styles.otherButtons}>
           <View style={styles.buttonContainer}>
             <Image
-              source={require("../../assets/child_mode/ChildModeAdam.jpg")}
+              source={require("../../assets/child_mode/CM_Adam.jpg")}
               style={styles.adam}
             />
             <ChildButtonSmall
@@ -77,7 +77,7 @@ function ChildHome({ navigation }) {
 
           <View style={styles.buttonContainer}>
             <Image
-              source={require("../../assets/child_mode/ChildModeToddy.jpg")}
+              source={require("../../assets/child_mode/CM_Toddy.jpg")}
               style={styles.toddy}
             />
             <ChildButtonSmall
