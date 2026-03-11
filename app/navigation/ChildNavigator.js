@@ -20,6 +20,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ChildHome from "../screens/ChildMode/ChildHome";
 import ChildScan from "../screens/ChildMode/ChildScan";
 import ChildRecipes from "../screens/ChildMode/ChildRecipes";
+import ChildRecipesSubScreen from "../screens/ChildMode/ChildRecipesSubScreen";
 import ChildFood from "../screens/ChildMode/ChildFood";
 import ChildFoodAbout from "../screens/ChildMode/ChildFoodAbout";
 import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
@@ -49,8 +50,13 @@ const ChildNavigator = () => (
     <Stack.Screen
       name="ChildRecipes"
       component={ChildRecipes}
-      options={{ headerShown: false }} />
-
+      options={{ headerShown: false }} 
+    />
+    <Stack.Screen
+      name="ChildRecipesSubScreen"
+      component={ChildRecipesSubScreen}
+      options={{ headerShown: false }} 
+    />
     <Stack.Screen 
       name="ChildFood" 
       component={ChildFood}

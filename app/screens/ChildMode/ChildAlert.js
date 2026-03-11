@@ -45,6 +45,7 @@ function ChildAlert({navigation}) {
         <View style={styles.backButton}>
           <ChildBackButton
               title="<<   GO BACK"
+              height="40%"
               onPress={() => navigation.goBack()} // adding goBack() makes screen slide from left to right
           />
         </View>
