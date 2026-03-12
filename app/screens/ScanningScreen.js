@@ -87,7 +87,7 @@ function ScanningScreen({ navigation }) {
       </View>
     );
 
- return (
+  return (
     <View style={styles.container}>
 
     {/* un-comment below block to simulate barcode scan on android studio */}

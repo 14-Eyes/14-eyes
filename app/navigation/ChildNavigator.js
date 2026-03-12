@@ -16,6 +16,7 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getMainHeader, getSubScreenHeader, getSubScreenHeaderBack } from "./HeaderStyles";
 
 import ChildHome from "../screens/ChildMode/ChildHome";
 import ChildScan from "../screens/ChildMode/ChildScan";
@@ -32,7 +33,7 @@ const Stack = createStackNavigator();
 const ChildNavigator = () => (
   <Stack.Navigator
     screenOptions={{
-      headerShown: false,
+      // headerShown: false,
       contentStyle: { backgroundColor: colors.eltrlightblue }
     }}
   >
@@ -41,7 +42,11 @@ const ChildNavigator = () => (
       component={ChildHome}
       options={{ headerShown: false }}
     />
-    <Stack.Screen name="Scan" component={ChildScan} />
+    <Stack.Screen 
+      name="Scan" 
+      component={ChildScan} 
+      options={({ navigation }) => getSubScreenHeader(navigation, "Scan Now!")}
+    />
     <Stack.Screen 
       name="DriveThru" 
       component={DriveThruNavigator}
@@ -60,7 +65,7 @@ const ChildNavigator = () => (
     <Stack.Screen 
       name="ChildFood" 
       component={ChildFood}
-      options={{ headerShown: false }}
+      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
     />
     <Stack.Screen
       name="ChildFoodAbout"
