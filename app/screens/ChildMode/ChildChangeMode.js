@@ -28,6 +28,7 @@ import {
 } from "firebase/auth";
 // import firebase from "firebase/compat";
 // import "firebase/compat/auth"; // Added to fix the error when routing from child mode back to adult mode
+import ModeContext from "../../auth/ModeContext";
 
 import Screen from "../../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
@@ -45,6 +46,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function ChildChangeMode({ navigation }) {
+  const { setMode } = useContext(ModeContext); // set the navigator to use "adult" mode
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
 
@@ -54,10 +56,7 @@ function ChildChangeMode({ navigation }) {
       const credential = EmailAuthProvider.credential(email, password);
       await reauthenticateWithCredential(user, credential);
       // the following resets the navigation stack
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "AppNavigator" }],
-      });
+      setMode("adult"); // set the navigator to use "adult" mode
     } catch (error) {
       console.log("Reauth error:", error);
       setLoginFailed(true);

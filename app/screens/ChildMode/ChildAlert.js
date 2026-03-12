@@ -15,12 +15,18 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
 
+import { useContext } from "react";
+import ModeContext from "../../auth/ModeContext";
+
 import AppText from "../../components/AppText";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
 import ChildBackButton from "../../components/ChildBackButton";
 
 function ChildAlert({navigation}) {
+
+  // set the navigator to use "child" mode
+  const { setMode } = useContext(ModeContext);
   
   return (
     <Screen style = {styles.screen}>
@@ -35,12 +41,8 @@ function ChildAlert({navigation}) {
         <View style={styles.changeButton}>    
           {/* this resets the navigation stack so that the user cannot "swipe back" to the change to child mode screen on the "adult" version of the app */}
           <TouchableOpacity
-            onPress={() =>
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "ChildNavigator" }],
-              })
-            }
+            // set the navigator to use "child" mode
+            onPress={() => setMode("child")}
             style={[styles.button, { backgroundColor: colors.primary }]}
             >
             <Text style={styles.buttonText}>Change to</Text>

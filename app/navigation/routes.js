@@ -16,6 +16,7 @@
 
 export default Object.freeze({
   //Account Pages
+  ROOT: "RootNavigator",
   APPNAVIGATOR: "AppNavigator",
   SCAN_ITEM: "ScanningScreen",
   ACCOUNT: "AccountDetails",
