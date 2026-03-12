@@ -33,8 +33,8 @@ const Stack = createStackNavigator();
 const ChildNavigator = () => (
   <Stack.Navigator
     screenOptions={{
-      // headerShown: false,
-      contentStyle: { backgroundColor: colors.eltrlightblue }
+      contentStyle: { backgroundColor: colors.eltrlightblue },
+      gestureEnabled: false, // this prevents navigating to previous screens by swiping from left to right
     }}
   >
     <Stack.Screen 

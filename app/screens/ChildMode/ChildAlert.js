@@ -33,8 +33,14 @@ function ChildAlert({navigation}) {
         </AppText>
 
         <View style={styles.changeButton}>    
+          {/* this resets the navigation stack so that the user cannot "swipe back" to the change to child mode screen on the "adult" version of the app */}
           <TouchableOpacity
-            onPress={() => navigation.navigate('ChildNavigator')}
+            onPress={() =>
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "ChildNavigator" }],
+              })
+            }
             style={[styles.button, { backgroundColor: colors.primary }]}
             >
             <Text style={styles.buttonText}>Change to</Text>

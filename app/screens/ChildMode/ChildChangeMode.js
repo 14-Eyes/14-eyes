@@ -53,7 +53,11 @@ function ChildChangeMode({ navigation }) {
       const user = auth.currentUser;
       const credential = EmailAuthProvider.credential(email, password);
       await reauthenticateWithCredential(user, credential);
-      navigation.navigate("AppNavigator");
+      // the following resets the navigation stack
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "AppNavigator" }],
+      });
     } catch (error) {
       console.log("Reauth error:", error);
       setLoginFailed(true);
