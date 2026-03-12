@@ -39,6 +39,8 @@ export default {
       infoPlist: {
         NSCameraUsageDescription:
           "This app uses the camera to scan barcodes of grocery items to pull their ingredients list.",
+        NSFaceIDUsageDescription:
+          "This app uses Face ID to securely sign you in.",
       },
     },
     
@@ -47,6 +49,8 @@ export default {
       versionCode: 1,
       permissions: [
         "CAMERA",
+        "USE_BIOMETRIC",
+        "USE_FINGERPRINT",
       ],
     },
     

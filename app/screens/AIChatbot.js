@@ -34,12 +34,12 @@ function ChatBot({ navigation }) {
         const presetArray = [...pool];
         const random = presetArray.sort(() => 0.5 - Math.random());
         return random.slice(0, count);
-    };
+    }; //function for randomly selecting a preset reply
 
 
 
 
-    const [messages, setMessages] = useState([
+    const [messages, setMessages] = useState([ //default AI intro message
         {
             text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything :)",
             sender: "ai",
@@ -53,7 +53,7 @@ function ChatBot({ navigation }) {
     const insets = useSafeAreaInsets();
     const ScrollViewRef = useRef(null);
 
-    useEffect(() => {
+    useEffect(() => { //enables auto-scroll when the AI responds
         if (ScrollViewRef.current) {
             ScrollViewRef.current.scrollToEnd({ animated: true});
         }
