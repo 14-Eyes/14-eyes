@@ -38,26 +38,25 @@ function ChildButtonLarge({ title, onPress, color = "eltrapricot", screenName })
 
 const styles = StyleSheet.create({
   button: {
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: colors.medium,
-    borderRadius: 80,
-    shadowColor: colors.white,
-    shadowOpacity: 0.5,
+    borderRadius: 50,
+    shadowColor: colors.black,
+    shadowOpacity: 0.2,
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 4
     },
-    shadowRadius: 4,
+    shadowRadius: 3,
     alignItems: "center", 
     width: 280,
-    height: 130,
+    height: 135,
     justifyContent:"center",
     padding: 25,
     margin: 5,
   },
-
   buttonText: {
-    fontSize: 50,
+    fontSize: 60,
     color: colors.dark,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     fontWeight: "bold",

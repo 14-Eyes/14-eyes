@@ -47,6 +47,8 @@ function ChildFood({ navigation, route }) {
     setAllergic(allergic);
   };
 
+  console.log("CHILD MODE NUTRITION GRADE:", food.product.nutrition_grade_fr);
+
   if(status){
     return (
       <ScrollView style={styles.screen}>

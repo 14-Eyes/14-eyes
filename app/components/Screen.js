@@ -46,7 +46,15 @@ import colors from "../config/colors";
 
 */
 
-function Screen({ children, style, transparentBackground = false }) {
+/* NEW NOTE:
+    I added the ability to override the "colors.light" background color.
+    This can be done by passing a color through the screen componenet like so:
+          <Screen backgroundColor={colors.eltrlightblue} style={styles.container}>
+            content here
+          </Screen>    
+*/
+
+function Screen({ children, style, transparentBackground = false, backgroundColor }) {
   const headerHeight = useHeaderHeight(); // returns 0 if no header is present on screen
   const insets = useSafeAreaInsets();
 
@@ -61,10 +69,10 @@ function Screen({ children, style, transparentBackground = false }) {
           // if there's no header on the screen, adds top padding equal to the status bar height. otherwise, if there is a header, no padding is added
           headerHeight === 0 && { paddingTop: Constants.statusBarHeight },
           
-          // default to app color.light, but allow transparency per-screen (for screens like login)
+          // default to set background color, then app color.light, but allow transparency per-screen (for screens like login)
           transparentBackground
             ? { backgroundColor: "transparent" }
-            : { backgroundColor: colors.light },
+            : { backgroundColor: backgroundColor || colors.light },
         ]}
         edges={["left", "right"]} // could add "bottom" also
       >

@@ -17,7 +17,7 @@
  */
 
 import React, { useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View, Text } from "react-native";
 import * as Yup from "yup";
 
 // new code
@@ -28,6 +28,7 @@ import {
 } from "firebase/auth";
 // import firebase from "firebase/compat";
 // import "firebase/compat/auth"; // Added to fix the error when routing from child mode back to adult mode
+import ModeContext from "../../auth/ModeContext";
 
 import Screen from "../../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
@@ -45,6 +46,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function ChildChangeMode({ navigation }) {
+  const { setMode } = useContext(ModeContext); // set the navigator to use "adult" mode
   const authContext = useContext(AuthContext);
   const [loginFailed, setLoginFailed] = useState(false);
 
@@ -53,7 +55,8 @@ function ChildChangeMode({ navigation }) {
       const user = auth.currentUser;
       const credential = EmailAuthProvider.credential(email, password);
       await reauthenticateWithCredential(user, credential);
-      navigation.navigate("AppNavigator");
+      // the following resets the navigation stack
+      setMode("adult"); // set the navigator to use "adult" mode
     } catch (error) {
       console.log("Reauth error:", error);
       setLoginFailed(true);
@@ -85,38 +88,53 @@ function ChildChangeMode({ navigation }) {
   // };
 
   return (
-    <Screen style={styles.screen}>
+    <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: colors.eltrlightblue }}
+        behavior={Platform.OS === "ios" ? "padding" : "position"}
+      >
       <View style={styles.container}>
         <AppText style={styles.textbox}>
-          You are about to switch to Adult Mode. Please enter your password to
-          continue
+          You are about to switch to <Text style={styles.boldText}>ADULT MODE</Text>. Please enter your account password to continue.
         </AppText>
 
-        <AppForm
-          initialValues={{ password: "", email: authContext.user.email }}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          <ErrorMessage error="Invalid password." visible={loginFailed} />
-          <AppFormField
-            name="password"
-            autoCaptilize="none"
-            autoCorrect={false}
-            icon="lock"
-            placeholder="Password"
-            secureTextEntry
-            textContentType="password"
-          />
-          <SubmitButton title="Change to Adult Mode" />
-        </AppForm>
+        <View style={styles.formContainer}>
+          <AppForm
+            initialValues={{ password: "", email: authContext.user.email }}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
+            <ErrorMessage error="Invalid password." visible={loginFailed} />
+            
+            <AppFormField
+              name="password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="lock"
+              placeholder="Password"
+              secureTextEntry
+              textContentType="password"
+              style={styles.inputField}
+              inputStyle={styles.inputText}
+            />
+
+            <SubmitButton
+              title="Change to Adult Mode"
+              style={styles.submitButton}
+              textStyle={styles.submitText}
+            />
+          </AppForm>
+        </View>
 
         <View style={styles.space}>
           <ChildBackButton
             title="<<   GO BACK"
-            onPress={() => navigation.navigate(routes.CHILD_HOME)}
+            height="50"
+            onPress={() => navigation.goBack()}
           />
         </View>
       </View>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }
@@ -124,16 +142,50 @@ function ChildChangeMode({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.eltrlightblue,
+    flex: 1,
   },
-
   container: {
-    padding: 15,
-    marginVertical: 70,
+    justifyContent: "center",
     alignItems: "center",
+    // marginVertical: 100,
+    flex: 1,
+    paddingTop: 5,
+  },              
+  textbox: {
+    color: colors.black,
+    fontWeight: '400',
+    fontSize: 21,
+    fontStyle: 'normal',
+    textAlign: 'center',
+    marginVertical: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
-
+  boldText: {
+    fontWeight: 'bold',
+  },
+  formContainer: {
+    width: "85%",
+    marginTop: 30,
+  },
+  inputField: {
+    height: 90,
+    borderRadius: 45,
+  },
+  inputText: {
+    fontSize: 35,
+  },
+  submitButton: {
+    height: 60,
+    borderRadius: 55,
+  },
+  submitText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: 'center',
+  },
   space: {
-    marginVertical: 50,
+    marginVertical: 90,
   },
 });
 

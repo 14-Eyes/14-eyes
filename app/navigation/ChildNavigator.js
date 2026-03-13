@@ -16,40 +16,56 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getMainHeader, getSubScreenHeader, getSubScreenHeaderBack } from "./HeaderStyles";
 
 import ChildHome from "../screens/ChildMode/ChildHome";
 import ChildScan from "../screens/ChildMode/ChildScan";
-import ChildBadges from "../screens/ChildMode/ChildBadges";
+import ChildRecipes from "../screens/ChildMode/ChildRecipes";
+import ChildRecipesSubScreen from "../screens/ChildMode/ChildRecipesSubScreen";
 import ChildFood from "../screens/ChildMode/ChildFood";
 import ChildFoodAbout from "../screens/ChildMode/ChildFoodAbout";
 import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
 import DriveThruNavigator from "../navigation/DriveThruNavigator";
-import BadgeScreen from "../screens/ChildMode/BadgeScreen";
+import colors from "../config/colors";
 
 const Stack = createStackNavigator();
 
 const ChildNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      contentStyle: { backgroundColor: colors.eltrlightblue },
+      gestureEnabled: false, // this prevents navigating to previous screens by swiping from left to right
+    }}
+  >
     <Stack.Screen 
       name="Home" 
       component={ChildHome}
       options={{ headerShown: false }}
     />
-    <Stack.Screen name="Scan" component={ChildScan} />
+    <Stack.Screen 
+      name="Scan" 
+      component={ChildScan} 
+      options={({ navigation }) => getSubScreenHeader(navigation, "Scan Now!")}
+    />
     <Stack.Screen 
       name="DriveThru" 
       component={DriveThruNavigator}
       options={{ headerShown: true }}
     />
     <Stack.Screen
-      name="ChildBadges"
-      component={ChildBadges}
-      options={{ headerShown: false }} />
-
+      name="ChildRecipes"
+      component={ChildRecipes}
+      options={{ headerShown: false }} 
+    />
+    <Stack.Screen
+      name="ChildRecipesSubScreen"
+      component={ChildRecipesSubScreen}
+      options={{ headerShown: false }} 
+    />
     <Stack.Screen 
       name="ChildFood" 
       component={ChildFood}
-      options={{ headerShown: false }}
+      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
     />
     <Stack.Screen
       name="ChildFoodAbout"
@@ -59,11 +75,6 @@ const ChildNavigator = () => (
     <Stack.Screen
       name="ChildChangeMode"
       component={ChildChangeMode}
-      options={{ headerShown: false }}
-    />
-    <Stack.Screen 
-      name="BadgeScreen" 
-      component={BadgeScreen}
       options={{ headerShown: false }}
     />
   </Stack.Navigator>
