@@ -103,11 +103,17 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
             const rules = DIET_RULES[dietKey] || {};
 
             let hasIngredientConflict = false;
-            let hasOfficialCert = false;
             let hasOffConflict = false;
             let novaConflict = false;
             let explanation = "";
             let ingredients = [];
+
+            // check for official diet certs first
+            let hasOfficialCert = lowerCerts.some(tag => tag.includes(dietKey));
+            if (hasOfficialCert) {
+                foundCerts.add(label);
+                console.log(`Certification found for ${label}`);
+            }
 
             // scan for ingredient matches
             if (rules.checkIngredients && diet.avoid) {
@@ -178,12 +184,12 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
                 }
             }
 
-            // diet certifications
-            if (!isDietBad && lowerCerts.some(tag => tag.includes(dietKey))) {
-                hasOfficialCert = true;
-                foundCerts.add(label);
-                console.log(`Certification found for ${label}`);
-            }
+            // // diet certifications
+            // if (!isDietBad && lowerCerts.some(tag => tag.includes(dietKey))) {
+            //     hasOfficialCert = true;
+            //     foundCerts.add(label);
+            //     console.log(`Certification found for ${label}`);
+            // }
 
             // store all results
             foundAvoid.set(label, {
