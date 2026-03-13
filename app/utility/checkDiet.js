@@ -174,7 +174,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
                     novaConflict;
 
                 if (hasIngredientConflict && !explanation) {
-                    explanation = `This product contains ingredients that conflict with your ${label} diet.`;
+                    explanation = `Which may not align with your ${label} diet.`;
                 }
             }
 
@@ -221,9 +221,12 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         console.log("DIET CONFLICTS MATCHED:", results.offConflicts);
 
         const nutriResults = await checkNutritions(nutrients, 2);
-        if(nutriResults)
-        {
-            results.badNutri=true;
+        if (nutriResults?.badNutri) {
+            results.badNutri = true;
+            results.nutrientViolations = nutriResults.violations;
+        } else {
+            results.badNutri = false;
+            results.nutrientViolations = [];
         }
 
         return results;

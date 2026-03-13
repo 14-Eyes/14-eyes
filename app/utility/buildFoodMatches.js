@@ -113,7 +113,7 @@ export function buildFoodMatches({
             ingredients: group.ingredients || [],
             explanation:
                 group.explanation ||
-                `Which does not align with your ${group.diet} diet.`,
+                `Which may not align with your ${group.diet} diet.`,
         });
     });
     /* -------------------------------------------- */

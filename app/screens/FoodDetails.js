@@ -5,8 +5,8 @@
 /* !!! SEE FoodDetailsOld.js FOR OLD CODE !!! */
 
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, ScrollView, ActivityIndicator, Linking } from "react-native";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { StyleSheet, View, Image, ScrollView, Linking } from "react-native";
+import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 // Import any other utility functions here (for allergies, diet, preservatives, etc.)
@@ -29,8 +29,6 @@ import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-import { checkNutritions } from "../utility/checkNutrition";
-import { boolean } from "yup";
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -45,11 +43,11 @@ function FoodDetails({ route }) {
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
-
   const [conditionMatches, setConditionMatches] = useState({
     good: [],
     avoid: [],
-    badNutri: false
+    badNutri: false,
+    nutrientViolations: [],
   });
 
   // arrays to store the results of any ingredient matches FOR ALLERGIES
@@ -59,13 +57,11 @@ function FoodDetails({ route }) {
 
   // arrays to store the results of any ingredient matches FOR DIETS
   const [dietMatches, setDietMatches] = useState({
-    // avoid: [],
-    // certifications: [],
-    // offConflicts: [],
     avoid: [],
     certifications: [],
     offConflicts: [],
-    badNutri: false
+    badNutri: false,
+    nutrientViolations: [],
   });
 
   //arrays to store the results of any sugar matches for GOOD SUGARS
@@ -179,8 +175,11 @@ function FoodDetails({ route }) {
          // Run condition checking function if ingredients exist (located below)
           // await checkConditions(ingredients);
           const condResults = await checkConditions(ingredients, nutrients);
+          console.log("COND RESULTS:", condResults);
           if (condResults) {
-            setConditionMatches(condResults);
+            setConditionMatches({
+              ...condResults,
+              nutrientViolations: condResults.nutrientViolations || [],            });
           }
 
           // Run allergy checking function if ingredients exist (located below)
@@ -191,12 +190,14 @@ function FoodDetails({ route }) {
 
           // Run diet checking function if ingredients exist (located below)
           const dietResults = await checkDiet(ingredients, labels, analysis, nutrients, novaGroup);
+          console.log("DIET RESULTS:", dietResults);
           if (dietResults) {
             setDietMatches({
               avoid: dietResults.avoid || [],
               certifications: dietResults.certifications || [],
               offConflicts: dietResults.offConflicts || [],
               badNutri: dietResults.badNutri || false,
+              nutrientViolations: dietResults.nutrientViolations || [],
             });
           }
 
@@ -408,31 +409,39 @@ function FoodDetails({ route }) {
               </>
             )}
 
-            {/* Conditional Nutrition*/}
-            {badNutriConditions && (
-              <>
-                <AppText style={styles.badHeader}>The nutritional facts of this item may be bad for your condition.</AppText>
-                <LineDivider/>
-              </>
-            )}
-
             {/* CONDITIONS */}
-            {hasConditionBad > 0 && (
-              <>
+            {(hasConditionBad || conditionMatches.nutrientViolations?.length > 0) && (              <>
                 <AppText style={styles.badHeader}>
                   This food is BAD for you because...
                 </AppText>
-                {badConditionInfo.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`condition-bad-${index}`}
-                    foundFoodInfo={info}
-                  />
-                ))}
+                {hasConditionBad && (
+                  <>
+                  {badConditionInfo.map((info, index) => (
+                    <FoodMatchInfo
+                      key={`condition-bad-${index}`}
+                      foundFoodInfo={info}
+                    />
+                  ))}
+                  </>
+                )}
+                {/* NUTRIENT BASED CONDITION CONFLICTS */}
+                {conditionMatches.nutrientViolations?.length > 0 && (
+                  <>
+                  <AppText style={styles.badHeader}>
+                    {"\n"}Nutrient Conflicts:
+                  </AppText>
+                  {conditionMatches.nutrientViolations.map((v, index) => (
+                    <AppText key={`nutri-${index}`} style={{ fontSize: 16, marginTop: 12, }}>
+                      The amount of {v.nutrient} ({v.value}{v.unit}) exceeds the recommended limit ({v.limit}{v.unit}) for {v.condition}.
+                    </AppText>
+                  ))}
+                  </>
+                )}
                 <LineDivider />
               </>
             )}
 
-            {hasConditionGood > 0 && (
+            {hasConditionGood && (
               <>
                 <AppText style={styles.goodHeader}>
                   This food is GOOD for you because...
@@ -447,16 +456,8 @@ function FoodDetails({ route }) {
               </>
             )}
 
-            {/* Dietary Nutrition*/}
-            {badNutriDiet && (
-              <>
-                <AppText style={styles.badHeader}>The nutritional facts of this item may be bad for your diet.</AppText>
-                <LineDivider />
-              </>
-            )}
-
             {/* DIETS */}
-            {hasDietConflict && (
+            {(hasDietConflict || dietMatches.nutrientViolations?.length > 0) && (
               <>
                 <AppText style={styles.badHeader}>
                   This food conflicts with your diet because...
@@ -552,6 +553,19 @@ function FoodDetails({ route }) {
                     />
                 ))}
 
+                {/* NUTRIENT BASED DIET CONFLICTS */}
+                {dietMatches.nutrientViolations?.length > 0 && (
+                  <>
+                    <AppText style={styles.badHeader}>
+                      {"\n"}Nutrient Conflicts:
+                    </AppText>
+                    {dietMatches.nutrientViolations.map((v, index) => (
+                      <AppText key={`diet-nutri-${index}`} style={{ fontSize: 16, marginTop: 12, }}>
+                        The amount of {v.nutrient} ({v.value}{v.unit}) exceeds the recommended limit ({v.limit}{v.unit}) for the {v.diet} diet.
+                      </AppText>
+                    ))}
+                  </>
+                )}
 
                 {/* {groupedInfo.diet.map((info, index) => (
                   <FoodMatchInfo

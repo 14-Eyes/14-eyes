@@ -37,7 +37,7 @@ export async function checkConditions(ingredientsText, nutrients) {
 
         // --- Scan all ingredients for text matches ---
         const lowerIngredients = ingredientsText.toLowerCase();
-        const results = { good: [], avoid: [], badNutri: false};
+        const results = { good: [], avoid: [], badNutri: false, nutrientViolations: []};
 
         active.forEach((cond) => {
             // scan for good matches; store in good
@@ -61,11 +61,13 @@ export async function checkConditions(ingredientsText, nutrients) {
         });
 
         const nutriResults = await checkNutritions(nutrients, 1);
-        if(nutriResults)
-        {
-            results.badNutri=true;
+        if (nutriResults?.badNutri) {
+            results.badNutri = true;
+            results.nutrientViolations = nutriResults.violations;
+        } else {
+            results.badNutri = false;
+            results.nutrientViolations = [];
         }
-
         // ---------------------------------------------
         return results;
     } catch (err) {
