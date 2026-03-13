@@ -14,7 +14,7 @@
 
 import React, { useContext, useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { StyleSheet, View, FlatList, Modal, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, FlatList, Modal, Text, TouchableOpacity, ActivityIndicator, Alert, Switch} from "react-native";
 import Screen from "../components/Screen";
 import ListItem from "../components/lists/ListItem";
 import colors from "../config/colors";
@@ -26,12 +26,25 @@ import {deleteUser, onAuthStateChanged } from "firebase/auth";
 import { deleteDoc, doc, getDoc } from "firebase/firestore"
 import { auth } from "../config/firebase";
 import { clearAllOptionCaches } from "../utility/fetchOptions";
+import { useBiometrics } from "../hooks/useBiometric";
+import AppText from "../components/AppText";
 
 
 function EditAccount({ navigation }) {
   const authContext = useContext(AuthContext);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [displayName, setDisplayName] = useState("");
+
+  //biometric hook
+  const {
+    isAvailable,
+    isEnabled,
+    biometricType,
+    isChecking,
+    enableBiometric,
+    disableBiometric,
+    authenticate,
+  } = useBiometrics();
 
   // Load name from Firestore every time screen opens
   useFocusEffect(
@@ -77,6 +90,31 @@ function EditAccount({ navigation }) {
 
   const { setUser } = useContext(AuthContext);
   
+  const handleBiometricToggle = async (value) => {
+    if (value) {
+      const success = await authenticate();
+
+      if (success) {
+        await enableBiometric();
+        Alert.alert("Biometric login is now enabled")
+      } else {
+        Alert.alert("Authentication failed, check your device biometric settings");
+      }
+    } else {
+      Alert.alert(
+        "Disable biometric login?",
+        [
+          { text: "Cancel", style: "cancel" },
+          { text: "Disable", style: "destructive", 
+            onPress: async() => {
+              await disableBiometric();
+            },
+          },
+        ]
+      );
+    }
+  };
+
   // DELETE ACCOUNT
   const handleDeleteConfirm = async () => {
     try {
@@ -126,6 +164,44 @@ function EditAccount({ navigation }) {
         scrollEnabled={false}
       />
 
+      <View style={styles.securitySection}>
+        <AppText style={styles.sectionTitle}>Security</AppText>
+
+        {isChecking ? (
+          <View style={styles.biometricContainer}>
+            <ActivityIndicator size="small" color={colors.primary} />
+            <AppText style={styles.checkingText}>
+              Checking biometric availability...
+            </AppText>
+          </View>
+        ) : !isAvailable ? (
+          <View style={styles.unavailableContainer}>
+            <AppText style={styles.unavailableText}>
+              No biometric authentication detected on this device.
+            </AppText>
+            <AppText style={styles.unavailableSubtext}>
+              Make sure you have enrolled biometric authentication in
+              your device settings.
+            </AppText>
+          </View>
+        ) : (
+          <View style={styles.biometricContainer}>
+            <View style={styles.biometricTextContainer}>
+              <AppText style={styles.biometricLabel}>
+                Use {biometricType} to sign in
+              </AppText>
+            </View>
+            <Switch
+              value={isEnabled}
+              onValueChange={handleBiometricToggle}
+              trackColor={{ false: colors.medium, true: colors.eltrgreen }}
+              thumbColor={isEnabled ? colors.white : colors.light}
+              ios_backgroundColor={colors.medium}
+            />
+          </View>
+        )}
+      </View>
+
       <View style={styles.container}>
         <ListItem
           title="Delete Account"
@@ -172,6 +248,69 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 250,
   },
+  securitySection: {
+    marginTop: 30,
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 12,
+    color: colors.dark,
+  },
+  
+  // Biometric Container Styles
+  biometricContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  biometricTextContainer: {
+    flex: 1,
+    marginRight: 12,
+  },
+  biometricLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.dark,
+    marginBottom: 4,
+  },
+  biometricDescription: {
+    fontSize: 13,
+    color: colors.medium,
+  },
+  checkingText: {
+    marginLeft: 12,
+    color: colors.medium,
+    fontSize: 14,
+  },
+  
+  // Unavailable State Styles
+  unavailableContainer: {
+    padding: 16,
+    backgroundColor: colors.light,
+    borderRadius: 12,
+  },
+  unavailableText: {
+    fontSize: 14,
+    color: colors.medium,
+    marginBottom: 8,
+  },
+  unavailableSubtext: {
+    fontSize: 12,
+    color: colors.medium,
+    fontStyle: "italic",
+  },
+
   modalOverlay: {
     flex: 1,
     justifyContent: "center",

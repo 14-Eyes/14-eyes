@@ -20,10 +20,10 @@ export function useBiometrics() {
             setIsChecking(true);
 
             //does user device have biometric hardware?
-            const hasHardware = await LocalAuthentication.hasHardwareAsync();
+            const hasHardware = await LocalAuth.hasHardwareAsync();
 
             //has the user enrolled their biometrics? (face id, fingerprint)
-            const isEnrolled = await LocalAuthentication.isEnrolled();
+            const isEnrolled = await LocalAuth.isEnrolledAsync();
 
             //has the user enabled biometric login in the app settings?
             const enabled = await AsyncStorage.getItem(BIOMETRIC_ENABLED);
@@ -32,7 +32,7 @@ export function useBiometrics() {
             setIsEnabled(enabled === 'true');
 
             if (hasHardware && isEnrolled) { //if biometrics are available on the device, then get the biometric type name
-                const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
+                const types = await LocalAuth.supportedAuthenticationTypesAsync();
                 setBiometricType(getBiometricTypeName(types));
             }
         } catch (error) {
@@ -44,13 +44,13 @@ export function useBiometrics() {
     };
 
     const getBiometricTypeName = (types) => { //function to get the device's biometric type name
-        if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)){
+        if (types.includes(LocalAuth.AuthenticationType.FACIAL_RECOGNITION)){
             return 'Face ID';
         }
-        if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)){
+        if (types.includes(LocalAuth.AuthenticationType.FINGERPRINT)){
             return 'Fingerprint';
         }
-        if (types.includes(LocalAuthentication.AuthenticationType.IRIS)){
+        if (types.includes(LocalAuth.AuthenticationType.IRIS)){
             return 'Iris Scan';
         }
         return 'Biometric';
@@ -58,7 +58,7 @@ export function useBiometrics() {
 
     const authenticate = async () => { //function to authenticate via biometrics
         try {
-            const result = await LocalAuthentication.authenticateAsync({
+            const result = await LocalAuth.authenticateAsync({
                 promptMessage: 'Sign in to ELTR',
                 cancelLabel: 'Cancel',
                 fallbackLabel: 'Use Password',
