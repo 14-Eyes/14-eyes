@@ -371,6 +371,9 @@ function FoodDetails({ route }) {
             </View>
           )}
 
+          <AppText style={styles.subTitle}>{"\n"}Want to know more about the "why" behind this rating? Check out this product's details below!</AppText>
+          <View style={styles.foodInfo}><LineDivider /></View>
+
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
           
@@ -782,6 +785,14 @@ const styles = StyleSheet.create({
     fontSize: 30, 
     fontWeight: "bold", 
     marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
+    textAlign: "center",
+  },
+  subTitle: { 
+    fontSize: 20, 
+    // fontWeight: "bold", 
+    // marginTop: 15,
     marginLeft: 10,
     marginRight: 10,
     textAlign: "center",
