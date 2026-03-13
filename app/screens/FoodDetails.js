@@ -23,6 +23,7 @@ import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all
 // Components
 import FoodMatchInfo from "../components/FoodMatchInfo"; // Ingredient list for each cond/allergy/diet
 import UltraProcessedMarker from "../components/UltraProcessedMarker"; // Ultra Processed Marker
+import NutriScoreMarker from "../components/NutriScoreMarker"; // Nutri-Score Marker
 import DietCertificationBadge from "../components/DietCertificationBadge"; // Diet Cert Badge
 import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
@@ -171,6 +172,7 @@ function FoodDetails({ route }) {
         console.log("DIETS RAW TEXT - LABELS:", labels);
         console.log("DIETS RAW TEXT - ANALYSIS:", analysis);
         console.log("NOVA GROUP:", novaGroup);
+        console.log("NUTRI SCORE:", nutriScore);
 
         if (ingredients) {
           //for some reason, nutrients becomes undefined here...
@@ -371,8 +373,10 @@ function FoodDetails({ route }) {
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
           
+          {/* NUTRI-SCORE MARKER */}
+          <NutriScoreMarker nutriScore={product.nutriScore} />
           {/* Nutri-Score    ---  product.nutriScore.charAt(0).toUpperCase()  breaks it now??????*/}
-          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText>
+          {/* <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText> */}
           
 
           {/* DIET CERTIFICATIONS */}
