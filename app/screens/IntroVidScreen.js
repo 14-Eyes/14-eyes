@@ -1,29 +1,40 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Video } from "expo-av";
 import { auth, db } from "../config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import AuthContext from "../auth/context";
 
-export default function IntroVidScreen({ navigation }) {
+export default function IntroVidScreen() {
   const videoRef = useRef(null);
+
+  // Access global user state
+  const { user, setUser } = useContext(AuthContext);
 
   const handleFinish = async () => {
     try {
+      // Mute video when finishing
       if (videoRef.current) {
         await videoRef.current.setStatusAsync({ isMuted: true });
       }
 
-      const user = auth.currentUser;
-      if (user) {
-        await updateDoc(doc(db, "users", user.uid), {
-          showIntro: false
+      const firebaseUser = auth.currentUser;
+
+      if (firebaseUser) {
+        // Update Firestore so intro never shows again
+        await updateDoc(doc(db, "users", firebaseUser.uid), {
+          showIntro: false,
+        });
+
+        // Update local state so App.js re-renders immediately
+        setUser({
+          ...user,
+          showIntro: false,
         });
       }
     } catch (e) {
       console.log("Mute or update error:", e);
     }
-
-    navigation.navigate("AppNavigator");
   };
 
   return (

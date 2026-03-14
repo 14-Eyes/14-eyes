@@ -12,23 +12,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import SponsoredBy from "../screens/SponsoredBy";
 import IntroVidScreen from "../screens/IntroVidScreen";
+import AppNavigator from "./AppNavigator";
 
 const Stack = createStackNavigator();
 
 const AdNavigator = () => (
-  <Stack.Navigator
-    initialRouteName="Sponsored"
-    screenOptions={{ headerShown: false }}
-  >
-    <Stack.Screen
-      name="Sponsored"
-      component={SponsoredBy}
-    />
-
-    <Stack.Screen
-      name="IntroVidScreen"
-      component={IntroVidScreen}
-    />
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="SponsoredBy" component={SponsoredBy} />
+    <Stack.Screen name="IntroVidScreen" component={IntroVidScreen} />
+    <Stack.Screen name="AppNavigator" component={AppNavigator} />
   </Stack.Navigator>
 );
 
