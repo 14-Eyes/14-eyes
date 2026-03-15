@@ -214,12 +214,12 @@ export default {
         {
             id: 9,
             label: "High fructose corn syrup",
-            why: "A sweetener made from corn starch and commonly found in processed foods and beverages. Has been linked to many health issues, including an increased risk of obesity, diabetes, heart disease, and inflammation.",
+            why: "A sweetener made from corn starch and commonly found in processed foods and beverages. Has been linked to many health problems, including an increased risk of obesity, diabetes, heart disease, and inflammation.",
         },
         {
             id: 10,
             label: "High maltose corn syrup",
-            why: "An additive used as a sweetener and preservative. While not as sweet as High Fructose Corn Syrup, it has been linked to health issues, including an increased risk of obesity, diabetes, and decreased gut health. Some products may also contain gluten.",
+            why: "An additive used as a sweetener and preservative. While not as sweet as High Fructose Corn Syrup, it has been linked to health problems, including an increased risk of obesity, diabetes, and decreased gut health. Some products may also contain gluten.",
         },
         {
             id: 11,
