@@ -17,7 +17,7 @@
  */
 
 import React, { useContext, useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, Text } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, } from "react-native";
 import * as Yup from "yup";
 
 // new code
@@ -52,6 +52,8 @@ function ChildChangeMode({ navigation }) {
 
   const handleSubmit = async ({ email, password }) => {
     try {
+      Keyboard.dismiss();
+
       const user = auth.currentUser;
       const credential = EmailAuthProvider.credential(email, password);
       await reauthenticateWithCredential(user, credential);
@@ -62,37 +64,14 @@ function ChildChangeMode({ navigation }) {
       setLoginFailed(true);
     }
   };
-  // const handleSubmit = ({ email, password }) => {
-  //   let user = Firebase.auth().currentUser;
-  //   // debugging
-  //   console.log("firebase.auth:", Firebase.auth);
-  //   console.log("EmailAuthProvider:", Firebase.auth.EmailAuthProvider);
-
-  //   let credentials = Firebase.auth.EmailAuthProvider.credential(
-  //     email,
-  //     password
-  //   );
-  //   // Prompt the user to re-provide their sign-in credentials
-
-  //   user
-  //     .reauthenticateWithCredential(credentials)
-  //     .then(function () {
-  //       // User re-authenticated.
-  //       navigation.navigate("AppNavigator");
-  //     })
-  //     .catch(function (error) {
-  //       // An error happened.
-  //       console.log(error);
-  //       setLoginFailed(true);
-  //     });
-  // };
 
   return (
     <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={{ flex: 1, backgroundColor: colors.eltrlightblue }}
-        behavior={Platform.OS === "ios" ? "padding" : "position"}
-      >
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      > */}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <AppText style={styles.textbox}>
           You are about to switch to <Text style={styles.boldText}>ADULT MODE</Text>. Please enter your account password to continue.
@@ -130,11 +109,15 @@ function ChildChangeMode({ navigation }) {
           <ChildBackButton
             title="<<   GO BACK"
             height="50"
-            onPress={() => navigation.goBack()}
+            onPress={() => {
+              Keyboard.dismiss();
+              navigation.goBack();
+            }}
           />
         </View>
       </View>
-      </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      {/* </KeyboardAvoidingView> */}
     </Screen>
   );
 }
@@ -150,6 +133,7 @@ const styles = StyleSheet.create({
     // marginVertical: 100,
     flex: 1,
     paddingTop: 5,
+    backgroundColor: colors.eltrlightblue,
   },              
   textbox: {
     color: colors.black,
@@ -185,7 +169,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   space: {
-    marginVertical: 90,
+    marginTop: 40,
   },
 });
 

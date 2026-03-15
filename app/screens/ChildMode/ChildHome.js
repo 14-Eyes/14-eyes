@@ -26,19 +26,8 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 function ChildHome({ navigation }) {
-  // useEffect(() => {
-    // BackHandler.addEventListener("hardwareBackPress", () => true);
-  //   return () =>
-      // BackHandler.removeEventListener("hardwareBackPress", () => true);
-  // }, []);
   return (
     <Screen backgroundColor={colors.eltrlightblue} style={styles.container}>
-      {/* <View style={styles.container}> */}
-        {/* <Image
-          source={require("../../assets/eltr-png.png")}
-          style={styles.kidrainbow}
-        /> */}
-
         <View style={styles.mainButtons}>
           <View style={styles.buttonContainer}>
             <Image
@@ -86,21 +75,11 @@ function ChildHome({ navigation }) {
             />
           </View>
         </View>
-
-        {/* <Image
-          source={require("../../assets/adamapplewave.png")}
-          style={styles.adam}
-        /> */}
-        {/* <AppText style={styles.bottomText}>CHILD MODE</AppText> */}
-      {/* </View> */}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  // screen: {
-  //   backgroundColor: colors.eltrlightblue,
-  // },
   container: {
     flex: 1,
     alignItems: "center",
@@ -170,14 +149,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     zIndex: 0,
   },
-  // bottomText: {
-  //   color: colors.white,
-  //   opacity: 0.3,
-  //   fontSize: 55,
-  //   fontStyle: "normal",
-  //   textAlign: "center",
-  //   bottom: 20,
-  // },
 });
 
 export default ChildHome;
