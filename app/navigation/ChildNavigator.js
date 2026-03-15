@@ -65,7 +65,7 @@ const ChildNavigator = () => (
     <Stack.Screen 
       name="ChildFood" 
       component={ChildFood}
-      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
+      options={{ headerShown: false }}
     />
     <Stack.Screen
       name="ChildFoodAbout"

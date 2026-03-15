@@ -26,7 +26,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import Constants from "expo-constants";
 import colors from "../config/colors";
 
-// Okay none of these edits do anything anymore since I made a new ScreenAccount.js file for just the login, register, and reset pass screens lol :'(
+// Okay none of these edits do anything anymore since I made a new ScreenAuth.js file for just the login, register, and reset pass screens lol :'(
 
 /*  
     If you ever need to add edge to edge componenets onto the screen
@@ -60,9 +60,10 @@ function Screen({ children, style, transparentBackground = false, backgroundColo
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.keyboardContainer}
-      keyboardVerticalOffset={insets.bottom + Constants.statusBarHeight}    >
+      keyboardVerticalOffset={insets.bottom + Constants.statusBarHeight}
+    >
       <SafeAreaView
         style={[
           styles.safeArea,

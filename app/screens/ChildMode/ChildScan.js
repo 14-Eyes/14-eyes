@@ -14,7 +14,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { View, StyleSheet,  ActivityIndicator, Text } from "react-native";
+import { View, StyleSheet,  ActivityIndicator, Text, Button } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
@@ -29,7 +29,7 @@ function ChildScan({ navigation }) {
   const scanLock = useRef(false);
 
   {/* un-comment below block to simulate barcode scan on android studio */}
-  // const MOCK_BARCODE = "5034467000216"; // replace this to test different food products
+  // const MOCK_BARCODE = "8711299100174"; // replace this to test different food products
   // const mockScan = () => {
   //   barcodeScanned({ data: MOCK_BARCODE });
   // };
@@ -82,14 +82,14 @@ function ChildScan({ navigation }) {
     <View style={styles.container}>
 
     {/* un-comment below block to simulate barcode scan on android studio */}
-        {/* <View style={styles.mockButton}>
-          <Button
-            title="Mock Scan (Emulator)"
-            onPress={mockScan}
-            disabled={loading}
-            color={colors.primary}
-          />
-        </View> */}
+      {/* <View style={styles.mockButton}>
+        <Button
+          title="Mock Scan (Emulator)"
+          onPress={mockScan}
+          disabled={loading}
+          color={colors.primary}
+        />
+      </View> */}
 
       {isFocused && !loading && (
         <CameraView
