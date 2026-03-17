@@ -34,7 +34,9 @@ function ChildFood({ route, navigation }) {
 
   const grade = food?.product?.nutrition_grade_fr;
   const validGrade = ["a","b","c","d","e"].includes(grade);
+  const badGrade = ["c","d","e"].includes(grade);
 
+  const [badSugarAmount, setBadSugarAmount] = useState(false);
   const [allergic, setAllergic] = useState(null);
   const [condition, setCondition] = useState(null);
   const [diet, setDiet] = useState(null);
@@ -123,6 +125,15 @@ function ChildFood({ route, navigation }) {
       setDietIngredients(dietMatches);
     }
     /* ----------------------- */
+
+    /* ----- Sugar Check ----- */
+    const totalSugar = nutrients?.sugars ?? 0;
+    if (totalSugar > 6) {
+      setBadSugarAmount(true);
+    } else {
+      setBadSugarAmount(false);
+    }
+    /* ----------------------- */
   };
 
   const getGradeImage = (grade) => {
@@ -150,6 +161,14 @@ function ChildFood({ route, navigation }) {
         <Screen style={styles.container}>
 
           {/* show any warnings (bad food matches) first */}
+          {badSugarAmount && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningTitle}>WARNING!</AppText>
+              <AppText style={styles.warningText}>
+                This food has <AppText style={styles.bold}>too much sugar</AppText>.
+              </AppText>
+            </View>
+          )}
           {allergic && (
             <View style={styles.warningBox}>
               <AppText style={styles.warningTitle}>WARNING!</AppText>
@@ -184,7 +203,14 @@ function ChildFood({ route, navigation }) {
 
             <View style = {styles.bubbleContent}>
               <AppText style={styles.text}>This looks like </AppText> 
-              <AppText style={styles.fooditem}>{food.product.product_name}</AppText> 
+              <AppText 
+                style={styles.fooditem}
+                numberOfLines={3}
+                adjustsFontSizeToFit
+                minimumFontScale={0.9}
+              >
+                {food.product.product_name}
+              </AppText> 
 
               {validGrade ? (
                 <>
@@ -195,7 +221,12 @@ function ChildFood({ route, navigation }) {
                   />
                 </>
               ) : (
-                <AppText style={styles.text}> Adam Apple does not have enough information to give a grade. </AppText>
+                <AppText style={styles.noGradeText}> Adam Apple does not have enough information to give a grade. </AppText>
+              )}
+              {(badGrade || badSugarAmount || allergic || condition || diet ) && (
+                <>
+                  <AppText style={styles.text}> Adam Apple says to check with your parent before eating this food. </AppText>
+                </>
               )}
             </View>
           </View>
@@ -286,7 +317,7 @@ const styles = StyleSheet.create({
     width: 400,
     height: 600,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     position: "relative",
   },
   speechBubble: {
@@ -296,17 +327,26 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   bubbleContent: {
-    width: 260,
+    width: "65%",
+    maxHeight: 430,
+    overflow: "hidden",
     alignItems: "center",
-    marginBottom: 40,
+    marginTop: 50,
+    // marginBottom: 40,
   },
   text: {
-    fontSize: 24,
+    fontSize: 22,
     textAlign: "center",
     // bottom: 400,
   },
+  noGradeText: {
+    fontSize: 22,
+    textAlign: "center",
+    marginTop: 15,
+    marginBottom: 35,
+  },
   fooditem: {
-    fontSize: 26,
+    fontSize: 22,
     color: colors.eltrred,
     fontWeight: "bold",
     textAlign: "center",
@@ -314,17 +354,17 @@ const styles = StyleSheet.create({
     // bottom: 400,
   },
   grade: {
-    width: 130,
-    height: 130,
+    width: 120,
+    height: 120,
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 15,
     resizeMode: "contain",
   },
   warningBox: {
     backgroundColor: colors.eltrred,
-    padding: 14,
+    padding: 15,
     borderRadius: 15,
-    marginBottom: 20,
+    marginBottom: 10,
     width: "90%",
     alignItems: "center",
   },
