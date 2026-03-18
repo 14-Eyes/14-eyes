@@ -19,9 +19,9 @@ const AdNavigator = () => (
     <Stack.Screen
       name="Sponsored"
       component={SponsoredBy}
-	  headerMode="none"
+      headerMode="none"
       options={{ headerShown: false }}	  
-	/>  
+    />  
   </Stack.Navigator>
 );
 
