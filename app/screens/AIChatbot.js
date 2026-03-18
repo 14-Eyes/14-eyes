@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
@@ -23,11 +22,13 @@ const { width, height } = Dimensions.get("window");
 function ChatBot({ navigation }) {
 
     const REPLY_PRESETS = [
-        "budget friendly snack options",
-        "heart healthy shopping list",
-        "low-budget, nutrient rich lunch options",
-        "low-fat breakfast options", 
-        "optimal grocery shopping tips",
+        "What are some budget friendly snack options?",
+        "Give me a heart healthy shopping list",
+        "What are some low-budget, nutrient rich lunch options?",
+        "Give me some low-fat breakfast options", 
+        "Provide optimal grocery shopping tips",
+        "What are some key foods to avoid for gluten allergies?",
+        "What should I look for in nutrient labels when dieting?",
     ];
 
     const getRandomPreset = (pool, count = 3) => {
