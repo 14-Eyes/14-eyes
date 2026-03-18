@@ -49,13 +49,13 @@ export function buildFoodMatches({
 
     Object.values(conditionGroups).forEach(group => {
         foundFoodInfo.push({
-            type: "condition",
-            severity: group.severity,
-            ingredients: group.ingredients,
-            explanation:
-                group.severity === "bad"
-                ? `Which may worsen your ${group.condition} condition.`
-                : `Which may help lessen your ${group.condition} condition.`,
+        type: "condition",
+        severity: group.severity,
+        ingredients: group.ingredients,
+        explanation:
+            group.severity === "bad"
+            ? `Which may worsen your ${group.condition} condition.`
+            : `Which may help lessen your ${group.condition} condition.`,
         });
     });
     /* -------------------------------------------- */
@@ -77,10 +77,10 @@ export function buildFoodMatches({
 
     Object.values(allergyGroups).forEach(group => {
         foundFoodInfo.push({
-            type: "allergy",
-            severity: "bad",
-            ingredients: group.ingredients,
-            explanation: `Which may cause an allergic reaction due to your ${group.allergy} allergy.`,
+        type: "allergy",
+        severity: "bad",
+        ingredients: group.ingredients,
+        explanation: `Which may cause an allergic reaction due to your ${group.allergy} allergy.`,
         });
     });
     /* -------------------------------------------- */
@@ -88,32 +88,23 @@ export function buildFoodMatches({
     /* ------------------ DIETS ------------------- */
     const dietGroups = {};
 
-    dietMatches.avoid.forEach((dietMatch) => {
-        if (!dietMatch.isDietBad) return;
-
-        const key = `${dietMatch.diet}-bad`;
-
-        if (!dietGroups[key]) {
-            dietGroups[key] = {
-                diet: dietMatch.diet,
-                ingredients: [],
-                explanation: dietMatch.explanation,
-            };
+    dietMatches.avoid.forEach(({ ingredient, diet }) => {
+        if (!dietGroups[diet]) {
+        dietGroups[diet] = {
+            diet,
+            ingredients: [],
+        };
         }
 
-        if (dietMatch.ingredients?.length) {
-            dietGroups[key].ingredients.push(...dietMatch.ingredients);
-        }
+        dietGroups[diet].ingredients.push(ingredient);
     });
 
     Object.values(dietGroups).forEach(group => {
         foundFoodInfo.push({
-            type: "diet",
-            severity: "bad",
-            ingredients: group.ingredients || [],
-            explanation:
-                group.explanation ||
-                `Which does not align with your ${group.diet} diet.`,
+        type: "diet",
+        severity: "bad",
+        ingredients: group.ingredients,
+        explanation: `Which does not align with your ${group.diet} diet.`,
         });
     });
     /* -------------------------------------------- */

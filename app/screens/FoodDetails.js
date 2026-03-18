@@ -58,9 +58,6 @@ function FoodDetails({ route }) {
 
   // arrays to store the results of any ingredient matches FOR DIETS
   const [dietMatches, setDietMatches] = useState({
-    // avoid: [],
-    // certifications: [],
-    // offConflicts: [],
     avoid: [],
     certifications: [],
     offConflicts: [],
@@ -188,7 +185,7 @@ function FoodDetails({ route }) {
           }
 
           // Run diet checking function if ingredients exist (located below)
-          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients, novaGroup);
+          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients);
           if (dietResults) {
             setDietMatches({
               avoid: dietResults.avoid || [],
@@ -298,16 +295,10 @@ function FoodDetails({ route }) {
   const badNutriConditions = conditionMatches.badNutri;
 
   const hasAllergy = allergyMatches.avoid.length > 0;
-  
-  // const hasDietBadMatch = dietMatches.avoid.length > 0;
-  const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
-  const hasDietConflict = dietMatches.avoid.some(
-    (d) => d.isDietBad
-  );
-  const hasDietBadMatch = dietMatches.avoid.some(
-    (d) => d.hasIngredientConflict || d.novaConflict
-  );
+
   const badNutriDiet = dietMatches.badNutri;
+  const hasDietBadMatch = dietMatches.avoid.length > 0;
+  const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
 
   const hasGoodSugar = goodSugarMatches.length > 0;
   const hasBadSugar = badSugarMatches.length > 0;
@@ -315,8 +306,8 @@ function FoodDetails({ route }) {
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
-  // const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
-  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietConflict || badNutriDiet || hasBadSugar || hasDye || hasPreservative;
+  const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
+  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietBadMatch || hasDietOffConflicts || badNutriDiet || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -452,7 +443,7 @@ function FoodDetails({ route }) {
             )}
 
             {/* DIETS */}
-            {hasDietConflict && (
+            {hasAnyDietConflict && (
               <>
                 <AppText style={styles.badHeader}>
                   This food conflicts with your diet because...
@@ -463,9 +454,11 @@ function FoodDetails({ route }) {
                     <AppText style={{ fontSize: 16 }}>
                       This food is officially classified as{" "}
                       <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
-                        {dietMatches.offConflicts.map(conflict => conflict.tag.replace("-", " ")).join(" and ")}
-                      </AppText>
-                      {" "}by Open Food Facts.
+                        {dietMatches.offConflicts
+                          .map(conflict => conflict.tag.replace("-", " "))
+                          .join(" and ")}
+                      </AppText>{" "}
+                      by Open Food Facts.
                     </AppText>
 
                     {barcode && (
@@ -483,78 +476,14 @@ function FoodDetails({ route }) {
                   </>
                 )}
 
-                {/* NON-INGREDIENT DIET CONFLICTS (NOVA / CERT) */}
-                {dietMatches.avoid
-                  .filter(d => d.isDietBad && !d.hasIngredientConflict)
-                  .map((d, index) => (
-                    <View key={`diet-other-${index}`} style={{ marginTop: 8 }}>
-
-                      {/* NOVA CONFLICT */}
-                      {d.novaConflict && (
-                        <AppText style={{ fontSize: 16 }}>
-                          This product is classified as{" "}
-                          <AppText style={{ color: colors.eltrdarkred}}>
-                            NOVA Group {product.novaGroup}
-                          </AppText>
-                          {" "}which conflicts with your{" "}
-                          <AppText style={{ fontWeight: "bold" }}>
-                            {d.diet}
-                          </AppText>
-                          {" "}diet.
-                        </AppText>
-                      )}
-
-                      {/* MISSING CERTIFICATION (ex: Organic) */}
-                      {!d.hasOfficialCert && !d.novaConflict && (
-                        <AppText style={{ fontSize: 16 }}>
-                          This product{" "}
-                          <AppText style={{ color: colors.eltrdarkred}}>
-                            does not have
-                          </AppText>
-                          {" "}an official{" "}
-                          <AppText style={{ fontWeight: "bold" }}>
-                            {d.diet}
-                          </AppText>
-                          {" "}certification.
-                        </AppText>
-                      )}
-
-                      {barcode && (
-                        <AppText
-                          style={[{ fontSize: 16, color: colors.eltrdarkblue }]}
-                          onPress={() =>
-                            Linking.openURL(
-                              `https://world.openfoodfacts.org/products/${barcode}`
-                            )
-                          }
-                        >
-                          Learn more
-                        </AppText>
-                      )}
-                    </View>
-                ))}
-
-
-                {/* INGREDIENT-BASED DIET CONFLICTS */}
-                {dietMatches.avoid
-                  .filter(d => d.hasIngredientConflict)
-                  .map((d, index) => (
+                {hasDietBadMatch &&
+                  groupedInfo.diet.map((info, index) => (
                     <FoodMatchInfo
-                      key={`diet-ingredient-${index}`}
-                      foundFoodInfo={{
-                        ingredients: d.ingredients,
-                        explanation: d.explanation,
-                      }}
+                      key={`diet-${index}`}
+                      foundFoodInfo={info}
                     />
-                ))}
-
-
-                {/* {groupedInfo.diet.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`diet-${index}`}
-                    foundFoodInfo={info}
-                  />
-                ))} */}
+                  ))
+                }
 
                 <LineDivider />
               </>
