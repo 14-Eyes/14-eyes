@@ -93,6 +93,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
         const foundAvoid = new Map();
         const foundCerts = new Set();
         const foundOffConflicts = new Map(); // stores off "non-vegan" or "non-vegetarian" matches with user set diet
+        const foundNovaConflicts = new Map();
 
         // process each diet individually
         active.forEach((diet) => {
@@ -109,7 +110,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
             let ingredients = [];
 
             // check for official diet certs first
-            let hasOfficialCert = lowerCerts.some(tag => tag.includes(dietKey));
+            let hasOfficialCert = lowerCerts.some(tag => tag === dietKey);
             if (hasOfficialCert) {
                 foundCerts.add(label);
                 console.log(`Certification found for ${label}`);
@@ -143,7 +144,10 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
             // nova score check (must be 1 or 2)
             if (rules.checkNova && novaGroup && novaGroup >= 3) {
                 novaConflict = true;
-                explanation = `This product is classified as NOVA Group ${novaGroup}, which is considered ultra-processed and conflicts with your ${label} diet.`;
+                foundNovaConflicts.set(label, {
+                    diet: label,
+                    novaGroup,
+                });
                 console.log(`NOVA conflict for ${label}: Group`, novaGroup);
             }
 
@@ -201,6 +205,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
                 isDietBad,
                 explanation,
                 ingredients,
+                requiresCert: !!rules.checkCertOnly,
             });
         });
         // ---------------------------------------------
@@ -221,6 +226,7 @@ export async function checkDiet(ingredientsText, offLabels = [], offAnalysis = [
             avoid: Array.from(foundAvoid.values()),
             certifications: Array.from(foundCerts),
             offConflicts: Array.from(foundOffConflicts.values()),
+            novaConflicts: Array.from(foundNovaConflicts.values()),
         };    
         console.log("DIET INGREDIENT MATCHES:", results.avoid);
         console.log("DIET CERTIFICATIONS MATCHED:", results.certifications);
