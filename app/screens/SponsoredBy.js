@@ -76,7 +76,7 @@ const SponsoredBy = ({ navigation }) => {
                 <Text style={styles.topBtnText}>Continue</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.topBtn} onPress={handleFinishVideo}>
-                <Text style={styles.topBtnText}>Skip Video</Text>
+                <Text style={styles.topBtnText}>Skip</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -104,7 +104,7 @@ const SponsoredBy = ({ navigation }) => {
         {/* Top-right buttons: Cross and Skip */}
         <View style={styles.topRightButtons}>
           <TouchableOpacity style={styles.topBtn} onPress={handleFinishVideo}>
-            <Text style={styles.topBtnText}>Skip</Text>
+            <Text style={styles.topBtnText}>Skip Video</Text>
           </TouchableOpacity>
         </View>
       </View>
