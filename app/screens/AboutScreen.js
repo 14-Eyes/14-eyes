@@ -89,11 +89,11 @@ function AboutScreen(props) {
         <AppText style={styles.text}>
           This app is created by people who care about food, for people who care about food.
           Learn more about what's in the food you're purchasing by using the barcode scanner,
-          read facts about the ingredients in your food on the <Text style={{fontWeight: "bold"}}>Home page</Text>,
-          try out some Chef Cathy Zeis recommended recipes on the <Text style={{fontWeight: "bold"}}>Recipes page</Text>,
-          and get help planning your grocery store trip on the <Text style={{fontWeight: "bold"}}>Budget page</Text>.
+          read facts about the ingredients in your food on the Home page,
+          try out some Chef Cathy Zeis recommended recipes on the Recipes page,
+          and get help planning your grocery store trip on the Budget page.
           You can even transform the app into a simple and fun educational experience for your child by
-          switching to Child Mode. Check out our <Text style={{fontWeight: "bold"}}>FAQ page </Text>
+          switching to Child Mode. Check out our FAQ page
           for more information about how to use the app.
           {"\n\n"}
           You can read more information about the Eat Like The Rainbow™ project and Chef Cathy Zeis below, or you can check out the socials linked 
