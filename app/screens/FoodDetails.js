@@ -53,6 +53,7 @@ function FoodDetails({ route }) {
   // arrays to store the results of any ingredient matches FOR ALLERGIES
   const [allergyMatches, setAllergyMatches] = useState({
     avoid: [],
+    offAllergen: [],
   });
 
   // arrays to store the results of any ingredient matches FOR DIETS
@@ -399,17 +400,47 @@ function FoodDetails({ route }) {
           <View style={styles.foodInfo}>
 
           {/* ALLERGIES */}
-            {hasAllergy && (
+            {(hasAllergy || allergyMatches.offAllergen.length > 0) && (
               <>
                 <AppText style={styles.badHeader}>
                   Allergy Warning
                 </AppText>
-                {groupedInfo.allergy.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`allergy-${index}`}
-                    foundFoodInfo={info}
-                  />
-                ))}
+
+                {allergyMatches.offAllergen.length > 0 && (
+                  <>
+                    <AppText style={{ fontSize: 16, textAlign: "left" }}>
+                      This product is officially reported to contain{" "}
+                      <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
+                        {allergyMatches.offAllergen.map(a => a.ingredient).join(", ")}
+                      </AppText>
+                      {" "}by Open Food Facts.
+                    </AppText>
+
+                    {barcode && (
+                      <AppText
+                        style={{ fontSize: 16, color: colors.eltrdarkblue, textAlign: "left" }}
+                        onPress={() =>
+                          Linking.openURL(
+                            `https://world.openfoodfacts.org/products/${barcode}`
+                          )
+                        }
+                      >
+                        Learn more
+                      </AppText>
+                    )}
+                  </>
+                )}
+
+                {hasAllergy && (
+                  <>
+                    {groupedInfo.allergy.map((info, index) => (
+                      <FoodMatchInfo
+                        key={`allergy-${index}`}
+                        foundFoodInfo={info}
+                      />
+                    ))}
+                  </>
+                )}
                 <LineDivider />
               </>
             )}
