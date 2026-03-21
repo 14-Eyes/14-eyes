@@ -69,6 +69,9 @@ function ChildFood({ route, navigation }) {
     const analysis =
       food?.product?.ingredients_analysis_tags || [];
 
+    const novaGroup =
+      food?.product?.nova_group ?? null;
+
     /* ---- Allergy Check ---- */
     const allergyResults = await checkAllergies(
       ingredients,
@@ -76,13 +79,29 @@ function ChildFood({ route, navigation }) {
       nutrients
     );
 
-    if (allergyResults?.avoid?.length > 0) {
+    const badAllergies = [
+    ...(allergyResults?.avoid || []),
+    ...(allergyResults?.offAllergen || [])
+  ];
+
+    if (badAllergies.length > 0) {
       const allergyNames = [
-        ...new Set(allergyResults.avoid.map(a => a.allergy))
+        ...new Set(badAllergies.map(a => a.allergy))
       ];
       const allergyMatches = [
-        ...new Set(allergyResults.avoid.map(a => a.ingredient))
+        ...new Set(
+          badAllergies.map(a => {
+
+            // if coming from OFF tag, label it clearly
+            if (allergyResults?.offAllergen?.includes(a)) {
+              return `Contains ${a.ingredient}`;
+            }
+
+            return a.ingredient;
+          })
+        )
       ];
+
       setAllergic(allergyNames.join(", "));
       setAllergyIngredients(allergyMatches);
     }
@@ -111,16 +130,32 @@ function ChildFood({ route, navigation }) {
       ingredients,
       labels,
       analysis,
-      nutrients
+      nutrients,
+      novaGroup,
     );
 
-    if (dietResults?.avoid?.length > 0) {
+    const badDiets = dietResults?.avoid?.filter(d => d.isDietBad);
+
+    if (badDiets?.length > 0) {
       const dietNames = [
-        ...new Set(dietResults.avoid.map(d => d.diet))
+        ...new Set(badDiets.map(d => d.diet))
       ];
       const dietMatches = [
-        ...new Set(dietResults.avoid.map(d => d.ingredient))
+        ...new Set(
+          badDiets.flatMap(d => {
+            let items = [...(d.ingredients || [])];
+
+            if (d.novaConflict && novaGroup) {
+              items.push(`Ultra-processed (NOVA ${novaGroup})`);
+            }
+
+            return items;
+          })
+        )
       ];
+
+      console.log("BAD DIETS:", dietNames);
+      console.log("BAD DIET INGREDIENTS:", dietMatches);
       setDiet(dietNames.join(", "));
       setDietIngredients(dietMatches);
     }
