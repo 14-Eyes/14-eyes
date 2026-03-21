@@ -5,7 +5,7 @@
 /* !!! SEE FoodDetailsOld.js FOR OLD CODE !!! */
 
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, ScrollView, Linking } from "react-native";
+import { StyleSheet, View, Image, ScrollView, Linking, Text } from "react-native";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -375,6 +375,12 @@ function FoodDetails({ route }) {
           )}
 
           <AppText style={styles.subTitle}>{"\n"}Want to know more about the "why" behind this rating? Check out this product's details below!</AppText>
+          <AppText style={styles.warningText}>
+            {"\n"}<Text style={{fontWeight: "bold"}}>NOTE: </Text> 
+            This evaluation is based on available product data and may not be fully accurate.
+            It is your responsibility to review the label and confirm 
+            the product is safe for your needs before consuming.
+          </AppText>
           <View style={styles.foodInfo}><LineDivider /></View>
 
           {/* ULTRA-PROCESSED MARKER */}
@@ -848,6 +854,13 @@ const styles = StyleSheet.create({
     // marginTop: 15,
     marginLeft: 10,
     marginRight: 10,
+    textAlign: "center",
+  },
+  warningText: { 
+    fontSize: 15, 
+    fontStyle: "italic",
+    marginLeft: 21,
+    marginRight: 21,
     textAlign: "center",
   },
   thumbs: {
