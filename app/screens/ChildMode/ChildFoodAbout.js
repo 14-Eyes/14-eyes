@@ -19,79 +19,122 @@ import { StyleSheet, View, Image, ScrollView } from "react-native";
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
 import colors from "../../config/colors";
-import ChildButtonFood from "../../components/ChildButtonFood";
-import routes from "../../navigation/routes";
-import check from "../../utility/check";
-
-//checkAllergies/Conditions compare food ingredients allergies & conditions respectively 
+import ChildBackButton from "../../components/ChildBackButton";
+// import routes from "../../navigation/routes";
 
 function ChildFoodAbout({ navigation, route }) {
-  const [allergic, setAllergic] = useState(null);
-  const [condition, setCondition] = useState(null);
-  const food = route.params;
-  const ingredients = food.product.ingredients_text;
-  const additives = food.product.additives;
-  let image = false;
-  let traces = false;
 
-  if (food.status) {
-    image = food.product.image_small_url;
-    traces = food.product.traces;
+  const { food, allergyConflicts, conditionConflicts, dietConflicts } = route.params;
+  const productName =
+    food?.product?.product_name ||
+    food?.product?.product_name_en ||
+    "Unknown Food";
 
-    useEffect(() => {
-      checkAllergies();
-      checkConditions();
-    }, []);
-  }
-  const checkAllergies = async () => {
-    const allergic = await check.checkAllergens(
-      food.product.ingredients_text,
-      food.product.traces
-    );
-    setAllergic(allergic);
-  };
-
-  const checkConditions = async () => {
-    const condition = await check.checkConditions(food.product.nutriments);
-    setCondition(condition);
-  };
+  const image = food?.product?.image_small_url || null;
+  const traces = food?.product?.traces_tags || [];
+  const additives = food?.product?.additives || null;
 
 //displayes image of food item if available
   return (
     <ScrollView>
       <Screen style={styles.screen}>
         <View style = {styles.container}>
-          {image ? (
-              <Image
-                source={{ uri: food.product.image_small_url }}
-                style={{
-                  height: 250,
-                  width: 250,
-                  borderColor: colors.secondary,
-                  borderWidth: 8,
-                  marginBottom: 20,
-                }}
-              />
-            ) : null}
+          <View style={styles.backButton}>
+            <ChildBackButton
+                title="<<   GO BACK"
+                onPress={() => navigation.goBack()} // adding goBack() makes screen slide from left to right
+            />
+          </View>
 
-          {allergic ? (
-                <>
-                  <AppText style={styles.allergy}>
-                    **Warning! This food contains {allergic} which you are allergic to. 
-                  </AppText>
-                </>
-              ) : null}
+          <AppText style = {styles.title}>Food Details</AppText> 
 
-          {traces ? <AppText style = {styles.text}> May also contain traces of:{food.product.traces}.</AppText>: null}
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={styles.image}
+            />
+          )}
 
-          {condition ? (
-                <>
-                  <AppText style = {styles.tips}>*ADAM'S TIP*</AppText>
-                  <AppText style={styles.text}>-{condition}</AppText>
-                </>
-              ) : null}
+          <AppText style={styles.subTitle}>What's in {productName}?</AppText>
 
-          <AppText style = {styles.title1}>Food Details</AppText> 
+          {/* allergy */}
+          {allergyConflicts?.length > 0 && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningHeader}>
+                These could trigger your allergies:
+              </AppText>
+
+              {allergyConflicts?.map((item, i) => (
+                <AppText key={i} style={styles.bullet}>
+                  • {item}
+                </AppText>
+              ))}
+            </View>
+          )}
+
+          {/* condition */}
+          {conditionConflicts?.length > 0 && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningHeader}>
+                These could worsen your health conditions:
+              </AppText>
+
+              {conditionConflicts?.map((item, i) => (
+                <AppText key={i} style={styles.bullet}>
+                  • {item}
+                </AppText>
+              ))}
+            </View>
+          )}
+
+          {/* diet */}
+          {dietConflicts?.length > 0 && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningHeader}>
+                These may not follow your diet:
+              </AppText>
+
+              {dietConflicts?.map((item, i) => (
+                <AppText key={i} style={styles.bullet}>
+                  • {item}
+                </AppText>
+              ))}
+            </View>
+          )}
+
+          <View style={styles.sectionBox}>
+            {/* additives */}
+            <AppText style={styles.sectionTitle}>Additives:</AppText>
+            {additives ? (
+              <AppText style={styles.sectionText}>{additives}</AppText>
+            ) : (
+              <AppText style={styles.sectionText}>
+                Adam could not find additives for this item.
+              </AppText>
+            )}
+
+            {/* traces */}
+            {/* formats each trace found to remove everything before the colon (if there is one)
+                and add a comma and a space after each item if there are multiple
+            */}
+            <AppText style={styles.sectionTitle}>Possible Traces:</AppText>
+            {traces.length > 0 ? (
+              <AppText style={styles.sectionText}>
+                  {traces
+                    .map(t => {
+                      const clean = t.includes(":") ? t.split(":")[1] : t;
+                      return clean.replace("-", " ");
+                    })
+                    .join(", ")}
+              </AppText>
+              ) : (
+              <AppText style={styles.sectionText}>
+                Adam could not find traces for this item.
+              </AppText>
+            )}
+          </View>
+
+          {/* <AppText style = {styles.title}>Food Details</AppText> 
           <AppText style = {styles.title}>Item Name: </AppText> 
           <AppText style = {styles.text}>{food.product.product_name}</AppText> 
 
@@ -99,62 +142,102 @@ function ChildFoodAbout({ navigation, route }) {
           {ingredients ? <AppText style = {styles.text}>{food.product.ingredients_text}</AppText> :<AppText style = {styles.text}>Adam does not have the list of ingredients for this item.</AppText>}
 
           <AppText style = {styles.title}>Additives: </AppText> 
-          {additives ? <AppText style = {styles.text}>{food.product.additives}. </AppText> :<AppText style = {styles.text}>Adam does not have the list of additives for this item.</AppText>}
-
-          <ChildButtonFood
-            title="<<   GO BACK"
-            onPress={() => navigation.navigate(routes.CHILD_FOODITEM)}/>
+          {additives ? <AppText style = {styles.text}>{food.product.additives}. </AppText> :<AppText style = {styles.text}>Adam does not have the list of additives for this item.</AppText>} */}
         </View>
       </Screen>
     </ScrollView>
   );
 }
-//Above code displayes warning if allergy &/or condition matches ingredients & food info
 
 //how every part looks on the screen
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor:colors.light,
+    backgroundColor: colors.light,
   },
-
   container: {
     alignItems: 'center',
-    justifyContent: 'center',
-},
-
+    // justifyContent: 'center',
+    padding: 20,
+    paddingBottom: 90,
+  },
+  backButton: {
+    marginBottom: 30,
+  },
+  image: {
+    height: 250,
+    width: 250,
+    borderColor: colors.secondary,
+    borderRadius: 25,
+    borderWidth: 8,
+    marginBottom: 20,
+  },
   title: {
+    // paddingTop: 5,
+    fontSize: 50,
+    fontWeight: "bold",
+    color: colors.secondary,
+    marginBottom: 15,
+    textAlign: "center",
+    // alignSelf: 'center',
+    // paddingBottom: 10,
+    // textDecorationLine: 'underline'
+  },
+  subTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: colors.eltrdarkblue,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  warningBox: {
+    backgroundColor: "#ffeaea",
+    padding: 14,
+    marginTop: 20,
+    borderWidth: 5,
+    borderColor: colors.eltrred,
+    borderRadius: 15,
+    width: "90%",
+    alignItems: "center",
+  },
+  warningHeader: {
     fontSize: 22,
     fontWeight: "bold",
     color: colors.danger,
+    alignSelf: "flex-start",
+    marginBottom: 4,
+  },
+  text: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  bullet: {
+    fontSize: 20,
+    alignSelf: "flex-start",
+    marginLeft: 20,
+    marginBottom: 4,
   },
 
-  title1: {
-    paddingTop: 5,
-    fontSize: 32,
+  sectionBox: {
+    backgroundColor: "#f2faff",
+    padding: 14,
+    marginTop: 20,
+    borderWidth: 5,
+    borderColor: colors.secondary,
+    borderRadius: 15,
+    width: "90%",
+    alignItems: "center",
+  },
+  sectionTitle: {
+    fontSize: 25,
     fontWeight: "bold",
     color: colors.secondary,
-    alignSelf: 'center',
-    paddingBottom: 10,
-    textDecorationLine: 'underline'
+    marginBottom: 4,
   },
-
-  text: {
-    fontSize: 18,
-    paddingBottom: 10
+  sectionText: {
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 10,
   },
-
-  allergy: {
-    backgroundColor:colors.danger,
-    fontSize: 22,
-    fontWeight: "bold",
-    color: colors.white,
-    marginBottom:10    
-  },
-  tips: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: colors.eltrgreen,
-    textDecorationLine: 'underline'
-  }
 });
 export default ChildFoodAbout;

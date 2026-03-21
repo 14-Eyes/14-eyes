@@ -53,7 +53,7 @@ function SponsoredBy({ navigation }) {
 	  <View style={styles.buttonContainer}>
 		<CloseButton
 		  title="X"
-		  onPress={() => navigation.navigate(routes.APPNAVIGATOR)}
+		  onPress={() => navigation.replace("RootNavigator")}
 	    />
 	  </View>
       <Image
