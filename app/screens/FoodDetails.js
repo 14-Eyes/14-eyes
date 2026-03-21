@@ -60,8 +60,9 @@ function FoodDetails({ route }) {
     avoid: [],
     certifications: [],
     offConflicts: [],
-    badNutri: false,
     nutrientViolations: [],
+    novaConflicts: [],
+    badNutri: false
   });
 
   //arrays to store the results of any sugar matches for GOOD SUGARS
@@ -196,6 +197,7 @@ function FoodDetails({ route }) {
               avoid: dietResults.avoid || [],
               certifications: dietResults.certifications || [],
               offConflicts: dietResults.offConflicts || [],
+              novaConflicts: dietResults.novaConflicts || [],
               badNutri: dietResults.badNutri || false,
               nutrientViolations: dietResults.nutrientViolations || [],
             });
@@ -497,23 +499,9 @@ function FoodDetails({ route }) {
                   .map((d, index) => (
                     <View key={`diet-other-${index}`} style={{ marginTop: 8 }}>
 
-                      {/* NOVA CONFLICT */}
-                      {d.novaConflict && (
-                        <AppText style={{ fontSize: 16 }}>
-                          This product is classified as{" "}
-                          <AppText style={{ color: colors.eltrdarkred}}>
-                            NOVA Group {product.novaGroup}
-                          </AppText>
-                          {" "}which conflicts with your{" "}
-                          <AppText style={{ fontWeight: "bold" }}>
-                            {d.diet}
-                          </AppText>
-                          {" "}diet.
-                        </AppText>
-                      )}
-
                       {/* MISSING CERTIFICATION (ex: Organic) */}
-                      {!d.hasOfficialCert && !d.novaConflict && (
+                      {d.requiresCert && !d.hasOfficialCert && (
+                        <>
                         <AppText style={{ fontSize: 16 }}>
                           This product{" "}
                           <AppText style={{ color: colors.eltrdarkred}}>
@@ -525,23 +513,57 @@ function FoodDetails({ route }) {
                           </AppText>
                           {" "}certification.
                         </AppText>
-                      )}
-
-                      {barcode && (
-                        <AppText
-                          style={[{ fontSize: 16, color: colors.eltrdarkblue }]}
-                          onPress={() =>
-                            Linking.openURL(
-                              `https://world.openfoodfacts.org/products/${barcode}`
-                            )
-                          }
-                        >
-                          Learn more
-                        </AppText>
+                      
+                        {barcode && (
+                          <AppText
+                            style={[{ fontSize: 16, color: colors.eltrdarkblue }]}
+                            onPress={() =>
+                              Linking.openURL(
+                                `https://world.openfoodfacts.org/products/${barcode}`
+                              )
+                            }
+                          >
+                            Learn more
+                          </AppText>
+                        )}
+                        </>
                       )}
                     </View>
                 ))}
 
+                {/* NOVA (processed) CONFLICT */}
+                {dietMatches.novaConflicts.length > 0 && (
+                  <>
+                    {dietMatches.novaConflicts.map((d, index) => (
+                      <View key={`nova-${index}`} style={{ marginTop: 8 }}>
+                        <AppText style={{ fontSize: 16 }}>
+                          This product is classified as{" "}
+                          <AppText style={{ color: colors.eltrdarkred }}>
+                            NOVA Group {d.novaGroup}
+                          </AppText>
+                          {" "}which conflicts with your{" "}
+                          <AppText style={{ fontWeight: "bold" }}>
+                            {d.diet}
+                          </AppText>
+                          {" "}diet.
+                        </AppText>
+
+                        {barcode && (
+                          <AppText
+                            style={{ fontSize: 16, color: colors.eltrdarkblue }}
+                            onPress={() =>
+                              Linking.openURL(
+                                `https://world.openfoodfacts.org/products/${barcode}`
+                              )
+                            }
+                          >
+                            Learn more
+                          </AppText>
+                        )}
+                      </View>
+                    ))}
+                  </>
+                )}
 
                 {/* INGREDIENT-BASED DIET CONFLICTS */}
                 {dietMatches.avoid
