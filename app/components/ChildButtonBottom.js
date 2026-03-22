@@ -21,7 +21,7 @@ import { StyleSheet, Platform, Text, TouchableOpacity } from "react-native";
 
 import colors from "../config/colors";
 
-function ChildButtonBottom({ title, onPress, color = "secondary" }) {
+function ChildButtonBottom({ title, onPress, color = "eltrgreen" }) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 25,
     color: colors.white,
     textTransform: "uppercase",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",

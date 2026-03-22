@@ -16,10 +16,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { onAuthStateChanged } from 'firebase/auth';
 
+// import AppNavigator from "./app/navigation/AppNavigator";
+// import ChildNavigator from "./app/navigation/ChildNavigator";
+import RootNavigator from "./app/navigation/RootNavigator";
+
 import navigationTheme from "./app/navigation/navigationTheme";
 import AdNavigator from "./app/navigation/AdNavigator";
-import AppNavigator from "./app/navigation/AppNavigator";
-import ChildNavigator from "./app/navigation/ChildNavigator";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import AuthContext from "./app/auth/context";
 import { auth } from "./app/config/firebase";
@@ -58,33 +60,14 @@ export default function App() {
       <AuthContext.Provider value={{ user, setUser, username, setUsername }}>
         <NavigationContainer theme={navigationTheme}>
           {user ? (
-            <Stack.Navigator>
-              {/* Sponsor / Ad screen */}
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen
                 name="AppSponsor"
                 component={AdNavigator}
-                options={{ headerShown: false }}
-              />
-
-              {/* Intro Video screen (conditional) */}
-              {showIntro && (
-                <Stack.Screen
-                  name="IntroVidScreeen"
-                  component={IntroVidScreeen}
-                  options={{ headerShown: false }}
-                />
-              )}
-
-              {/* Main app screens */}
-              <Stack.Screen
-                name="AppNavigator"
-                component={AppNavigator}
-                options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="ChildNavigator"
-                component={ChildNavigator}
-                options={{ headerShown: false }}
+                name="RootNavigator"
+                component={RootNavigator}
               />
             </Stack.Navigator>
           ) : (

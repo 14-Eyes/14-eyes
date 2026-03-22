@@ -137,7 +137,7 @@ function SettingsScreen( { navigation } ) {
 			source={require("../assets/appsponsor.png")}
 		/>
 		<Text style={styles.bot}>
-			Eat Like The Rainbow App 2025  |  Version 1.0.6
+			Eat Like The Rainbow App 2026  |  Version 2.0
 		</Text>
 	</Screen>
   );

@@ -22,11 +22,15 @@ import { StyleSheet, Platform, Text, TouchableOpacity } from "react-native";
 
 import colors from "../config/colors";
 
-function ChildBackButton({ title, onPress, color = "eltrgreen" }) {
+function ChildBackButton({ title, onPress, color = "eltrgreen", height }) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, { backgroundColor: colors[color] }]}
+      style={[
+        styles.button, 
+        { backgroundColor: colors[color] }, 
+        height && { height: height } // height is conditional + passed from screen files
+      ]}
     >
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
@@ -35,7 +39,7 @@ function ChildBackButton({ title, onPress, color = "eltrgreen" }) {
 
 const styles = StyleSheet.create({
   button: {
-    height: "40%",
+    // height: "40%",
     width: 180,
     borderRadius: 30,
     justifyContent: "center",

@@ -69,50 +69,34 @@ const SponsoredBy = ({ navigation }) => {
           </View>
           <Image style={styles.bottom} source={require("../assets/adamapple.png")} />
 
-          {/* Top-right buttons: Cross and Skip */}
-          {user && user.showIntro !== false && (
-            <View style={styles.topRightButtons}>
-              <TouchableOpacity style={styles.topBtn} onPress={() => setPhase("video")}>
-                <Text style={styles.topBtnText}>Continue</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.topBtn} onPress={handleFinishVideo}>
-                <Text style={styles.topBtnText}>Skip</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </FadeInView>
-      </View>
-    );
-  }
-
-  // Phase 2: Video
-  if (phase === "video") {
-    return (
-      <View style={styles.videoContainer}>
-        <Video
-          ref={videoRef}
-          style={styles.fullScreenVideo}
-          source={require("../assets/videos/introHuman.mp4")}
-          resizeMode="contain"
-          shouldPlay
-          isLooping={false}
-          onPlaybackStatusUpdate={(status) => {
-            if (status.didJustFinish) handleFinishVideo();
-          }}
-        />
-
-        {/* Top-right buttons: Cross and Skip */}
-        <View style={styles.topRightButtons}>
-          <TouchableOpacity style={styles.topBtn} onPress={handleFinishVideo}>
-            <Text style={styles.topBtnText}>Skip Video</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
-  return null;
-};
+function SponsoredBy({ navigation }) {
+  return (
+    <View style={styles.container}>
+	<FadeInView style={{flex:1, width: "100%", height: "100%", alignItems: "center", justifyContent: "center"}}>
+	  <View style={styles.buttonContainer}>
+		<CloseButton
+		  title="X"
+		  onPress={() => navigation.replace("RootNavigator")}
+	    />
+	  </View>
+      <Image
+        style={styles.logo}
+        source={require("../assets/sponsoredby.png")}
+      ></Image>
+	  <View style={styles.sponsor}>
+		<Image
+		  style={styles.sponsor}
+		  source={require("../assets/appsponsor.png")}
+		></Image>
+	  </View>
+	  	<Image
+		  style={styles.bottom}
+		  source={require("../assets/adamapple.png")}
+		></Image>
+		</FadeInView>
+	</View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: "center", justifyContent: "center" },

@@ -15,7 +15,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { View, StyleSheet, ActivityIndicator, Text, Animated, } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Text, Animated, Button, } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 
@@ -87,7 +87,7 @@ function ScanningScreen({ navigation }) {
       </View>
     );
 
- return (
+  return (
     <View style={styles.container}>
 
     {/* un-comment below block to simulate barcode scan on android studio */}
