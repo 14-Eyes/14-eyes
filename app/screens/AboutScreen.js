@@ -16,18 +16,16 @@ import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 
-//what information is being displayed
-
 function AboutScreen(props) {
   return (
     <Screen style={styles.container}>
       <ScrollView>
         <Image
-          style={styles.pic}
+          style={styles.rainbowPic}
           source={require("../assets/eltrRainbow.png")}
         />
 
-{/* SOCIAL MEDIA ICONS SECTION */}
+        {/* SOCIAL MEDIA ICONS SECTION */}
         <View style={styles.socialContainer}>
 
           {/* Instagram combined */}
@@ -67,31 +65,45 @@ function AboutScreen(props) {
             <Image source={require("../assets/youtube.png")} style={styles.socialIcon} />
           </Pressable>
 
-          </View>
+        </View>
 
        <View style={styles.socialContainer}>
-
           <Pressable onPress={() => Linking.openURL("https://www.tiktok.com/@chef.cathy.zeis?is_from_webapp=1&sender_device=pc")}>
             <Image source={require("../assets/tiktok.png")} style={styles.socialIcon} />
           </Pressable>
-
+          
           <Pressable onPress={() => Linking.openURL("https://www.lemon8-app.com/@chef.cathy.zeis")}>
             <Image source={require("../assets/lemon8.png")} style={styles.socialIcon} />
           </Pressable>
-
+          
           <Pressable onPress={() => Linking.openURL("https://truthsocial.com/@eatliketherainbow")}>
             <Image source={require("../assets/truthsocial.png")} style={styles.socialIcon} />
           </Pressable>
-
+          
           <Pressable onPress={() => Linking.openURL("https://www.linkedin.com/in/cathy-zeis-292988b/")}>
             <Image source={require("../assets/linkedin.png")} style={styles.socialIcon} />
           </Pressable>
-
         </View>
         
+        <AppText style={styles.title}>Welcome to the Eat Like The Rainbow™ App!</AppText>
+        <AppText style={styles.text}>
+          This app is created by people who care about food, for people who care about food.
+          Learn more about what's in the food you're purchasing by using the barcode scanner,
+          read facts about the ingredients in your food on the Home page,
+          try out some Chef Cathy Zeis recommended recipes on the Recipes page,
+          and get help planning your grocery store trip on the Budget page.
+          You can even transform the app into a simple and fun educational experience for your child by
+          switching to Child Mode. Check out our FAQ page
+          for more information about how to use the app.
+          {"\n\n"}
+          You can read more information about the Eat Like The Rainbow™ project and Chef Cathy Zeis below, or you can check out the socials linked 
+          above for direct access to Chef Cathy Zeis' platforms! 
+        </AppText>
+
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
         <AppText style={styles.text}>
-          <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>Eat Like The Rainbow™</Text> is a naturally done non-profit, catering to the
+          <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>
+          Eat Like The Rainbow™</Text> is a naturally done non-profit, catering to the
           youngest palates. Kindergarten through 4th grade are pivotal years in
           developing major lifestyle characteristics that will guide our future
           leaders into childhood and beyond. From religious beliefs, to sleeping
@@ -100,6 +112,10 @@ function AboutScreen(props) {
         </AppText>
 
         <AppText style={styles.title}>Meet Chef Cathy Zeis</AppText>
+        <Image
+          style={styles.cathyPic1}
+          source={require("../assets/cathyHeadshot.png")}
+        />
         <AppText style={styles.text}>
           I am an all-natural chef who creates healthy food plans for those who
           are humbled by disease. I also passionately create healthy cuisine for
@@ -113,22 +129,43 @@ function AboutScreen(props) {
           I love educating people on how the simplest ingredients can power our
           bodies. After all, our bodies are the most amazing machines ever
           created! I’ll teach you how to fuel it…naturally! For more information about me
-          and many recipes, visit my <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>website</Text>!
+          and many recipes, visit <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
           For more information on certain topics, you can also check out some resources in the library below!
+        </AppText>
+
+        <AppText style={styles.title}>Meet the team that brought the app to life!</AppText>
+        <Image
+          style={styles.eltrTeamPic}
+          source={require("../assets/cathyHeadshot.png")}
+        />
+        <AppText style={styles.text}>
+          From left to right: blah blah, blahdy blah, xxx yyy, xyz xyz, first last
         </AppText>
 
         <AppText style={styles.title}>Library</AppText>
 
-        <Text style={styles.header1}>Athletic Lifestyle</Text>
-        <Text style={styles.text1}>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389')}>Exercise: 7 benefits of regular physical activity</Text>{'\n'}</Text>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.lancastergeneralhealth.org/health-hub-home/2020/march/what-athletes-should-eat-back-to-the-basic-food-groups')}>What Athletes Should Eat: Back to the Basic Food Groups</Text>{'\n'}</Text>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.uwhealth.org/news/eating-for-peak-athletic-performance')}>Eating for peak athletic performance</Text>{'\n'}</Text>
-          <Text>{'\u2022'}<Text style={styles.link1} onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20045506')}>Eating and exercise: 5 tips to maximize your workouts</Text>{'\n'}</Text>
-        </Text>
+        <Text style={styles.subTitle}>Athletic Lifestyle</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389')}>
+              Exercise: 7 benefits of regular physical activity
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.lancastergeneralhealth.org/health-hub-home/2020/march/what-athletes-should-eat-back-to-the-basic-food-groups')}>
+              What Athletes Should Eat: Back to the Basic Food Groups
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.uwhealth.org/news/eating-for-peak-athletic-performance')}>
+              Eating for peak athletic performance
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20045506')}>
+              Eating and exercise: 5 tips to maximize your workouts
+          </Text>
+        </View>
 
         <Image
-          style={styles.pic}
+          style={styles.cathyPic2}
           source={require("../assets/cathyHeadshot.png")}
         />
       </ScrollView>
@@ -136,52 +173,104 @@ function AboutScreen(props) {
   );
 }
 
-//how info is being displayed
-
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     backgroundColor: colors.light,
+  },
+  rainbowPic: {
+    alignSelf: "center",
+    width: 300,
+    height: 210,
+    marginTop: 10,
+    marginBottom: 10,
   },
   title: {
     color: colors.primary,
-    fontSize: 23,
+    fontSize: 35,
     marginBottom: 5,
     marginTop: 25,
     textAlign: "center",
   },
   text: {
     textAlign: "center",
-    fontSize: 18,
-  },
-  pic: {
-    alignSelf: "center",
-    width: 280,
-    height: 190,
-    marginBottom: 10,
+    fontSize: 20,
   },
   link1: {
+    fontSize: 20,
     color: colors.eltrdarkblue,
     fontWeight: "bold",
     textDecorationLine: "underline",
+    marginVertical: 5,
+    textAlign: "center",
+  },
+  subTitle: {
+    // color: colors.primary,
+    fontSize: 22,
+    marginTop: 10,
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  linkContainer: {
     alignItems: "center",
-    justifyContent: "center",
+    marginBottom: 15,
+  },
+  link2: {
+    fontSize: 16,
+    color: colors.eltrdarkblue,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    marginVertical: 5,
+    textAlign: "center",
+  },
+  cathyPic1: {
+    alignSelf: "center",
+    width: 250,
+    height: 170,
+    marginTop: 5,
+    marginBottom: 10,
+    borderRadius: 5,
+    borderWidth: 2,
+  },
+  eltrTeamPic: {
+    alignSelf: "center",
+    width: 250,
+    height: 170,
+    marginTop: 5,
+    marginBottom: 10,
+    borderRadius: 5,
+    borderWidth: 2,
+  },
+  cathyPic2: {
+    alignSelf: "center",
+    width: 320,
+    height: 210,
+    marginBottom: 5,
   },
 
   socialContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 10,
+    marginVertical: 5,
+    // iOS Shadow properties
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+    // Android Elevation property
+    elevation: 1,
   },
   socialIcon: {
-    width: 40,
-    height: 40,
-    marginHorizontal: 6,
+    width: 45,
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.eltrdarkblue,
+    marginHorizontal: 10,
   },
 });
 

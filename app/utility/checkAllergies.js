@@ -20,7 +20,7 @@ export async function checkAllergies(ingredientsText, allergensTags = [], nutrie
 
         // if user has no allergies stored, set allergy arrays to empty, exit and do not continue running the function
         if (userAllergies.length === 0) {
-            return { avoid: [] };
+            return { avoid: [], offAllergen: [] };
         }
 
         // load the big allergies document from Firebase (inside objects collection); uses AsyncStorage
@@ -36,21 +36,23 @@ export async function checkAllergies(ingredientsText, allergensTags = [], nutrie
         // --- Scan all ingredients and allergies for text matches ---
         const lowerIngredients = ingredientsText.toLowerCase();
         const found = new Map();
+        const offMatches = new Map();
 
         const lowerTags = allergensTags.map(tag =>
             tag.replace(/^en:/, "").trim().toLowerCase()
         );
 
         active.forEach((allergy) => {
+            const label = allergy.label.toLowerCase();
+            lowerTags.forEach(tag => {
+                if (tag.includes(label)) {
+                    offMatches.set(tag, allergy.label);
+                }
+            });
+            
             // scan for bad matches; store in avoid
             allergy.avoid.forEach((raw) => {
                 const a = raw.trim().toLowerCase();
-
-                lowerTags.forEach(tag => {
-                    if (tag.includes(a) || a.includes(tag)) {
-                        found.set(a, allergy.label);
-                    }
-                });
 
                 if (lowerIngredients.includes(a)) {
                     found.set(a, allergy.label);
@@ -64,6 +66,12 @@ export async function checkAllergies(ingredientsText, allergensTags = [], nutrie
             avoid: Array.from(found.entries()).map(
                 ([ingredient, allergy]) => ({
                     ingredient,
+                    allergy,
+                })
+            ),
+            offAllergen: Array.from(offMatches.entries()).map(
+                ([tag, allergy]) => ({
+                    ingredient: tag,
                     allergy,
                 })
             ),
