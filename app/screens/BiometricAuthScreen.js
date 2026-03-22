@@ -5,36 +5,66 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 export default function BiometricAuthScreen({ navigation }) {
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported, setIsSupported] = useState(false); // device supports biometrics
+  const [failedAttempts, setFailedAttempts] = useState(0); // track failed attempts
+  const MAX_ATTEMPTS = 3; // fallback to password after this
 
+  // Check if device has biometric hardware and user enrolled biometrics
   useEffect(() => {
+    const checkBiometric = async () => {
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      const enrolled = await LocalAuthentication.isEnrolledAsync();
+
+      if (hasHardware && enrolled) setIsSupported(true);
+      else
+        Alert.alert(
+          "Biometrics not available",
+          "Your device does not support Face ID or Fingerprint"
+        );
+    };
+
     checkBiometric();
   }, []);
 
-  const checkBiometric = async () => {
-    const hasHardware = await LocalAuthentication.hasHardwareAsync();
-    const enrolled = await LocalAuthentication.isEnrolledAsync();
-
-    if (hasHardware && enrolled) {
-      setIsSupported(true);
-    } else {
-      Alert.alert(
-        "Biometrics not available",
-        "Your device does not support Face ID or Fingerprint"
-      );
-    }
-  };
-
+  // Function to authenticate via biometrics
   const authenticate = async () => {
-    const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: "Login to ELTR",
-      fallbackLabel: "Use Passcode",
-    });
+    if (!isSupported) return;
 
-    if (result.success) {
-      navigation.replace("AppNavigator");
-    } else {
-      Alert.alert("Authentication failed");
+    try {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Use Face ID or Touch ID to login", // friendly message
+        fallbackLabel: "Use Password", // fallback button text
+        disableDeviceFallback: false, // allow device passcode fallback
+      });
+
+      if (result.success) {
+        // Reset failed attempts on success
+        setFailedAttempts(0);
+
+        // Navigate to SponsoredBy screen after successful login
+        navigation.replace("SponsoredBy");
+      } else {
+        // Increment failed attempts
+        const attempts = failedAttempts + 1;
+        setFailedAttempts(attempts);
+
+        if (attempts >= MAX_ATTEMPTS) {
+          // After 3 failed attempts, fallback to password
+          Alert.alert(
+            "Too many failed attempts",
+            "Please use your password to login.",
+            [{ text: "OK", onPress: () => navigation.replace("Login") }]
+          );
+        } else {
+          Alert.alert(
+            "Authentication failed",
+            `Attempt ${attempts} of ${MAX_ATTEMPTS}`
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Biometric authentication error:", error);
+      Alert.alert("Error", "Biometric authentication failed. Please try again.");
     }
   };
 
@@ -49,13 +79,14 @@ export default function BiometricAuthScreen({ navigation }) {
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.replace("Login")}>
         <Text style={styles.skipText}>Use Password Instead</Text>
       </TouchableOpacity>
     </Screen>
   );
 }
 
+// Styles - matches your existing UI
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
   title: { fontSize: 26, fontWeight: "bold", marginBottom: 10 },
