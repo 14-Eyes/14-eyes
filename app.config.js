@@ -62,6 +62,7 @@ export default {
             "Allow Eat Like The Rainbow to access your camera for barcode scanning.",
         },
       ],
+      "expo-video"
     ],
 
     extra: {
