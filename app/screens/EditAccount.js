@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: 250,
   },
   securitySection: {
-    marginTop: 30,
+    marginTop: 7,
     marginBottom: 20,
     paddingHorizontal: 20,
   },
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    padding: 10,
     backgroundColor: colors.white,
     borderRadius: 12,
     shadowColor: "#000",
