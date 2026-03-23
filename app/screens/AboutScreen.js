@@ -8,21 +8,34 @@
  */
 
 import React from "react";
-import { StyleSheet, ScrollView, Text, Image, Linking, View, Alert } from "react-native";
-import { Pressable } from "react-native-gesture-handler";
-import { block } from "react-native-reanimated";
+import { useEvent } from 'expo';
+import { StyleSheet, ScrollView, Text, Image, Linking, View, Alert, Button, Pressable } from "react-native";
+// import { Pressable } from "react-native-gesture-handler";
+import { VideoView, useVideoPlayer } from "expo-video";
 
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 function AboutScreen(props) {
+  
+  const player = useVideoPlayer(
+    require("../assets/videos/introHuman.mp4"),
+    (player) => {
+      player.loop = true;
+      player.pause();
+      // player.play();
+    }
+  );
+
+  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+
   return (
     <Screen style={styles.container}>
       <ScrollView>
         <Image
           style={styles.rainbowPic}
-          source={require("../assets/eltrRainbow.png")}
+          source={require("../assets/eltrRainbow_new.png")}
         />
 
         {/* SOCIAL MEDIA ICONS SECTION */}
@@ -84,10 +97,15 @@ function AboutScreen(props) {
             <Image source={require("../assets/linkedin.png")} style={styles.socialIcon} />
           </Pressable>
         </View>
-        
+
         <AppText style={styles.title}>Welcome to the Eat Like The Rainbow™ App!</AppText>
         <AppText style={styles.text}>
-          This app is created by people who care about food, for people who care about food.
+          This app was created by people who care about food and your health! Godsource Foods™,
+          foods created by God, are preventative medicine. Our app will enable you to
+          confidently maneuver the marketing traps of the grocery store and empower you to shop with food
+          wisdom and healthy, minded choices that will keep you and your family from falling
+          prey to the fake food that occupies our grocery shelves.
+          {"\n\n"}
           Learn more about what's in the food you're purchasing by using the barcode scanner,
           read facts about the ingredients in your food on the Home page,
           try out some Chef Cathy Zeis recommended recipes on the Recipes page,
@@ -101,6 +119,10 @@ function AboutScreen(props) {
         </AppText>
 
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
+        <VideoView
+          style={styles.video}
+          player={player}
+        />
         <AppText style={styles.text}>
           <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>
           Eat Like The Rainbow™</Text> is a naturally done non-profit, catering to the
@@ -114,7 +136,7 @@ function AboutScreen(props) {
         <AppText style={styles.title}>Meet Chef Cathy Zeis</AppText>
         <Image
           style={styles.cathyPic1}
-          source={require("../assets/cathyHeadshot.png")}
+          source={require("../assets/cathyHeadshotNew.png")}
         />
         <AppText style={styles.text}>
           I am an all-natural chef who creates healthy food plans for those who
@@ -139,7 +161,7 @@ function AboutScreen(props) {
           source={require("../assets/cathyHeadshot.png")}
         />
         <AppText style={styles.text}>
-          From left to right: blah blah, blahdy blah, xxx yyy, xyz xyz, first last
+          From left to right: person one, person two, person three, person four, person five
         </AppText>
 
         <AppText style={styles.title}>Library</AppText>
@@ -183,9 +205,22 @@ const styles = StyleSheet.create({
   },
   rainbowPic: {
     alignSelf: "center",
-    width: 300,
-    height: 210,
+    width: 230,
+    height: 230,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.white,
     marginTop: 10,
+    marginBottom: 10,
+  },
+  video: {
+    width: "50%",
+    height: 300, // fixed height avoids flex issues
+    backgroundColor: colors.primary,
+    alignSelf: "center",
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: colors.primary,
     marginBottom: 10,
   },
   title: {
@@ -228,8 +263,8 @@ const styles = StyleSheet.create({
   },
   cathyPic1: {
     alignSelf: "center",
-    width: 250,
-    height: 170,
+    width: 200,
+    height: 240,
     marginTop: 5,
     marginBottom: 10,
     borderRadius: 5,
@@ -261,8 +296,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 1,
-    // Android Elevation property
-    elevation: 1,
   },
   socialIcon: {
     width: 45,
@@ -271,6 +304,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.eltrdarkblue,
     marginHorizontal: 10,
+    // Android Elevation property
+    elevation: 3,
   },
 });
 
