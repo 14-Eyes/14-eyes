@@ -62,10 +62,6 @@ export default function App() {
           {user ? (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen
-                name="AppSponsor"
-                component={AdNavigator}
-              />
-              <Stack.Screen
                 name="RootNavigator"
                 component={RootNavigator}
               />

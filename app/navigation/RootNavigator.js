@@ -8,15 +8,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppNavigator from "./AppNavigator"; // base navigator
 import ChildNavigator from "./ChildNavigator"; // child navigator
 import ModeContext from "../auth/ModeContext";
+import SponsoredBy from "../screens/SponsoredBy";
 
 const Stack = createStackNavigator();
 
 export default function RootNavigator() {
-    const [mode, setMode] = useState(null); // null until loaded
-  
+    const [mode, setModeState] = useState(null); // null until loaded
+    const [bootComplete, setBootComplete] = useState(false);
+
     // this has the app load to "adult" mode every time it is reloaded or opened
     // if we want to use this we need to remove the below useEffect blocks
     // const [mode, setMode] = useState("adult"); 
+
+    // save mode in AsyncStorage whenever it changes
+    const setMode = async (newMode) => {
+        try {
+            await AsyncStorage.setItem("APP_MODE", newMode);
+            setModeState(newMode);
+        } catch (e) {
+            console.log("Error saving mode", e);
+            setModeState(newMode);
+        }
+    };
 
     // load whatever the last used mode was when app starts
     useEffect(() => {
@@ -24,30 +37,26 @@ export default function RootNavigator() {
             try {
                 const savedMode = await AsyncStorage.getItem("APP_MODE");
 
-                if (savedMode) {
-                    setMode(savedMode);
-                } else {
-                    setMode("adult"); // default mode
-                }
+                setModeState(savedMode || "adult"); // adult is default mode
             } catch (error) {
                 console.log("Error loading mode:", error);
-                setMode("adult");
+                setModeState("adult");
             }
         };
 
         loadMode();
     }, []);
 
-    // save mode in AsyncStorage whenever it changes
-    useEffect(() => {
-        const saveMode = async () => {
-            if (mode) {
-                await AsyncStorage.setItem("APP_MODE", mode);
-            }
-        };
+    // // save mode in AsyncStorage whenever it changes
+    // useEffect(() => {
+    //     const saveMode = async () => {
+    //         if (mode) {
+    //             await AsyncStorage.setItem("APP_MODE", mode);
+    //         }
+    //     };
 
-        saveMode();
-    }, [mode]);
+    //     saveMode();
+    // }, [mode]);
 
     // prevent navigator from rendering before mode loads
     if (!mode) return null;
@@ -55,7 +64,17 @@ export default function RootNavigator() {
     return (
         <ModeContext.Provider value={{ mode, setMode }}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {mode === "adult" ? (
+            
+            {!bootComplete ? (
+                <Stack.Screen name="SponsoredBy">
+                    {(props) => (
+                    <SponsoredBy
+                        {...props}
+                        onFinish={() => setBootComplete(true)}
+                    />
+                    )}
+                </Stack.Screen>
+            ) : mode === "adult" ? (
                 <Stack.Screen name="AdultApp" component={AppNavigator} />
             ) : (
                 <Stack.Screen name="ChildApp" component={ChildNavigator} />

@@ -1,11 +1,14 @@
 // IntroVidScreeen.js
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { auth, db } from "../config/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import ModeContext from "../auth/ModeContext";
 
 export default function IntroVidScreeen({ navigation }) {
+  const { mode } = useContext(ModeContext);
+  
   const player = useVideoPlayer(
     require("../assets/videos/introHuman.mp4"),
     (player) => {
@@ -23,11 +26,13 @@ export default function IntroVidScreeen({ navigation }) {
           showIntro: false
         });
       }
+
+      navigation.replace(
+        mode === "adult" ? "AdultApp" : "ChildApp"
+      );
     } catch (e) {
       console.log("Finish error:", e);
     }
-
-    navigation.replace("AppNavigator");
   };
 
   return (
