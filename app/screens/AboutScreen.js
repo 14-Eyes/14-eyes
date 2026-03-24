@@ -139,19 +139,34 @@ function AboutScreen(props) {
           source={require("../assets/cathyHeadshotNew.png")}
         />
         <AppText style={styles.text}>
-          I am an all-natural chef who creates healthy food plans for those who
-          are humbled by disease. I also passionately create healthy cuisine for
-          those who crave a healthier lifestyle. Based on the foods that were
-          created for us to feed our bodies from the very beginning, is the base
-          for all my plans. Whether you are fighting a disease like cancer,
-          heart disease, IBS, or obesity, this is where you want to be! If you
-          love and crave all natural, Godsource Foods™ as I do to maintain a
-          healthy lifestyle, then this is your place! It’s the combinations of
-          the foods that fuel our bodies. Foods can kill, but it can also heal!
-          I love educating people on how the simplest ingredients can power our
-          bodies. After all, our bodies are the most amazing machines ever
-          created! I’ll teach you how to fuel it…naturally! For more information about me
-          and many recipes, visit <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
+          This is God's talent, not mine! He puts it in my head and I throw it in a pan. 
+          I have spent most of my life around food. From my first job in a local grocery 
+          store in Connecticut at age 16 to creating healthy food plans for those humbled 
+          by disease, food is my life! Educating people about how Godsource Foods™, foods 
+          that were created by God, work in our bodies is my loaned talent. Helping fight 
+          chronic disease and childhood obesity through The Power of Godsource Foods™ is my 
+          passion. Creating healthy food plans and educational information is my calling. 
+          I am so very blessed to love what I have been called to do! 
+          {"\n\n"}
+          God created foods on days 3 and 5. He created us on day 6! He had an idea on how 
+          to feed us before He created us. As an all-natural chef, I study foods and how they 
+          work in our bodies. Foods created for us is preventative medicine. In today's grocery 
+          stores, marketing controls the aisles more than health. Because of this, we now have 
+          more obesity and chronic disease in the history of our world. This is all due to the 
+          processed foods, additives, dyes and sugars that make up our food. This is not acceptable 
+          in my food world! I strive each day to educate those looking to encourage their kids 
+          and change their own lifestyles in a healthy way by using the very foods available to us each day.
+          {"\n\n"}
+          Our nonprofit, <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>
+          Eat Like The Rainbow™</Text>, is my purpose. Helping change the way we see 
+          food and use food to fuel our bodies is a priority. Our next generation of leaders 
+          are our best learners! Helping them in a fun, interactive way through our free website 
+          and app are rewarding beyond belief. With each bite, each new taste or discovery, our 
+          kids need to know just how important they are and how the simple foods created just for 
+          them can and will help them flourish.
+          {"\n\n"}
+          For more information about me and many recipes, visit 
+          <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
           For more information on certain topics, you can also check out some resources in the library below!
         </AppText>
 
