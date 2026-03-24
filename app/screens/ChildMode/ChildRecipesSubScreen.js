@@ -1,5 +1,7 @@
 import React from "react";
+import { useEvent } from 'expo';
 import { StyleSheet, View, Platform, ScrollView, TouchableOpacity, Image, Text } from "react-native";
+import { VideoView, useVideoPlayer } from "expo-video";
 
 import AppText from "../../components/AppText";
 import Screen from "../../components/Screen";
@@ -11,6 +13,16 @@ import { childRecipes } from "../../config/recipes";
 function ChildRecipesSubScreen({ route, navigation }) {
   const { childRecipesId } = route.params;
   const recipe = childRecipes.find((r) => r.id === childRecipesId);
+
+  const player = useVideoPlayer(
+    recipe.video,
+    (player) => {
+      player.loop = true;
+      player.pause();
+    }
+  );
+
+  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
 
   // backup failsafe
   if (!recipe) {
@@ -49,6 +61,11 @@ function ChildRecipesSubScreen({ route, navigation }) {
         <AppText style={styles.text}>
           {recipe.description}
         </AppText>
+
+        <VideoView
+          style={styles.video}
+          player={player}
+        />
 
         {/* this is the code for the Figma design */}
         {/* I made this before looking at how Cathy sent her recipes :') */}
@@ -97,17 +114,27 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 21,
     textAlign: "center",
-    marginBottom: 50,
+    marginBottom: 30,
     marginLeft: 20,
     marginRight: 20,
   },
   image: {
     width: "75%",
-    height: 180,
+    height: 250,
     borderRadius: 10,
     alignSelf: "center",
     marginTop: 20,
     marginBottom: 20,
+  },
+  video: {
+    width: "60%",
+    height: 400, // fixed height avoids flex issues
+    backgroundColor: colors.eltrdarkblue,
+    alignSelf: "center",
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: colors.eltrdarkblue,
+    marginBottom: 10,
   },
   sectionTitle: {
     color: colors.black,

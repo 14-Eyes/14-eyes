@@ -427,7 +427,8 @@ export const childRecipes = [
     {
         id: "adam-apple",
         title: "Cinnamon Shake",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Adam Apple",
         ingredients: [
             "1 medium apple",
@@ -440,7 +441,8 @@ export const childRecipes = [
     {
         id: "nika-nut",
         title: "Nutty Yogurt",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Nika Queen of the Nuts",
         ingredients: [
             "1-8 oz. carton of Oikos Triple Zero yogurt",
@@ -452,7 +454,8 @@ export const childRecipes = [
     {
         id: "toddy-tomato",
         title: "Tomato Basil Soup",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/tomato-soup.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Toddy Tomato",
         ingredients: [
             "1-cup 100% tomato juice",
@@ -465,7 +468,8 @@ export const childRecipes = [
     {
         id: "mumu-mushroom",
         title: "Mushroom Pizza Melt",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Mumu Mushroom",
         ingredients: [
             "1 large Portabella Mushroom",
@@ -477,20 +481,25 @@ export const childRecipes = [
     },
     {
         id: "lulu-lemon",
-        title: "Bubble Water",
-        image: require("../assets/child_mode/image.png"),
+        title: "Lemon Slush",
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lulu Lemon",
         ingredients: [
-            "1-8 oz. glass filtered, spring water",
-            "1/4 cup sparkling, unflavored water (Topo Chico is a good choice)",
-            "Juice of 1/2 fresh, small lemon",
+            "1-1/2 cup 100% Dole pineapple juice",
+            "1/4 cup fresh pineapple, chunks",
+            "1-medium banana ",
+            "1/4 Opal apple, skin on",
+            "1/4 tsp ground ginger",
+            "Juice of 1/4 fresh lemon",
         ],
-        description: "In a portable bottle, add all ingredients. Take it outside when you play! LULU LEMON Bubble Water will keep you energized as you run and play. Enjoy!",
+        description: "Add all ingredients into a blender and blend until smooth, about 15 seconds. Serve immediately and garnish with a slice of fresh lemon. Yum!!!",
     },
     {
         id: "lazarus-lime",
         title: "Fruit Bowl",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lazarus Lime",
         ingredients: [
             "1 cup mixed fruit",
@@ -502,7 +511,8 @@ export const childRecipes = [
     {
         id: "garman-grape",
         title: "Tropical Delight",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Garman Grape",
         ingredients: [
             "1 cup seedless, red and green grapes",
@@ -514,7 +524,8 @@ export const childRecipes = [
     {
         id: "big-a-bee",
         title: "Honey Crunch",
-        image: require("../assets/child_mode/image.png"),
+        image: require("../assets/child_mode/lemon-slush.png"),
+        video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Big-A-Bee",
         ingredients: [
             "1 cup all natural granola",
