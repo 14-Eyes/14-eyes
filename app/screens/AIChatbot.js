@@ -27,8 +27,11 @@ function ChatBot({ navigation }) {
         "What are some low-budget, nutrient rich lunch options?",
         "Give me some low-fat breakfast options", 
         "Provide optimal grocery shopping tips",
-        "What are some key foods to avoid for gluten allergies?",
+        "What are some key foods to avoid for shellfish allergies?",
         "What should I look for in nutrient labels when dieting?",
+        "Teach me about reactive allergens",
+        "What should I eat throughout my day so I don't snack between meals?",
+        "What are some keto friendly meals I can make to reach my daily nutrient goals?",
     ];
 
     const getRandomPreset = (pool, count = 3) => {
