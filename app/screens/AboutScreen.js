@@ -114,8 +114,8 @@ function AboutScreen(props) {
           switching to Child Mode. Check out our FAQ page
           for more information about how to use the app.
           {"\n\n"}
-          You can read more information about the Eat Like The Rainbow™ project and Chef Cathy Zeis below, or you can check out the socials linked 
-          above for direct access to Chef Cathy Zeis' platforms! 
+          You can read more information about the Eat Like The Rainbow™ program and Chef Cathy Zeis below. 
+          You can can also visit our social media accounts linked above for direct access to Chef Cathy Zeis' platforms! 
         </AppText>
 
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
@@ -143,9 +143,9 @@ function AboutScreen(props) {
           I have spent most of my life around food. From my first job in a local grocery 
           store in Connecticut at age 16 to creating healthy food plans for those humbled 
           by disease, food is my life! From restaurant owner, to 10 years on television, 
-          food editor of a magazine, food line creator, award-winning author and college 
-          lecturer, I've touched just about every area of the food industry.
-          Educating people about how Godsource Foods™, foods 
+          food editor of a magazine, food photographer, food line creator, columnist, award-winning 
+          author and chef, and college lecturer, I've touched just about every area of the food 
+          industry. Educating people about how Godsource Foods™, foods 
           that were created by God, work in our bodies is my loaned talent. Helping fight 
           chronic disease and childhood obesity through The Power of Godsource Foods™ is my 
           passion. Creating healthy food plans and educational information is my calling. 
@@ -168,8 +168,8 @@ function AboutScreen(props) {
           kids need to know just how important they are and how the simple foods created just for 
           them can and will help them flourish.
           {"\n\n"}
-          For more information about me and many recipes, visit 
-          <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
+          For more information about me and many recipes, 
+          visit <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
           For more information on certain topics, you can also check out some resources in the library below!
         </AppText>
 
@@ -188,6 +188,7 @@ function AboutScreen(props) {
         <AppText style={styles.text}>
           <Text style={{fontSize: 17}}>Olivia Jones, Ime Ekpo, Mitchell Heinold, Mason Petersen, Zelvin Sandoval</Text>
         </AppText>
+
 
         <AppText style={styles.title}>Library</AppText>
 
@@ -208,6 +209,102 @@ function AboutScreen(props) {
           <Text style={styles.link2} 
             onPress={() => Linking.openURL('https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20045506')}>
               Eating and exercise: 5 tips to maximize your workouts
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Bedtime</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://youtu.be/bom6ZrVwGIc?si=08Zoe9HfNkU9grMy')}>
+              Why healthy sleep is crucial for academic success
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://health.clevelandclinic.org/sleep-and-health/')}>
+              Does a Bad Night's Sleep Affect Your Health?
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.cdc.gov/physical-activity-education/staying-healthy/sleep.html?CDC_AAref_Val=https://www.cdc.gov/healthyschools/sleep.htm')}>
+              Sleep and Health
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.sleepfoundation.org/nutrition/food-and-drink-promote-good-nights-sleep')}>
+              The Best Foods To Help You Sleep
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Food and Mental Health</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://youtu.be/CSHO9VdVRfg?si=JfJw7A8twroVtlGw')}>
+            Food and mood
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.webmd.com/diet/foods-high-in-polyphenols#1')}>
+            Healthy Foods High in Polyphenols
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://pmc.ncbi.nlm.nih.gov/articles/PMC6836211/')}>
+            Cognitive Function and Consumption of Fruit and Vegetable Polyphenols in a Young Population: Is There a Relationship?
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://cbn.com/news/us/surprising-link-between-these-foods-and-depression-anxiety-and-other-mental-health-issues')}>
+            The Surprising Link Between These Foods and Depression, Anxiety and Other Mental Health Issues 
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Grocery Stores</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.webmd.com/food-recipes/default.htm')}>
+            10 Tips for Healthy Grocery Shopping
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://medlineplus.gov/ency/article/001973.htm')}>
+            Cow's milk and children
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.nytimes.com/2020/09/08/dining/grocery-shopping-coronavirus.html')}>
+            7 Ways the Pandemic Has Changed How We Shop for Food
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.forbes.com/sites/capitalone/2018/08/20/is-fast-food-really-cheaper-than-healthy-eating/?sh=75263bb5410a')}>
+            Is Fast Food Really Cheaper Than Healthy Eating?
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Preservatives</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.webmd.com/diet/food-additives-special-report/video/cm/what-food-additives')}>
+            What are Food Additives? 
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.britannica.com/topic/preservative')}>
+            Preservative: Food Processing
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.loseit.com/articles/the-best-processed-foods-for-weight-loss-according-to-registered-dietitians/')}>
+            Harmful Effects of Preservatives in Foods
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://healthfully.com/what-are-the-dangers-of-preservatives-3201078.html')}>
+            What Are the Dangers of Preservatives? 
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Rainbow Foods</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://youtu.be/onyR8Rnzgrs?si=pcvdKQw5seQVh2q2')}>
+            Follow the rainbow to healthy eating 
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.health.harvard.edu/blog/phytonutrients-paint-your-plate-with-the-colors-of-the-rainbow-2019042516501')}>
+            Phytonutrients: Paint your plate with the colors of the rainbow 
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.healthline.com/nutrition/eat-the-rainbow')}>
+            Eating the Rainbow — Is It Useful and Should You Try It?
           </Text>
         </View>
 
