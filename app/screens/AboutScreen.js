@@ -142,7 +142,10 @@ function AboutScreen(props) {
           This is God's talent, not mine! He puts it in my head and I throw it in a pan. 
           I have spent most of my life around food. From my first job in a local grocery 
           store in Connecticut at age 16 to creating healthy food plans for those humbled 
-          by disease, food is my life! Educating people about how Godsource Foods™, foods 
+          by disease, food is my life! From restaurant owner, to 10 years on television, 
+          food editor of a magazine, food line creator, award-winning author and college 
+          lecturer, I've touched just about every area of the food industry.
+          Educating people about how Godsource Foods™, foods 
           that were created by God, work in our bodies is my loaned talent. Helping fight 
           chronic disease and childhood obesity through The Power of Godsource Foods™ is my 
           passion. Creating healthy food plans and educational information is my calling. 
@@ -173,10 +176,17 @@ function AboutScreen(props) {
         <AppText style={styles.title}>Meet the team that brought the app to life!</AppText>
         <Image
           style={styles.eltrTeamPic}
-          source={require("../assets/cathyHeadshot.png")}
+          source={require("../assets/14-eyes.png")}
         />
         <AppText style={styles.text}>
-          From left to right: person one, person two, person three, person four, person five
+          <Text style={{fontWeight: "bold"}}>From left to right: </Text>Joshua Muñoz, Ethan Holley, Aayushma Bhattarai, Rowen Salazar, Lukas Kallus
+        </AppText>
+
+        <AppText style={styles.text}>
+          {"\n"}<Text style={{fontWeight: "bold", textDecorationLine: 'underline', fontSize: 17,}}>App Version 1.0 Team</Text>
+        </AppText>
+        <AppText style={styles.text}>
+          <Text style={{fontSize: 17}}>Olivia Jones, Ime Ekpo, Mitchell Heinold, Mason Petersen, Zelvin Sandoval</Text>
         </AppText>
 
         <AppText style={styles.title}>Library</AppText>
@@ -282,8 +292,8 @@ const styles = StyleSheet.create({
     height: 240,
     marginTop: 5,
     marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 2,
+    borderRadius: 7,
+    borderWidth: 4,
   },
   eltrTeamPic: {
     alignSelf: "center",
@@ -291,8 +301,8 @@ const styles = StyleSheet.create({
     height: 170,
     marginTop: 5,
     marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 2,
+    borderRadius: 7,
+    borderWidth: 4,
   },
   cathyPic2: {
     alignSelf: "center",

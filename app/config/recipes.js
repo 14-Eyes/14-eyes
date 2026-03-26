@@ -498,7 +498,7 @@ export const childRecipes = [
     {
         id: "lazarus-lime",
         title: "Fruit Bowl",
-        image: require("../assets/child_mode/lemon-slush.png"),
+        image: require("../assets/child_mode/fruit-bowl.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lazarus Lime",
         ingredients: [
@@ -510,21 +510,19 @@ export const childRecipes = [
     },
     {
         id: "garman-grape",
-        title: "Tropical Delight",
-        image: require("../assets/child_mode/lemon-slush.png"),
+        title: "Purple Slurp",
+        image: require("../assets/child_mode/purple-slurp.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Garman Grape",
         ingredients: [
-            "1 cup seedless, red and green grapes",
-            "1 cup all natural pineapple chunks",
-            "1/4 tsp ground ginger",
+            "",
         ],
-        description: "In a small bowl, add all ingredients and toss. Pour into a portable cup and head outside to play. The wonderful, all natural sugars in this snack will give you all the energy you need to play. Enjoy!",
+        description: "",
     },
     {
         id: "big-a-bee",
         title: "Honey Crunch",
-        image: require("../assets/child_mode/lemon-slush.png"),
+        image: require("../assets/child_mode/honey-crunch.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Big-A-Bee",
         ingredients: [
