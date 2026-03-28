@@ -428,6 +428,7 @@ export const childRecipes = [
         id: "adam-apple",
         title: "Cinnamon Shake",
         image: require("../assets/child_mode/lemon-slush.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Adam Apple",
         ingredients: [
@@ -442,6 +443,7 @@ export const childRecipes = [
         id: "nika-nut",
         title: "Nutty Yogurt",
         image: require("../assets/child_mode/lemon-slush.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Nika Queen of the Nuts",
         ingredients: [
@@ -455,6 +457,7 @@ export const childRecipes = [
         id: "toddy-tomato",
         title: "Tomato Basil Soup",
         image: require("../assets/child_mode/tomato-soup.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Toddy Tomato",
         ingredients: [
@@ -463,12 +466,13 @@ export const childRecipes = [
             "1/4 tsp garlic powder",
             "1 TBS heavy whipping cream",
         ],
-        description: "In a large mug, add all ingredients except heavy whipping cream, and heat for 30 seconds in the microwave. Remove, stir, and repeat for another 45 seconds. Remove and add cream. Enjoy!",
+        description: "In a large mug, add all ingredients except heavy whipping cream, and heat for 30 seconds in the microwave. Remove, stir, and repeat for another 45 seconds. Remove and add cream. ~Enjoy!",
     },
     {
         id: "mumu-mushroom",
         title: "Mushroom Pizza Melt",
         image: require("../assets/child_mode/lemon-slush.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Mumu Mushroom",
         ingredients: [
@@ -477,16 +481,17 @@ export const childRecipes = [
             "1 slice baby Swiss cheese",
             "1 tsp Italian Seasoning",
         ],
-        description: "On a microwave safe plate, place mushroom, flat side down and stem removed. Spread tomato sauce over the mushroom. Place cheese slice on top and sprinkle with Italian Seasoning. Microwave for 40 seconds on high or until cheese is melted. Enjoy!",
+        description: "On a microwave safe plate, place mushroom, flat side down and stem removed. Spread tomato sauce over the mushroom. Place cheese slice on top and sprinkle with Italian Seasoning. Microwave for 40 seconds on high or until cheese is melted. ~Enjoy!",
     },
     {
         id: "lulu-lemon",
         title: "Lemon Slush",
         image: require("../assets/child_mode/lemon-slush.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lulu Lemon",
         ingredients: [
-            "1-1/2 cup 100% Dole pineapple juice",
+            "1-1/2 cups 100% Dole pineapple juice",
             "1/4 cup fresh pineapple, chunks",
             "1-medium banana ",
             "1/4 Opal apple, skin on",
@@ -499,6 +504,7 @@ export const childRecipes = [
         id: "lazarus-lime",
         title: "Fruit Bowl",
         image: require("../assets/child_mode/fruit-bowl.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lazarus Lime",
         ingredients: [
@@ -506,23 +512,29 @@ export const childRecipes = [
             "1-8 oz. carton Oikos Triple Zero Vanilla yogurt",
             "Juice of 1/2 small lime",
         ],
-        description: "In a small bowl, add your favorite fruits and squeeze the juice of 1/2 of a small lime over the fruit. Top with yogurt. Enjoy!",
+        description: "In a small bowl, add your favorite fruits and squeeze the juice of 1/2 of a small lime over the fruit. Top with yogurt. ~Enjoy!",
     },
     {
         id: "garman-grape",
         title: "Purple Slurp",
         image: require("../assets/child_mode/purple-slurp.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Garman Grape",
         ingredients: [
-            "",
+            "1 cup Açaí fruit, frozen is okay to use",
+            "1 cup sliced, canned beets, no salt added",
+            "1 cup Anjou pear, cubed",
+            "12 purple, seedless grapes",
+            "1-1/2 cups Silk Almond Milk, vanilla",
         ],
-        description: "",
+        description: "In a blender, add all ingredients and blend, about 10 seconds. If using frozen Açaí fruit, blend until smooth, about 30 seconds. ~Enjoy!",
     },
     {
         id: "big-a-bee",
         title: "Honey Crunch",
         image: require("../assets/child_mode/honey-crunch.png"),
+        characterImage: require("../assets/child_mode/nika-recipe.png"),
         video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Big-A-Bee",
         ingredients: [
@@ -531,7 +543,7 @@ export const childRecipes = [
             "1 cup dark chocolate pieces",
             "1 TBS pure honey",
         ],
-        description: "In a small bowl, mix all ingredients together. Spoon onto your bowl of oatmeal, in your applesauce, or your favorite yogurt. Enjoy!",
+        description: "In a small bowl, mix all ingredients together. Spoon onto your bowl of oatmeal, in your applesauce, or your favorite yogurt. ~Enjoy!",
     },
 
 ]

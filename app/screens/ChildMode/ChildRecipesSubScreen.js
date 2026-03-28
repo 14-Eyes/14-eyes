@@ -48,7 +48,15 @@ function ChildRecipesSubScreen({ route, navigation }) {
           {recipe.title}
         </AppText>
 
-        <Image source={recipe.image} style={styles.image} />
+        <View style={styles.imageContainer}>
+          <Image source={recipe.image} style={styles.image} />
+
+          <Image
+            source={recipe.characterImage}
+            style={styles.characterOverlay}
+          />
+        </View>
+        <AppText style={styles.subText}>{recipe.subText}</AppText>
 
         <AppText style={styles.sectionTitle}>INGREDIENTS</AppText>
         {recipe.ingredients.map((ingredient, index) => (
@@ -110,6 +118,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 30,
   },
+  subText: {
+    color: colors.black,
+    fontStyle: "italic",
+    fontSize: 17,
+    textAlign: "center",
+    marginBottom: 10,
+  },
   text: {
     color: colors.black,
     fontSize: 21,
@@ -118,13 +133,30 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
-  image: {
+  imageContainer: {
     width: "75%",
-    height: 250,
+    alignSelf: "center",
+    position: "relative",
+  },
+  image: {
+    width: "100%",
+    height: 270,
     borderRadius: 10,
     alignSelf: "center",
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 5,
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: colors.eltrdarkblue,
+  },
+  characterOverlay: {
+    position: "absolute",
+    bottom: -2,  // overlap amount
+    left: -50,    // horizontal placement
+    width: 140,
+    height: 140,
+    resizeMode: "contain",
+    zIndex: 2,
   },
   video: {
     width: "60%",
