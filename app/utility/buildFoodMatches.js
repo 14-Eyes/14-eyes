@@ -101,10 +101,10 @@ export function buildFoodMatches({
 
     Object.values(dietGroups).forEach(group => {
         foundFoodInfo.push({
-        type: "diet",
-        severity: "bad",
-        ingredients: group.ingredients,
-        explanation: `Which does not align with your ${group.diet} diet.`,
+            type: "diet",
+            severity: "bad",
+            ingredients: group.ingredients || [],
+            explanation: `Which may not align with your ${group.diet} diet.`,
         });
     });
     /* -------------------------------------------- */

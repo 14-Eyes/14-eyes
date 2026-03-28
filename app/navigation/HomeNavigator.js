@@ -21,7 +21,6 @@ import FoodFacts from "../screens/FoodFacts";
 import Home from "../screens/Home";
 import VitaminNavigator from "./VitaminNavigator";
 import BadListNavigator from "./BadListNavigator";
-import BudgetNavigator from "./BudgetNavigator";
 
 const Stack = createStackNavigator();
 

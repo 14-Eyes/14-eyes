@@ -1649,7 +1649,7 @@ export default {
             id: 1,
             label: "Beef",
             picture: 'beef',
-            desc: "Can be eaten cooked or slightly raw",
+            desc: "Can be eaten cooked or medium rare",
             vitaminList: [
                 2, 3, 5, 6, 9, 15, 19, 20, 23, 24, 25, 27, 28,
             ],
@@ -1658,7 +1658,7 @@ export default {
             id: 2,
             label: "Bison",
             picture: 'bison',
-            desc: "Can be eaten cooked or slightly raw",
+            desc: "Can be eaten cooked or medium rare",
             vitaminList: [
                 2, 3, 5, 6, 19, 20, 38, 39, 23, 24, 25, 28,
             ],
@@ -1685,7 +1685,7 @@ export default {
             id: 5,
             label: "Deer",
             picture: 'deer',
-            desc: "Can be eaten cooked or slightly raw",
+            desc: "Can be eaten cooked or medium rare",
             vitaminList: [
                 0, 10, 11, 2, 3, 6, 13, 20, 23, 24, 25, 26,
             ],
@@ -1712,7 +1712,7 @@ export default {
             id: 8,
             label: "Kidney",
             picture: 'kidney',
-            desc: "Can be eaten cooked or slightly raw",
+            desc: "Can be eaten cooked or medium rare",
             vitaminList: [
                 0, 8, 10, 2, 3, 4, 5, 6, 9, 16, 19, 21, 22, 23, 25, 28,
             ],
@@ -1721,7 +1721,7 @@ export default {
             id: 9,
             label: "Liver",
             picture: 'liver',
-            desc: "Can be eaten cooked or slightly raw",
+            desc: "Can be eaten cooked or medium rare",
             vitaminList: [
                 0, 10, 11, 12, 2, 3, 4, 5, 29, 6, 7, 9, 16, 19, 21, 22, 23, 25, 28,
             ],

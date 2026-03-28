@@ -204,7 +204,7 @@ export const recipes = [
         cookTime: "1.5m",
         totalTime: "4.5m",
         ingredients: [
-            "1 14.5 oz can Asparagus spears*",
+            "1-14.5 oz can Asparagus spears*",
             "1/4 cup All Natural Chicken Broth",
             "1/2 tsp Dill Weed",
             "1/4 tsp Garlic powder",
@@ -257,7 +257,7 @@ export const recipes = [
         ingredients: [
             "1 medium Banana",
             "1/2 cup Pureed pumpkin ((Libby's 100% Pumpkin in a can is perfect to use!))",
-            "1 cup 1 cup Silk Almond-Coconut Milk",
+            "1 cup Silk Almond-Coconut Milk",
             "2 tsp Ground Ginger",
         ],
         instructions: [
@@ -397,24 +397,132 @@ export const recipes = [
         cookTime: "2m",
         totalTime: "7m",
         ingredients: [
-            "2 TBS Newman's Own Olive Oil & Vinegar Dressing",
+            "1 cup fresh blueberries, rinsed",
+            "1/4 cup Balsamic vinegar",
+            "3 TBS extra virgin olive oil",
+            "1/4 tsp garlic powder",
+            "1/4 tsp ground ginger",
             "2 cups fresh baby spinach",
             "1/2 cup red cabbage, chopped",
-            "1/8 tsp garlic powder",
             "1/4 tsp dried parsley ",
             "1/2 medium avocado, sliced",
             "1 medium boiled egg, diced",
         ],
         instructions: [
+            "In a blender, blend the blueberries, Balsamic vinegar, olive oil, garlic powder, and ginger for 15 seconds.*",
             "In a large bowl, add dressing to the bottom.",
-            "Add avocado, egg, spices, cabbage and spinach.",
+            "Add avocado, egg, the remaining spices, cabbage and spinach.",
             "Chill for up to 1 day in the refrigerator or toss and serve. (Building the salad this way will allow you to keep the salad chilled for up to one day without it getting soggy!)",
         ],
         description: [
             "Want to keep your focus and help improve your brain health? Then here’s your salad! ~Enjoy!",
         ],
         notes: [
-
+            "*I like to have a few chunks of blueberries in my dressing but if you prefer, blend until the dressing is smooth, about 30 seconds for this consistency.",
         ],
     },
+]
+
+export const childRecipes = [
+    {
+        id: "adam-apple",
+        title: "Cinnamon Shake",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Adam Apple",
+        ingredients: [
+            "1 medium apple",
+            "1 medium banana",
+            "1/4 tsp ground cinnamon",
+            "1 cup whole milk or Silk Almond Milk",
+        ],
+        description: "Blend all together in a blender and pour into a glass and enjoy!",
+    },
+    {
+        id: "nika-nut",
+        title: "Nutty Yogurt",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Nika Queen of the Nuts",
+        ingredients: [
+            "1-8 oz. carton of Oikos Triple Zero yogurt",
+            "1 TBS mixed nuts with sea salt",
+            "1/4 tsp ground nutmeg",
+        ],
+        description: "Open the carton of yogurt add nuts and nutmeg. Stir and enjoy!",
+    },
+    {
+        id: "toddy-tomato",
+        title: "Tomato Basil Soup",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Toddy Tomato",
+        ingredients: [
+            "1-cup 100% tomato juice",
+            "1 tsp dried basil",
+            "1/4 tsp garlic powder",
+            "1 TBS heavy whipping cream",
+        ],
+        description: "In a large mug, add all ingredients except heavy whipping cream, and heat for 30 seconds in the microwave. Remove, stir, and repeat for another 45 seconds. Remove and add cream. Enjoy!",
+    },
+    {
+        id: "mumu-mushroom",
+        title: "Mushroom Pizza Melt",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Mumu Mushroom",
+        ingredients: [
+            "1 large Portabella Mushroom",
+            "1 TBS tomato sauce",
+            "1 slice baby Swiss cheese",
+            "1 tsp Italian Seasoning",
+        ],
+        description: "On a microwave safe plate, place mushroom, flat side down and stem removed. Spread tomato sauce over the mushroom. Place cheese slice on top and sprinkle with Italian Seasoning. Microwave for 40 seconds on high or until cheese is melted. Enjoy!",
+    },
+    {
+        id: "lulu-lemon",
+        title: "Bubble Water",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Lulu Lemon",
+        ingredients: [
+            "1-8 oz. glass filtered, spring water",
+            "1/4 cup sparkling, unflavored water (Topo Chico is a good choice)",
+            "Juice of 1/2 fresh, small lemon",
+        ],
+        description: "In a portable bottle, add all ingredients. Take it outside when you play! LULU LEMON Bubble Water will keep you energized as you run and play. Enjoy!",
+    },
+    {
+        id: "lazarus-lime",
+        title: "Fruit Bowl",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Lazarus Lime",
+        ingredients: [
+            "1 cup mixed fruit",
+            "1-8 oz. carton Oikos Triple Zero Vanilla yogurt",
+            "Juice of 1/2 small lime",
+        ],
+        description: "In a small bowl, add your favorite fruits and squeeze the juice of 1/2 of a small lime over the fruit. Top with yogurt. Enjoy!",
+    },
+    {
+        id: "garman-grape",
+        title: "Tropical Delight",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Garman Grape",
+        ingredients: [
+            "1 cup seedless, red and green grapes",
+            "1 cup all natural pineapple chunks",
+            "1/4 tsp ground ginger",
+        ],
+        description: "In a small bowl, add all ingredients and toss. Pour into a portable cup and head outside to play. The wonderful, all natural sugars in this snack will give you all the energy you need to play. Enjoy!",
+    },
+    {
+        id: "big-a-bee",
+        title: "Honey Crunch",
+        image: require("../assets/child_mode/image.png"),
+        subText: "From Big-A-Bee",
+        ingredients: [
+            "1 cup all natural granola",
+            "1 cup mixed nuts",
+            "1 cup dark chocolate pieces",
+            "1 TBS pure honey",
+        ],
+        description: "In a small bowl, mix all ingredients together. Spoon onto your bowl of oatmeal, in your applesauce, or your favorite yogurt. Enjoy!",
+    },
+
 ]

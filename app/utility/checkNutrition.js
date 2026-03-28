@@ -9,7 +9,6 @@ import { fetchDiet } from "./fetchOptions";
 
 //Currently limited to scanning info based on 100g, which is doubtful to reflect proper serving sizes. Requires attention (change to DV%?)
 //Currently limited to providing only certain nutrion fact statistics. Requires attention
-//Currenlty limited to relying on every nutrition being available from the json. Requires attention
 // Optional we could have nutrient minimums, would be useful for diets.            
 
 //Could be modified to have the ID of the diet assinged in the nutrients and use that information to better identify things in the UI 
@@ -24,132 +23,200 @@ import { fetchDiet } from "./fetchOptions";
 // 6 - Total Sugar (try to separate added sugars!!!!!!!!!)
 // 7 - Protein
 
-export async function checkNutritions(nutrients, scannerSelect) {
+export async function checkNutritions(nutrients, scannerSelect) {    
+    nutrients = nutrients ?? {}; // prevents null crashes :(
+    
+    const nutrientNames = [
+        "Calories",
+        "Total Fat",
+        "Saturated Fat",
+        "Sodium",
+        "Total Carbohydrates",
+        "Fiber",
+        "Sugar",
+        "Protein"
+    ];
+    const nutrientUnits = [
+        "kcal",
+        "g",
+        "g",
+        "mg",
+        "g",
+        "g",
+        "g",
+        "g"
+    ];
+
     //Condition Scanning
-    if(scannerSelect==1)
-    {
-    try {
+    if (scannerSelect==1) {
+        try {
+            const auth = getAuth();
+            const db = getFirestore();
 
-        const auth = getAuth();
-        const db = getFirestore();
+            const uid = auth.currentUser.uid; // get user id to load saved conditions
 
-        const uid = auth.currentUser.uid; // get user id to load saved conditions
+            // get user document (user's conditions); these are saved inside userConditions
+            const userDoc = await getDoc(doc(db, "users", uid));
+            const allConditions = await fetchCond();
+            const userConditions = userDoc.data()?.conditions || [];
+            const active = allConditions.filter((c) =>
+                userConditions.includes(c.id)
+            );
 
-        // get user document (user's conditions); these are saved inside userConditions
-        const userDoc = await getDoc(doc(db, "users", uid));
-        const allConditions = await fetchCond();
-        const userConditions = userDoc.data()?.conditions || [];
-        const active = allConditions.filter((c) =>
-            userConditions.includes(c.id)
-        );
+            //Testing~!
+            console.log(nutrients);
 
-        //Testing~!
-        console.log(nutrients);
+            // --- Scan all ingredients for text matches ---
+            //try to do an or prepared
+            const calories = nutrients?.['energy-kcal'] ?? 0;
+            const totalFat = nutrients?.fat ?? 0;
+            const saturatedFat = nutrients?.['saturated-fat'] ?? 0;
+            const sodium = nutrients?.sodium ?? 0;
+            const totalCarbohydrates = nutrients?.carbohydrates ?? 0;
+            const fiber = nutrients?.fiber ?? 0;
+            const totalSugar = nutrients?.sugars ?? 0;
+            const protein = nutrients?.proteins ?? 0;
+            
+            const itemNutris = [
+                calories, 
+                totalFat, 
+                saturatedFat, 
+                sodium, 
+                totalCarbohydrates, 
+                fiber, 
+                totalSugar, 
+                protein
+            ];
+            
+            let badRange = false;
+            let violations = [];
 
-        // --- Scan all ingredients for text matches ---
-        const calories = nutrients['energy-kcal'];
-        const totalFat = nutrients.fat;
-        const saturatedFat = nutrients['saturated-fat'];
-        const sodium = nutrients.sodium;
-        const totalCarbohydrates = nutrients.carbohydrates;
-        const fiber = nutrients.fiber;
-        const totalSugar = nutrients.sugars;
-        const protein = nutrients.proteins;
-        
-        const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
-        let badRange=false;
-        for (let j = 0; j < active.length; j++) 
-        {
-            const cond = active[j];
-            for (let i = 0; i < 8; i++)
+            for (let j = 0; j < active.length; j++) 
             {
-                const a=cond.Nutrient_Max[i]
-                //Arry scanning for firebase nutrient records
-                //checks if appropriate nutrient is within acceptable range
-                    // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
-                    // but if the user can't have any it will be 0
-                if(itemNutris[i]>a&&a!=.01)
+                const cond = active[j];
+                
+                for (let i = 0; i < 8; i++)
                 {
-                    console.log("output 01: ", i, " = ", ",,, ", badRange); //returns false
-                    badRange=true; 
-                    return badRange;
-                    console.log("output! 03: ", badRange); //returns true, showing the code is running\
+                    const value = itemNutris[i];
+                    const limit = cond.Nutrient_Max?.[i]
+                    //Arry scanning for firebase nutrient records
+                    //checks if appropriate nutrient is within acceptable range
+                        // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
+                        // but if the user can't have any it will be 0
+                    console.log(
+                        nutrientNames[i],
+                        "value:", value,
+                        "limit:", limit
+                    );    
+                    if(value > limit && limit != .01)
+                    {
+                        console.log("output 01: ", i, " = ", ",,, ", badRange); //returns false
+                        badRange = true; 
+                        console.log("output! 03: ", badRange); //returns true, showing the code is running\
+                        
+                        violations.push({
+                            nutrient: nutrientNames[i],
+                            value: value,
+                            limit: limit,
+                            unit: nutrientUnits[i],
+                            condition: cond.label,
+                        });
+                    }
                 }
             }
+            // ---------------------------------------------
+            return {
+                badNutri: badRange,
+                violations: violations
+            };
+        } catch (err) {
+            console.log("Nutrition scan failed:", err);
+            console.error("Stack trace:", err.stack);
         }
-        // ---------------------------------------------
-        
-        return badRange;
-    } catch (err) {
-        console.log("Nutrition scan failed:", err);
-        console.error("Stack trace:", err.stack);
-    }
-
     }
 
     //Diet Scanning
-    if(scannerSelect==2)
-    {
-    try {
-        const auth = getAuth();
-        const db = getFirestore();
+    if (scannerSelect==2) {
+        try {
+            const auth = getAuth();
+            const db = getFirestore();
 
-        const uid = auth.currentUser.uid; // get user id to load saved diets
+            const uid = auth.currentUser.uid; // get user id to load saved diets
 
-        // get user document (user's diets); these are saved inside userDiets
-        const userDoc = await getDoc(doc(db, "users", uid));
-        const userDiets = userDoc.data()?.dietary_preferences || [];
-        
-        //Can remove?
-        if (userDiets.length === 0) {
-            return { avoid: [], certifications: [] };
-        }
+            // get user document (user's diets); these are saved inside userDiets
+            const userDoc = await getDoc(doc(db, "users", uid));
+            const userDiets = userDoc.data()?.dietary_preferences || [];
+            
+            //Can remove?
+            if (userDiets.length === 0) {
+                return { badNutri:false, violations:[] };
+            }
 
-        // load the big diets document from Firebase (inside objects collection); uses AsyncStorage
-        const allDiets = await fetchDiet();
+            // load the big diets document from Firebase (inside objects collection); uses AsyncStorage
+            const allDiets = await fetchDiet();
 
-        // save only the diets that match what the user has currently set
-        const active = allDiets.filter((d) =>
-            userDiets.includes(d.id)
-        );
+            // save only the diets that match what the user has currently set
+            const active = allDiets.filter((d) =>
+                userDiets.includes(d.id)
+            );
 
-        // --- Scan all ingredients for text matches ---
-        const calories = nutrients['energy-kcal'];
-        const totalFat = nutrients.fat;
-        const saturatedFat = nutrients['saturated-fat'];
-        const sodium = nutrients.sodium;
-        const totalCarbohydrates = nutrients.carbohydrates;
-        const fiber = nutrients.fiber;
-        const totalSugar = nutrients.sugars;
-        const protein = nutrients.proteins;
-        
-        const itemNutris = [calories, totalFat, saturatedFat, sodium, totalCarbohydrates, fiber, totalSugar, protein]
-        let badRange=false;
-        //active.forEach((cond) => {
-        for (let j = 0; j < active.length; j++) 
-        {
-            const diet = active[j];
-            for (let i = 0; i < 8; i++)
+            // --- Scan all ingredients for text matches ---
+            const calories = nutrients?.['energy-kcal'] ?? 0;
+            const totalFat = nutrients?.fat ?? 0;
+            const saturatedFat = nutrients?.['saturated-fat'] ?? 0;
+            const sodium = nutrients?.sodium ?? 0;
+            const totalCarbohydrates = nutrients?.carbohydrates ?? 0;
+            const fiber = nutrients?.fiber ?? 0;
+            const totalSugar = nutrients?.sugars ?? 0;
+            const protein = nutrients?.proteins ?? 0;
+            
+            const itemNutris = [
+                calories, 
+                totalFat, 
+                saturatedFat, 
+                sodium, 
+                totalCarbohydrates, 
+                fiber, 
+                totalSugar, 
+                protein
+            ];
+
+            let badRange = false;
+            let violations=[];
+            //active.forEach((cond) => {
+            for (let j = 0; j < active.length; j++) 
             {
-                const a=diet.Nutrient_Max[i];
-                //Arry scanning for firebase nutrient records
-                //checks if appropriate nutrient is within acceptable range
-                    // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
-                    // but if the user can't have any it will be 0
-                if(itemNutris[i]>a&&a!=.01)
+                const diet = active[j];
+                for (let i = 0; i < 8; i++)
                 {
-                    badRange=true; 
-                    return badRange;
+                    // const a = diet.Nutrient_Max[i];
+                    const value = itemNutris[i];
+                    const limit = diet.Nutrient_Max?.[i]
+                    //Arry scanning for firebase nutrient records
+                    //checks if appropriate nutrient is within acceptable range
+                        // the .01 is a saftey check, for example if there is not limit to a particular nutrient it will be .01,
+                        // but if the user can't have any it will be 0
+                    if(value > limit && limit != .01)
+                    {
+                        badRange = true; 
+                        violations.push({
+                            nutrient: nutrientNames[i],
+                            value: value,
+                            limit: limit,
+                            unit: nutrientUnits[i],
+                            diet: diet.label,
+                        });
+                    }
                 }
             }
+            // ---------------------------------------------
+            return {
+                badNutri: badRange,
+                violations: violations
+            };
+        } catch (err) {
+            console.log("Nutrition scan failed:", err);
+            console.error("Stack trace:", err.stack);
         }
-        // ---------------------------------------------
-        
-        return badRange;
-    } catch (err) {
-        console.log("Nutrition scan failed:", err);
-        console.error("Stack trace:", err.stack);
-    }
-
     }
 }

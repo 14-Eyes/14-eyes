@@ -14,7 +14,7 @@
  */
 
 
-import React, { Component } from "react";
+import React, { useRef } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -64,10 +64,8 @@ const AppNavigator = () => (
     <Tab.Screen
       name="ScanningScreen"
       component={ScanNavigator}
-      options={({ navigation }) => ({
-        tabBarButton: () => (
-          <ScanButton onPress={() => navigation.navigate(routes.SCAN_ITEM)} />
-        ),
+      options={{
+        tabBarButton: (props) => <ScanButton {...props} />,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons
             name="barcode-scan"
@@ -75,7 +73,7 @@ const AppNavigator = () => (
             size={size}
           />
         ),
-      })}
+      }}
     />
     <Tab.Screen
       name="Recipes"

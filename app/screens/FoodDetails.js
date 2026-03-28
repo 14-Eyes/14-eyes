@@ -5,8 +5,8 @@
 /* !!! SEE FoodDetailsOld.js FOR OLD CODE !!! */
 
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, ScrollView, ActivityIndicator, Linking } from "react-native";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { StyleSheet, View, Image, ScrollView, Linking, Text } from "react-native";
+import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 // Import any other utility functions here (for allergies, diet, preservatives, etc.)
@@ -23,13 +23,12 @@ import { buildFoodMatches } from "../utility/buildFoodMatches"; // Organizes all
 // Components
 import FoodMatchInfo from "../components/FoodMatchInfo"; // Ingredient list for each cond/allergy/diet
 import UltraProcessedMarker from "../components/UltraProcessedMarker"; // Ultra Processed Marker
+import NutriScoreMarker from "../components/NutriScoreMarker"; // Nutri-Score Marker
 import DietCertificationBadge from "../components/DietCertificationBadge"; // Diet Cert Badge
 import LineDivider from "../components/Divider"; // Horizontal divider
 import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-import { checkNutritions } from "../utility/checkNutrition";
-import { boolean } from "yup";
 
 function FoodDetails({ route }) {
   const food = route.params; // stores scanned result from Open Food Facts inside "food"; 1 if exists, 0 if not
@@ -44,16 +43,17 @@ function FoodDetails({ route }) {
   const [loading, setLoading] = useState(true); // store the loading state of the food item info
   
   // arrays to store the results of any ingredient matches FOR CONDITIONS
-
   const [conditionMatches, setConditionMatches] = useState({
     good: [],
     avoid: [],
-    badNutri: false
+    badNutri: false,
+    nutrientViolations: [],
   });
 
   // arrays to store the results of any ingredient matches FOR ALLERGIES
   const [allergyMatches, setAllergyMatches] = useState({
     avoid: [],
+    offAllergen: [],
   });
 
   // arrays to store the results of any ingredient matches FOR DIETS
@@ -61,6 +61,8 @@ function FoodDetails({ route }) {
     avoid: [],
     certifications: [],
     offConflicts: [],
+    nutrientViolations: [],
+    novaConflicts: [],
     badNutri: false
   });
 
@@ -137,7 +139,7 @@ function FoodDetails({ route }) {
           food?.product?.nova_group ?? null;
 
         const nutrients =
-          food?.product?.nutriments || []; 
+          food?.product?.nutriments || {}; 
 
         const nutriScore =
           food?.product?.nutriscore_tags ? food.product.nutriscore_tags[0] : null;
@@ -168,14 +170,18 @@ function FoodDetails({ route }) {
         console.log("DIETS RAW TEXT - LABELS:", labels);
         console.log("DIETS RAW TEXT - ANALYSIS:", analysis);
         console.log("NOVA GROUP:", novaGroup);
+        console.log("NUTRI SCORE:", nutriScore);
 
         if (ingredients) {
           //for some reason, nutrients becomes undefined here...
          // Run condition checking function if ingredients exist (located below)
           // await checkConditions(ingredients);
           const condResults = await checkConditions(ingredients, nutrients);
+          console.log("COND RESULTS:", condResults);
           if (condResults) {
-            setConditionMatches(condResults);
+            setConditionMatches({
+              ...condResults,
+              nutrientViolations: condResults.nutrientViolations || [],            });
           }
 
           // Run allergy checking function if ingredients exist (located below)
@@ -185,9 +191,17 @@ function FoodDetails({ route }) {
           }
 
           // Run diet checking function if ingredients exist (located below)
-          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients);
+          const dietResults = await checkDiet(ingredients, labels, analysis, nutrients, novaGroup);
+          console.log("DIET RESULTS:", dietResults);
           if (dietResults) {
-            setDietMatches(dietResults);
+            setDietMatches({
+              avoid: dietResults.avoid || [],
+              certifications: dietResults.certifications || [],
+              offConflicts: dietResults.offConflicts || [],
+              novaConflicts: dietResults.novaConflicts || [],
+              badNutri: dietResults.badNutri || false,
+              nutrientViolations: dietResults.nutrientViolations || [],
+            });
           }
 
           //Run good sugar checking function if ingredients exist
@@ -288,18 +302,27 @@ function FoodDetails({ route }) {
   const hasConditionBad = conditionMatches.avoid.length > 0;
   const hasConditionGood = conditionMatches.good.length > 0;
   const badNutriConditions = conditionMatches.badNutri;
+
   const hasAllergy = allergyMatches.avoid.length > 0;
-  const badNutriDiet = dietMatches.badNutri;
-  const hasDietBadMatch = dietMatches.avoid.length > 0;
+  
+  // const hasDietBadMatch = dietMatches.avoid.length > 0;
   const hasDietOffConflicts = dietMatches.offConflicts.length > 0;
+  const hasDietConflict = dietMatches.avoid.some(
+    (d) => d.isDietBad
+  );
+  const hasDietBadMatch = dietMatches.avoid.some(
+    (d) => d.hasIngredientConflict || d.novaConflict
+  );
+  const badNutriDiet = dietMatches.badNutri;
+
   const hasGoodSugar = goodSugarMatches.length > 0;
-  const hasBadSugar = badSugarMatches.length >0;
+  const hasBadSugar = badSugarMatches.length > 0;
   const hasDye = dyeMatches.length > 0;
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
-  const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
-  const isBad = hasConditionBad || hasAllergy || hasDietBadMatch || hasDietOffConflicts || hasBadSugar || hasDye || hasPreservative;
+  // const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
+  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietConflict || badNutriDiet || hasBadSugar || hasDye || hasPreservative;
   const isGood = !isBad || (!isBad && hasConditionGood);
 
   const badConditionInfo = groupedInfo.condition.filter(
@@ -351,11 +374,22 @@ function FoodDetails({ route }) {
             </View>
           )}
 
+          <AppText style={styles.subTitle}>{"\n"}Want to know more about the "why" behind this rating? Check out this product's details below!</AppText>
+          <AppText style={styles.warningText}>
+            {"\n"}<Text style={{fontWeight: "bold"}}>NOTE: </Text> 
+            This evaluation is based on available product data and may not be fully accurate.
+            It is your responsibility to review the label and confirm 
+            the product is safe for your needs before consuming.
+          </AppText>
+          <View style={styles.foodInfo}><LineDivider /></View>
+
           {/* ULTRA-PROCESSED MARKER */}
           <UltraProcessedMarker novaGroup={product.novaGroup} />
           
+          {/* NUTRI-SCORE MARKER */}
+          <NutriScoreMarker nutriScore={product.nutriScore} />
           {/* Nutri-Score    ---  product.nutriScore.charAt(0).toUpperCase()  breaks it now??????*/}
-          <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText>
+          {/* <AppText style={styles.badHeader}>Nutri-Score: {product.nutriScore || 'N/A'}</AppText> */}
           
 
           {/* DIET CERTIFICATIONS */}
@@ -372,49 +406,84 @@ function FoodDetails({ route }) {
           <View style={styles.foodInfo}>
 
           {/* ALLERGIES */}
-            {hasAllergy && (
+            {(hasAllergy || allergyMatches.offAllergen.length > 0) && (
               <>
                 <AppText style={styles.badHeader}>
                   Allergy Warning
                 </AppText>
-                {groupedInfo.allergy.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`allergy-${index}`}
-                    foundFoodInfo={info}
-                  />
-                ))}
+
+                {allergyMatches.offAllergen.length > 0 && (
+                  <>
+                    <AppText style={{ fontSize: 16, textAlign: "left" }}>
+                      This product is officially reported to contain{" "}
+                      <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
+                        {allergyMatches.offAllergen.map(a => a.ingredient).join(", ")}
+                      </AppText>
+                      {" "}by Open Food Facts.
+                    </AppText>
+
+                    {barcode && (
+                      <AppText
+                        style={{ fontSize: 16, color: colors.eltrdarkblue, textAlign: "left" }}
+                        onPress={() =>
+                          Linking.openURL(
+                            `https://world.openfoodfacts.org/products/${barcode}`
+                          )
+                        }
+                      >
+                        Learn more
+                      </AppText>
+                    )}
+                  </>
+                )}
+
+                {hasAllergy && (
+                  <>
+                    {groupedInfo.allergy.map((info, index) => (
+                      <FoodMatchInfo
+                        key={`allergy-${index}`}
+                        foundFoodInfo={info}
+                      />
+                    ))}
+                  </>
+                )}
                 <LineDivider />
               </>
             )}
 
-            {/* Conditional Nutrition*/}
-            {badNutriConditions && (
-              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your condition.</AppText>
-            )}
-
-            {/* Dietary Nutrition*/}
-            {badNutriDiet && (
-              <AppText style={styles.badHeader}>The nutrientional facts of this item may be bad for your diet.</AppText>
-            )}
-
-
             {/* CONDITIONS */}
-            {hasConditionBad > 0 && (
-              <>
+            {(hasConditionBad || conditionMatches.nutrientViolations?.length > 0) && (              <>
                 <AppText style={styles.badHeader}>
                   This food is BAD for you because...
                 </AppText>
-                {badConditionInfo.map((info, index) => (
-                  <FoodMatchInfo
-                    key={`condition-bad-${index}`}
-                    foundFoodInfo={info}
-                  />
-                ))}
+                {hasConditionBad && (
+                  <>
+                  {badConditionInfo.map((info, index) => (
+                    <FoodMatchInfo
+                      key={`condition-bad-${index}`}
+                      foundFoodInfo={info}
+                    />
+                  ))}
+                  </>
+                )}
+                {/* NUTRIENT BASED CONDITION CONFLICTS */}
+                {conditionMatches.nutrientViolations?.length > 0 && (
+                  <>
+                  <AppText style={styles.badHeader}>
+                    {"\n"}Nutrient Conflicts:
+                  </AppText>
+                  {conditionMatches.nutrientViolations.map((v, index) => (
+                    <AppText key={`nutri-${index}`} style={{ fontSize: 16, marginTop: 12, }}>
+                      The amount of {v.nutrient} ({v.value}{v.unit}) exceeds the recommended limit ({v.limit}{v.unit}) for {v.condition}.
+                    </AppText>
+                  ))}
+                  </>
+                )}
                 <LineDivider />
               </>
             )}
 
-            {hasConditionGood > 0 && (
+            {hasConditionGood && (
               <>
                 <AppText style={styles.goodHeader}>
                   This food is GOOD for you because...
@@ -430,7 +499,7 @@ function FoodDetails({ route }) {
             )}
 
             {/* DIETS */}
-            {hasAnyDietConflict && (
+            {(hasDietConflict || dietMatches.nutrientViolations?.length > 0) && (
               <>
                 <AppText style={styles.badHeader}>
                   This food conflicts with your diet because...
@@ -441,11 +510,9 @@ function FoodDetails({ route }) {
                     <AppText style={{ fontSize: 16 }}>
                       This food is officially classified as{" "}
                       <AppText style={{ color: colors.eltrdarkred, fontWeight: "bold" }}>
-                        {dietMatches.offConflicts
-                          .map(conflict => conflict.tag.replace("-", " "))
-                          .join(" and ")}
-                      </AppText>{" "}
-                      by Open Food Facts.
+                        {dietMatches.offConflicts.map(conflict => conflict.tag.replace("-", " ")).join(" and ")}
+                      </AppText>
+                      {" "}by Open Food Facts.
                     </AppText>
 
                     {barcode && (
@@ -463,14 +530,111 @@ function FoodDetails({ route }) {
                   </>
                 )}
 
-                {hasDietBadMatch &&
-                  groupedInfo.diet.map((info, index) => (
+                {/* NON-INGREDIENT DIET CONFLICTS (NOVA / CERT) */}
+                {dietMatches.avoid
+                  .filter(d => d.isDietBad && !d.hasIngredientConflict)
+                  .map((d, index) => (
+                    <View key={`diet-other-${index}`} style={{ marginTop: 8 }}>
+
+                      {/* MISSING CERTIFICATION (ex: Organic) */}
+                      {d.requiresCert && !d.hasOfficialCert && (
+                        <>
+                        <AppText style={{ fontSize: 16 }}>
+                          This product{" "}
+                          <AppText style={{ color: colors.eltrdarkred}}>
+                            does not have
+                          </AppText>
+                          {" "}an official{" "}
+                          <AppText style={{ fontWeight: "bold" }}>
+                            {d.diet}
+                          </AppText>
+                          {" "}certification.
+                        </AppText>
+                      
+                        {barcode && (
+                          <AppText
+                            style={[{ fontSize: 16, color: colors.eltrdarkblue }]}
+                            onPress={() =>
+                              Linking.openURL(
+                                `https://world.openfoodfacts.org/products/${barcode}`
+                              )
+                            }
+                          >
+                            Learn more
+                          </AppText>
+                        )}
+                        </>
+                      )}
+                    </View>
+                ))}
+
+                {/* NOVA (processed) CONFLICT */}
+                {dietMatches.novaConflicts.length > 0 && (
+                  <>
+                    {dietMatches.novaConflicts.map((d, index) => (
+                      <View key={`nova-${index}`} style={{ marginTop: 8 }}>
+                        <AppText style={{ fontSize: 16 }}>
+                          This product is classified as{" "}
+                          <AppText style={{ color: colors.eltrdarkred }}>
+                            NOVA Group {d.novaGroup}
+                          </AppText>
+                          {" "}which conflicts with your{" "}
+                          <AppText style={{ fontWeight: "bold" }}>
+                            {d.diet}
+                          </AppText>
+                          {" "}diet.
+                        </AppText>
+
+                        {barcode && (
+                          <AppText
+                            style={{ fontSize: 16, color: colors.eltrdarkblue }}
+                            onPress={() =>
+                              Linking.openURL(
+                                `https://world.openfoodfacts.org/products/${barcode}`
+                              )
+                            }
+                          >
+                            Learn more
+                          </AppText>
+                        )}
+                      </View>
+                    ))}
+                  </>
+                )}
+
+                {/* INGREDIENT-BASED DIET CONFLICTS */}
+                {dietMatches.avoid
+                  .filter(d => d.hasIngredientConflict)
+                  .map((d, index) => (
                     <FoodMatchInfo
-                      key={`diet-${index}`}
-                      foundFoodInfo={info}
+                      key={`diet-ingredient-${index}`}
+                      foundFoodInfo={{
+                        ingredients: d.ingredients,
+                        explanation: d.explanation,
+                      }}
                     />
-                  ))
-                }
+                ))}
+
+                {/* NUTRIENT BASED DIET CONFLICTS */}
+                {dietMatches.nutrientViolations?.length > 0 && (
+                  <>
+                    <AppText style={styles.badHeader}>
+                      {"\n"}Nutrient Conflicts:
+                    </AppText>
+                    {dietMatches.nutrientViolations.map((v, index) => (
+                      <AppText key={`diet-nutri-${index}`} style={{ fontSize: 16, marginTop: 12, }}>
+                        The amount of {v.nutrient} ({v.value}{v.unit}) exceeds the recommended limit ({v.limit}{v.unit}) for the {v.diet} diet.
+                      </AppText>
+                    ))}
+                  </>
+                )}
+
+                {/* {groupedInfo.diet.map((info, index) => (
+                  <FoodMatchInfo
+                    key={`diet-${index}`}
+                    foundFoodInfo={info}
+                  />
+                ))} */}
 
                 <LineDivider />
               </>
@@ -682,6 +846,21 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 10,
     marginRight: 10,
+    textAlign: "center",
+  },
+  subTitle: { 
+    fontSize: 20, 
+    // fontWeight: "bold", 
+    // marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
+    textAlign: "center",
+  },
+  warningText: { 
+    fontSize: 15, 
+    fontStyle: "italic",
+    marginLeft: 21,
+    marginRight: 21,
     textAlign: "center",
   },
   thumbs: {

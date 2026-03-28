@@ -35,25 +35,24 @@ function ChildButtonSmall({ title, onPress, color = "eltrlightpink" }) {
 
 const styles = StyleSheet.create({
   button: {
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: colors.medium,
-    borderRadius: 50,
-    shadowColor: colors.white,
-    shadowOpacity: 0.5,
+    borderRadius: 60,
+    shadowColor: colors.black,
+    shadowOpacity: 0.2,
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 4
     },
-      shadowRadius: 4,
-      alignItems: "center", 
-      width: 140,
-      height: 180,
-      justifyContent:"center",
-      margin: 5
-      //padding: 25,
-      //marginVertical: 10,
+    shadowRadius: 2,
+    alignItems: "center", 
+    width: 155,
+    height: 80,
+    justifyContent:"center",
+    margin: 5
+    //padding: 25,
+    //marginVertical: 10,
   },
-
   buttonText: {
     fontSize: 24,
     color: colors.dark,

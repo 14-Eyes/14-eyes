@@ -23,221 +23,418 @@ import ChildButtonBottom from "../../components/ChildButtonBottom";
 import AppText from "../../components/AppText";
 import colors from "../../config/colors";
 import routes from "../../navigation/routes";
-import check from "../../utility/check";
 
-function ChildFood({ navigation, route }) {
+import { checkAllergies } from "../../utility/checkAllergies";
+import { checkConditions } from "../../utility/checkConditions";
+import { checkDiet } from "../../utility/checkDiet";
+
+function ChildFood({ route, navigation }) {
   const food = route.params;
-  const status = food.status;
+  const foodStatus = food?.status;
+
+  const grade = food?.product?.nutrition_grade_fr;
+  const validGrade = ["a","b","c","d","e"].includes(grade);
+  const badGrade = ["c","d","e"].includes(grade);
+
+  const [badSugarAmount, setBadSugarAmount] = useState(false);
   const [allergic, setAllergic] = useState(null);
-  let traces = false;
+  const [condition, setCondition] = useState(null);
+  const [diet, setDiet] = useState(null);
+  const [allergyIngredients, setAllergyIngredients] = useState([]);
+  const [conditionIngredients, setConditionIngredients] = useState([]);
+  const [dietIngredients, setDietIngredients] = useState([]);
 
-  if (food.status) {
-    traces = food.product.traces;
+  useEffect(() => {
+    if (foodStatus === 1) {
+      runFoodCheck();
+    }
+  }, []);
+  
+  const runFoodCheck = async () => {
+    
+    const ingredients =
+      food?.product?.ingredients_text_en ||
+      food?.product?.ingredients_text ||
+      "";
 
-    useEffect(() => {
-      checkAllergies();
-    }, []);
-  }
+    const allergens =
+      food?.product?.allergens_tags || [];
 
-  const checkAllergies = async () => {
-    const allergic = await check.checkAllergens(
-      food.product.ingredients_text,
-      food.product.traces
+    const nutrients =
+      food?.product?.nutriments || {};
+
+    const labels =
+      food?.product?.labels_tags || [];
+
+    const analysis =
+      food?.product?.ingredients_analysis_tags || [];
+
+    const novaGroup =
+      food?.product?.nova_group ?? null;
+
+    /* ---- Allergy Check ---- */
+    const allergyResults = await checkAllergies(
+      ingredients,
+      allergens,
+      nutrients
     );
-    setAllergic(allergic);
+
+    const badAllergies = [
+    ...(allergyResults?.avoid || []),
+    ...(allergyResults?.offAllergen || [])
+  ];
+
+    if (badAllergies.length > 0) {
+      const allergyNames = [
+        ...new Set(badAllergies.map(a => a.allergy))
+      ];
+      const allergyMatches = [
+        ...new Set(
+          badAllergies.map(a => {
+
+            // if coming from OFF tag, label it clearly
+            if (allergyResults?.offAllergen?.includes(a)) {
+              return `Contains ${a.ingredient}`;
+            }
+
+            return a.ingredient;
+          })
+        )
+      ];
+
+      setAllergic(allergyNames.join(", "));
+      setAllergyIngredients(allergyMatches);
+    }
+    /* ----------------------- */
+
+    /* --- Condition Check --- */
+    const conditionResults = await checkConditions(
+      ingredients, 
+      nutrients
+    );
+
+    if (conditionResults?.avoid?.length > 0) {
+      const conditionNames = [
+        ...new Set(conditionResults.avoid.map(c => c.condition))
+      ];
+      const conditionMatches = [
+        ...new Set(conditionResults.avoid.map(c => c.ingredient))
+      ];
+      setCondition(conditionNames.join(", "));
+      setConditionIngredients(conditionMatches);
+    }
+    /* ----------------------- */
+
+    /* ------ Diet Check ----- */
+    const dietResults = await checkDiet(
+      ingredients,
+      labels,
+      analysis,
+      nutrients,
+      novaGroup,
+    );
+
+    const badDiets = dietResults?.avoid?.filter(d => d.isDietBad);
+
+    if (badDiets?.length > 0) {
+      const dietNames = [
+        ...new Set(badDiets.map(d => d.diet))
+      ];
+      const dietMatches = [
+        ...new Set(
+          badDiets.flatMap(d => {
+            let items = [...(d.ingredients || [])];
+
+            if (d.novaConflict && novaGroup) {
+              items.push(`Ultra-processed (NOVA ${novaGroup})`);
+            }
+
+            return items;
+          })
+        )
+      ];
+
+      console.log("BAD DIETS:", dietNames);
+      console.log("BAD DIET INGREDIENTS:", dietMatches);
+      setDiet(dietNames.join(", "));
+      setDietIngredients(dietMatches);
+    }
+    /* ----------------------- */
+
+    /* ----- Sugar Check ----- */
+    const totalSugar = nutrients?.sugars ?? 0;
+    if (totalSugar > 6) {
+      setBadSugarAmount(true);
+    } else {
+      setBadSugarAmount(false);
+    }
+    /* ----------------------- */
   };
 
-  if(status){
+  const getGradeImage = (grade) => {
+    switch (grade) {
+      case "a":
+        return require("../../assets/grade-a.png");
+      case "b":
+        return require("../../assets/grade-b.png");
+      case "c":
+        return require("../../assets/grade-c.png");
+      case "d":
+        return require("../../assets/grade-d.png");
+      case "e":
+        return require("../../assets/grade-e.png");
+      default:
+        return null;
+    }
+  };
+
+  console.log("CHILD MODE NUTRITION GRADE:", food?.product?.nutrition_grade_fr);
+
+  if(food?.status === 1){
     return (
       <ScrollView style={styles.screen}>
-        <Screen style = {styles.container}>
-          <View style = {styles.spacing}>
+        <Screen style={styles.container}>
+
+          {/* show any warnings (bad food matches) first */}
+          {badSugarAmount && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningTitle}>WARNING!</AppText>
+              <AppText style={styles.warningText}>
+                This food has <AppText style={styles.bold}>too much sugar</AppText>.
+              </AppText>
+            </View>
+          )}
+          {allergic && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningTitle}>WARNING!</AppText>
+              <AppText style={styles.warningText}>
+                This food may trigger your <AppText style={styles.bold}>{allergic}</AppText> allergy.
+              </AppText>
+            </View>
+          )}
+          {condition && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningTitle}>WARNING!</AppText>
+              <AppText style={styles.warningText}>
+                This food may worsen your <AppText style={styles.bold}>{condition}</AppText> condition(s).
+              </AppText>
+            </View>
+          )}
+          {diet && (
+            <View style={styles.warningBox}>
+              <AppText style={styles.warningTitle}>WARNING!</AppText>
+              <AppText style={styles.warningText}>
+                This food may not match your <AppText style={styles.bold}>{diet}</AppText> diet(s).
+              </AppText>
+            </View>
+          )}
+
+          {/* show product name + nutri score if found */}
+          <View style={styles.bubbleContainer}>
             <Image
               source={require('../../assets/speechbubble.png')}
               style={styles.speechBubble}
             />
-          </View>
 
-          <View style = {styles.spacing2}>
-            <AppText style={styles.text}>This looks like </AppText> 
-            <AppText style={styles.fooditem}>{food.product.product_name}.</AppText> 
+            <View style = {styles.bubbleContent}>
+              <AppText style={styles.text}>This looks like </AppText> 
+              <AppText 
+                style={styles.fooditem}
+                numberOfLines={3}
+                adjustsFontSizeToFit
+                minimumFontScale={0.9}
+              >
+                {food.product.product_name}
+              </AppText> 
 
-            {food.product.nutrition_grade_fr ? (
-            <AppText style={styles.text}> Adam Apple gives a grade of: </AppText> ):
-            <AppText style={styles.text}> Adam Apple does not have enough information to give a grade. </AppText>}
-          </View>
-
-          {food.product.nutrition_grade_fr ? (
-          <View style = {styles.spacing}>
-            {food.product.nutrition_grade_fr.includes('a') &&
-              <Image
-              source={require('../../assets/grade-a.png')}
-              style={styles.grade}
-              />
-            }  
-            
-            {food.product.nutrition_grade_fr.includes('b') &&
-              <Image
-              source={require('../../assets/grade-b.png')}
-              style={styles.grade}
-              />
-            }
-
-            {food.product.nutrition_grade_fr.includes('c') &&
-              <Image
-              source={require('../../assets/grade-c.png')}
-              style={styles.grade}
-              />
-            }
-
-            {food.product.nutrition_grade_fr.includes('d') &&
-              <Image
-              source={require('../../assets/grade-d.png')}
-              style={styles.grade}
-              />
-            }
-              
-            {food.product.nutrition_grade_fr.includes('e') &&
-              <Image
-              source={require('../../assets/grade-e.png')}
-              style={styles.grade}
-              />
-            }
-          </View>): null}
-
-          <View style = {styles.spacing2}>
-            <View style = {styles.spacing}>
-              <View style = {styles.otherButtons}>
-                <ChildButtonFood
-                  title="More Details"
-                  onPress={() => navigation.navigate(routes.CHILD_ABOUTFOOD, food)}
-                />   
-                <ChildButtonFood
-                  title="Scan Again"
-                  onPress={() => navigation.navigate(routes.CHILD_SCAN)} />
-              </View> 
+              {validGrade ? (
+                <>
+                  <AppText style={styles.text}> Adam Apple gives a grade of: </AppText>
+                  <Image
+                    source={getGradeImage(food.product.nutrition_grade_fr)}
+                    style={styles.grade} 
+                  />
+                </>
+              ) : (
+                <AppText style={styles.noGradeText}> Adam Apple does not have enough information to give a grade. </AppText>
+              )}
+              {(badGrade || badSugarAmount || allergic || condition || diet ) && (
+                <>
+                  <AppText style={styles.text}> Adam Apple says to check with your parent before eating this food. </AppText>
+                </>
+              )}
             </View>
           </View>
-          {allergic ? (
-            <>
-            <View style = {styles.spacing}>
-              <AppText style={styles.allergy}>
-                Warning! You are allergic to: {allergic}
-              </AppText>
+
+          {/* buttons */}
+          <View style={styles.buttonRow}>
+            <View style={styles.button}>
+              <ChildButtonFood
+                title="More Details"
+                onPress={() =>
+                  navigation.navigate(routes.CHILD_ABOUTFOOD, {
+                    food,
+                    allergyConflicts: allergyIngredients,
+                    conditionConflicts: conditionIngredients,
+                    dietConflicts: dietIngredients,
+                  })
+                }
+              />
             </View>
-            </>
-          ) : null}
+            <View style={styles.button}>
+              <ChildButtonFood
+                title="Scan Again"
+                onPress={() => navigation.navigate(routes.CHILD_SCAN)}
+              />
+            </View>
+          </View>
+
+          <View style={styles.homeButton}>
+            <ChildButtonBottom
+              title="HOME"
+              onPress={() => navigation.navigate(routes.CHILD_HOME)}
+            />
+          </View>
         </Screen>
-        <ChildButtonBottom
-          title="HOME"
-          onPress={() => navigation.navigate(routes.CHILD_HOME)} />  
       </ScrollView>
-      );
+    );
   }
   else{
     return(      
       <ScrollView style={styles.screen}>
         <Screen style = {styles.container}>
-          <View style = {styles.spacing2}>
-            <View style = {styles.spacing}>
-              <Image
+          <View style={styles.bubbleContainer}>
+            <Image
               source={require('../../assets/speechbubble.png')}
               style={styles.speechBubble}
+            />
+
+            <View style = {styles.bubbleContent}>
+              <AppText style={styles.text}>
+                Sorry, Adam can't find this item!
+              </AppText>
+            </View>
+          </View>
+
+          {/* buttons */}
+          <View style={styles.buttonRow}>
+            <View style={styles.button}>
+              <ChildButtonFood
+                title="Scan Again"
+                onPress={() => navigation.navigate(routes.CHILD_SCAN)}
               />
             </View>
           </View>
 
-          <View style = {styles.spacing2}>
-            <AppText style={styles.text}>
-              Sorry, Adam can't find this item!
-            </AppText>
-          </View>
-
-          <View style = {styles.spacing2}>
-            <View style = {styles.spacing}>
-              <ChildButtonFood
-                title="Scan Another Item"
-                onPress={() => navigation.navigate(routes.CHILD_SCAN)} />
-            </View>    
+          <View style={styles.homeButton}>
+            <ChildButtonBottom
+              title="HOME"
+              onPress={() => navigation.navigate(routes.CHILD_HOME)}
+              color="secondary"
+            />
           </View>
         </Screen>
-        <ChildButtonBottom
-            title="HOME"
-            onPress={() => navigation.navigate(routes.CHILD_HOME)} />   
       </ScrollView>
 
     );
   }
-}
+};
+
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: colors.eltrlightblue,
   },
-
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-},
-
+    alignItems: "center",
+    padding: 20,
+  },
+  bubbleContainer: {
+    width: 400,
+    height: 600,
+    alignItems: "center",
+    // justifyContent: "center",
+    position: "relative",
+  },
   speechBubble: {
-    marginBottom: 10,
-    width: 360,
-    height: 650,
-    top: 300
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+    position: "absolute",
   },
-
-  grade: {
-    width: 128,
-    height: 132,
-    bottom: 250,
+  bubbleContent: {
+    width: "65%",
+    maxHeight: 430,
+    overflow: "hidden",
+    alignItems: "center",
+    marginTop: 50,
+    // marginBottom: 40,
   },
-
-  fooditem: {
-    color: colors.eltrred,
-    fontSize: 24,
-    fontWeight: '400',
-    fontStyle: 'normal',
-    textAlign: 'center',
-    width: 250,
-    bottom: 250
-  },
-
   text: {
-    color: colors.black,
-    fontSize: 24,
-    fontWeight: '400',
-    fontStyle: 'normal',
-    textAlign: 'center',
-    width: 250,
-    bottom: 250
+    fontSize: 22,
+    textAlign: "center",
+    // bottom: 400,
   },
-
-  spacing: {
-    bottom: 75,
-    alignItems: 'center',
-    marginHorizontal: 5,
+  noGradeText: {
+    fontSize: 22,
+    textAlign: "center",
+    marginTop: 15,
+    marginBottom: 35,
   },
-
-  spacing2: {
-    bottom: 120,
-    marginHorizontal: 5,
+  fooditem: {
+    fontSize: 22,
+    color: colors.eltrred,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
+    // bottom: 400,
   },
-  
-  otherButtons: {   
-    flexDirection:"row",
-    width:"48%",
-    bottom: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
+  grade: {
+    width: 120,
+    height: 120,
+    marginTop: 10,
+    marginBottom: 15,
+    resizeMode: "contain",
   },
-
-  allergy: {
-    backgroundColor:colors.eltrred,
-    fontSize: 20,
+  warningBox: {
+    backgroundColor: colors.eltrred,
+    padding: 15,
+    borderRadius: 15,
+    marginBottom: 10,
+    width: "90%",
+    alignItems: "center",
+  },
+  warningTitle: {
+    fontSize: 28,
     fontWeight: "bold",
     color: colors.white,
-    bottom: 0,
+    marginBottom: 4,
+  },
+  warningText: {
+    fontSize: 20,
+    color: colors.white,
+    textAlign: "center",
+  },
+  bold: {
+    fontWeight: "bold",
+    color: colors.white,
+    fontSize: 22,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 20,
+    paddingTop: 20,
+    width: "42%",
+  },
+  button: {
+    marginHorizontal: 10,
+    width: "100%",
+  },
+  homeButton: {
+    borderRadius: 35,
+    overflow: "hidden",
+    width: "70%",
+    marginBottom: 40,
   },
 });
 
