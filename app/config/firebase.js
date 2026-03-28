@@ -94,8 +94,7 @@ const geminiModel = genAI.getGenerativeModel({
 
     # Disclaimers:
     - ensure that every response based around pricing response ends with a warning akin to 'Prices subject to variation across regions, please consult local information'
-    - ensure that every response based around dieting advice ends with a warning akin to 'As an AI-Model I am not qualified to provide accurate medical advice, please consult a professional'
-    - ensure that every response based around medical advice ends with a warning akin to 'As an AI-Model I am not qualified to provide accurate medical advice, please consult a professional'
+    - ensure that every response based around dieting and medical advice ends with a warning akin to 'As an AI-Model I am not able to guarantee accurate medical advice, please consult a professional for further information about your question.'
     
     # Examples:
     - User: I'm worried about my Lay's chips being too processed and too high in sodium. What are some alternative snacks I could try?

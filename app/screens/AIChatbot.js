@@ -45,7 +45,7 @@ function ChatBot({ navigation }) {
 
     const [messages, setMessages] = useState([
         {
-            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything :)",
+            text: "Hello! I'm your personal nutrition assistant! I can help with generic nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything about food :)",
             sender: "ai",
             quickReplies: getRandomPreset(REPLY_PRESETS, 3),
         }
@@ -95,12 +95,12 @@ function ChatBot({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <AppText style={styles.title}>Ask about healthy budgeting choices, or nutritional advice!</AppText>
+            <AppText style={styles.title}>Ask about budgeting, food, or general nutritional advice!</AppText>
             <LineDivider/>
             <ScrollView 
                 ref={ScrollViewRef}
                 style={styles.messages}
-                contentContainerStyle={{ paddingBottom: 20 }}
+                contentContainerStyle={{ paddingBottom: 10 }}
             >
                 {messages.map((msg, index) => (
                     <View key={index}>
@@ -168,13 +168,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 20,
     textAlign: "center",
     color: colors.eltrgreen,
   },
   messages: {
     flex: 1,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   message: {
     padding: 10,
