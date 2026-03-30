@@ -27,8 +27,11 @@ function ChatBot({ navigation }) {
         "What are some low-budget, nutrient rich lunch options?",
         "Give me some low-fat breakfast options", 
         "Provide optimal grocery shopping tips",
-        "What are some key foods to avoid for gluten allergies?",
+        "What are some key foods to avoid for shellfish allergies?",
         "What should I look for in nutrient labels when dieting?",
+        "Teach me about reactive allergens",
+        "What should I eat throughout my day so I don't snack between meals?",
+        "What are some keto friendly meals I can make to reach my daily nutrient goals?",
     ];
 
     const getRandomPreset = (pool, count = 3) => {
@@ -42,7 +45,7 @@ function ChatBot({ navigation }) {
 
     const [messages, setMessages] = useState([
         {
-            text: "Hello! I'm your personal nutrition assistant! I can help with nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything :)",
+            text: "Hello! I'm your personal nutrition assistant! I can help with generic nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything about food :)",
             sender: "ai",
             quickReplies: getRandomPreset(REPLY_PRESETS, 3),
         }
@@ -92,12 +95,12 @@ function ChatBot({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <AppText style={styles.title}>Ask about healthy budgeting choices, or nutritional advice!</AppText>
+            <AppText style={styles.title}>Ask about budgeting, food, or general nutritional advice!</AppText>
             <LineDivider/>
             <ScrollView 
                 ref={ScrollViewRef}
                 style={styles.messages}
-                contentContainerStyle={{ paddingBottom: 20 }}
+                contentContainerStyle={{ paddingBottom: 10 }}
             >
                 {messages.map((msg, index) => (
                     <View key={index}>
@@ -165,13 +168,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 20,
     textAlign: "center",
     color: colors.eltrgreen,
   },
   messages: {
     flex: 1,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   message: {
     padding: 10,
