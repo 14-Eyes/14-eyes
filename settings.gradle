@@ -9,3 +9,5 @@
 
 rootProject.name = 'ELTRFront'
 include('app')
+include ':unityLibrary'
+project(':unityLibrary').projectDir=new File('..\\unity\\builds\\android\\unityLibrary')

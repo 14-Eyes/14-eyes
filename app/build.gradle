@@ -29,3 +29,12 @@ application {
     // Define the main class for the application.
     mainClass = 'ELTRFront.App'
 }
+
+allprojects {
+  repositories {
+    // this
+    flatDir {
+        dirs "${project(':unityLibrary').projectDir}/libs"
+    }
+  }
+}
