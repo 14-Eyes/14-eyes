@@ -14,15 +14,15 @@ function ChildRecipesSubScreen({ route, navigation }) {
   const { childRecipesId } = route.params;
   const recipe = childRecipes.find((r) => r.id === childRecipesId);
 
-  const player = useVideoPlayer(
-    recipe.video,
-    (player) => {
-      player.loop = true;
-      player.pause();
-    }
-  );
+  // const player = useVideoPlayer(
+  //   recipe.video,
+  //   (player) => {
+  //     player.loop = true;
+  //     player.pause();
+  //   }
+  // );
 
-  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+  // const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
 
   // backup failsafe
   if (!recipe) {
@@ -70,10 +70,10 @@ function ChildRecipesSubScreen({ route, navigation }) {
           {recipe.description}
         </AppText>
 
-        <VideoView
+        {/* <VideoView
           style={styles.video}
           player={player}
-        />
+        /> */}
 
         {/* this is the code for the Figma design */}
         {/* I made this before looking at how Cathy sent her recipes :') */}
@@ -158,16 +158,16 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     zIndex: 2,
   },
-  video: {
-    width: "60%",
-    height: 400, // fixed height avoids flex issues
-    backgroundColor: colors.eltrdarkblue,
-    alignSelf: "center",
-    borderRadius: 10,
-    borderWidth: 5,
-    borderColor: colors.eltrdarkblue,
-    marginBottom: 10,
-  },
+  // video: {
+  //   width: "60%",
+  //   height: 400, // fixed height avoids flex issues
+  //   backgroundColor: colors.eltrdarkblue,
+  //   alignSelf: "center",
+  //   borderRadius: 10,
+  //   borderWidth: 5,
+  //   borderColor: colors.eltrdarkblue,
+  //   marginBottom: 10,
+  // },
   sectionTitle: {
     color: colors.black,
     fontWeight: "bold",
