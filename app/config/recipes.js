@@ -485,7 +485,7 @@ export const childRecipes = [
             "1 tsp black pepper",
             "1/4 tsp cayenne pepper",
         ],
-        description: "Ask a grown up to help! 3 servings of veggies per burger! Place ground meat in a large bowl and set aside. In a blender, add all other ingredients and blend until thick, about 10 to 15 seconds or until beans are pureed. *Best to do this in interval spurts instead of all at once. Spoon paste into the ground meat and mix well. Use your hands! They are the best tools in the kitchen. Plus, its messy and fun! Form patties and place into a sprayed, glass pan. Place into a preheated 425-degree oven and cook for 30 minutes. Top with Swiss or any white cheese for the healthiest option. Add spinach, red onions and tomato! ~Enjoy! (Makes 4 to 6 medium size burgers)",
+        description: "Ask a grown up to help! 3 servings of veggies per burger! Place ground meat in a large bowl and set aside. In a blender, add all other ingredients and blend until thick, about 10 to 15 seconds or until beans are pureed. *Best to do this in interval spurts instead of all at once. Spoon paste into the ground meat and mix well. Use your hands! They are the best tools in the kitchen. Plus, its messy and fun! Form patties and place into a glass pan sprayed with olive oil. Place into a preheated 425-degree oven and cook for 30 minutes. Top with Swiss or any white cheese for the healthiest option. Add spinach, red onions and tomato! ~Enjoy! (Makes 4 to 6 medium size burgers)",
     },
     {
         id: "lulu-lemon",
@@ -510,7 +510,7 @@ export const childRecipes = [
         image: require("../assets/child_mode/fruit-bowl.png"),
         characterImage: require("../assets/child_mode/nika-recipe.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
-        subText: "From Lazarus Lime",
+        subText: "From Lazarus The Lime",
         ingredients: [
             "1 cup mixed fruit",
             "1-8 oz. carton Oikos Triple Zero Vanilla yogurt",
