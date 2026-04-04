@@ -15,11 +15,15 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { geminiModel } from "../config/firebase";
 import LineDivider from "../components/Divider";
+import { fetchAIUsage, incrementAIUsage } from "../utility/fetchAI";
+import { Alert } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
 
 function ChatBot({ navigation }) {
+    
+    const DAILY_AI_LIMIT = 20;
 
     const REPLY_PRESETS = [
         "What are some budget friendly snack options?",
@@ -40,9 +44,6 @@ function ChatBot({ navigation }) {
         return random.slice(0, count);
     };
 
-
-
-
     const [messages, setMessages] = useState([
         {
             text: "Hello! I'm your personal nutrition assistant! I can help with generic nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything about food :)",
@@ -54,6 +55,16 @@ function ChatBot({ navigation }) {
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const [messagesRemaining, setMessagesRemaining] = useState(DAILY_AI_LIMIT);
+    useEffect(() => {
+        loadUsage();
+    }, []);
+
+    const loadUsage = async () => {
+        const usage = await fetchAIUsage();
+        setMessagesRemaining(usage.remaining);
+    };
+
     const insets = useSafeAreaInsets();
     const ScrollViewRef = useRef(null);
 
@@ -63,11 +74,28 @@ function ChatBot({ navigation }) {
         }
     }, [messages]);
 
+
     const sendMessage = async (messageText = null) => {
 
         const textToSend = messageText || inputText.trim();
 
         if (!textToSend) return; //exits function early if no user message
+
+        const usage = await fetchAIUsage();
+
+        if (!usage.allowed) {
+            Alert.alert(
+                "Daily limit reached",
+                `You've reached your daily limit of ${usage.limit} messages. Please try again tomorrow.`,
+                [{text: "OK" }]
+            );
+            return;
+        }
+
+        await incrementAIUsage();
+
+        const updatedUsage = await fetchAIUsage();
+        setMessagesRemaining(updatedUsage.remaining);
 
         setMessages((prev) => [...prev, { text: textToSend, sender: "user" }]); //adds previous user message to messages array
         //const userQuestion = inputText; //saves user input to a variable
@@ -96,6 +124,11 @@ function ChatBot({ navigation }) {
     return (
         <View style={styles.container}>
             <AppText style={styles.title}>Ask about budgeting, food, or general nutritional advice!</AppText>
+            <View style={styles.usageContainer}>
+                <AppText style={styles.usageText}>
+                    Messages today: {DAILY_AI_LIMIT - messagesRemaining}/{DAILY_AI_LIMIT}
+                </AppText>
+            </View>
             <LineDivider/>
             <ScrollView 
                 ref={ScrollViewRef}
@@ -149,7 +182,7 @@ function ChatBot({ navigation }) {
                             (!inputText.trim() || isLoading) && styles.sendButtonDisabled
                         ]}
                         onPress={() => sendMessage()}
-                        disabled={!inputText.trim() || isLoading}
+                        disabled={!inputText.trim() || isLoading || messagesRemaining <= 0}
                     >
                         <AppText style={styles.sendButtonText}>Send</AppText>
                     </TouchableOpacity>
@@ -236,6 +269,17 @@ const styles = StyleSheet.create({
   sendButtonText: {
     color: colors.white,
     fontWeight: "bold",
+  },
+
+  usageContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+
+  usageText: {
+    fontSize: 12,
+    color: colors.medium,
+    fontStyle: 'italic',
   },
 });
 
