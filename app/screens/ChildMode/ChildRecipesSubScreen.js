@@ -1,5 +1,7 @@
 import React from "react";
+import { useEvent } from 'expo';
 import { StyleSheet, View, Platform, ScrollView, TouchableOpacity, Image, Text } from "react-native";
+import { VideoView, useVideoPlayer } from "expo-video";
 
 import AppText from "../../components/AppText";
 import Screen from "../../components/Screen";
@@ -11,6 +13,16 @@ import { childRecipes } from "../../config/recipes";
 function ChildRecipesSubScreen({ route, navigation }) {
   const { childRecipesId } = route.params;
   const recipe = childRecipes.find((r) => r.id === childRecipesId);
+
+  // const player = useVideoPlayer(
+  //   recipe.video,
+  //   (player) => {
+  //     player.loop = true;
+  //     player.pause();
+  //   }
+  // );
+
+  // const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
 
   // backup failsafe
   if (!recipe) {
@@ -36,7 +48,15 @@ function ChildRecipesSubScreen({ route, navigation }) {
           {recipe.title}
         </AppText>
 
-        <Image source={recipe.image} style={styles.image} />
+        <View style={styles.imageContainer}>
+          <Image source={recipe.image} style={styles.image} />
+
+          <Image
+            source={recipe.characterImage}
+            style={styles.characterOverlay}
+          />
+        </View>
+        <AppText style={styles.subText}>{recipe.subText}</AppText>
 
         <AppText style={styles.sectionTitle}>INGREDIENTS</AppText>
         {recipe.ingredients.map((ingredient, index) => (
@@ -49,6 +69,11 @@ function ChildRecipesSubScreen({ route, navigation }) {
         <AppText style={styles.text}>
           {recipe.description}
         </AppText>
+
+        {/* <VideoView
+          style={styles.video}
+          player={player}
+        /> */}
 
         {/* this is the code for the Figma design */}
         {/* I made this before looking at how Cathy sent her recipes :') */}
@@ -93,22 +118,56 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 30,
   },
+  subText: {
+    color: colors.black,
+    fontStyle: "italic",
+    fontSize: 17,
+    textAlign: "center",
+    marginBottom: 10,
+  },
   text: {
     color: colors.black,
     fontSize: 21,
     textAlign: "center",
-    marginBottom: 50,
+    marginBottom: 30,
     marginLeft: 20,
     marginRight: 20,
   },
-  image: {
+  imageContainer: {
     width: "75%",
-    height: 180,
+    alignSelf: "center",
+    position: "relative",
+  },
+  image: {
+    width: "100%",
+    height: 270,
     borderRadius: 10,
     alignSelf: "center",
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 5,
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: colors.eltrdarkblue,
   },
+  characterOverlay: {
+    position: "absolute",
+    bottom: -2,  // overlap amount
+    left: -50,    // horizontal placement
+    width: 140,
+    height: 140,
+    resizeMode: "contain",
+    zIndex: 2,
+  },
+  // video: {
+  //   width: "60%",
+  //   height: 400, // fixed height avoids flex issues
+  //   backgroundColor: colors.eltrdarkblue,
+  //   alignSelf: "center",
+  //   borderRadius: 10,
+  //   borderWidth: 5,
+  //   borderColor: colors.eltrdarkblue,
+  //   marginBottom: 10,
+  // },
   sectionTitle: {
     color: colors.black,
     fontWeight: "bold",

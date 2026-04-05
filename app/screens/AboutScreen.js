@@ -8,21 +8,34 @@
  */
 
 import React from "react";
-import { StyleSheet, ScrollView, Text, Image, Linking, View, Alert } from "react-native";
-import { Pressable } from "react-native-gesture-handler";
-import { block } from "react-native-reanimated";
+import { useEvent } from 'expo';
+import { StyleSheet, ScrollView, Text, Image, Linking, View, Alert, Button, Pressable } from "react-native";
+// import { Pressable } from "react-native-gesture-handler";
+import { VideoView, useVideoPlayer } from "expo-video";
 
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 function AboutScreen(props) {
+  
+  const player = useVideoPlayer(
+    require("../assets/videos/introHuman.mp4"),
+    (player) => {
+      player.loop = true;
+      player.pause();
+      // player.play();
+    }
+  );
+
+  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+
   return (
     <Screen style={styles.container}>
       <ScrollView>
         <Image
           style={styles.rainbowPic}
-          source={require("../assets/eltrRainbow.png")}
+          source={require("../assets/eltrRainbow_new.png")}
         />
 
         {/* SOCIAL MEDIA ICONS SECTION */}
@@ -84,10 +97,15 @@ function AboutScreen(props) {
             <Image source={require("../assets/linkedin.png")} style={styles.socialIcon} />
           </Pressable>
         </View>
-        
+
         <AppText style={styles.title}>Welcome to the Eat Like The Rainbow™ App!</AppText>
         <AppText style={styles.text}>
-          This app is created by people who care about food, for people who care about food.
+          This app was created by people who care about food and your health! Godsource Foods™,
+          foods created by God, are preventative medicine. Our app will enable you to
+          confidently maneuver the marketing traps of the grocery store and empower you to shop with food
+          wisdom and healthy, minded choices that will keep you and your family from falling
+          prey to the fake food that occupies our grocery shelves.
+          {"\n\n"}
           Learn more about what's in the food you're purchasing by using the barcode scanner,
           read facts about the ingredients in your food on the Home page,
           try out some Chef Cathy Zeis recommended recipes on the Recipes page,
@@ -96,11 +114,15 @@ function AboutScreen(props) {
           switching to Child Mode. Check out our FAQ page
           for more information about how to use the app.
           {"\n\n"}
-          You can read more information about the Eat Like The Rainbow™ project and Chef Cathy Zeis below, or you can check out the socials linked 
-          above for direct access to Chef Cathy Zeis' platforms! 
+          You can read more information about the Eat Like The Rainbow™ program and Chef Cathy Zeis below. 
+          You can can also visit our social media accounts linked above for direct access to Chef Cathy Zeis' platforms! 
         </AppText>
 
         <AppText style={styles.title}>What is "Eat Like The Rainbow™?"</AppText>
+        <VideoView
+          style={styles.video}
+          player={player}
+        />
         <AppText style={styles.text}>
           <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>
           Eat Like The Rainbow™</Text> is a naturally done non-profit, catering to the
@@ -114,33 +136,59 @@ function AboutScreen(props) {
         <AppText style={styles.title}>Meet Chef Cathy Zeis</AppText>
         <Image
           style={styles.cathyPic1}
-          source={require("../assets/cathyHeadshot.png")}
+          source={require("../assets/cathyHeadshotNew.png")}
         />
         <AppText style={styles.text}>
-          I am an all-natural chef who creates healthy food plans for those who
-          are humbled by disease. I also passionately create healthy cuisine for
-          those who crave a healthier lifestyle. Based on the foods that were
-          created for us to feed our bodies from the very beginning, is the base
-          for all my plans. Whether you are fighting a disease like cancer,
-          heart disease, IBS, or obesity, this is where you want to be! If you
-          love and crave all natural, Godsource Foods™ as I do to maintain a
-          healthy lifestyle, then this is your place! It’s the combinations of
-          the foods that fuel our bodies. Foods can kill, but it can also heal!
-          I love educating people on how the simplest ingredients can power our
-          bodies. After all, our bodies are the most amazing machines ever
-          created! I’ll teach you how to fuel it…naturally! For more information about me
-          and many recipes, visit <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
+          This is God's talent, not mine! He puts it in my head and I throw it in a pan. 
+          I have spent most of my life around food. From my first job in a local grocery 
+          store in Connecticut at age 16 to creating healthy food plans for those humbled 
+          by disease, food is my life! From restaurant owner, to 10 years on television, 
+          food editor of a magazine, food photographer, food line creator, columnist, award-winning 
+          author and chef, and college lecturer, I've touched just about every area of the food 
+          industry. Educating people about how Godsource Foods™, foods 
+          that were created by God, work in our bodies is my loaned talent. Helping fight 
+          chronic disease and childhood obesity through The Power of Godsource Foods™ is my 
+          passion. Creating healthy food plans and educational information is my calling. 
+          I am so very blessed to love what I have been called to do! 
+          {"\n\n"}
+          God created foods on days 3 and 5. He created us on day 6! He had an idea on how 
+          to feed us before He created us. As an all-natural chef, I study foods and how they 
+          work in our bodies. Foods created for us is preventative medicine. In today's grocery 
+          stores, marketing controls the aisles more than health. Because of this, we now have 
+          more obesity and chronic disease in the history of our world. This is all due to the 
+          processed foods, additives, dyes and sugars that make up our food. This is not acceptable 
+          in my food world! I strive each day to educate those looking to encourage their kids 
+          and change their own lifestyles in a healthy way by using the very foods available to us each day.
+          {"\n\n"}
+          Our nonprofit, <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>
+          Eat Like The Rainbow™</Text>, is my purpose. Helping change the way we see 
+          food and use food to fuel our bodies is a priority. Our next generation of leaders 
+          are our best learners! Helping them in a fun, interactive way through our free website 
+          and app are rewarding beyond belief. With each bite, each new taste or discovery, our 
+          kids need to know just how important they are and how the simple foods created just for 
+          them can and will help them flourish.
+          {"\n\n"}
+          For more information about me and many recipes, 
+          visit <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com')}>my website</Text>!
           For more information on certain topics, you can also check out some resources in the library below!
         </AppText>
 
         <AppText style={styles.title}>Meet the team that brought the app to life!</AppText>
         <Image
           style={styles.eltrTeamPic}
-          source={require("../assets/cathyHeadshot.png")}
+          source={require("../assets/14-eyes.png")}
         />
         <AppText style={styles.text}>
-          From left to right: blah blah, blahdy blah, xxx yyy, xyz xyz, first last
+          <Text style={{fontWeight: "bold"}}>From left to right: </Text>Joshua Muñoz, Ethan Holley, Aayushma Bhattarai, Rowen Salazar, Lukas Kallus
         </AppText>
+
+        <AppText style={styles.text}>
+          {"\n"}<Text style={{fontWeight: "bold", textDecorationLine: 'underline', fontSize: 17,}}>App Version 1.0 Team</Text>
+        </AppText>
+        <AppText style={styles.text}>
+          <Text style={{fontSize: 17}}>Olivia Jones, Ime Ekpo, Mitchell Heinold, Mason Petersen, Zelvin Sandoval</Text>
+        </AppText>
+
 
         <AppText style={styles.title}>Library</AppText>
 
@@ -164,6 +212,102 @@ function AboutScreen(props) {
           </Text>
         </View>
 
+        <Text style={styles.subTitle}>Bedtime</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://youtu.be/bom6ZrVwGIc?si=08Zoe9HfNkU9grMy')}>
+              Why healthy sleep is crucial for academic success
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://health.clevelandclinic.org/sleep-and-health/')}>
+              Does a Bad Night's Sleep Affect Your Health?
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.cdc.gov/physical-activity-education/staying-healthy/sleep.html?CDC_AAref_Val=https://www.cdc.gov/healthyschools/sleep.htm')}>
+              Sleep and Health
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.sleepfoundation.org/nutrition/food-and-drink-promote-good-nights-sleep')}>
+              The Best Foods To Help You Sleep
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Food and Mental Health</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://youtu.be/CSHO9VdVRfg?si=JfJw7A8twroVtlGw')}>
+            Food and mood
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.webmd.com/diet/foods-high-in-polyphenols#1')}>
+            Healthy Foods High in Polyphenols
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://pmc.ncbi.nlm.nih.gov/articles/PMC6836211/')}>
+            Cognitive Function and Consumption of Fruit and Vegetable Polyphenols in a Young Population: Is There a Relationship?
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://cbn.com/news/us/surprising-link-between-these-foods-and-depression-anxiety-and-other-mental-health-issues')}>
+            The Surprising Link Between These Foods and Depression, Anxiety and Other Mental Health Issues 
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Grocery Stores</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.webmd.com/food-recipes/default.htm')}>
+            10 Tips for Healthy Grocery Shopping
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://medlineplus.gov/ency/article/001973.htm')}>
+            Cow's milk and children
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.nytimes.com/2020/09/08/dining/grocery-shopping-coronavirus.html')}>
+            7 Ways the Pandemic Has Changed How We Shop for Food
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.forbes.com/sites/capitalone/2018/08/20/is-fast-food-really-cheaper-than-healthy-eating/?sh=75263bb5410a')}>
+            Is Fast Food Really Cheaper Than Healthy Eating?
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Preservatives</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.webmd.com/diet/food-additives-special-report/video/cm/what-food-additives')}>
+            What are Food Additives? 
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.britannica.com/topic/preservative')}>
+            Preservative: Food Processing
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.loseit.com/articles/the-best-processed-foods-for-weight-loss-according-to-registered-dietitians/')}>
+            Harmful Effects of Preservatives in Foods
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://healthfully.com/what-are-the-dangers-of-preservatives-3201078.html')}>
+            What Are the Dangers of Preservatives? 
+          </Text>
+        </View>
+
+        <Text style={styles.subTitle}>Rainbow Foods</Text>
+        <View style={styles.linkContainer}>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://youtu.be/onyR8Rnzgrs?si=pcvdKQw5seQVh2q2')}>
+            Follow the rainbow to healthy eating 
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.health.harvard.edu/blog/phytonutrients-paint-your-plate-with-the-colors-of-the-rainbow-2019042516501')}>
+            Phytonutrients: Paint your plate with the colors of the rainbow 
+          </Text>
+          <Text style={styles.link2} 
+            onPress={() => Linking.openURL('https://www.healthline.com/nutrition/eat-the-rainbow')}>
+            Eating the Rainbow — Is It Useful and Should You Try It?
+          </Text>
+        </View>
+
         <Image
           style={styles.cathyPic2}
           source={require("../assets/cathyHeadshot.png")}
@@ -183,9 +327,22 @@ const styles = StyleSheet.create({
   },
   rainbowPic: {
     alignSelf: "center",
-    width: 300,
-    height: 210,
+    width: 230,
+    height: 230,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.white,
     marginTop: 10,
+    marginBottom: 10,
+  },
+  video: {
+    width: "50%",
+    height: 300, // fixed height avoids flex issues
+    backgroundColor: colors.primary,
+    alignSelf: "center",
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: colors.primary,
     marginBottom: 10,
   },
   title: {
@@ -228,12 +385,12 @@ const styles = StyleSheet.create({
   },
   cathyPic1: {
     alignSelf: "center",
-    width: 250,
-    height: 170,
+    width: 200,
+    height: 240,
     marginTop: 5,
     marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 2,
+    borderRadius: 7,
+    borderWidth: 4,
   },
   eltrTeamPic: {
     alignSelf: "center",
@@ -241,8 +398,8 @@ const styles = StyleSheet.create({
     height: 170,
     marginTop: 5,
     marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 2,
+    borderRadius: 7,
+    borderWidth: 4,
   },
   cathyPic2: {
     alignSelf: "center",
@@ -261,8 +418,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 1,
-    // Android Elevation property
-    elevation: 1,
   },
   socialIcon: {
     width: 45,
@@ -271,6 +426,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.eltrdarkblue,
     marginHorizontal: 10,
+    // Android Elevation property
+    elevation: 3,
   },
 });
 

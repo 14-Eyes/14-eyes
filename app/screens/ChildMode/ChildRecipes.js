@@ -39,6 +39,7 @@ function ChildRecipes({ navigation }) {
                 }
               >
                 <Image source={recipe.image} style={styles.image} />
+                <View style={styles.overlay} />
                 <View style={styles.textContainer}>
                   <Text style={styles.buttonText}>{recipe.title}</Text>
                 </View>
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
-    height: 145,
+    height: 155,
     borderRadius: 35,
     overflow: "hidden",
     marginVertical: 5,
@@ -105,7 +106,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     ...StyleSheet.absoluteFillObject,
-    resizeMode: "cover", // Or 'contain', 'stretch', etc.
+    resizeMode: "cover",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.3)'
   },
   textContainer: {
     paddingHorizontal: 37,
@@ -120,7 +125,7 @@ const styles = StyleSheet.create({
   subText: {
     color: colors.black,
     fontStyle: "italic",
-    fontSize: 15,
+    fontSize: 17,
     textAlign: "center",
   },
 });
