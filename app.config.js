@@ -36,6 +36,7 @@ export default {
       bundleIdentifier: "com.eatliketherainbow.eatliketherainbow",
       buildNumber: "1.0.0",
       supportsTablet: true,
+      useFrameworks: "static",
       infoPlist: {
         NSCameraUsageDescription:
           "This app uses the camera to scan barcodes of grocery items to pull their ingredients list.",
