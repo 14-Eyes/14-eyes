@@ -8,22 +8,23 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
-import { SafeAreaInsets, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { geminiModel } from "../config/firebase";
 import LineDivider from "../components/Divider";
-import { fetchAIUsage, incrementAIUsage } from "../utility/fetchAI";
-import { Alert } from "react-native";
+import { fetchAIUsage, getAIUsageInfo, incrementAIUsage } from "../utility/fetchAI";
+import { getAuth } from "firebase/auth";
 
 const { width, height } = Dimensions.get("window");
 
 
 function ChatBot({ navigation }) {
     
-    const DAILY_AI_LIMIT = 20;
+    const DAILY_AI_LIMIT = 2;
 
     const REPLY_PRESETS = [
         "What are some budget friendly snack options?",
@@ -81,9 +82,20 @@ function ChatBot({ navigation }) {
 
         if (!textToSend) return; //exits function early if no user message
 
+        console.log("========== SEND MESSAGE DEBUG ==========");
+
+        const auth = getAuth();
+        console.log("user logged in?", !!auth.currentUser);
+        console.log("User ID:", auth.currentUser?.uid);
+
         const usage = await fetchAIUsage();
+        console.log("Usage result:", usage);
+        console.log("Allowed?", usage.allowed);
+        console.log("Remaining:", usage.remaining);
+        console.log("Count:", usage.count);
 
         if (!usage.allowed) {
+            console.log("Blocked: limit reached");
             Alert.alert(
                 "Daily limit reached",
                 `You've reached your daily limit of ${usage.limit} messages. Please try again tomorrow.`,
@@ -91,6 +103,8 @@ function ChatBot({ navigation }) {
             );
             return;
         }
+
+        console.log("allowed: sending message");
 
         await incrementAIUsage();
 

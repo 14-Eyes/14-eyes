@@ -4,16 +4,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth } from 'firebase/auth';
 
 const USAGE_KEY = "CACHE_CHATBOT_USAGE";
-const DAILY_AI_LIMIT = 20;
+const DAILY_AI_LIMIT = 2;
 
 let usageCache = null;
+
+async function loadFromStorage(key) {
+  const json = await AsyncStorage.getItem(key);
+  return json ? JSON.parse(json) : null;
+}
+
+async function saveToStorage(key, data) {
+  await AsyncStorage.setItem(key, JSON.stringify(data));
+}
 
 //fetch AI usage info
 export const fetchAIUsage = async () => {
     //check cache
     if (usageCache) {
         console.log("using cached AI usage");
-        return usageCache;
+        return {
+            allowed: usageCache.count < DAILY_AI_LIMIT,
+            remaining: Math.max(0, DAILY_AI_LIMIT - usageCache.count),
+            limit: DAILY_AI_LIMIT,
+            return: usageCache.count
+        };
     }
     //check async storage
     const stored = await loadFromStorage(USAGE_KEY);
@@ -68,7 +82,7 @@ export const fetchAIUsage = async () => {
                 await setDoc(doc(db, 'chatbot_usage', user.uid), {
                     date: today,
                     count: 0,
-                    userID: user.uid,
+                    userId: user.uid,
                     lastReset: new Date(). toISOString()
                 });
 
@@ -89,7 +103,7 @@ export const fetchAIUsage = async () => {
             await setDoc(doc(db, 'chatbot_usage', user.uid), {
                 date: today,
                 count: 0,
-                userID: user.uid,
+                userId: user.uid,
                 createdAt: new Date().toISOString()
             });
 
@@ -116,7 +130,7 @@ export const incrementAIUsage = async() => {
         const user = auth.currentUser;
 
         if (!user) {
-            return await incrementAIUsage();
+            return await incrementLocalUsage();
         }
 
         const today = new Date().toISOString().split('T')[0];
@@ -141,7 +155,7 @@ export const incrementAIUsage = async() => {
                 await setDoc(usageRef, {
                     date: today,
                     count: 1,
-                    userID: user.uid,
+                    userId: user.uid,
                     lastReset: new Date().toISOString(),
                     lastMessageAt: new Date().toISOString()
                 });
@@ -165,6 +179,7 @@ export const incrementAIUsage = async() => {
         }
 
         return true;
+
     } catch (error) {
         console.error("error incrementing chatbot usage:", error);
         return await incrementLocalUsage();
