@@ -661,7 +661,7 @@ function FoodDetails({ route }) {
             {hasGoodSugar && (
               <>
                 <AppText style={styles.goodHeader}>
-                  Natural sweetners found:
+                  Natural sweeteners found:
                 </AppText>
                 {goodSugarMatches.map((sugar, index) => (
                   <AppText 
@@ -678,7 +678,7 @@ function FoodDetails({ route }) {
             {hasBadSugar && (
               <>
                 <AppText style={styles.badHeader}>
-                  Harmful sweetners found:
+                  Harmful sweeteners found:
                 </AppText>
                 {badSugarMatches.map((sugar, index) => (
                   <AppText 
