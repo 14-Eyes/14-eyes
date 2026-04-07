@@ -196,7 +196,7 @@ function ChatBot({ navigation }) {
                             (!inputText.trim() || isLoading) && styles.sendButtonDisabled
                         ]}
                         onPress={() => sendMessage()}
-                        disabled={!inputText.trim() || isLoading || messagesRemaining <= 0}
+                        disabled={!inputText.trim() || isLoading }
                     >
                         <AppText style={styles.sendButtonText}>Send</AppText>
                     </TouchableOpacity>
