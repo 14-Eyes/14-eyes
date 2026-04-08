@@ -24,7 +24,7 @@ const { width, height } = Dimensions.get("window");
 
 function ChatBot({ navigation }) {
     
-    const DAILY_AI_LIMIT = 2;
+    const DAILY_AI_LIMIT = 20;
 
     const REPLY_PRESETS = [
         "What are some budget friendly snack options?",

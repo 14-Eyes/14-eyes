@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth } from 'firebase/auth';
 
 const USAGE_KEY = "CACHE_CHATBOT_USAGE";
-const DAILY_AI_LIMIT = 2;
+const DAILY_AI_LIMIT = 20;
 
 let usageCache = null;
 
