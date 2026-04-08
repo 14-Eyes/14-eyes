@@ -37,7 +37,9 @@ export default {
       buildNumber: "1.0.0",
       supportsTablet: true,
       useFrameworks: "static",
+      forceStaticLinking: ["RNFBApp"],
       infoPlist: {
+         "ITSAppUsesNonExemptEncryption": false,
         NSCameraUsageDescription:
           "This app uses the camera to scan barcodes of grocery items to pull their ingredients list.",
       },
@@ -74,6 +76,9 @@ export default {
       MESSAGE_SENDER_ID: process.env.MESSAGE_SENDER_ID,
       APP_ID: process.env.APP_ID,
       GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+      eas: {
+        "projectId": "4f8116b4-1f15-428f-8124-b5e7c308ccfe"
+      }
     },
   },
 };
