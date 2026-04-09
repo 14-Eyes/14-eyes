@@ -287,7 +287,6 @@ const styles = StyleSheet.create({
 
   usageContainer: {
     alignItems: 'center',
-    marginBottom: 10,
   },
 
   usageText: {
