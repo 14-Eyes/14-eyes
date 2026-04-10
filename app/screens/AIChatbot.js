@@ -8,18 +8,23 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
-import { SafeAreaInsets, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { geminiModel } from "../config/firebase";
 import LineDivider from "../components/Divider";
+import { fetchAIUsage, getAIUsageInfo, incrementAIUsage } from "../utility/fetchAI";
+import { getAuth } from "firebase/auth";
 
 const { width, height } = Dimensions.get("window");
 
 
 function ChatBot({ navigation }) {
+    
+    const DAILY_AI_LIMIT = 20;
 
     const REPLY_PRESETS = [
         "What are some budget friendly snack options?",
@@ -40,9 +45,6 @@ function ChatBot({ navigation }) {
         return random.slice(0, count);
     };
 
-
-
-
     const [messages, setMessages] = useState([
         {
             text: "Hello! I'm your personal nutrition assistant! I can help with generic nutritional advice, budgeting help, and more! Try one of the prompts below, or ask me anything about food :)",
@@ -54,6 +56,16 @@ function ChatBot({ navigation }) {
     const [inputText, setInputText] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const [messagesRemaining, setMessagesRemaining] = useState(DAILY_AI_LIMIT);
+    useEffect(() => {
+        loadUsage();
+    }, []);
+
+    const loadUsage = async () => {
+        const usage = await fetchAIUsage();
+        setMessagesRemaining(usage.remaining);
+    };
+
     const insets = useSafeAreaInsets();
     const ScrollViewRef = useRef(null);
 
@@ -63,11 +75,41 @@ function ChatBot({ navigation }) {
         }
     }, [messages]);
 
+
     const sendMessage = async (messageText = null) => {
 
         const textToSend = messageText || inputText.trim();
 
         if (!textToSend) return; //exits function early if no user message
+
+        console.log("========== SEND MESSAGE DEBUG ==========");
+
+        const auth = getAuth();
+        console.log("user logged in?", !!auth.currentUser);
+        console.log("User ID:", auth.currentUser?.uid);
+
+        const usage = await fetchAIUsage();
+        console.log("Usage result:", usage);
+        console.log("Allowed?", usage.allowed);
+        console.log("Remaining:", usage.remaining);
+        console.log("Count:", usage.count);
+
+        if (!usage.allowed) {
+            console.log("Blocked: limit reached");
+            Alert.alert(
+                "Daily limit reached",
+                `You've reached your daily limit of ${usage.limit} messages. Please try again tomorrow.`,
+                [{text: "OK" }]
+            );
+            return;
+        }
+
+        console.log("allowed: sending message");
+
+        await incrementAIUsage();
+
+        const updatedUsage = await fetchAIUsage();
+        setMessagesRemaining(updatedUsage.remaining);
 
         setMessages((prev) => [...prev, { text: textToSend, sender: "user" }]); //adds previous user message to messages array
         //const userQuestion = inputText; //saves user input to a variable
@@ -96,6 +138,11 @@ function ChatBot({ navigation }) {
     return (
         <View style={styles.container}>
             <AppText style={styles.title}>Ask about budgeting, food, or general nutritional advice!</AppText>
+            <View style={styles.usageContainer}>
+                <AppText style={styles.usageText}>
+                    Messages today: {DAILY_AI_LIMIT - messagesRemaining}/{DAILY_AI_LIMIT}
+                </AppText>
+            </View>
             <LineDivider/>
             <ScrollView 
                 ref={ScrollViewRef}
@@ -149,7 +196,7 @@ function ChatBot({ navigation }) {
                             (!inputText.trim() || isLoading) && styles.sendButtonDisabled
                         ]}
                         onPress={() => sendMessage()}
-                        disabled={!inputText.trim() || isLoading}
+                        disabled={!inputText.trim() || isLoading }
                     >
                         <AppText style={styles.sendButtonText}>Send</AppText>
                     </TouchableOpacity>
@@ -236,6 +283,16 @@ const styles = StyleSheet.create({
   sendButtonText: {
     color: colors.white,
     fontWeight: "bold",
+  },
+
+  usageContainer: {
+    alignItems: 'center',
+  },
+
+  usageText: {
+    fontSize: 12,
+    color: colors.medium,
+    fontStyle: 'italic',
   },
 });
 

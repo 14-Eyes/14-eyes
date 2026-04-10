@@ -1,7 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { clearAIUsageCache } from './fetchAI';
 /* NOTE:
 AsyncStorage basically will save a copy of everything even
 when the app reloads. The first call to the database will
@@ -324,6 +324,7 @@ export const clearAllOptionCaches = async () => {
     await clearCondCache();
     await clearAllergyCache();
     await clearDietCache();
+    await clearAIUsageCache();
     console.log("ALL caches cleared");
 };
 
