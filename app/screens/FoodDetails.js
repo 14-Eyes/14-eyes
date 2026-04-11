@@ -321,9 +321,14 @@ function FoodDetails({ route }) {
   const hasPreservative = preservativeMatches.length > 0;
   const hasVitaminMineral = vitaminsFound.length > 0;
   
+  // nutri-score check for thumbs up/down
+  const nutri = product.nutriScore?.toLowerCase();
+  const isGoodNutriScore = ["a", "b"].includes(nutri);
+  const isBadNutriScore = ["c", "d", "e"].includes(nutri);
+
   // const hasAnyDietConflict = hasDietBadMatch || hasDietOffConflicts;
-  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietConflict || badNutriDiet || hasBadSugar || hasDye || hasPreservative;
-  const isGood = !isBad || (!isBad && hasConditionGood);
+  const isBad = hasConditionBad || badNutriConditions || hasAllergy || hasDietConflict || badNutriDiet || hasBadSugar || hasDye || hasPreservative || isBadNutriScore;
+  const isGood = !isBad || (!isBad && (hasConditionGood || isGoodNutriScore || !nutri));
 
   const badConditionInfo = groupedInfo.condition.filter(
     item => item.severity === "bad"

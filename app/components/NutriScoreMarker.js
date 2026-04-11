@@ -75,6 +75,8 @@ function NutriScoreMarker({ nutriScore }) {
           <AppText style={styles.infoText}>
             {"The score from A to E is calculated based on nutrients and foods to favor (proteins, fiber, fruits, vegetables and legumes ...) and nutrients to limit (calories, saturated fat, sugars, salt). The score is calculated from the data of the nutrition facts table and the composition data (fruits, vegetables and legumes)."}
             {"\n\n"}
+            A score of A or B is considered a "thumbs up", while a score of C, D, or E is considered a "thumbs down".
+            {"\n\n"}
             <AppText style={styles.italicText}>
                 Classification based on the Nutri-Score system used by Open Food Facts.
             </AppText>

@@ -80,6 +80,8 @@ function UltraProcessedMarker({ novaGroup }) {
           <AppText style={styles.infoText}>
             {nova.description}
             {"\n\n"}
+            The "thumbs up" and "thumbs down" classification is not affected by the NOVA score.
+            {"\n\n"}
             <AppText style={styles.italicText}>
                 Classification based on the NOVA system used by Open Food Facts.
             </AppText>
