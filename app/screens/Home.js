@@ -196,7 +196,7 @@ export class Home extends Component {
 
               <Text style={styles.donationText}>
                 Click the button below to be taken to a PayPal donation portal.
-                Eat Like the Rainbow™, Inc is a recognized 501(c)(3) charitable
+                Eat Like The Rainbow™, Inc is a recognized 501(c)(3) charitable
                 organization. All contributions are tax deductible.
               </Text>
 
