@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: -2,  // overlap amount
     left: -50,    // horizontal placement
-    width: 140,
-    height: 140,
+    width: 120,
+    height: 120,
     resizeMode: "contain",
     zIndex: 2,
   },
