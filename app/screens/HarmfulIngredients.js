@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 17,
     color: colors.white,
     textTransform: "uppercase",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
