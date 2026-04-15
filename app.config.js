@@ -36,6 +36,8 @@ export default {
       bundleIdentifier: "com.eatliketherainbow.eatliketherainbow",
       buildNumber: "1.0.0",
       supportsTablet: true,
+      useFrameworks: "static",
+      simulator: true,
       infoPlist: {
         NSCameraUsageDescription:
           "This app uses the camera to scan barcodes of grocery items to pull their ingredients list.",
@@ -62,6 +64,15 @@ export default {
             "Allow Eat Like The Rainbow to access your camera for barcode scanning.",
         },
       ],
+      [
+        "expo-build-properties",
+        {
+          ios: {
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": true
+          }
+        }
+      ],
       "expo-video"
     ],
 
@@ -73,6 +84,9 @@ export default {
       MESSAGE_SENDER_ID: process.env.MESSAGE_SENDER_ID,
       APP_ID: process.env.APP_ID,
       GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+      eas: {
+        projectId: "4f8116b4-1f15-428f-8124-b5e7c308ccfe"
+      }
     },
   },
 };
