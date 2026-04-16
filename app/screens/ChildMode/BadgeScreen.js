@@ -25,7 +25,7 @@ function BadgeScreen({navigation, route}) {
     const badgeType = route.params.health
     if(badgeType == 1){
         return (
-            <Screen style={styles.screen}>
+            <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
               <View style={styles.container}>
                 <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
                     <Image source={require('../../assets/badge200.png')} style={styles.badge}/>
@@ -40,7 +40,7 @@ function BadgeScreen({navigation, route}) {
     }
     else if(badgeType == 2){
         return (
-            <Screen style={styles.screen}>
+            <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
               <View style={styles.container}>
                 <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
                     <Image source={require('../../assets/badge150.png')} style={styles.badge}/>
@@ -55,7 +55,7 @@ function BadgeScreen({navigation, route}) {
     }
     else if(badgeType == 3){
         return (
-            <Screen style={styles.screen}>
+            <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
               <View style={styles.container}>
                 <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
                     <Image source={require('../../assets/badge100.png')} style={styles.badge}/>
@@ -70,7 +70,7 @@ function BadgeScreen({navigation, route}) {
     }
     else if(badgeType == 4){
         return (
-            <Screen style={styles.screen}>
+            <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
               <View style={styles.container}>
                 <AppText style={styles.title}>Hooray!!! You got a badge!</AppText>
                     <Image source={require('../../assets/badge50.png')} style={styles.badge}/>
@@ -85,7 +85,7 @@ function BadgeScreen({navigation, route}) {
     }
     else if(badgeType == 5){
       return (
-          <Screen style={styles.screen}>
+          <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
             <View style={styles.container}>
               <AppText style={styles.title}>Awwwww!! That wasn't a good choice. Try Again!</AppText>
               <View style={styles.pics}>
