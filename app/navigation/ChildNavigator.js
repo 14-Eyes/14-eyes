@@ -26,6 +26,7 @@ import ChildFood from "../screens/ChildMode/ChildFood";
 import ChildFoodAbout from "../screens/ChildMode/ChildFoodAbout";
 import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
 import DriveThruNavigator from "../navigation/DriveThruNavigator";
+import UnityScreen from "../screens/ChildMode/UnityScreen";
 import colors from "../config/colors";
 
 const Stack = createStackNavigator();
@@ -49,8 +50,8 @@ const ChildNavigator = () => (
     />
     <Stack.Screen 
       name="DriveThru" 
-      component={DriveThruNavigator}
-      options={{ headerShown: true }}
+      component={UnityScreen}
+      options={{ headerShown: false }}
     />
     <Stack.Screen
       name="ChildRecipes"
