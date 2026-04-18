@@ -4,23 +4,23 @@ import UnityView from '@azesmway/react-native-unity';
 import { View } from 'react-native';
 import route from "../../navigation/routes";
 
-const UnityScreen = ({ navigation }) => {
+const UnityScreen = ({ navigation, route }) => {
  const unityRef = useRef<UnityView>(null);
  const {messageToUnity} = route.params;
 
- useEffect(() => {
-   if (messageToUnity) {
-     unityRef.current?.postMessage('', '', messageToUnity);
-   }
- }, [messageToUnity]);
+ // useEffect(() => {
+   // if (messageToUnity) {
+     // unityRef.current?.postMessage('', '', messageToUnity);
+   // }
+ // }, [messageToUnity]);
 
 
  const handleUnityMessage = (message) => {
-  if(message == "Home") {
+  if(message === "Home") {
     navigation.navigate(routes.CHILD_HOME);
   }
 
-  if(message == "Recipe") {
+  if(message === "Recipe") {
     navigation.navigate(routes.CHILD_RECIPES);
   }
  };
@@ -30,8 +30,11 @@ const UnityScreen = ({ navigation }) => {
  return (
    <UnityView
      ref={unityRef}
-     //@ts-expect-error UnityView needs a 'flex: 1' style to show full screen view
-     style={styles.flex}
+     style={{ 
+        flex: 1, 
+        height: '99.5%', // Force native layout engine to recalculate
+        width: '100%' 
+     }}
      onUnityMessage={e => handleUnityMessage(e.nativeEvent.message)} // and this line
    />
  );
