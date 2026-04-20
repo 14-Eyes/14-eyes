@@ -13,29 +13,35 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { getSubScreenHeader } from "./HeaderStyles";
 import DriveThru from "../screens/ChildMode/DriveThru";
 import DriveThruWelcome from "../screens/ChildMode/DriveThruWelcome";
 import DriveThruDecision from "../screens/ChildMode/DriveThruDecision";
+import colors from "../config/colors";
 
 //Create a new stack
 const DriveStack = createStackNavigator();
 
 //stack contains the various parts of the drive thru game
 const DriveThruNavigator = () => (
-  <DriveStack.Navigator>
+  <DriveStack.Navigator
+    screenOptions={{
+      contentStyle: { backgroundColor: colors.eltrlightblue },
+      gestureEnabled: false, // this prevents navigating to previous screens by swiping from left to right
+    }}
+  >
     <DriveStack.Screen
-	  name="DriveThruWelcome"
+	    name="DriveThruWelcome"
       component={DriveThruWelcome}
       options={{ title: "Welcome Screen to Game", headerShown: false }}
 	/>
     <DriveStack.Screen
-	  name="DriveThru"
+	    name="DriveThru"
       component={DriveThru}
       options={{ title: "Character and Transportation Choice", headerShown: false}}
 	/>
     <DriveStack.Screen
-	  name="DriveThruDecision"
+	    name="DriveThruDecision"
       component={DriveThruDecision}
       options={{ title: "Fast Food Restaurant Choice", headerShown: false}}
 	/>

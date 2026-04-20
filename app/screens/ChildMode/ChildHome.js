@@ -47,7 +47,7 @@ function ChildHome({ navigation }) {
             />
             <ChildButtonLarge
               title="Play"
-              onPress={() => navigation.navigate("DriveThru")}
+              onPress={() => navigation.navigate("DriveThruGame")}
             />
           </View>
         </View>

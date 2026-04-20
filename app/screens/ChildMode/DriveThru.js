@@ -32,7 +32,7 @@ export class DriveThru extends Component {
         this.state = {
             chars: [
                 {id: 'Adam Apple', uri: require('../../assets/adamapple.png')},
-                {id: 'Lila Lemon', uri: require('../../assets/lemon.png')}, 
+                {id: 'Lulu Lemon', uri: require('../../assets/lemon.png')}, 
                 {id: 'Garman Grape', uri: require('../../assets/grape.png')}
             ],
             transports: [
@@ -67,7 +67,7 @@ FlatListItemSeparator = () => {
     render(){
       if(this.state.char.id == undefined){
       return(
-        <Screen style={styles.screen}>      
+        <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>      
         <View style={styles.container}>
           <AppText style={styles.title}>Choose your character!</AppText>
                 
@@ -94,7 +94,7 @@ FlatListItemSeparator = () => {
         }
       else if(this.state.transport.id == undefined){
         return(       
-          <Screen style={styles.screen}>
+          <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
           <View style={styles.container}>
             <AppText style={styles.title}>You chose {this.state.char.id}!</AppText>
             <Image source={this.state.char.uri} style={{ width: windowWidth/3, height: 150}}/>
@@ -124,7 +124,7 @@ FlatListItemSeparator = () => {
       }
       else{
         return(      
-          <Screen style={styles.screen}>
+          <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
           <View style={styles.container}>   
               <AppText style={styles.title}>Where are they going?</AppText> 
               
