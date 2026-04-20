@@ -26,6 +26,7 @@ import ChildFood from "../screens/ChildMode/ChildFood";
 import ChildFoodAbout from "../screens/ChildMode/ChildFoodAbout";
 import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
 import DriveThruNavigator from "../navigation/DriveThruNavigator";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import colors from "../config/colors";
 
 const Stack = createStackNavigator();
@@ -77,6 +78,9 @@ const ChildNavigator = () => (
       component={ChildChangeMode}
       options={{ headerShown: false }}
     />
+    <Stack.Screen 
+    name="ResetPassword" 
+    component={ResetPasswordScreen} />   
   </Stack.Navigator>
 );
 
