@@ -39,13 +39,13 @@ const DriveThruNavigator = () => (
     <DriveStack.Screen
 	    name="GameScreenMain"
       component={GameScreenMain}
-      options={{ headerShown: false }}
+      options={{ headerShown: true }}
 	/>
 
   <DriveStack.Screen
 	    name="LuLuGameScreen"
       component={LuLuGameScreen}
-      options={{ headerShown: true }}
+      options={{ headerShown: false }}
 	/>
 
   <DriveStack.Screen

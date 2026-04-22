@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Dimensions, Text, TouchableWithoutFeedback, Image, Animated } from "react-native";
+import { View, StyleSheet, Dimensions, Text, TouchableWithoutFeedback, Image, Animated, Modal, TouchableOpacity,} from "react-native";
 import { Accelerometer } from "expo-sensors";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -112,9 +112,28 @@ export default function LuLuGameScreen() {
    basketX.setValue(basketXRef.current);
  };
 
+const goHome = ({navigation}) => {
+  this.props.navigation.navigate('GameScreenMain')
+};
+
  return (
-   <TouchableWithoutFeedback onPress={gameOver ? resetGame : null}>
+   <TouchableWithoutFeedback>
      <View style={styles.container}>
+     {/* Game Over Modal */}
+     <Modal visible={gameOver} transparent={true} animationType="fade">
+       <View style={styles.modalOverlay}>
+         <View style={styles.modalContent}>
+           <Text style={styles.modalTitle}>🎉 Well Done! 🎉</Text>
+           <Text style={styles.modalText}>You got {score} points.</Text>
+           <TouchableOpacity style={styles.button} onPress={resetGame}>
+             <Text style={styles.buttonText}>Play Again</Text>
+           </TouchableOpacity>
+           <TouchableOpacity style={styles.button} onPress={goHome}>
+             <Text style={styles.buttonText}>Home</Text>
+           </TouchableOpacity>
+         </View>
+       </View>
+     </Modal>
 
        <Animated.Image
          source={require("../../assets/gameStuff/Basket.png")}
@@ -130,8 +149,6 @@ export default function LuLuGameScreen() {
        ))}
 
        <Text style={styles.score}>Score: {score}</Text>
-
-       {gameOver && <Text style={styles.gameOverText}>GAME OVER - Tap to Restart</Text>}
 
        <StatusBar style="light" />
      </View>
@@ -171,5 +188,40 @@ const styles = StyleSheet.create({
    fontSize: 28,
    fontWeight: "bold",
    color: "#ff3333",
+ },
+ modalOverlay: {
+   flex: 1,
+   backgroundColor: 'rgba(0,0,0,0.6)',
+   justifyContent: 'center',
+   alignItems: 'center',
+ },
+ modalContent: {
+   width: '80%',
+   backgroundColor: 'white',
+   padding: 30,
+   borderRadius: 20,
+   alignItems: 'center',
+   elevation: 10,
+ },
+ modalTitle: {
+   fontSize: 24,
+   fontWeight: 'bold',
+   marginBottom: 10,
+ },
+ modalText: {
+   fontSize: 18,
+   marginBottom: 20,
+   textAlign: 'center',
+ },
+ button: {
+   backgroundColor: '#3B82F6',
+   paddingHorizontal: 30,
+   paddingVertical: 12,
+   borderRadius: 10,
+ },
+ buttonText: {
+   color: 'white',
+   fontSize: 16,
+   fontWeight: 'bold',
  },
 });
