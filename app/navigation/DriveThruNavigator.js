@@ -51,7 +51,7 @@ const DriveThruNavigator = () => (
   <DriveStack.Screen
 	    name="GarmanGameScreen"
       component={GarmanGameScreen}
-      options={{ headerShown: true }}
+      options={{ headerShown: false }}
 	/>
 
   <DriveStack.Screen

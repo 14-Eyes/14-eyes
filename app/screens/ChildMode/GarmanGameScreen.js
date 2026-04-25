@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-   View, Text, Button, StyleSheet,
-   TouchableOpacity, Animated, Easing
-} from 'react-native';
-
+import { View, Text, Button, StyleSheet, TouchableOpacity, Animated, Easing, Modal } from 'react-native';
+import colors from "../../config/colors";
+import routes from "../../navigation/routes";
 
 import Icon
-   from 'react-native-vector-icons/FontAwesome';
-
+   from 'react-native-vector-icons/FontAwesome6';
 
 const randomArrFunction = (arr) => {
    for (let i = arr.length - 1; i > 0; i--) {
@@ -19,18 +16,18 @@ const randomArrFunction = (arr) => {
 };
 const gameCardsFunction = () => {
    const icons = [
-       'paw',
-       'paw',
-       'heart',
-       'heart',
-       'tree',
-       'tree',
-       'star',
-       'star',
-       'bell',
-       'bell',
-       'gift',
-       'gift',
+       'apple-whole',
+       'apple-whole',
+       'lemon',
+       'lemon',
+       'carrot',
+       'carrot',
+       'pepper-hot',
+       'pepper-hot',
+       'leaf',
+       'leaf',
+       'egg',
+       'egg',
    ];
    const randomIcons =
        randomArrFunction(icons);
@@ -41,15 +38,14 @@ const gameCardsFunction = () => {
            isFlipped: false,
        }));
 };
-const GarmanGameScreen = () => {
-   const [cards, setCards] =
-       useState(gameCardsFunction());
-   const [selectedCards, setSelectedCards] =
-       useState([]);
+const GarmanGameScreen = ({navigation}) => {
+   const [cards, setCards] = useState(gameCardsFunction());
+   const [selectedCards, setSelectedCards] = useState([]);
    const [matches, setMatches] = useState(0);
-   const [winMessage, setWinMessage] =
-       useState(new Animated.Value(0));
+   const [winMessage, setWinMessage] = useState(new Animated.Value(0));
    const [gameWon, setGameWon] = useState(false);
+   const [gameStarted, startGame] = useState(true);
+
    const cardClickFunction = (card) => {
        if (!gameWon && selectedCards.length < 2
            && !card.isFlipped) {
@@ -102,37 +98,56 @@ const GarmanGameScreen = () => {
        }
    }, [matches]);
    const msg =
-       `Matches: ${matches} /
-           ${cards.length / 2}`;
+       `Matches: ${matches} / ${cards.length / 2}`;
+
+ const startLevel = () => {
+   startGame(false);
+ };
+
+ const resetGame = () => {
+    setCards(gameCardsFunction());
+    setSelectedCards([]);
+    setMatches(0);
+    setWinMessage(new Animated.Value(0));
+    setGameWon(false);
+ };
+
+ const goHome = () => {
+  setGameWon(false);
+  startGame(true);
+  navigation.navigate(routes.CHILD_GAME_HOME);
+ };
+
    return (
        <View style={styles.container}>
-           <Text style={styles.header1}>
-               GeeksforGeeks
-           </Text>
-           <Text style={styles.header2}>
-               Memory Pair Game using React-Native
-           </Text>
            <Text style={styles.matchText}>{msg}</Text>
-           {gameWon ? (
-               <View style={styles.winMessage}>
-                   <View style={styles.winMessageContent}>
-                       <Text style={styles.winText}>
-                           Congratulations Geek!
-                       </Text>
-                       <Text style={styles.winText}>You Won!</Text>
-                   </View>
-                   <Button
-                       title="Restart"
-                       onPress={() => {
-                           setCards(gameCardsFunction());
-                           setSelectedCards([]);
-                           setMatches(0);
-                           setWinMessage(new Animated.Value(0));
-                           setGameWon(false);
-                       }}
-                   />
-               </View>
-           ) : (
+
+        <Modal visible={gameStarted} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Fruit Finder</Text>
+            <Text style={styles.modalText}>Click on the cards to flip them over. If the match isn't right, they'll flip back!</Text>
+            <TouchableOpacity style={styles.button} onPress={startLevel}>
+                <Text style={styles.buttonText}>Play</Text>
+            </TouchableOpacity>
+            </View>
+        </View>
+        </Modal>
+
+        <Modal visible={gameWon} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>🎉 Game Over 🎉</Text>
+            <Text style={styles.modalText}>You matched all the cards!</Text>
+            <TouchableOpacity style={styles.button} onPress={resetGame}>
+                <Text style={styles.buttonText}>Play Again</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={goHome}>
+                <Text style={styles.buttonText}>Home</Text>
+            </TouchableOpacity>
+            </View>
+        </View>
+        </Modal>
                <View style={styles.grid}>
                    {cards.map((card) => (
                        <TouchableOpacity
@@ -148,7 +163,6 @@ const GarmanGameScreen = () => {
                        </TouchableOpacity>
                    ))}
                </View>
-           )}
        </View>
    );
 };
@@ -171,8 +185,10 @@ const styles = StyleSheet.create({
        fontWeight: 'bold',
    },
    matchText: {
-       fontSize: 18,
+       fontSize: 25,
+       marginBottom: 20,
        color: 'black',
+       fontWeight: 'bold',
    },
    grid: {
        flexDirection: 'row',
@@ -185,35 +201,52 @@ const styles = StyleSheet.create({
        margin: 10,
        justifyContent: 'center',
        alignItems: 'center',
-       backgroundColor: '#FFD700',
+       backgroundColor: colors.eltrblue,
        borderRadius: 10,
        borderWidth: 1,
        borderColor: 'black',
    },
    cardFlipped: {
-       backgroundColor: 'white',
+       backgroundColor: '#0F4A64',
    },
    cardIcon: {
-       color: 'blue',
-   },
-   winMessage: {
-       position: 'absolute',
-       backgroundColor: 'rgba(0, 0, 0, 0.7)',
-       width: '100%',
-       height: '100%',
-       justifyContent: 'center',
-       alignItems: 'center',
-       zIndex: 1,
-   },
-   winMessageContent: {
-       backgroundColor: 'rgba(255, 215, 0, 0.7)',
-       padding: 20,
-       borderRadius: 10,
-       alignItems: 'center',
-   },
-   winText: {
-       fontSize: 36,
        color: 'white',
    },
+ modalOverlay: {
+   flex: 1,
+   backgroundColor: 'rgba(0,0,0,0.6)',
+   justifyContent: 'center',
+   alignItems: 'center',
+ },
+ modalContent: {
+   width: '80%',
+   backgroundColor: 'white',
+   padding: 30,
+   borderRadius: 20,
+   alignItems: 'center',
+   elevation: 10,
+ },
+ modalTitle: {
+   fontSize: 24,
+   fontWeight: 'bold',
+   marginBottom: 10,
+ },
+ modalText: {
+   fontSize: 18,
+   marginBottom: 20,
+   textAlign: 'center',
+ },
+ button: {
+   backgroundColor: '#3B82F6',
+   paddingHorizontal: 30,
+   paddingVertical: 12,
+   borderRadius: 10,
+   marginBottom: 5,
+ },
+ buttonText: {
+   color: 'white',
+   fontSize: 16,
+   fontWeight: 'bold',
+ },
 });
 export default GarmanGameScreen;

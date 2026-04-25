@@ -1,7 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Dimensions, Text, TouchableWithoutFeedback, Image, Animated, Modal, TouchableOpacity,} from "react-native";
+import { View, StyleSheet, Dimensions, Text, TouchableWithoutFeedback, Image, Animated, Modal, TouchableOpacity, ImageBackground } from "react-native";
 import { Accelerometer } from "expo-sensors";
+import routes from "../../navigation/routes";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -17,16 +18,22 @@ const fruitImages = [
  require("../../assets/gameStuff/Lemon.png"),
  require("../../assets/gameStuff/Orange.png"),
  require("../../assets/gameStuff/Water.png"),
+ require("../../assets/gameStuff/Blackberry.png"),
+ require("../../assets/gameStuff/Grape.png"),
+ require("../../assets/gameStuff/Green_Grape.png"),
+ require("../../assets/gameStuff/Red_Grape.png"),
+ require("../../assets/gameStuff/Strawberry.png"),
 ];
 
-export default function LuLuGameScreen() {
+export default function LuLuGameScreen({navigation}) {
  const basketX = useRef(new Animated.Value((screenWidth - BASKET_WIDTH) / 2)).current;
  const basketXRef = useRef((screenWidth - BASKET_WIDTH) / 2);
  const basketBoundsRef = useRef({});
 
  const [fallingFruits, setFallingFruits] = useState([]);
  const [score, setScore] = useState(0);
- const [gameOver, setGameOver] = useState(false)
+ const [gameOver, setGameOver] = useState(false);
+ const [gameStarted, startGame] = useState(true);
 
  basketX.addListener(({ value }) => {
    basketXRef.current = value;
@@ -50,12 +57,11 @@ export default function LuLuGameScreen() {
      }).start();
    });
 
-
    return () => subscription.remove();
- }, [gameOver]);
+ }, [gameOver, gameStarted]);
 
  useEffect(() => {
-   if (gameOver) return;
+   if (gameOver || gameStarted) return;
 
    const spawnInterval = setInterval(() => {
      setFallingFruits(prev => [
@@ -101,7 +107,17 @@ export default function LuLuGameScreen() {
      clearInterval(spawnInterval);
      clearInterval(moveInterval);
    };
- }, [gameOver]);
+ }, [gameOver, gameStarted]);
+
+ const startLevel = () => {
+   setScore(0);
+   setFallingFruits([]);
+   startGame(false);
+   console.log(gameStarted)
+
+   basketXRef.current = (screenWidth - BASKET_WIDTH) / 2;
+   basketX.setValue(basketXRef.current);
+ };
 
  const resetGame = () => {
    setScore(0);
@@ -112,19 +128,37 @@ export default function LuLuGameScreen() {
    basketX.setValue(basketXRef.current);
  };
 
-const goHome = ({navigation}) => {
-  this.props.navigation.navigate('GameScreenMain')
-};
+ const goHome = () => {
+  startGame(true);
+  setGameOver(false);
+  navigation.navigate(routes.CHILD_GAME_HOME);
+ };
 
  return (
    <TouchableWithoutFeedback>
+      <ImageBackground
+        style={styles.background}
+        source={require("../../assets/gameStuff/LuLu_BG.png")}
+      >
      <View style={styles.container}>
      {/* Game Over Modal */}
+     <Modal visible={gameStarted} transparent={true} animationType="fade">
+       <View style={styles.modalOverlay}>
+         <View style={styles.modalContent}>
+           <Text style={styles.modalTitle}>Juice Jumble</Text>
+           <Text style={styles.modalText}>Tilt the screen left and right to move the basket! Catch as many fruits as you can.</Text>
+           <TouchableOpacity style={styles.button} onPress={startLevel}>
+             <Text style={styles.buttonText}>Play</Text>
+           </TouchableOpacity>
+         </View>
+       </View>
+     </Modal>
+
      <Modal visible={gameOver} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
-           <Text style={styles.modalTitle}>🎉 Well Done! 🎉</Text>
-           <Text style={styles.modalText}>You got {score} points.</Text>
+           <Text style={styles.modalTitle}>🎉 Game Over 🎉</Text>
+           <Text style={styles.modalText}>You got {score} points!</Text>
            <TouchableOpacity style={styles.button} onPress={resetGame}>
              <Text style={styles.buttonText}>Play Again</Text>
            </TouchableOpacity>
@@ -152,6 +186,7 @@ const goHome = ({navigation}) => {
 
        <StatusBar style="light" />
      </View>
+     </ImageBackground>
    </TouchableWithoutFeedback>
  );
 }
@@ -163,6 +198,9 @@ const styles = StyleSheet.create({
    justifyContent: "flex-end",
    alignItems: "center",
  },
+  background: {
+    flex: 1,
+  },
  basket: {
    position: "absolute",
    width: BASKET_WIDTH,
@@ -181,13 +219,6 @@ const styles = StyleSheet.create({
    fontSize: 28,
    fontWeight: "bold",
    color: "#FFD700",
- },
- gameOverText: {
-   position: "absolute",
-   top: screenHeight / 2 - 50,
-   fontSize: 28,
-   fontWeight: "bold",
-   color: "#ff3333",
  },
  modalOverlay: {
    flex: 1,
@@ -217,6 +248,7 @@ const styles = StyleSheet.create({
    backgroundColor: '#3B82F6',
    paddingHorizontal: 30,
    paddingVertical: 12,
+   marginBottom: 5,
    borderRadius: 10,
  },
  buttonText: {

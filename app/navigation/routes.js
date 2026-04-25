@@ -62,4 +62,5 @@ export default Object.freeze({
   CHILD_RECIPES: "ChildRecipes",
   CHILD_ABOUTFOOD: "ChildFoodAbout",
   CHILD_CHANGE: "ChildChangeMode",
+  CHILD_GAME_HOME: "GameScreenMain",
 });
