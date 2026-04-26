@@ -13,6 +13,6 @@ export const Score = ({ score }) => {
   const scoreString = useDerivedValue(() => `Score: ${score.value.toFixed(0)}`);
   
   return (
-    <Text x={16} y={fontStyle.fontSize + 50} text={scoreString} font={font} />
+    <Text x={16} y={fontStyle.fontSize + 50} text={scoreString} font={font} color={"#ffffff"} />
   );
 };
