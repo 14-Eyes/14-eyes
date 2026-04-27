@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Dimensions, Modal, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+import routes from "../../navigation/routes";
 
 const GRID_SIZE = 8;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CELL_SIZE = (SCREEN_WIDTH - 40) / GRID_SIZE;
 const WORDS_TO_FIND = ['LIME', 'LEMON', 'TOMATO', 'GRAPE'];
 
-export default function GameScreenMain() {
+export default function LazarusGameScreen({navigation}) {
  const [grid, setGrid] = useState([]);
  const [answerKey, setAnswerKey] = useState([]);
  const [foundWords, setFoundWords] = useState([]);
  const [selection, setSelection] = useState({ start: null, end: null, cells: [] });
- const [isGameOver, setIsGameOver] = useState(false);
+ const [isGameOver, setGameOver] = useState(false);
+ const [gameStarted, startGame] = useState(true);
 
  // Check for Game Over whenever foundWords updates
  useEffect(() => {
    if (foundWords.length === WORDS_TO_FIND.length && WORDS_TO_FIND.length > 0) {
-     setIsGameOver(true);
+     setGameOver(true);
    }
  }, [foundWords]);
 
  const resetGame = () => {
    setFoundWords([]);
-   setIsGameOver(false);
+   setGameOver(false);
    generatePuzzle();
  };
 
@@ -139,11 +141,36 @@ export default function GameScreenMain() {
    setSelection({ start: null, end: null, cells: [] });
  };
 
+  const startLevel = () => {
+  setFoundWords([]);
+  startGame(false);
+  setGameOver(false);
+  generatePuzzle();
+  };
+ 
+  const goHome = () => {
+   startGame(true);
+   setGameOver(false);
+   navigation.navigate(routes.CHILD_GAME_HOME);
+  };
+
  if (grid.length === 0) return <View style={styles.container}><Text>Generating...</Text></View>;
 
 return (
    <GestureHandlerRootView style={styles.container}>
      {/* Game Over Modal */}
+     <Modal visible={gameStarted} transparent={true} animationType="fade">
+       <View style={styles.modalOverlay}>
+         <View style={styles.modalContent}>
+           <Text style={styles.modalTitle}>Word Wakeup</Text>
+           <Text style={styles.modalText}>Find each word and highlight them to complete the level!</Text>
+           <TouchableOpacity style={styles.button} onPress={startLevel}>
+             <Text style={styles.buttonText}>Play</Text>
+           </TouchableOpacity>
+         </View>
+       </View>
+     </Modal>
+
      <Modal visible={isGameOver} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
@@ -151,6 +178,9 @@ return (
            <Text style={styles.modalText}>You found all {WORDS_TO_FIND.length} words.</Text>
            <TouchableOpacity style={styles.button} onPress={resetGame}>
              <Text style={styles.buttonText}>Play Again</Text>
+           </TouchableOpacity>
+           <TouchableOpacity style={styles.button} onPress={goHome}>
+             <Text style={styles.buttonText}>Home</Text>
            </TouchableOpacity>
          </View>
        </View>

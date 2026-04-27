@@ -147,13 +147,14 @@ export default function MuMuGameScreen({navigation}) {
     y.value = SCREEN_HEIGHT / 2;
     x.value = SCREEN_WIDTH / 2;
     velocityY.value = 0;
+    score(0);
    setGameOver(false);
  };
 
  const goHome = () => {
-  startGame(true);
-  setGameOver(false);
   navigation.navigate(routes.CHILD_GAME_HOME);
+  startGame(false);
+  setGameOver(false);
  };
 
  return (

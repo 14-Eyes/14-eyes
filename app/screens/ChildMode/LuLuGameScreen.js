@@ -82,7 +82,7 @@ export default function LuLuGameScreen({navigation}) {
 
          const b = basketBoundsRef.current;
          const caught =
-           moved.x < b.right &&
+           moved.x <  b.right &&
            moved.x + FRUIT_SIZE > b.left &&
            moved.y + FRUIT_SIZE > b.top &&
            moved.y < b.bottom;
