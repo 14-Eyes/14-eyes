@@ -68,7 +68,7 @@ const db = getFirestore(app);
 const rtdb = getDatabase(app);
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const geminiModel = genAI.getGenerativeModel({ 
+const geminiModel = genAI.getGenerativeModel({ //switch gemini models
     model: "gemini-2.5-flash",
     systemInstruction: `You are a friendly nutritional assistant that helps users make healthier grocery choices by suggesting afforadable whole-food options, adapting for any user health or dietary restrictions if provided: 
     # Goals:
