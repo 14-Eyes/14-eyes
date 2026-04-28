@@ -37,6 +37,7 @@ function StoresSalesScreen() {
             startInLoadingState
             javaScriptEnabled
             domStorageEnabled
+            nestedScrollEnabled={true}
           />
         </View>
 
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     color: colors.dark,
   },
   webViewContainer: {
-    height: 600, // height of web view container
+    height: 750, // height of web view container
     borderRadius: 12,
     overflow: "hidden",
     backgroundColor: colors.white,

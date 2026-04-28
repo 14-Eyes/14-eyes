@@ -428,7 +428,7 @@ export const childRecipes = [
         id: "adam-apple",
         title: "Cinnamon Shake",
         image: require("../assets/child_mode/cinnamon-shake.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/adam-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Adam Apple",
         ingredients: [
@@ -443,7 +443,7 @@ export const childRecipes = [
         id: "nika-nut",
         title: "Nutty Yogurt",
         image: require("../assets/child_mode/nutty-yogurt.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/nika-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Nika Queen of the Nuts",
         ingredients: [
@@ -457,7 +457,7 @@ export const childRecipes = [
         id: "toddy-tomato",
         title: "Tomato Basil Soup",
         image: require("../assets/child_mode/tomato-soup.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/toddy-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Toddy Tomato",
         ingredients: [
@@ -472,7 +472,7 @@ export const childRecipes = [
         id: "mumu-mushroom",
         title: "Monster Burger",
         image: require("../assets/child_mode/monster-burger.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/mumu-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Mumu Mushroom",
         ingredients: [
@@ -491,7 +491,7 @@ export const childRecipes = [
         id: "lulu-lemon",
         title: "Lemon Slush",
         image: require("../assets/child_mode/lemon-slush.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/lulu-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lulu Lemon",
         ingredients: [
@@ -508,7 +508,7 @@ export const childRecipes = [
         id: "lazarus-lime",
         title: "Fruit Bowl",
         image: require("../assets/child_mode/fruit-bowl.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/lazarus-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Lazarus The Lime",
         ingredients: [
@@ -522,7 +522,7 @@ export const childRecipes = [
         id: "garman-grape",
         title: "Purple Slurp",
         image: require("../assets/child_mode/purple-slurp.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/garman-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Garman Grape",
         ingredients: [
@@ -538,7 +538,7 @@ export const childRecipes = [
         id: "big-a-bee",
         title: "Honey Crunch",
         image: require("../assets/child_mode/honey-crunch.png"),
-        characterImage: require("../assets/child_mode/nika-recipe.png"),
+        characterImage: require("../assets/child_mode/biga-face.png"),
         // video: require("../assets/child_mode/lemon-video.mp4"),
         subText: "From Big-A-Bee",
         ingredients: [

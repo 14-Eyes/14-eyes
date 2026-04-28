@@ -24,35 +24,83 @@ function HelpScreen(props) {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <AppText style={styles.title}>Frequently Asked Questions</AppText>
 
-        <AppText style={styles.subTitle}>Question?</AppText>
+        <AppText style={styles.subTitle}>Where can I go to learn more information about Eat Like the Rainbow™?</AppText>
 	      <AppText style={styles.text}>
-          For more information on how to use the ELTR app, please read the user
-	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+          You can find more information about Eat Like the Rainbow™ (ELTR) at <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org')}>eatliketherainbow.org</Text>, 
+          and more information about the Sponsor at <Text style={styles.link1} onPress={() => Linking.openURL('https://www.chefcathyzeis.com/')}>chefcathyzeis.com</Text>.
+          {"\n\n"}
+          You can also check out our <Text style={{fontWeight: "bold"}}>About </Text>page for general information about the non-profit and the app!
         </AppText>
 
-        <AppText style={styles.subTitle}>Question?</AppText>
+        <AppText style={styles.subTitle}>How do I add and/or change my health conditions, allergies, and/or diet preferences?</AppText>
 	      <AppText style={styles.text}>
-          For more information on how to use the ELTR app, please read the user
-	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+          Navigate to Settings -{">"} Account and then navigate to either Conditions, Allergies, or Diet Preferences.
         </AppText>
 
-        <AppText style={styles.subTitle}>Question?</AppText>
+        <AppText style={styles.subTitle}>What is Child Mode, and how do I set it up?</AppText>
 	      <AppText style={styles.text}>
-          For more information on how to use the ELTR app, please read the user
-	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+          Child Mode is a simplified version of the app meant for kids ages 5 - 12. When the app is in Child Mode, 
+          you will only be able to access the barcode scanner, an educational game, and recipe rewards. 
+          <Text style={{fontWeight: "bold"}}> Your account password is needed to exit Child Mode.</Text>
+          {"\n\n"}
+          To set up Child Mode, first make sure your account health conditions, allergies, and diet preferences 
+          are set to match your child’s needs. Then, navigate to Settings -{">"} Child Mode and press the “CHANGE TO CHILD MODE” button.
         </AppText>
 
-        <AppText style={styles.subTitle}>Question?</AppText>
+        <AppText style={styles.subTitle}>Is there a way for me to log both my and my child’s health conditions, allergies, and/or diet preferences separately?</AppText>
 	      <AppText style={styles.text}>
-          For more information on how to use the ELTR app, please read the user
-	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+          Unfortunately, you are not able to log both your and your Child’s information separately at the same time. 
+          Adding both your and your Child’s information together under Conditions, Allergies, and/or Diet Preferences 
+          is not recommended, as this may cause mismatched scanner results. 
+          {"\n\n"}
+          We recommend that you enter either only your health information or only your child’s health information at once.
         </AppText>
 
-        <AppText style={styles.subTitle}>Question?</AppText>
+        <AppText style={styles.subTitle}>I’m trying to change my email, but it’s not working. What do I do?</AppText>
 	      <AppText style={styles.text}>
-          For more information on how to use the ELTR app, please read the user
-	        manual <Text style={styles.link1} onPress={() => Linking.openURL('https://eatliketherainbow.org/eltr-mobile-app/')}>here</Text>!
+          Please check the <Text style={{fontWeight: "bold"}}>spam folder </Text>in the inbox of the <Text style={{fontWeight: "bold"}}>new email </Text>you are trying to change to. 
+          The email should be from <Text style={{fontStyle: "italic"}}>noreply@eyes-eltr-dev.firebaseapp.com</Text>, with the subject line 
+          “Verify your email for Eat Like the Rainbow”. Click on the link in this email to verify your new email.
         </AppText>
+
+        <AppText style={styles.subTitle}>I’m trying to scan an item, but it’s not working. What do I do?</AppText>
+	      <AppText style={styles.text}>
+          Our barcode scanner uses the <Text style={styles.link1} onPress={() => Linking.openURL('https://world.openfoodfacts.org/')}>Open Food Facts database</Text> to find and evaluate your scanned item. 
+          If you are seeing an “Item not found” message when trying to scan an item, this is most likely 
+          because your item does not exist on Open Food Facts. If you want to add your item, 
+          you can do this on the Open Food Facts <Text style={styles.link1} onPress={() => Linking.openURL('https://world.openfoodfacts.org/cgi/product.pl?type=search_or_add&action=display')}>Add a product</Text> webpage.
+          {"\n\n"}
+          If you are seeing the “Item not found” message repeatedly, this may be because the Open Food Facts 
+          database is currently down. Please wait a few hours before trying to scan more items. You can check 
+          if the database is down by navigating to the <Text style={styles.link1} onPress={() => Linking.openURL('https://world.openfoodfacts.org/')}>Open Food Facts website</Text>. 
+          {"\n\n"}
+          If you are still having problems, please contact us at <Text style={styles.link2} onPress={() => Linking.openURL('mailto:eatliketherainbow@gmail.com')}>eatliketherainbow@gmail.com</Text>.
+        </AppText>
+
+        <AppText style={styles.subTitle}>I see something wrong with the output after scanning an item. Can you fix this?</AppText>
+	      <AppText style={styles.text}>
+          Please contact us at <Text style={styles.link2} onPress={() => Linking.openURL('mailto:eatliketherainbow@gmail.com')}>eatliketherainbow@gmail.com</Text> with a picture of the product you scanned, a screenshot of the scanner output, and 
+          information about the error you see. We will review this to see if an adjustment needs to be made.
+        </AppText>
+
+        <AppText style={styles.subTitle}>Where do you get your scanner information from? How does the scanner work?</AppText>
+	      <AppText style={styles.text}>
+          Our scanner works by evaluating the scanned product’s ingredients, allergens, diet certifications, nutrition facts, 
+          NOVA score, and Nutri-Score from the Open Food Facts database and comparing this information with our stored good ingredients, 
+          avoid ingredients, and max nutrient values for each condition, allergy, and diet preference you have set in your account. 
+          This evaluation is simplified into either a “thumbs up” or a “thumbs down” result, where a “thumbs up” is only shown if 
+          there are no conflicting values detected.
+          {"\n\n"}
+          The full product evaluation for each scan is shown under the “thumbs up” or “thumbs down” image, where you can see more 
+          information about what positively matched with or conflicted with the scanned product. Because we check our stored values 
+          against the values from Open Food Facts with an algorithm, we cannot guarantee 100% accuracy of the scan results. 
+          It is still your responsibility to review the product’s information to ensure it is safe for you.
+          {"\n\n"}
+          Each condition, allergy, and diet preference has its own list of good values, avoid values, and/or max nutrient values, 
+          constructed either by Chef Cathy or the app’s development team. Unfortunately, we are unable to share the exact information 
+          for each of these at this time. If you have specific questions or feel the information shown to you is inaccurate, 
+          please contact us at <Text style={styles.link2} onPress={() => Linking.openURL('mailto:eatliketherainbow@gmail.com')}>eatliketherainbow@gmail.com</Text>.
+        </AppText>        
       </ScrollView>
     </Screen>
   );
@@ -64,8 +112,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 0,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     backgroundColor: colors.light,
   },
   title: {
@@ -80,22 +128,30 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 25,
     marginTop: 40,
-    marginBottom: 2,
+    marginBottom: 8,
     textAlign: "center",
   },
   text: {
     textAlign: "center",
     fontSize: 18,
   },
-  link1: {
+  link1: { // websites
     color: colors.eltrdarkblue,
     fontWeight: "bold",
     textDecorationLine: 'underline',
     alignItems: "center",
     justifyContent: "center",
   },
+  link2: { // email
+    color: colors.eltrdarkblue,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    // textDecorationLine: 'underline',
+    alignItems: "center",
+    justifyContent: "center",
+  },
   scrollContent: {
-    paddingBottom: 50, // make sure you can view the text above the navbar
+    paddingBottom: 100, // make sure you can view the text above the navbar
   },
   });
 
