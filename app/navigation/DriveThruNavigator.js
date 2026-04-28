@@ -22,6 +22,7 @@ import LazarusGameScreen from "../screens/ChildMode/LazarusGameScreen";
 import LuLuGameScreen from "../screens/ChildMode/LuLuGameScreen";
 import MuMuGameScreen from "../screens/ChildMode/MuMuGameScreen";
 import NikaGameScreen from "../screens/ChildMode/NikaGameScreen";
+import ToddyGameScreen from "../screens/ChildMode/ToddyGameScreen";
 import DriveThruDecision from "../screens/ChildMode/DriveThruDecision";
 import colors from "../config/colors";
 
@@ -69,6 +70,12 @@ const DriveThruNavigator = () => (
   <DriveStack.Screen
 	    name="NikaGameScreen"
       component={NikaGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="ToddyGameScreen"
+      component={ToddyGameScreen}
       options={{ headerShown: false }}
 	/>
 

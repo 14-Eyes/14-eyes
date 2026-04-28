@@ -76,6 +76,28 @@ export class GameScreenMain extends Component {
               <Text style={styles.squareLabel}>Word Wakeup</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+              style={styles.squareButton}
+              activeOpacity={0.8}
+              onPress={() =>
+                this.props.navigation.navigate('ToddyGameScreen')
+              }
+            >
+              <Image source={require("../../assets/gameStuff/Toddy_Button.png")} style={styles.squareImage} />
+              <Text style={styles.squareLabel}>Red Rumble</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.squareButton}
+              activeOpacity={0.8}
+              onPress={() =>
+                this.props.navigation.navigate('DriveThru')
+              }
+            >
+              <Image source={require("../../assets/gameStuff/Adam_Button.png")} style={styles.squareImage} />
+              <Text style={styles.squareLabel}>The Picnic</Text>
+            </TouchableOpacity>
+
           </View>
         </ScrollView>
       </Screen>

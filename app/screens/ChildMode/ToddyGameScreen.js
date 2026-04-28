@@ -6,26 +6,25 @@ import routes from "../../navigation/routes";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-const BASKET_WIDTH = 200;
+const BASKET_WIDTH = 100;
 const BASKET_HEIGHT = 120;
-const BASKET_Y = screenHeight - 120;
+const BASKET_Y = screenHeight - 130;
 
-const FRUIT_SIZE = 50;
-const FRUIT_SPEED = 6;
+const FRUIT_SIZE = 70;
+const FRUIT_SPEED = 5;
 const SPAWN_RATE = 1200;
+const BULLET_SIZE = 20;
+const BULLET_SPEED = 10;
 
 const fruitImages = [
- require("../../assets/gameStuff/Lemon.png"),
- require("../../assets/gameStuff/Orange.png"),
- require("../../assets/gameStuff/Water.png"),
- require("../../assets/gameStuff/Blackberry.png"),
- require("../../assets/gameStuff/Grape.png"),
- require("../../assets/gameStuff/Green_Grape.png"),
- require("../../assets/gameStuff/Red_Grape.png"),
- require("../../assets/gameStuff/Strawberry.png"),
+ require("../../assets/gameStuff/Germ1.png"),
+ require("../../assets/gameStuff/Germ2.png"),
+ require("../../assets/gameStuff/Germ3.png"),
+ require("../../assets/gameStuff/Germ4.png"),
+ require("../../assets/gameStuff/Germ5.png"),
 ];
 
-export default function LuLuGameScreen({navigation}) {
+export default function ToddyGameScreen({navigation}) {
  const basketX = useRef(new Animated.Value((screenWidth - BASKET_WIDTH) / 2)).current;
  const basketXRef = useRef((screenWidth - BASKET_WIDTH) / 2);
  const basketBoundsRef = useRef({});
@@ -34,6 +33,7 @@ export default function LuLuGameScreen({navigation}) {
  const [score, setScore] = useState(0);
  const [gameOver, setGameOver] = useState(false);
  const [gameStarted, startGame] = useState(true);
+ const [bullets, setBullets] = useState([]);
 
  basketX.addListener(({ value }) => {
    basketXRef.current = value;
@@ -69,45 +69,94 @@ export default function LuLuGameScreen({navigation}) {
        {
          id: Date.now(),
          image: fruitImages[Math.floor(Math.random() * fruitImages.length)],
-         x: Math.random() * (screenWidth - FRUIT_SIZE),
-         y: -FRUIT_SIZE,
+         x: Math.random() * (screenWidth - FRUIT_SIZE - 10),
+         y: (-FRUIT_SIZE + 10),
        }
      ]);
    }, SPAWN_RATE);
 
-   const moveInterval = setInterval(() => {
-     setFallingFruits(prev =>
-       prev.reduce((acc, f) => {
-         const moved = { ...f, y: f.y + FRUIT_SPEED };
+const moveInterval = setInterval(() => {
+  // 1. Calculate new positions for everything locally first
+  setBullets((prevBullets) => {
+    const movedBullets = prevBullets
+      .map((b) => ({ ...b, y: b.y - BULLET_SPEED }))
+      .filter((b) => b.y > -BULLET_SIZE);
 
-         const b = basketBoundsRef.current;
-         const caught =
-           moved.x <  b.right &&
-           moved.x + FRUIT_SIZE > b.left &&
-           moved.y + FRUIT_SIZE > b.top &&
-           moved.y < b.bottom;
+    setFallingFruits((prevFruits) => {
+      let activeBullets = [...movedBullets]; // Copy to modify as they hit things
+      let nextFruits = [];
 
-         if (caught) {
-           setScore(s => s + 1);
-           return acc;
-         }
+      prevFruits.forEach((f) => {
+        const movedFruit = { ...f, y: f.y + FRUIT_SPEED };
 
-         if (moved.y > screenHeight) {
-           setGameOver(true);
-           return acc;
-         }
+        // Check if ANY bullet in our local list hits this fruit
+        const bulletIndex = activeBullets.findIndex((b) => (
+          b.x < movedFruit.x + FRUIT_SIZE &&
+          b.x + BULLET_SIZE > movedFruit.x &&
+          b.y < movedFruit.y + FRUIT_SIZE &&
+          b.y + BULLET_SIZE > movedFruit.y
+        ));
 
-         acc.push(moved);
-         return acc;
-       }, [])
-     );
-   }, 16);
+        if (bulletIndex !== -1) {
+          // HIT: Remove bullet from local list and don't add fruit to nextFruits
+          activeBullets.splice(bulletIndex, 1);
+          setScore((s) => s + 5);
+          return;
+        }
+
+        // Catch logic
+        const b = basketBoundsRef.current;
+        const caught =
+          movedFruit.x < b.right &&
+          movedFruit.x + FRUIT_SIZE > b.left &&
+          movedFruit.y + FRUIT_SIZE > b.top &&
+          movedFruit.y < b.bottom;
+
+        if (caught) {
+          setGameOver(true);
+          return;
+        }
+
+        // Game Over logic
+        if (movedFruit.y > screenHeight) {
+          setScore((s) => s - 1);
+          return;
+        }
+
+        nextFruits.push(movedFruit);
+      });
+
+      // Update bullets again ONLY with those that didn't hit anything
+      // This solves the 'asynchronous state' issue
+      if (activeBullets.length !== movedBullets.length) {
+         setBullets(activeBullets);
+      }
+
+      return nextFruits;
+    });
+
+    return movedBullets;
+  });
+}, 16);
 
    return () => {
      clearInterval(spawnInterval);
      clearInterval(moveInterval);
    };
  }, [gameOver, gameStarted]);
+
+ const shoot = () => {
+  if (gameOver || gameStarted) return;
+  
+  setBullets(prev => [
+    ...prev,
+    {
+      id: Date.now(),
+      x: basketXRef.current + (BASKET_WIDTH / 2) - (BULLET_SIZE / 2),
+      y: BASKET_Y,
+    }
+  ]);
+};
 
  const startLevel = () => {
    setScore(0);
@@ -135,18 +184,25 @@ export default function LuLuGameScreen({navigation}) {
  };
 
  return (
-   <TouchableWithoutFeedback>
+   <TouchableWithoutFeedback onPress={shoot}>
       <ImageBackground
         style={styles.background}
-        source={require("../../assets/gameStuff/LuLu_BG.png")}
+        source={require("../../assets/gameStuff/Garman_BG.png")}
       >
      <View style={styles.container}>
+        {/* Render Bullets */}
+        {bullets.map(bullet => (
+          <View
+            key={bullet.id}
+            style={[styles.bullet, { left: bullet.x, top: bullet.y }]}
+          />
+        ))}
      {/* Game Over Modal */}
      <Modal visible={gameStarted} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
-           <Text style={styles.modalTitle}>Juice Jumble</Text>
-           <Text style={styles.modalText}>Tilt the screen left and right to move the basket! Catch as many fruits as you can.</Text>
+           <Text style={styles.modalTitle}>Red Rumble</Text>
+           <Text style={styles.modalText}>Tilt the screen left and right to move the tomato! Click on the screen to shoot as many germs as possible!</Text>
            <TouchableOpacity style={styles.button} onPress={startLevel}>
              <Text style={styles.buttonText}>Play</Text>
            </TouchableOpacity>
@@ -170,7 +226,7 @@ export default function LuLuGameScreen({navigation}) {
      </Modal>
 
        <Animated.Image
-         source={require("../../assets/gameStuff/Basket.png")}
+         source={require("../../assets/gameStuff/Tomato_Shooter.png")}
          style={[styles.basket, { left: basketX, top: BASKET_Y }]}
        />
 
@@ -275,4 +331,11 @@ scoreValue: {
   fontSize: 28,
   fontWeight: '900',
 },
+bullet: {
+  position: "absolute",
+  width: BULLET_SIZE,
+  height: BULLET_SIZE,
+  backgroundColor: "red",
+  borderRadius: BULLET_SIZE / 2,
+}
 });

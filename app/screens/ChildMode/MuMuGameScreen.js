@@ -147,7 +147,7 @@ export default function MuMuGameScreen({navigation}) {
     y.value = SCREEN_HEIGHT / 2;
     x.value = SCREEN_WIDTH / 2;
     velocityY.value = 0;
-    score(0);
+    score.value = 0;
    setGameOver(false);
  };
 
