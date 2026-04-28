@@ -181,8 +181,10 @@ export default function LuLuGameScreen({navigation}) {
            style={[styles.fruit, { left: fruit.x, top: fruit.y }]}
          />
        ))}
-
-       <Text style={styles.score}>Score: {score}</Text>
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreLabel}>SCORE</Text>
+        <Text style={styles.scoreValue}>{score}</Text>
+      </View>
 
        <StatusBar style="light" />
      </View>
@@ -213,12 +215,9 @@ const styles = StyleSheet.create({
    height: FRUIT_SIZE,
    resizeMode: "contain",
  },
- score: {
-   position: "absolute",
-   top: 40,
-   fontSize: 28,
-   fontWeight: "bold",
-   color: "#FFD700",
+ scoreContainer: {
+   justifyContent: "flex-start",
+   marginTop: 20,
  },
  modalOverlay: {
    flex: 1,
@@ -256,4 +255,24 @@ const styles = StyleSheet.create({
    fontSize: 16,
    fontWeight: 'bold',
  },
+ scoreContainer: {
+  backgroundColor: '#34495e',
+  paddingHorizontal: 30,
+  paddingVertical: 10,
+  borderRadius: 20,
+  marginBottom: 710,
+  alignItems: 'center',
+  borderWidth: 2,
+  borderColor: '#f1c40f',
+},
+scoreLabel: {
+  color: '#bdc3c7',
+  fontSize: 14,
+  fontWeight: 'bold',
+},
+scoreValue: {
+  color: '#fff',
+  fontSize: 28,
+  fontWeight: '900',
+},
 });

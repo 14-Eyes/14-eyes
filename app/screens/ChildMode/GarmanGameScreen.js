@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Animated, Easing, Modal } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Animated, Easing, Modal, ImageBackground } from 'react-native';
 import colors from "../../config/colors";
 import routes from "../../navigation/routes";
 
@@ -119,8 +119,15 @@ const GarmanGameScreen = ({navigation}) => {
  };
 
    return (
+      <ImageBackground
+        style={styles.background}
+        source={require("../../assets/gameStuff/Garman_BG.png")}
+      >
        <View style={styles.container}>
-           <Text style={styles.matchText}>{msg}</Text>
+        <View style={styles.scoreContainer}>
+            <Text style={styles.scoreLabel}>MATCHES</Text>
+            <Text style={styles.scoreValue}>{msg}</Text>
+        </View>
 
         <Modal visible={gameStarted} transparent={true} animationType="fade">
         <View style={styles.modalOverlay}>
@@ -164,6 +171,7 @@ const GarmanGameScreen = ({navigation}) => {
                    ))}
                </View>
        </View>
+    </ImageBackground>
    );
 };
 const styles = StyleSheet.create({
@@ -171,8 +179,10 @@ const styles = StyleSheet.create({
        flex: 1,
        alignItems: 'center',
        justifyContent: 'center',
-       backgroundColor: 'white',
    },
+    background: {
+        flex: 1,
+    },
    header1: {
        fontSize: 36,
        marginBottom: 10,
@@ -248,5 +258,25 @@ const styles = StyleSheet.create({
    fontSize: 16,
    fontWeight: 'bold',
  },
+ scoreContainer: {
+  backgroundColor: '#34495e',
+  paddingHorizontal: 30,
+  paddingVertical: 10,
+  borderRadius: 20,
+  marginBottom: 20,
+  alignItems: 'center',
+  borderWidth: 2,
+  borderColor: '#f1c40f',
+},
+scoreLabel: {
+  color: '#bdc3c7',
+  fontSize: 14,
+  fontWeight: 'bold',
+},
+scoreValue: {
+  color: '#fff',
+  fontSize: 28,
+  fontWeight: '900',
+},
 });
 export default GarmanGameScreen;

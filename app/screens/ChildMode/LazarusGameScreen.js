@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions, Modal, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Modal, TouchableOpacity, ImageBackground } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import routes from "../../navigation/routes";
 
@@ -157,6 +157,10 @@ export default function LazarusGameScreen({navigation}) {
  if (grid.length === 0) return <View style={styles.container}><Text>Generating...</Text></View>;
 
 return (
+  <ImageBackground
+        style={styles.background}
+        source={require("../../assets/gameStuff/Garman_BG.png")}
+  >
    <GestureHandlerRootView style={styles.container}>
      {/* Game Over Modal */}
      <Modal visible={gameStarted} transparent={true} animationType="fade">
@@ -214,14 +218,15 @@ return (
        </View>
      </PanGestureHandler>
    </GestureHandlerRootView>
+  </ImageBackground>
  );
 }
 
 const styles = StyleSheet.create({
- container: { flex: 1, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' },
+ container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
  wordList: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginBottom: 20 },
- word: { margin: 8, fontSize: 16, fontWeight: 'bold', color: '#444' },
+ word: { margin: 8, fontSize: 16, fontWeight: 'bold', color: '#ffffff' },
  wordFound: { textDecorationLine: 'line-through', color: '#ccc' },
  grid: { backgroundColor: '#f9f9f9', borderWidth: 2, borderColor: '#333' },
  row: { flexDirection: 'row' },
@@ -258,10 +263,14 @@ const styles = StyleSheet.create({
    paddingHorizontal: 30,
    paddingVertical: 12,
    borderRadius: 10,
+   marginBottom: 5,
  },
  buttonText: {
    color: 'white',
    fontSize: 16,
    fontWeight: 'bold',
  },
+  background: {
+    flex: 1,
+  },
 });

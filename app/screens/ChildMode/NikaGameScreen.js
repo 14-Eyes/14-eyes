@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Dimensions, SafeAreaView, Text, Image, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, View, Dimensions, SafeAreaView, Text, Image, TouchableOpacity, Modal, ImageBackground } from 'react-native';
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import routes from "../../navigation/routes";
 
@@ -158,7 +158,10 @@ const resetGame = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-
+      <ImageBackground
+        style={styles.background}
+        source={require("../../assets/gameStuff/Garman_BG.png")}
+      >
      {/* Game Over Modal */}
      <Modal visible={gameStarted} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
@@ -219,6 +222,7 @@ const resetGame = () => {
           )}
         </View>
         </SafeAreaView>
+      </ImageBackground>
     </GestureHandlerRootView>
   );
 }
@@ -226,7 +230,7 @@ const resetGame = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    //backgroundColor: '#1a1a1a',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -246,6 +250,9 @@ const styles = StyleSheet.create({
 candyImage: {
   width: '90%',
   height: '90%',
+},
+background: {
+  flex: 1,
 },
 tile: {
   width: TILE_SIZE,
@@ -274,7 +281,6 @@ scoreValue: {
   fontSize: 28,
   fontWeight: '900',
 },
-
 header: {
   flexDirection: 'row',
   justifyContent: 'space-around',
@@ -324,6 +330,7 @@ overlay: {
    paddingHorizontal: 30,
    paddingVertical: 12,
    borderRadius: 10,
+   marginBottom: 5,
  },
  buttonText: {
    color: 'white',
@@ -331,7 +338,6 @@ overlay: {
    fontWeight: 'bold',
  },
 gameOverText: { color: '#fff', fontSize: 40, fontWeight: 'bold' },
-button: { marginTop: 20, backgroundColor: '#f1c40f', padding: 15, borderRadius: 10 },
 
 });
 

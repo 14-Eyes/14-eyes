@@ -5,7 +5,7 @@ import { SharedValue, useDerivedValue } from "react-native-reanimated";
 const fontFamily = Platform.select({ ios: "Helvetica", default: "serif" });
 const fontStyle = {
   fontFamily,
-  fontSize: 14,
+  fontSize: 20,
 };
 const font = matchFont(fontStyle);
 
