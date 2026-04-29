@@ -153,7 +153,6 @@ const resumeGame = () => {
         source={require("../../assets/gameStuff/LuLu_BG.png")}
       >
      <View style={styles.container}>
-     {/* Game Over Modal */}
      <Modal visible={gameStarted} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
@@ -265,10 +264,6 @@ const styles = StyleSheet.create({
    width: FRUIT_SIZE,
    height: FRUIT_SIZE,
    resizeMode: "contain",
- },
- scoreContainer: {
-   justifyContent: "flex-start",
-   marginTop: 20,
  },
  modalOverlay: {
    flex: 1,

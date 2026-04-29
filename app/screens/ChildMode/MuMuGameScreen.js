@@ -1,14 +1,11 @@
-import { View, Dimensions, Button, StyleSheet, Modal, TouchableOpacity, Text } from "react-native";
+import { View, Dimensions, StyleSheet, Modal, TouchableOpacity, Text } from "react-native";
 import { useFrameCallback, useSharedValue, useDerivedValue, useAnimatedSensor, SensorType, runOnJS } from "react-native-reanimated";
-import { Canvas, Circle, Rect, Image, useImage } from "@shopify/react-native-skia";
+import { Canvas, Image, useImage } from "@shopify/react-native-skia";
 import { useState } from "react";
 import { PLATFORM_HEIGHT, PLATFORM_WIDTH, Platform } from "../../config/platform";
 import { Score } from "../../config/score";
 import routes from "../../navigation/routes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-// possible textures?
-// https://craftpix.net/product/jump-game-kit/
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -80,9 +77,6 @@ export default function MuMuGameScreen({navigation}) {
         runOnJS(handleGameOver)(); // This prevents the crash
       }
     }
-
-     //y.value = SCREEN_HEIGHT - BALL_RADIUS;
-     //velocityY.value = DEFAULT_BOUNCE_VELOCITY;
    }
 
    platforms.forEach((platform) => {

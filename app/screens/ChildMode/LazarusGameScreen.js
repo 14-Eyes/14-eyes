@@ -183,7 +183,6 @@ return (
         source={require("../../assets/gameStuff/Garman_BG.png")}
   >
    <GestureHandlerRootView style={styles.container}>
-     {/* Game Over Modal */}
      <Modal visible={gameStarted} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
@@ -284,7 +283,7 @@ return (
 
 const styles = StyleSheet.create({
  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
- title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+ title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, color: '#ffffff'},
  wordList: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginBottom: 20 },
  word: { margin: 8, fontSize: 16, fontWeight: 'bold', color: '#ffffff' },
  wordFound: { textDecorationLine: 'line-through', color: '#ccc' },

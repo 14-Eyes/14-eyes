@@ -69,7 +69,7 @@ export default function ToddyGameScreen({navigation}) {
      setFallingFruits(prev => [
        ...prev,
        {
-         id: Date.now(),
+         id: `${Date.now()}-${Math.random()}`,
          image: fruitImages[Math.floor(Math.random() * fruitImages.length)],
          x: Math.random() * (screenWidth - FRUIT_SIZE - 10),
          y: (-FRUIT_SIZE + 10),
@@ -91,7 +91,7 @@ const moveInterval = setInterval(() => {
       prevFruits.forEach((f) => {
         const movedFruit = { ...f, y: f.y + FRUIT_SPEED };
 
-        // Check if ANY bullet in our local list hits this fruit
+        // Check if ANY bullet in our local list hits
         const bulletIndex = activeBullets.findIndex((b) => (
           b.x < movedFruit.x + FRUIT_SIZE &&
           b.x + BULLET_SIZE > movedFruit.x &&
@@ -100,7 +100,6 @@ const moveInterval = setInterval(() => {
         ));
 
         if (bulletIndex !== -1) {
-          // HIT: Remove bullet from local list and don't add fruit to nextFruits
           activeBullets.splice(bulletIndex, 1);
           setScore((s) => s + 5);
           return;
@@ -153,7 +152,7 @@ const moveInterval = setInterval(() => {
   setBullets(prev => [
     ...prev,
     {
-      id: Date.now(),
+      id: `${Date.now()}-${Math.random()}`,
       x: basketXRef.current + (BASKET_WIDTH / 2) - (BULLET_SIZE / 2),
       y: BASKET_Y,
     }
@@ -320,10 +319,6 @@ const styles = StyleSheet.create({
    width: FRUIT_SIZE,
    height: FRUIT_SIZE,
    resizeMode: "contain",
- },
- scoreContainer: {
-   justifyContent: "flex-start",
-   marginTop: 20,
  },
  modalOverlay: {
    flex: 1,

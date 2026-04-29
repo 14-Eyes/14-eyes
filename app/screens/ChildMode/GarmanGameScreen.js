@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, Animated, Easing, Modal, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing, Modal, ImageBackground, Image } from 'react-native';
 import colors from "../../config/colors";
 import routes from "../../navigation/routes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -17,18 +17,18 @@ const randomArrFunction = (arr) => {
 };
 const gameCardsFunction = () => {
    const icons = [
-       'apple-whole',
-       'apple-whole',
-       'lemon',
-       'lemon',
-       'carrot',
-       'carrot',
-       'pepper-hot',
-       'pepper-hot',
-       'leaf',
-       'leaf',
-       'egg',
-       'egg',
+       require('../../assets/gameStuff/Blackberry.png'),
+       require('../../assets/gameStuff/Blackberry.png'),
+       require('../../assets/gameStuff/Grape.png'),
+       require('../../assets/gameStuff/Grape.png'),
+       require('../../assets/gameStuff/Green_Grape.png'),
+       require('../../assets/gameStuff/Green_Grape.png'),
+       require('../../assets/gameStuff/Red_Grape.png'),
+       require('../../assets/gameStuff/Red_Grape.png'),
+       require('../../assets/gameStuff/Blueberry.png'),
+       require('../../assets/gameStuff/Blueberry.png'),
+       require('../../assets/gameStuff/Plum.png'),
+       require('../../assets/gameStuff/Plum.png'),
    ];
    const randomIcons =
        randomArrFunction(icons);
@@ -218,8 +218,9 @@ const GarmanGameScreen = ({navigation}) => {
                         onPress={() => cardClickFunction(card)}
                     >
                         {card.isFlipped ?
-                            <Icon name={card.symbol}
-                                size={40} style={styles.cardIcon} /> : null}
+                            <Image name={card.symbol}
+                            source={card.symbol} 
+                            style={{ width: 40, height: 40, resizeMode: 'contain' }} /> : null}
                     </TouchableOpacity>
                 ))}
             </View>
@@ -236,23 +237,6 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
     },
-   header1: {
-       fontSize: 36,
-       marginBottom: 10,
-       color: 'green',
-   },
-   header2: {
-       fontSize: 18,
-       marginBottom: 20,
-       color: 'black',
-       fontWeight: 'bold',
-   },
-   matchText: {
-       fontSize: 25,
-       marginBottom: 20,
-       color: 'black',
-       fontWeight: 'bold',
-   },
    grid: {
        flexDirection: 'row',
        flexWrap: 'wrap',

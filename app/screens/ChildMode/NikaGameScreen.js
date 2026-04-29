@@ -27,14 +27,12 @@ const NikaGameScreen = ({navigation}) => {
   const [gameStarted, startGame] = useState(true);
   const [paused, setPaused] = useState(false);
 
-  // 1. Randomly generate grid colors
   const createBoard = () => {
     const randomGrid = [];
     for (let r = 0; r < GRID_SIZE; r++) {
       const row = [];
       for (let c = 0; c < GRID_SIZE; c++) {
         // Simple random pick
-        //const randomColor = CANDY_COLORS[Math.floor(Math.random() * CANDY_COLORS.length)];
         const randomColor = CANDY_KEYS[Math.floor(Math.random() * CANDY_KEYS.length)];
         row.push(randomColor);
       }
@@ -47,7 +45,6 @@ const NikaGameScreen = ({navigation}) => {
     setGrid(createBoard());
   }, []);
 
-  // 2. Core Match-Checking Logic
   const checkMatches = (currentGrid) => {
     let matchedIndices = [];
     // Horizontal Check
@@ -71,7 +68,6 @@ const NikaGameScreen = ({navigation}) => {
     return matchedIndices;
   };
 
-  // 3. Gesture Handling (Swapping Logic)
   const onGestureEvent = (event, r, c) => {
     const { translationX, translationY } = event.nativeEvent;
     const threshold = 30;
@@ -173,7 +169,6 @@ const handleSwap = (r1, c1, r2, c2) => {
         style={styles.background}
         source={require("../../assets/gameStuff/Garman_BG.png")}
       >
-     {/* Game Over Modal */}
      <Modal visible={gameStarted} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
@@ -282,15 +277,8 @@ const handleSwap = (r1, c1, r2, c2) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: '#1a1a1a',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
   },
   board: {
     width: width,
