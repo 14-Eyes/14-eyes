@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useCallback, useState, useContext } from "react";
 import { StyleSheet, View, Platform, ScrollView, TouchableOpacity, Image, Text } from "react-native";
 
+import AuthContext from "../../auth/context";
 import AppText from "../../components/AppText";
 import Screen from "../../components/Screen";
 import colors from "../../config/colors";
-import routes from "../../navigation/routes";
 import ChildBackButton from "../../components/ChildBackButton";
 import { childRecipes } from "../../config/recipes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 function ChildRecipes({ navigation }) {
+  const [unlockedRecipes, setUnlockedRecipes] = useState([]);
+  const authContext = useContext(AuthContext);
+  const userId = authContext.user?.uid;
+
+  useFocusEffect(
+    useCallback(() => {
+      loadUnlockedRecipes();
+    }, [])
+  );
+
+  const loadUnlockedRecipes = async () => {
+    const saved = await AsyncStorage.getItem(
+      `unlockedRecipes_${userId}`
+    );
+
+    if (saved) {
+      setUnlockedRecipes(JSON.parse(saved));
+    }
+  };
+
   return (
     <Screen backgroundColor={colors.eltrlightblue} style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
@@ -28,26 +50,39 @@ function ChildRecipes({ navigation }) {
         </AppText>
 
         <View style={styles.recipes}>
-          {childRecipes.map((recipe) => (
-            <View key={recipe.id} style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate("ChildRecipesSubScreen", {
-                    childRecipesId: recipe.id,
-                  })
-                }
-              >
-                <Image source={recipe.image} style={styles.image} />
-                <View style={styles.overlay} />
-                <View style={styles.textContainer}>
-                  <Text style={styles.buttonText}>{recipe.title}</Text>
-                </View>
-              </TouchableOpacity>
+          {childRecipes.map((recipe) => {
+            const unlocked = unlockedRecipes.includes(recipe.id);
 
-              <AppText style={styles.subText}>{recipe.subText}</AppText>
-            </View>
-          ))}
+            return (
+              <View key={recipe.id} style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.button}
+                  disabled={!unlocked}
+                  onPress={() =>
+                    navigation.navigate("ChildRecipesSubScreen", {
+                      childRecipesId: recipe.id,
+                    })
+                  }
+                >
+                  <Image source={recipe.image} style={styles.image} />
+
+                  {!unlocked && (
+                    <View style={styles.lockOverlay}>
+                      <Text style={styles.lockText}>🔒 Locked</Text>
+                    </View>
+                  )}
+
+                  {unlocked && (
+                    <View style={styles.textContainer}>
+                      <Text style={styles.buttonText}>
+                        {recipe.title}
+                      </Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              </View>
+            );
+          })}
         </View> 
       </ScrollView>
     </Screen>
@@ -78,6 +113,17 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 20,
     marginRight: 20,
+  },
+  lockOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  lockText: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
   },
   recipes: {
     width: "85%",
