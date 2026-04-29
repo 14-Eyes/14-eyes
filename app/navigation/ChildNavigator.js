@@ -79,8 +79,10 @@ const ChildNavigator = () => (
       options={{ headerShown: false }}
     />
     <Stack.Screen 
-    name="ResetPassword" 
-    component={ChildForgotPassword} />   
+      name="ResetPassword" 
+      component={ChildForgotPassword}   
+      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
+    />
   </Stack.Navigator>
 );
 
