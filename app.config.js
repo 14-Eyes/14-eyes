@@ -73,6 +73,9 @@ export default {
       MESSAGE_SENDER_ID: process.env.MESSAGE_SENDER_ID,
       APP_ID: process.env.APP_ID,
       GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+      eas: {
+        projectId: "f9215104-f445-4aac-a299-3c13664dc0c0"
+      }
     },
   },
 };
