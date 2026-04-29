@@ -1,11 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet, Dimensions, Text, TouchableWithoutFeedback, Image, Animated, Modal, TouchableOpacity, ImageBackground } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import routes from "../../navigation/routes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthContext from "../../auth/context";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -28,39 +26,10 @@ const fruitImages = [
  require("../../assets/gameStuff/Strawberry.png"),
 ];
 
-const unlockRecipe = async (userId) => {
-  try {
-    const unlocked = await AsyncStorage.getItem(
-      `unlockedRecipes_${userId}`
-    );
-
-    let unlockedRecipes = unlocked ? JSON.parse(unlocked) : [];
-
-    // first unlock
-    if (!unlockedRecipes.includes("lulu-lemon")) {
-      unlockedRecipes.push("lulu-lemon");
-
-      await AsyncStorage.setItem(
-        `unlockedRecipes_${userId}`,
-        JSON.stringify(unlockedRecipes)
-      );
-
-      return true; // unlocked for the first time
-    }
-    return false; // already unlocked
-  } catch (error) {
-    console.log("Error unlocking recipe:", error);
-    return false;
-  }
-};
-
 export default function LuLuGameScreen({navigation}) {
  const basketX = useRef(new Animated.Value((screenWidth - BASKET_WIDTH) / 2)).current;
  const basketXRef = useRef((screenWidth - BASKET_WIDTH) / 2);
  const basketBoundsRef = useRef({});
- const scoreRef = useRef(0);
- const authContext = useContext(AuthContext);
- const userId = authContext.user?.uid;
 
  const [fallingFruits, setFallingFruits] = useState([]);
  const [score, setScore] = useState(0);
@@ -121,24 +90,13 @@ export default function LuLuGameScreen({navigation}) {
            moved.y < b.bottom;
 
          if (caught) {
-           setScore(s => {
-            const newScore = s + 1;
-            scoreRef.current = newScore;
-            return newScore;
-           });
+           setScore(s => s + 1);
            return acc;
          }
 
          if (moved.y > screenHeight) {
-          if (scoreRef.current >= 10) {
-            unlockRecipe(userId).then(() => {
-               setGameOver(true);
-            });
-          } else {
-            setGameOver(true);
-          }
-
-          return acc;
+           setGameOver(true);
+           return acc;
          }
 
          acc.push(moved);
@@ -155,7 +113,6 @@ export default function LuLuGameScreen({navigation}) {
 
  const startLevel = () => {
    setScore(0);
-   scoreRef.current = 0;
    setFallingFruits([]);
    startGame(false);
    console.log(gameStarted)
@@ -166,7 +123,6 @@ export default function LuLuGameScreen({navigation}) {
 
  const resetGame = () => {
    setScore(0);
-   scoreRef.current = 0;
    setFallingFruits([]);
    setGameOver(false);
 
@@ -202,7 +158,7 @@ const resumeGame = () => {
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
            <Text style={styles.modalTitle}>Juice Jumble</Text>
-           <Text style={styles.modalText}>Tilt the screen left and right to move the basket. Catch 10 fruits to unlock the secret recipe!</Text>
+           <Text style={styles.modalText}>Tilt the screen left and right to move the basket! Catch as many fruits as you can.</Text>
            <TouchableOpacity style={styles.button} onPress={startLevel}>
              <Text style={styles.buttonText}>Play</Text>
            </TouchableOpacity>
@@ -332,7 +288,6 @@ const styles = StyleSheet.create({
    fontSize: 24,
    fontWeight: 'bold',
    marginBottom: 10,
-   textAlign: "center",
  },
  modalText: {
    fontSize: 18,
