@@ -4,8 +4,8 @@ import colors from "../../config/colors";
 import routes from "../../navigation/routes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import Icon
-   from 'react-native-vector-icons/FontAwesome6';
+// import Icon
+   // from 'react-native-vector-icons/FontAwesome6';
 
 const randomArrFunction = (arr) => {
    for (let i = arr.length - 1; i > 0; i--) {
