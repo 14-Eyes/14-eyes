@@ -7,7 +7,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const GRID_SIZE = 8;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CELL_SIZE = (SCREEN_WIDTH - 40) / GRID_SIZE;
-const WORDS_TO_FIND = ['LIME', 'LEMON', 'TOMATO', 'GRAPE'];
+const WORD_POOL = ['LIME', 'LEMON', 'TOMATO', 'GRAPE', 'APPLE', 'BANANA', 'ORANGE', 'PEACH', 'CHERRY', 'MELON', 'KIWI', 'PEAR', 'PUMPKIN', 'COCONUT', 'SQUASH', 'CASHEW', 'RADDISH', 'CABBAGE', 'ONION', 'WALNUT', 'SEED', 'CORN'];
+const WORDS_PER_GAME = 4;
 
 export default function LazarusGameScreen({navigation}) {
  const [grid, setGrid] = useState([]);
@@ -17,10 +18,11 @@ export default function LazarusGameScreen({navigation}) {
  const [isGameOver, setGameOver] = useState(false);
  const [gameStarted, startGame] = useState(true);
  const [paused, setPaused] = useState(false);
+ const [activeWords, setActiveWords] = useState([]);
 
  // Check for Game Over whenever foundWords updates
  useEffect(() => {
-   if (foundWords.length === WORDS_TO_FIND.length && WORDS_TO_FIND.length > 0) {
+   if (foundWords.length === activeWords.length && activeWords.length > 0) {
      setGameOver(true);
    }
  }, [foundWords]);
@@ -44,6 +46,10 @@ const resumeGame = () => {
  }, []);
 
    const generatePuzzle = () => {
+   const shuffledPool = [...WORD_POOL].sort(() => 0.5 - Math.random());
+   const selectedWords = shuffledPool.slice(0, WORDS_PER_GAME);
+   setActiveWords(selectedWords);
+
    let newGrid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(''));
    let locations = [];
 
@@ -53,7 +59,7 @@ const resumeGame = () => {
        [1, 1], [1, -1], [-1, 1], [-1, -1] // Diagonals
    ];
 
-   WORDS_TO_FIND.forEach(word => {
+   selectedWords.forEach(word => {
        let placed = false;
       
        // Create a list of all possible starting positions and directions
@@ -200,7 +206,7 @@ return (
        <View style={styles.modalOverlay}>
          <View style={styles.modalContent}>
            <Text style={styles.modalTitle}>🎉 Well Done! 🎉</Text>
-           <Text style={styles.modalText}>You found all {WORDS_TO_FIND.length} words.</Text>
+           <Text style={styles.modalText}>You found all {activeWords.length} words.</Text>
            <TouchableOpacity style={styles.button} onPress={resetGame}>
              <Text style={styles.buttonText}>Play Again</Text>
            </TouchableOpacity>
@@ -247,7 +253,7 @@ return (
       </TouchableOpacity>
     
      <View style={styles.wordList}>
-       {WORDS_TO_FIND.map(w => (
+       {activeWords.map(w => (
          <Text key={w} style={[styles.word, foundWords.some(f => f.word === w) && styles.wordFound]}>
            {w}
          </Text>

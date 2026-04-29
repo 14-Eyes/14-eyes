@@ -14,7 +14,6 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const BALL_RADIUS = 20;
-const BALL_COLOR = "#ADD8E6";
 const BALL_VELOCITY = 0;
 const DEFAULT_BOUNCE_VELOCITY = -0.7; // Adjust this value based on desired bounce height
 const BALL_GRAVITY = 1 / 1000;
@@ -37,7 +36,7 @@ export default function MuMuGameScreen({navigation}) {
  const imageX = useDerivedValue(() => x.value - BALL_RADIUS);
  const imageY = useDerivedValue(() => y.value - BALL_RADIUS);
  const velocityY = useSharedValue(BALL_VELOCITY);
- const [sensorInt, setSensorInt] = useState(2000);
+ //const [sensorInt, setSensorInt] = useState(2000);
  const deviceRollSensor = useAnimatedSensor(SensorType.ROTATION);
  const deviceGyroSensor = useAnimatedSensor(SensorType.GYROSCOPE);
  const prevMaxY = useSharedValue(SCREEN_HEIGHT / 2);
@@ -191,8 +190,8 @@ const resumeGame = () => {
         image={ballImage}
         x={imageX} // Offset by radius to center the image on the coordinate
         y={imageY}
-        width={BALL_RADIUS * 2}
-        height={BALL_RADIUS * 2}
+        width={BALL_RADIUS * 3}
+        height={BALL_RADIUS * 3}
       />
    </Canvas>
         <Modal visible={gameStarted} transparent={true} animationType="fade">

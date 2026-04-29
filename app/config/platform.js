@@ -6,8 +6,8 @@ import {
 } from "react-native-reanimated";
 import { Canvas, Circle, Rect, Image, useImage } from "@shopify/react-native-skia";
 
-export const PLATFORM_HEIGHT = 15;
-export const PLATFORM_WIDTH = 50;
+export const PLATFORM_HEIGHT = 30;
+export const PLATFORM_WIDTH = 100;
 
 export const Platform = ({ platformDefinition }) => {
   const y = useDerivedValue(() => platformDefinition.value.y);
