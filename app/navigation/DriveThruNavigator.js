@@ -13,7 +13,7 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { getSubScreenHeader } from "./HeaderStyles";
+import { getSubScreenHeader, getCustomSubScreenHeaderBack } from "./HeaderStyles";
 import DriveThru from "../screens/ChildMode/DriveThru";
 //import DriveThruWelcome from "../screens/ChildMode/DriveThruWelcome";
 import GameScreenMain from "../screens/ChildMode/GameScreenMain";
@@ -40,7 +40,8 @@ const DriveThruNavigator = () => (
     <DriveStack.Screen
 	    name="GameScreenMain"
       component={GameScreenMain}
-      options={{ headerShown: true }}
+      // options={{ headerShown: true }}
+      options={({ navigation }) => getCustomSubScreenHeaderBack(navigation, "GameScreenMain", "Home")}
 	/>
 
   <DriveStack.Screen

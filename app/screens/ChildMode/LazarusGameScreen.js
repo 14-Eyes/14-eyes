@@ -151,7 +151,7 @@ export default function LazarusGameScreen({navigation}) {
   const goHome = () => {
    startGame(true);
    setGameOver(false);
-   navigation.navigate(routes.CHILD_GAME_HOME);
+   navigation.replace(routes.CHILD_GAME_HOME);
   };
 
  if (grid.length === 0) return <View style={styles.container}><Text>Generating...</Text></View>;
@@ -171,6 +171,12 @@ return (
            <TouchableOpacity style={styles.button} onPress={startLevel}>
              <Text style={styles.buttonText}>Play</Text>
            </TouchableOpacity>
+           <TouchableOpacity
+                style={styles.button}
+                onPress={goHome}
+            >
+                <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>
          </View>
        </View>
      </Modal>

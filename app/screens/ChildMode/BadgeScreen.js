@@ -31,8 +31,8 @@ function BadgeScreen({navigation, route}) {
                     <Image source={require('../../assets/badge200.png')} style={styles.badge}/>
                   <View style={styles.space}>
                   <ChildBackButton
-                  title="<<   GO BACK"
-                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                  title="GO HOME"
+                  onPress={() => navigation.replace(routes.CHILD_HOME)} />
                 </View>
               </View>
             </Screen>
@@ -46,8 +46,8 @@ function BadgeScreen({navigation, route}) {
                     <Image source={require('../../assets/badge150.png')} style={styles.badge}/>
                   <View style={styles.space}>
                   <ChildBackButton
-                  title="<<   GO BACK"
-                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                  title="GO HOME"
+                  onPress={() => navigation.replace(routes.CHILD_HOME)} />
                 </View>
               </View>
             </Screen>
@@ -61,8 +61,8 @@ function BadgeScreen({navigation, route}) {
                     <Image source={require('../../assets/badge100.png')} style={styles.badge}/>
                   <View style={styles.space}>
                   <ChildBackButton
-                  title="<<   GO BACK"
-                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                  title="GO HOME"
+                  onPress={() => navigation.replace(routes.CHILD_HOME)} />
                 </View>
               </View>
             </Screen>
@@ -76,8 +76,8 @@ function BadgeScreen({navigation, route}) {
                     <Image source={require('../../assets/badge50.png')} style={styles.badge}/>
                   <View style={styles.space}>
                   <ChildBackButton
-                  title="<<   GO BACK"
-                  onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                  title="GO HOME"
+                  onPress={() => navigation.replace(routes.CHILD_HOME)} />
                 </View>
               </View>
             </Screen>
@@ -94,8 +94,8 @@ function BadgeScreen({navigation, route}) {
               </View>
                 <View style={styles.space}>
                 <ChildBackButton
-                title="<<   GO BACK"
-                onPress={() => navigation.navigate(routes.CHILD_HOME)} />
+                title="GO HOME"
+                onPress={() => navigation.replace(routes.CHILD_HOME)} />
               </View>
             </View>
           </Screen>

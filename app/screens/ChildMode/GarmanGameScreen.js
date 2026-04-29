@@ -115,7 +115,7 @@ const GarmanGameScreen = ({navigation}) => {
  const goHome = () => {
   setGameWon(false);
   startGame(true);
-  navigation.navigate(routes.CHILD_GAME_HOME);
+  navigation.replace(routes.CHILD_GAME_HOME);
  };
 
    return (
@@ -136,6 +136,12 @@ const GarmanGameScreen = ({navigation}) => {
             <Text style={styles.modalText}>Click on the cards to flip them over. If the match isn't right, they'll flip back!</Text>
             <TouchableOpacity style={styles.button} onPress={startLevel}>
                 <Text style={styles.buttonText}>Play</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={goHome}
+            >
+                <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
             </View>
         </View>

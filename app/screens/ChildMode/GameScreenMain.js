@@ -25,7 +25,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('LuLuGameScreen')
+                this.props.navigation.replace('LuLuGameScreen')
               }
             >
               <Image source={require("../../assets/gameStuff/LuLu_Button.png")} style={styles.squareImage} />
@@ -36,7 +36,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('GarmanGameScreen')
+                this.props.navigation.replace('GarmanGameScreen')
               }
             >
               <Image source={require("../../assets/gameStuff/Garman_Button.png")} style={styles.squareImage} />
@@ -47,7 +47,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('MuMuGameScreen')
+                this.props.navigation.replace('MuMuGameScreen')
               }
             >
               <Image source={require("../../assets/gameStuff/MuMu_Button.png")} style={styles.squareImage} />
@@ -58,7 +58,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('NikaGameScreen')
+                this.props.navigation.replace('NikaGameScreen')
               }
             >
               <Image source={require("../../assets/gameStuff/Nika_Button.png")} style={styles.squareImage} />
@@ -69,7 +69,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('LazarusGameScreen')
+                this.props.navigation.replace('LazarusGameScreen')
               }
             >
               <Image source={require("../../assets/gameStuff/Lazarus_Button.png")} style={styles.squareImage} />
@@ -80,7 +80,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('ToddyGameScreen')
+                this.props.navigation.replace('ToddyGameScreen')
               }
             >
               <Image source={require("../../assets/gameStuff/Toddy_Button.png")} style={styles.squareImage} />
@@ -91,7 +91,7 @@ export class GameScreenMain extends Component {
               style={styles.squareButton}
               activeOpacity={0.8}
               onPress={() =>
-                this.props.navigation.navigate('DriveThru')
+                this.props.navigation.replace('DriveThru')
               }
             >
               <Image source={require("../../assets/gameStuff/Adam_Button.png")} style={styles.squareImage} />

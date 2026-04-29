@@ -152,7 +152,7 @@ export default function MuMuGameScreen({navigation}) {
  };
 
  const goHome = () => {
-  navigation.navigate(routes.CHILD_GAME_HOME);
+  navigation.replace(routes.CHILD_GAME_HOME);
   startGame(false);
   setGameOver(false);
  };
@@ -180,6 +180,12 @@ export default function MuMuGameScreen({navigation}) {
            <TouchableOpacity style={styles.button} onPress={startLevel}>
              <Text style={styles.buttonText}>Play</Text>
            </TouchableOpacity>
+           <TouchableOpacity
+                style={styles.button}
+                onPress={goHome}
+            >
+                <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>
          </View>
        </View>
      </Modal>
