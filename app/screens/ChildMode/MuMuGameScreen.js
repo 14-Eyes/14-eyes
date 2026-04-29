@@ -135,7 +135,6 @@ export default function MuMuGameScreen({navigation}) {
 
  const startLevel = () => {
    startGame(false);
-   console.log(gameStarted)
  };
 
  const resetGame = () => {

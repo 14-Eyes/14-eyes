@@ -115,7 +115,6 @@ export default function LuLuGameScreen({navigation}) {
    setScore(0);
    setFallingFruits([]);
    startGame(false);
-   console.log(gameStarted)
 
    basketXRef.current = (screenWidth - BASKET_WIDTH) / 2;
    basketX.setValue(basketXRef.current);
