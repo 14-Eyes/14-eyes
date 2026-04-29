@@ -119,13 +119,17 @@ const styles = StyleSheet.create({
     },
     title: {
         color: colors.black,
-        fontWeight: "600",
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+        fontWeight: "800",
         fontSize: width * 0.09,
         textAlign: "center",
     },
     subTitle: {
         color: colors.black,
-        fontSize: width * 0.045,
+        fontSize: width * 0.055,
+        paddingBottom: 10,
         textAlign: "center",
     },
     pic: {
@@ -136,7 +140,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
   },
 
-    // for the square recipe buttons
     // 2 buttons per row with spacing inbetween
     grid: {
         flexDirection: "row",
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     },
     squareLabel: {
         marginTop: 4,
-        fontSize: 17,
+        fontSize: 20,
         color: colors.dark,
         textAlign: "center",
     },

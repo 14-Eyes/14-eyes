@@ -5,6 +5,7 @@ import { useState } from "react";
 import { PLATFORM_HEIGHT, PLATFORM_WIDTH, Platform } from "../../config/platform";
 import { Score } from "../../config/score";
 import routes from "../../navigation/routes";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // possible textures?
 // https://craftpix.net/product/jump-game-kit/
@@ -29,6 +30,7 @@ export default function MuMuGameScreen({navigation}) {
  const ballImage = useImage(require("../../assets/gameStuff/MuMu.png"));
  const [gameOver, setGameOver] = useState(false);
  const [gameStarted, startGame] = useState(true);
+ const [paused, setPaused] = useState(false);
 
  const x = useSharedValue(SCREEN_WIDTH / 2);
  const y = useSharedValue(SCREEN_HEIGHT / 2);
@@ -56,9 +58,9 @@ export default function MuMuGameScreen({navigation}) {
      return;
    }
 
-   if(gameOver || gameStarted) {
+  if (gameOver || gameStarted || paused) {
     return;
-   }
+  }
 
    velocityY.value += BALL_GRAVITY * dt;
    if (!(velocityY.value < 0 && y.value < SCREEN_HEIGHT / 2)) {
@@ -151,7 +153,16 @@ export default function MuMuGameScreen({navigation}) {
    setGameOver(false);
  };
 
+const pauseGame = () => {
+  setPaused(true);
+};
+
+const resumeGame = () => {
+  setPaused(false);
+};
+
  const goHome = () => {
+  setPaused(false);
   navigation.replace(routes.CHILD_GAME_HOME);
   startGame(false);
   setGameOver(false);
@@ -159,6 +170,18 @@ export default function MuMuGameScreen({navigation}) {
 
  return (
   <View style={styles.container}>
+    
+    <TouchableOpacity
+      style={styles.pauseButton}
+      onPress={pauseGame}
+    >
+      <MaterialCommunityIcons
+        name="pause"
+        color="white"
+        size={28}
+      />
+    </TouchableOpacity>
+    
     <Canvas style={{ flex: 1 }}>
      <Score score={score} />
      {platforms.map((platform, i) => (
@@ -204,6 +227,29 @@ export default function MuMuGameScreen({navigation}) {
          </View>
        </View>
      </Modal>
+
+     <Modal visible={paused} transparent={true} animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Game Paused</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={resumeGame}
+          >
+            <Text style={styles.buttonText}>Resume</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={goHome}
+          >
+            <Text style={styles.buttonText}>Back to Games</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+
   </View>
  );
 }
@@ -240,6 +286,18 @@ const styles = StyleSheet.create({
    marginBottom: 20,
    textAlign: 'center',
  },
+ pauseButton: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    backgroundColor: "#3B82F6",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
  button: {
    backgroundColor: '#3B82F6',
    paddingHorizontal: 30,

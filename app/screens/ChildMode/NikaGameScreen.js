@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Dimensions, SafeAreaView, Text, Image, TouchableOpacity, Modal, ImageBackground } from 'react-native';
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import routes from "../../navigation/routes";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CANDY_ASSETS = {
   red: require('../../assets/gameStuff/Rednut.png'),
@@ -24,6 +25,7 @@ const NikaGameScreen = ({navigation}) => {
   const [moves, setMoves] = useState(20);
   const [isGameOver, setGameOver] = useState(false);
   const [gameStarted, startGame] = useState(true);
+  const [paused, setPaused] = useState(false);
 
   // 1. Randomly generate grid colors
   const createBoard = () => {
@@ -84,7 +86,7 @@ const NikaGameScreen = ({navigation}) => {
   };
 
 const handleSwap = (r1, c1, r2, c2) => {
-  if (isGameOver || r2 < 0 || r2 >= GRID_SIZE || c2 < 0 || c2 >= GRID_SIZE) return;
+  if (paused || isGameOver || r2 < 0 || r2 >= GRID_SIZE || c2 < 0 || c2 >= GRID_SIZE) return;
 
   const newGrid = [...grid.map(row => [...row])];
   const temp = newGrid[r1][c1];
@@ -142,15 +144,24 @@ const handleSwap = (r1, c1, r2, c2) => {
     }
   };
 
-const resetGame = () => {
-  startGame(false);
-  setGrid(createBoard());
-  setScore(0);
-  setMoves(20);
-  setGameOver(false);
-};
+  const resetGame = () => {
+    startGame(false);
+    setGrid(createBoard());
+    setScore(0);
+    setMoves(20);
+    setGameOver(false);
+  };
+
+  const pauseGame = () => {
+    setPaused(true);
+  };
+
+  const resumeGame = () => {
+    setPaused(false);
+  };
 
   const goHome = () => {
+   setPaused(false);
    navigation.replace(routes.CHILD_GAME_HOME);
    startGame(false);
    setGameOver(false);
@@ -195,38 +206,73 @@ const resetGame = () => {
          </View>
        </View>
      </Modal>
-        <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-            <View style={styles.scoreContainer}>
-            <Text style={styles.scoreLabel}>MOVES</Text>
-            <Text style={[styles.scoreValue, moves <= 5 && {color: '#e74c3c'}]}>{moves}</Text>
-            </View>
-            <View style={styles.scoreContainer}>
-            <Text style={styles.scoreLabel}>SCORE</Text>
-            <Text style={styles.scoreValue}>{score}</Text>
-            </View>
-        </View>
 
-        <View style={styles.board}>
-          {grid.map((row, r) =>
-            row.map((color, c) => (
-              <PanGestureHandler
-                key={`${r}-${c}`}
-                onEnded={(e) => onGestureEvent(e, r, c)}
-                >
-                <View style={styles.tile}>
-                    {color ? ( // If the candy isn't cleared (null)
-                    <Image 
-                        source={CANDY_ASSETS[color]} 
-                        style={styles.candyImage}
-                        resizeMode="contain"
-                    />
-                    ) : null}
-                </View>
-                </PanGestureHandler>
-            ))
-          )}
+     <Modal visible={paused} transparent={true} animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Game Paused</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={resumeGame}
+          >
+            <Text style={styles.buttonText}>Resume</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={goHome}
+          >
+            <Text style={styles.buttonText}>Back to Games</Text>
+          </TouchableOpacity>
         </View>
+      </View>
+    </Modal>
+    
+        <SafeAreaView style={styles.container}>
+
+          <TouchableOpacity
+            style={styles.pauseButton}
+            onPress={pauseGame}
+          >
+            <MaterialCommunityIcons
+              name="pause"
+              color="white"
+              size={28}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.header}>
+              <View style={styles.scoreContainer}>
+              <Text style={styles.scoreLabel}>MOVES</Text>
+              <Text style={[styles.scoreValue, moves <= 5 && {color: '#e74c3c'}]}>{moves}</Text>
+              </View>
+              <View style={styles.scoreContainer}>
+              <Text style={styles.scoreLabel}>SCORE</Text>
+              <Text style={styles.scoreValue}>{score}</Text>
+              </View>
+          </View>
+
+          <View style={styles.board}>
+            {grid.map((row, r) =>
+              row.map((color, c) => (
+                <PanGestureHandler
+                  key={`${r}-${c}`}
+                  onEnded={(e) => onGestureEvent(e, r, c)}
+                  >
+                  <View style={styles.tile}>
+                      {color ? ( // If the candy isn't cleared (null)
+                      <Image 
+                          source={CANDY_ASSETS[color]} 
+                          style={styles.candyImage}
+                          resizeMode="contain"
+                      />
+                      ) : null}
+                  </View>
+                  </PanGestureHandler>
+              ))
+            )}
+          </View>
         </SafeAreaView>
       </ImageBackground>
     </GestureHandlerRootView>
@@ -331,6 +377,18 @@ overlay: {
    marginBottom: 20,
    textAlign: 'center',
  },
+ pauseButton: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    backgroundColor: "#3B82F6",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
  button: {
    backgroundColor: '#3B82F6',
    paddingHorizontal: 30,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Dimensions, Modal, TouchableOpacity, ImageBackground } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import routes from "../../navigation/routes";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const GRID_SIZE = 8;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -15,6 +16,7 @@ export default function LazarusGameScreen({navigation}) {
  const [selection, setSelection] = useState({ start: null, end: null, cells: [] });
  const [isGameOver, setGameOver] = useState(false);
  const [gameStarted, startGame] = useState(true);
+ const [paused, setPaused] = useState(false);
 
  // Check for Game Over whenever foundWords updates
  useEffect(() => {
@@ -28,6 +30,14 @@ export default function LazarusGameScreen({navigation}) {
    setGameOver(false);
    generatePuzzle();
  };
+
+ const pauseGame = () => {
+  setPaused(true);
+};
+
+const resumeGame = () => {
+  setPaused(false);
+};
 
  useEffect(() => {
    generatePuzzle();
@@ -118,6 +128,8 @@ export default function LazarusGameScreen({navigation}) {
  };
 
  const onGestureEvent = (event) => {
+   if (paused || gameStarted || isGameOver) return;
+
    const { x, y } = event.nativeEvent;
    const col = Math.floor(x / CELL_SIZE);
    const row = Math.floor(y / CELL_SIZE);
@@ -131,6 +143,8 @@ export default function LazarusGameScreen({navigation}) {
  };
 
  const onGestureEnd = () => {
+   if (paused || gameStarted || isGameOver) return;
+  
    const selectedWord = selection.cells.map(c => grid[c.row][c.col]).join('');
    const match = answerKey.find(a => a.word === selectedWord &&
      JSON.stringify(a.path) === JSON.stringify(selection.cells));
@@ -142,13 +156,14 @@ export default function LazarusGameScreen({navigation}) {
  };
 
   const startLevel = () => {
-  setFoundWords([]);
-  startGame(false);
-  setGameOver(false);
-  generatePuzzle();
+    setFoundWords([]);
+    startGame(false);
+    setGameOver(false);
+    generatePuzzle();
   };
  
   const goHome = () => {
+   setPaused(false);
    startGame(true);
    setGameOver(false);
    navigation.replace(routes.CHILD_GAME_HOME);
@@ -196,7 +211,40 @@ return (
        </View>
      </Modal>
 
+     <Modal visible={paused} transparent={true} animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Game Paused</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={resumeGame}
+          >
+            <Text style={styles.buttonText}>Resume</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={goHome}
+          >
+            <Text style={styles.buttonText}>Back to Games</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+
      <Text style={styles.title}>Word Search</Text>
+
+      <TouchableOpacity
+        style={styles.pauseButton}
+        onPress={pauseGame}
+      >
+        <MaterialCommunityIcons
+          name="pause"
+          color="white"
+          size={28}
+        />
+      </TouchableOpacity>
     
      <View style={styles.wordList}>
        {WORDS_TO_FIND.map(w => (
@@ -264,6 +312,18 @@ const styles = StyleSheet.create({
    marginBottom: 20,
    textAlign: 'center',
  },
+ pauseButton: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    backgroundColor: "#3B82F6",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
  button: {
    backgroundColor: '#3B82F6',
    paddingHorizontal: 30,

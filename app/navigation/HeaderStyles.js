@@ -72,3 +72,29 @@ export const getCustomSubScreenHeaderBack = (navigation, title, targetRoute) => 
     </TouchableOpacity>
   ),
 });
+
+// Creates header with custom back button ONLY
+// similar to the above cutom header except this one only has the back button
+export const getCustomHeaderBack = (navigation, targetRoute = null) => ({
+  headerTitle: () => null,
+  headerStyle: { backgroundColor: "white" },
+  headerTitleStyle: { fontSize: 18, marginTop: 0 },
+  headerLeft: () => (
+    <TouchableOpacity
+      onPress={() => {
+        if (targetRoute) {
+          navigation.popToTop();
+          navigation.navigate(targetRoute);
+        } else {
+          navigation.goBack();
+        }
+      }}
+      style={{ flexDirection: "row", alignItems: "center", marginLeft: 10, }}
+    >
+      <Ionicons name="chevron-back-outline" size={24} color={colors.primary} />
+      <Text style={{ color: colors.primary, fontSize: 18, marginLeft: 5, }}>
+        Back
+      </Text>
+    </TouchableOpacity>
+  ),
+});

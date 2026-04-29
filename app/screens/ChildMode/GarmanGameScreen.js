@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, Animated, Easing, Modal, ImageBackground } from 'react-native';
 import colors from "../../config/colors";
 import routes from "../../navigation/routes";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Icon
    from 'react-native-vector-icons/FontAwesome6';
@@ -45,8 +46,11 @@ const GarmanGameScreen = ({navigation}) => {
    const [winMessage, setWinMessage] = useState(new Animated.Value(0));
    const [gameWon, setGameWon] = useState(false);
    const [gameStarted, startGame] = useState(true);
+   const [paused, setPaused] = useState(false);
 
    const cardClickFunction = (card) => {
+       if (paused || gameStarted || gameWon) return;
+
        if (!gameWon && selectedCards.length < 2
            && !card.isFlipped) {
            const updatedSelectedCards =
@@ -112,7 +116,16 @@ const GarmanGameScreen = ({navigation}) => {
     setGameWon(false);
  };
 
+ const pauseGame = () => {
+    setPaused(true);
+ };
+
+ const resumeGame = () => {
+    setPaused(false);
+ };
+
  const goHome = () => {
+  setPaused(false);
   setGameWon(false);
   startGame(true);
   navigation.replace(routes.CHILD_GAME_HOME);
@@ -161,21 +174,55 @@ const GarmanGameScreen = ({navigation}) => {
             </View>
         </View>
         </Modal>
-               <View style={styles.grid}>
-                   {cards.map((card) => (
-                       <TouchableOpacity
-                           key={card.id}
-                           style={
-                               [styles.card,
-                               card.isFlipped && styles.cardFlipped]}
-                           onPress={() => cardClickFunction(card)}
-                       >
-                           {card.isFlipped ?
-                               <Icon name={card.symbol}
-                                   size={40} style={styles.cardIcon} /> : null}
-                       </TouchableOpacity>
-                   ))}
-               </View>
+
+        <Modal visible={paused} transparent={true} animationType="fade">
+            <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>Game Paused</Text>
+
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={resumeGame}
+                >
+                    <Text style={styles.buttonText}>Resume</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={goHome}
+                >
+                    <Text style={styles.buttonText}>Back to Games</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
+
+        <TouchableOpacity
+            style={styles.pauseButton}
+            onPress={pauseGame}
+        >
+            <MaterialCommunityIcons
+                name="pause"
+                size={28}
+                color="white"
+            />
+        </TouchableOpacity>
+
+            <View style={styles.grid}>
+                {cards.map((card) => (
+                    <TouchableOpacity
+                        key={card.id}
+                        style={
+                            [styles.card,
+                            card.isFlipped && styles.cardFlipped]}
+                        onPress={() => cardClickFunction(card)}
+                    >
+                        {card.isFlipped ?
+                            <Icon name={card.symbol}
+                                size={40} style={styles.cardIcon} /> : null}
+                    </TouchableOpacity>
+                ))}
+            </View>
        </View>
     </ImageBackground>
    );
@@ -252,6 +299,18 @@ const styles = StyleSheet.create({
    marginBottom: 20,
    textAlign: 'center',
  },
+ pauseButton: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    backgroundColor: "#3B82F6",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+    },
  button: {
    backgroundColor: '#3B82F6',
    paddingHorizontal: 30,

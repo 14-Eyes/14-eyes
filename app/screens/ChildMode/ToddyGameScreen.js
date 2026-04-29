@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet, Dimensions, Text, TouchableWithoutFeedback, Image, Animated, Modal, TouchableOpacity, ImageBackground } from "react-native";
 import { Accelerometer } from "expo-sensors";
 import routes from "../../navigation/routes";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -34,6 +35,7 @@ export default function ToddyGameScreen({navigation}) {
  const [gameOver, setGameOver] = useState(false);
  const [gameStarted, startGame] = useState(true);
  const [bullets, setBullets] = useState([]);
+ const [paused, setPaused] = useState(false);
 
  basketX.addListener(({ value }) => {
    basketXRef.current = value;
@@ -46,7 +48,7 @@ export default function ToddyGameScreen({navigation}) {
  });
 
  useEffect(() => {
-   if (gameOver) return;
+   if (gameOver || gameStarted || paused) return;
 
    Accelerometer.setUpdateInterval(16);
    const subscription = Accelerometer.addListener(({ x }) => {
@@ -58,10 +60,10 @@ export default function ToddyGameScreen({navigation}) {
    });
 
    return () => subscription.remove();
- }, [gameOver, gameStarted]);
+ }, [gameOver, gameStarted, paused]);
 
  useEffect(() => {
-   if (gameOver || gameStarted) return;
+   if (gameOver || gameStarted || paused) return;
 
    const spawnInterval = setInterval(() => {
      setFallingFruits(prev => [
@@ -143,10 +145,10 @@ const moveInterval = setInterval(() => {
      clearInterval(spawnInterval);
      clearInterval(moveInterval);
    };
- }, [gameOver, gameStarted]);
+ }, [gameOver, gameStarted, paused]);
 
  const shoot = () => {
-  if (gameOver || gameStarted) return;
+  if (gameOver || gameStarted || paused) return;
   
   setBullets(prev => [
     ...prev,
@@ -177,7 +179,16 @@ const moveInterval = setInterval(() => {
    basketX.setValue(basketXRef.current);
  };
 
+  const pauseGame = () => {
+    setPaused(true);
+  };
+
+  const resumeGame = () => {
+    setPaused(false);
+  };
+
  const goHome = () => {
+  setPaused(false);
   startGame(true);
   setGameOver(false);
   navigation.replace(routes.CHILD_GAME_HOME);
@@ -230,6 +241,39 @@ const moveInterval = setInterval(() => {
          </View>
        </View>
      </Modal>
+
+     <Modal visible={paused} transparent={true} animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Game Paused</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={resumeGame}
+          >
+            <Text style={styles.buttonText}>Resume</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={goHome}
+          >
+            <Text style={styles.buttonText}>Back to Games</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+
+      <TouchableOpacity
+        style={styles.pauseButton}
+        onPress={pauseGame}
+      >
+        <MaterialCommunityIcons
+          name="pause"
+          color="white"
+          size={28}
+        />
+      </TouchableOpacity>
 
        <Animated.Image
          source={require("../../assets/gameStuff/Tomato_Shooter.png")}
@@ -305,6 +349,18 @@ const styles = StyleSheet.create({
    marginBottom: 20,
    textAlign: 'center',
  },
+  pauseButton: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    backgroundColor: "#3B82F6",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
  button: {
    backgroundColor: '#3B82F6',
    paddingHorizontal: 30,
