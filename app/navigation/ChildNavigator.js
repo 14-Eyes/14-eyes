@@ -28,6 +28,7 @@ import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
 import DriveThruNavigator from "../navigation/DriveThruNavigator";
 import BadgeScreen from "../screens/ChildMode/BadgeScreen";
 import colors from "../config/colors";
+import ChildForgotPassword from "../screens/ChildMode/ChildForgotPassword";
 
 const Stack = createStackNavigator();
 
@@ -82,6 +83,11 @@ const ChildNavigator = () => (
       name="ChildChangeMode"
       component={ChildChangeMode}
       options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+      name="ResetPassword" 
+      component={ChildForgotPassword}   
+      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
     />
   </Stack.Navigator>
 );
