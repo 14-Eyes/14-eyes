@@ -49,10 +49,7 @@ export default {
       permissions: [
         "CAMERA",
       ],
-      adaptiveIcon: {
-        foregroundImage: "./app/assets/ELTR-App-Logo-Final-Android.png",
-        backgroundColor: "#ffffff",
-      },
+      icon: "./app/assets/ELTR-App-Logo-Final-Android.png",
     },
     
     web: {
