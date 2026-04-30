@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Dimensions, SafeAreaView, Text, Image, TouchableOpacity, Modal, ImageBackground } from 'react-native';
+import { StyleSheet, View, Dimensions, Text, Image, TouchableOpacity, Modal, ImageBackground } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import routes from "../../navigation/routes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
