@@ -14,10 +14,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
-import { geminiModel } from "../config/firebase";
+import { functions } from "../config/firebase";
 import LineDivider from "../components/Divider";
-import { fetchAIUsage, getAIUsageInfo, incrementAIUsage } from "../utility/fetchAI";
-import { getAuth } from "firebase/auth";
+import { fetchAIUsage, updateLocalUsageCache } from "../utility/fetchAI";
+import { httpsCallable } from "firebase/functions";
 
 const { width, height } = Dimensions.get("window");
 
@@ -77,57 +77,60 @@ function ChatBot({ navigation }) {
 
 
     const sendMessage = async (messageText = null) => {
-
         const textToSend = messageText || inputText.trim();
+        if (!textToSend) return;
 
-        if (!textToSend) return; //exits function early if no user message
-
-        console.log("========== SEND MESSAGE DEBUG ==========");
-
-        const auth = getAuth();
-        console.log("user logged in?", !!auth.currentUser);
-        console.log("User ID:", auth.currentUser?.uid);
-
-        const usage = await fetchAIUsage();
-        console.log("Usage result:", usage);
-        console.log("Allowed?", usage.allowed);
-        console.log("Remaining:", usage.remaining);
-        console.log("Count:", usage.count);
-
-        if (!usage.allowed) {
-            console.log("Blocked: limit reached");
-            Alert.alert(
-                "Daily limit reached",
-                `You've reached your daily limit of ${usage.limit} messages. Please try again tomorrow.`,
-                [{text: "OK" }]
-            );
-            return;
-        }
-
-        console.log("allowed: sending message");
-
-        await incrementAIUsage();
-
-        const updatedUsage = await fetchAIUsage();
-        setMessagesRemaining(updatedUsage.remaining);
-
-        setMessages((prev) => [...prev, { text: textToSend, sender: "user" }]); //adds previous user message to messages array
-        //const userQuestion = inputText; //saves user input to a variable
-        setInputText(""); //cleares inputText
-        setIsLoading(true); //sets loading boolean to true
+        setMessages((prev) => [...prev, { text: textToSend, sender: "user" }]);
+        setInputText("");
+        setIsLoading(true);
 
         try {
-            const result = await geminiModel.generateContent(textToSend); //calls api with user text
-            const aiResponse = result.response.text(); //saves the ai response to a variable
+            const { getAuth } = await import("firebase/auth");
+            const auth = getAuth();
+            const token = await auth.currentUser?.getIdToken();
 
-            setMessages((prev)  => [...prev, { text: aiResponse, sender: "ai" }]); //adds previous ai message to messages array
-        
+            const response = await fetch(
+                "https://us-central1-eyes-eltr-dev.cloudfunctions.net/chatWithGemini",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ data: { message: textToSend } })
+                }
+            );
+
+            const rawText = await response.text();
+            const json = JSON.parse(rawText);
+            const aiResponse = json.result.response;
+            const remaining = json.result.remaining;
+
+            // Update local cache and UI counter with value returned from server
+            await updateLocalUsageCache(remaining);
+            setMessagesRemaining(remaining);
+
+            setMessages((prev) => [...prev, { text: aiResponse, sender: "ai" }]);
+
         } catch (error) {
-            console.error("Gemini Error:", error);
-            setMessages((prev)  => [...prev, { text: "Error: " + error.message, sender: "ai" }]);
-            //catches and logs error to console, and saves message to array
+            console.error("Cloud Function Error:", error);
+
+            // Handle specific error codes thrown by the Cloud Function
+            if (error.code === "functions/resource-exhausted") {
+                Alert.alert(
+                    "Daily limit reached",
+                    "You've reached your daily limit of 20 messages. Please try again tomorrow.",
+                    [{ text: "OK" }]
+                );
+                setMessagesRemaining(0);
+            } else {
+                setMessages((prev) => [...prev, { 
+                    text: "Sorry, something went wrong. Please try again.", 
+                    sender: "ai" 
+                }]);
+            }
         } finally {
-            setIsLoading(false); //sets loading boolean to false (done loading)
+            setIsLoading(false);
         }
     };
 
