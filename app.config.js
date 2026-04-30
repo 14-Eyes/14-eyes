@@ -64,6 +64,15 @@ export default {
             "Allow Eat Like The Rainbow to access your camera for barcode scanning.",
         },
       ],
+     [
+       "expo-build-properties",
+       {
+         ios: {
+           "useFrameworks": "static",
+           "buildReactNativeFromSource": true
+         }
+       }
+     ],
       "expo-video"
     ],
 
