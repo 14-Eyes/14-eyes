@@ -142,6 +142,7 @@ export default function MuMuGameScreen({navigation}) {
     x.value = SCREEN_WIDTH / 2;
     velocityY.value = 0;
     score.value = 0;
+    prevMaxY.value = SCREEN_HEIGHT / 2;
    setGameOver(false);
  };
 
@@ -175,7 +176,6 @@ const resumeGame = () => {
     </TouchableOpacity>
     
     <Canvas style={{ flex: 1 }}>
-     <Score score={score} />
      {platforms.map((platform, i) => (
        <Platform platformDefinition={platform} key={i} />
      ))}
@@ -186,6 +186,7 @@ const resumeGame = () => {
         width={BALL_RADIUS * 3}
         height={BALL_RADIUS * 3}
       />
+      <Score score={score} />
    </Canvas>
         <Modal visible={gameStarted} transparent={true} animationType="fade">
        <View style={styles.modalOverlay}>
@@ -249,7 +250,7 @@ const resumeGame = () => {
 const styles = StyleSheet.create({
  container: {
    flex: 1,
-   backgroundColor: 'rgba(0, 0, 0, 0.6)',
+   backgroundColor: 'rgb(36, 18, 3)',
  },
   background: {
     flex: 1,
