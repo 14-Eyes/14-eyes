@@ -13,9 +13,16 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { getSubScreenHeader } from "./HeaderStyles";
+import { getSubScreenHeader, getCustomSubScreenHeaderBack, getCustomHeaderBack } from "./HeaderStyles";
 import DriveThru from "../screens/ChildMode/DriveThru";
-import DriveThruWelcome from "../screens/ChildMode/DriveThruWelcome";
+//import DriveThruWelcome from "../screens/ChildMode/DriveThruWelcome";
+import GameScreenMain from "../screens/ChildMode/GameScreenMain";
+import GarmanGameScreen from "../screens/ChildMode/GarmanGameScreen";
+import LazarusGameScreen from "../screens/ChildMode/LazarusGameScreen";
+import LuLuGameScreen from "../screens/ChildMode/LuLuGameScreen";
+import MuMuGameScreen from "../screens/ChildMode/MuMuGameScreen";
+import NikaGameScreen from "../screens/ChildMode/NikaGameScreen";
+import ToddyGameScreen from "../screens/ChildMode/ToddyGameScreen";
 import DriveThruDecision from "../screens/ChildMode/DriveThruDecision";
 import colors from "../config/colors";
 
@@ -31,10 +38,48 @@ const DriveThruNavigator = () => (
     }}
   >
     <DriveStack.Screen
-	    name="DriveThruWelcome"
-      component={DriveThruWelcome}
-      options={{ title: "Welcome Screen to Game", headerShown: false }}
+	    name="GameScreenMain"
+      component={GameScreenMain}
+      // options={{ headerShown: true }}
+      options={({ navigation }) => getCustomHeaderBack(navigation, "Home")}
 	/>
+
+  <DriveStack.Screen
+	    name="LuLuGameScreen"
+      component={LuLuGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="GarmanGameScreen"
+      component={GarmanGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="LazarusGameScreen"
+      component={LazarusGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="MuMuGameScreen"
+      component={MuMuGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="NikaGameScreen"
+      component={NikaGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="ToddyGameScreen"
+      component={ToddyGameScreen}
+      options={{ headerShown: false }}
+	/>
+
     <DriveStack.Screen
 	    name="DriveThru"
       component={DriveThru}

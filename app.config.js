@@ -72,6 +72,9 @@ export default {
       PROJECT_ID: process.env.PROJECT_ID,
       MESSAGE_SENDER_ID: process.env.MESSAGE_SENDER_ID,
       APP_ID: process.env.APP_ID,
+      eas: {
+        projectId: "f9215104-f445-4aac-a299-3c13664dc0c0"
+      }
     },
   },
 };
