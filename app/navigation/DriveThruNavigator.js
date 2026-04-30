@@ -13,29 +13,80 @@
 
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { getSubScreenHeader, getCustomSubScreenHeaderBack, getCustomHeaderBack } from "./HeaderStyles";
 import DriveThru from "../screens/ChildMode/DriveThru";
-import DriveThruWelcome from "../screens/ChildMode/DriveThruWelcome";
+//import DriveThruWelcome from "../screens/ChildMode/DriveThruWelcome";
+import GameScreenMain from "../screens/ChildMode/GameScreenMain";
+import GarmanGameScreen from "../screens/ChildMode/GarmanGameScreen";
+import LazarusGameScreen from "../screens/ChildMode/LazarusGameScreen";
+import LuLuGameScreen from "../screens/ChildMode/LuLuGameScreen";
+import MuMuGameScreen from "../screens/ChildMode/MuMuGameScreen";
+import NikaGameScreen from "../screens/ChildMode/NikaGameScreen";
+import ToddyGameScreen from "../screens/ChildMode/ToddyGameScreen";
 import DriveThruDecision from "../screens/ChildMode/DriveThruDecision";
+import colors from "../config/colors";
 
 //Create a new stack
 const DriveStack = createStackNavigator();
 
 //stack contains the various parts of the drive thru game
 const DriveThruNavigator = () => (
-  <DriveStack.Navigator>
+  <DriveStack.Navigator
+    screenOptions={{
+      contentStyle: { backgroundColor: colors.eltrlightblue },
+      gestureEnabled: false, // this prevents navigating to previous screens by swiping from left to right
+    }}
+  >
     <DriveStack.Screen
-	  name="DriveThruWelcome"
-      component={DriveThruWelcome}
-      options={{ title: "Welcome Screen to Game", headerShown: false }}
+	    name="GameScreenMain"
+      component={GameScreenMain}
+      // options={{ headerShown: true }}
+      options={({ navigation }) => getCustomHeaderBack(navigation, "Home")}
 	/>
+
+  <DriveStack.Screen
+	    name="LuLuGameScreen"
+      component={LuLuGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="GarmanGameScreen"
+      component={GarmanGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="LazarusGameScreen"
+      component={LazarusGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="MuMuGameScreen"
+      component={MuMuGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="NikaGameScreen"
+      component={NikaGameScreen}
+      options={{ headerShown: false }}
+	/>
+
+  <DriveStack.Screen
+	    name="ToddyGameScreen"
+      component={ToddyGameScreen}
+      options={{ headerShown: false }}
+	/>
+
     <DriveStack.Screen
-	  name="DriveThru"
+	    name="DriveThru"
       component={DriveThru}
       options={{ title: "Character and Transportation Choice", headerShown: false}}
 	/>
     <DriveStack.Screen
-	  name="DriveThruDecision"
+	    name="DriveThruDecision"
       component={DriveThruDecision}
       options={{ title: "Fast Food Restaurant Choice", headerShown: false}}
 	/>

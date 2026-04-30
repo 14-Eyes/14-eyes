@@ -32,7 +32,7 @@ export const DriveThruDecision = ({navigation, route}) => {
     const transport = route.params.Transport
     const restaurant = route.params.restaurant
         return(  
-            <Screen style={styles.screen}>
+            <Screen backgroundColor={colors.eltrlightblue} style={styles.screen}>
             <View style={styles.container}>   
                 <AppText style={styles.title}>Which meal from {restaurant.name} Is the Healthiest?</AppText> 
                 {restaurant.menu.map((option, index) => (

@@ -26,7 +26,9 @@ import ChildFood from "../screens/ChildMode/ChildFood";
 import ChildFoodAbout from "../screens/ChildMode/ChildFoodAbout";
 import ChildChangeMode from "../screens/ChildMode/ChildChangeMode";
 import DriveThruNavigator from "../navigation/DriveThruNavigator";
+import BadgeScreen from "../screens/ChildMode/BadgeScreen";
 import colors from "../config/colors";
+import ChildForgotPassword from "../screens/ChildMode/ChildForgotPassword";
 
 const Stack = createStackNavigator();
 
@@ -48,9 +50,14 @@ const ChildNavigator = () => (
       options={({ navigation }) => getSubScreenHeader(navigation, "Scan Now!")}
     />
     <Stack.Screen 
-      name="DriveThru" 
+      name="DriveThruGame" 
       component={DriveThruNavigator}
-      options={{ headerShown: true }}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="BadgeScreen"
+      component={BadgeScreen}
+      options={{ headerShown: false }}
     />
     <Stack.Screen
       name="ChildRecipes"
@@ -76,6 +83,11 @@ const ChildNavigator = () => (
       name="ChildChangeMode"
       component={ChildChangeMode}
       options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+      name="ResetPassword" 
+      component={ChildForgotPassword}   
+      options={({ navigation }) => getSubScreenHeaderBack(navigation)}
     />
   </Stack.Navigator>
 );

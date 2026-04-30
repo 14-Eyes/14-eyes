@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         width: squareSize,
         height: squareSize + 25, // extra space for text
         alignItems: "center",
-        marginVertical: 30,
+        marginVertical: 35,
     },
     squareImage: {
         width: squareSize,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     },
     squareLabel: {
         marginTop: 4,
-        fontSize: 18,
+        fontSize: 17,
         color: colors.dark,
         textAlign: "center",
     },

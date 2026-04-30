@@ -33,7 +33,7 @@ export class DriveThruWelcome extends Component {
 
     render(){
         return(
-            <Screen style={styles.container}>
+            <Screen backgroundColor={colors.eltrlightblue} style={styles.container}>
                 <View style={styles.pictureContainer}>
                     <Image source={require("../../assets/newrainbow.png")} style={styles.rainbow}/>
                 </View>
