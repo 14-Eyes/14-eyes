@@ -13,9 +13,10 @@ const CANDY_ASSETS = {
   purple: require('../../assets/gameStuff/Tigernut.png'),
   orange: require('../../assets/gameStuff/Coconut.png'),
 };
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const GRID_SIZE = 8;
-const TILE_SIZE = width / GRID_SIZE;
+const PADDING = 40; 
+const TILE_SIZE = (width - PADDING) / GRID_SIZE;
 const CANDY_KEYS = Object.keys(CANDY_ASSETS);
 const screenWidth = Dimensions.get('window').width;
 const squareSize = screenWidth / width;
@@ -54,6 +55,7 @@ const NikaGameScreen = ({navigation}) => {
         let color = currentGrid[r][c];
         if (color && color === currentGrid[r][c + 1] && color === currentGrid[r][c + 2]) {
           matchedIndices.push({ r, c }, { r, c: c + 1 }, { r, c: c + 2 });
+          setScore(prev => prev + (30));
         }
       }
     }
@@ -63,6 +65,7 @@ const NikaGameScreen = ({navigation}) => {
         let color = currentGrid[r][c];
         if (color && color === currentGrid[r + 1][c] && color === currentGrid[r + 2][c]) {
           matchedIndices.push({ r, c }, { r: r + 1, c }, { r: r + 2, c });
+          setScore(prev => prev + (30));
         }
       }
     }
@@ -249,25 +252,18 @@ const handleSwap = (r1, c1, r2, c2) => {
               </View>
           </View>
 
-          <View style={styles.board}>
-            {grid.map((row, r) =>
-              row.map((color, c) => (
-                <PanGestureHandler
-                  key={`${r}-${c}`}
-                  onEnded={(e) => onGestureEvent(e, r, c)}
-                  >
-                  <View style={styles.tile}>
-                      {color ? ( // If the candy isn't cleared (null)
-                      <Image 
-                          source={CANDY_ASSETS[color]} 
-                          style={styles.candyImage}
-                          resizeMode="contain"
-                      />
-                      ) : null}
-                  </View>
+          <View style={styles.gridContainer}>
+            {grid.map((row, r) => (
+              <View key={r} style={styles.row}>
+                {row.map((cell, c) => (
+                  <PanGestureHandler key={`${r}-${c}`} onGestureEvent={(e) => onGestureEvent(e, r, c)}>
+                    <View style={styles.tile}>
+                      {cell && <Image source={CANDY_ASSETS[cell]} style={styles.fruitImage} />}
+                    </View>
                   </PanGestureHandler>
-              ))
-            )}
+                ))}
+              </View>
+            ))}
           </View>
         </SafeAreaView>
       </ImageBackground>
@@ -390,8 +386,30 @@ overlay: {
    fontSize: 16,
    fontWeight: 'bold',
  },
+  gridContainer: {
+    width: width - PADDING,
+    height: width - PADDING, // Keeps the grid perfectly square
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(46, 46, 46, 0.5)', // Optional: helps you see the container
+    borderRadius: 10,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  tile: {
+    width: TILE_SIZE,
+    height: TILE_SIZE,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fruitImage: {
+    width: TILE_SIZE * 0.8, // Scale slightly smaller than tile to add "air"
+    height: TILE_SIZE * 0.8,
+    resizeMode: 'contain',
+  },
 gameOverText: { color: '#fff', fontSize: 40, fontWeight: 'bold' },
-
 });
 
 export default NikaGameScreen;
