@@ -21,7 +21,7 @@ export default {
     slug: "ELTRFront",
     version: "1.0.1",
     orientation: "portrait",
-    icon: "./app/assets/eltrLogo-IOS.png",
+    icon: "./app/assets/ELTR-App-Logo-Final-Android.png",
     splash: {
       image: "./app/assets/splash.png",
       resizeMode: "contain",
@@ -40,6 +40,7 @@ export default {
         NSCameraUsageDescription:
           "This app uses the camera to scan barcodes of grocery items to pull their ingredients list.",
       },
+      icon: "./app/assets/ELTR-App-Logo-Final-iOS.png",
     },
     
     android: {
@@ -48,6 +49,7 @@ export default {
       permissions: [
         "CAMERA",
       ],
+      icon: "./app/assets/ELTR-App-Logo-Final-Android.png",
     },
     
     web: {
