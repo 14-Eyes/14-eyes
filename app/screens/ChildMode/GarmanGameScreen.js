@@ -220,7 +220,7 @@ const GarmanGameScreen = ({navigation}) => {
                         {card.isFlipped ?
                             <Image name={card.symbol}
                             source={card.symbol} 
-                            style={{ width: 40, height: 40, resizeMode: 'contain' }} /> : null}
+                            style={{ width: 80, height: 80, resizeMode: 'contain' }} /> : null}
                     </TouchableOpacity>
                 ))}
             </View>
