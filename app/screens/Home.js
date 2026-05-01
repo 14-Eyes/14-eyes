@@ -150,7 +150,7 @@ export class Home extends Component {
               style={[styles.button]}
             >
               <Image
-                source={require("../assets/essential_nutrients.png")}
+                source={require("../assets/essential_nutrients.jpg")}
                 style={[styles.image]}
               />
               <Text style={styles.buttonText}>Essential Nutrients</Text>
@@ -163,7 +163,7 @@ export class Home extends Component {
               style={[styles.button]}
             >
               <Image
-                source={require("../assets/harmful_ingredients.png")}
+                source={require("../assets/harmful_ingredients.jpg")}
                 style={[styles.image]}
               />
               <Text style={styles.buttonText}>Harmful Ingredients</Text>
@@ -174,7 +174,7 @@ export class Home extends Component {
               style={[styles.button]}
             >
               <Image
-                source={require("../assets/food_facts.png")}
+                source={require("../assets/food_facts.jpg")}
                 style={[styles.image]}
               />
               <Text style={styles.buttonText}>Fun Food Facts</Text>
