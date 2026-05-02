@@ -30,7 +30,7 @@ export default {
     updates: {
       fallbackToCacheTimeout: 0,
     },
-    assetBundlePatterns: ["**/*"],
+    assetBundlePatterns: ["app/assets/images/*"],
     
     ios: {
       bundleIdentifier: "com.eatliketherainbow.eatliketherainbow",
@@ -44,7 +44,7 @@ export default {
     },
     
     android: {
-      package: "com.eatliketherainbow.eatliketherainbow",
+      package: "com.eatliketherainbow.eatliketherainbow.v2",
       versionCode: 1,
       permissions: [
         "CAMERA",
@@ -53,7 +53,7 @@ export default {
     },
     
     web: {
-      favicon: "./app/assets/eltrLogo.png",
+      favicon: "./app/assets/eltrLogo-IOS.png",
     },
 
     plugins: [
@@ -83,9 +83,10 @@ export default {
       PROJECT_ID: process.env.PROJECT_ID,
       MESSAGE_SENDER_ID: process.env.MESSAGE_SENDER_ID,
       APP_ID: process.env.APP_ID,
-      eas: {
-        projectId: "f9215104-f445-4aac-a299-3c13664dc0c0"
+      "eas": {
+        "projectId": "4017311f-01d7-43b1-b64a-d32fb38cf11a"
       }
     },
+    
   },
 };
