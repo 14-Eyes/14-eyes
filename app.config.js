@@ -19,7 +19,7 @@ export default {
   expo: {
     name: "Eat Like The Rainbow",
     slug: "ELTRFront",
-    version: "2.0.0",
+    version: "2.0.1",
     orientation: "portrait",
     icon: "./app/assets/ELTR-App-Logo-Final-Android.png",
     splash: {
@@ -45,7 +45,7 @@ export default {
     
     android: {
       package: "com.eatliketherainbow.eatliketherainbow.v2",
-      versionCode: 1,
+      versionCode: 2,
       permissions: [
         "CAMERA",
       ],
